@@ -1,0 +1,62 @@
+\documentclass[a4paper,12pt]{report}
+
+\usepackage{alltt, fancyvrb, url}
+\usepackage{graphicx}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{hyperref}
+
+% Questo commentalo se vuoi scrivere in inglese.
+\usepackage[italian]{babel}
+
+\usepackage[italian]{cleveref}
+
+\title{Relazione per\\``Basi di dati''}
+
+\author{Nicolò Guerra \and
+Filippo Casadei}
+
+\begin{document}
+
+\maketitle
+
+\tableofcontents
+
+\chapter{Analisi dei requisiti}
+
+Si vuole realizzare un database per la gestione di sistemi ospedalieri. Il sistema dovrà immagazzinare dati relativi a diverse ASL, 
+agli ospedali ad esse associate, pazienti, medici. Dovrà registrare inoltre referti relativi a visite, interventi e appuntamenti.
+
+\section{Intervista}
+Si vuole tenere traccia dei referti prodotti nei vari ospedali delle varie ASL della regione. Un referto può essere prodotto da un
+intervento o da una visita/esame. Un referto è prodotto da un medico in un ospedale, ed è riferito ad un paziente. Dei pazienti si
+vuole memorizzare nome, cognome, codice fiscale, data di nascita, ASL di appartenenza e referti associati.
+Di un impiegato si vuole memorizzare nome, cognome, codice fiscale e ruolo. Di un medico si vuole inoltre tenere traccia dello 
+storico degli interventi.
+Un referto viene prodotto in una specifica data e nel caso sia di un intervento, si vuole sapere la procedura, l'esito, la durata e i medici 
+coinvolti. Nel caso sia di una visita invece si vuole avere una breve descrizione di quest'ultima e l'eventuale terapia prescritta.
+Si vogliono memorizzare inoltre i seguenti dati per gli ospedali: nome, indirizzo, ASL di appartenenza, posti disponibili e persone 
+che lavorano in una struttura, e se questo dispone di un pronto soccorso.
+Un ospedale si compone inoltre di più unità operative, ognuna caratterizzata da un nome, un dirigente, e dal personale che vi lavora.
+Ogni ospedale ha delle attrezzature, identificate da un codice di inventario e di cui si vuole memorizzare il nome e la data dell'ultima 
+manutenzione.
+Si vogliono infine memorizzare degli appuntamenti, che possono essere ad esempio prenotazioni per interventi e coinvolgono uno o più 
+pazienti e uno o più medici in una certa sala dell'ospedale ad una precisa data e ora. Un medico o un paziente non possono avere più 
+appuntamenti nello stesso momento. Una sala non può essere occupata da 2 appuntamenti contemporaneamente.
+\section{Concetti principali da modellare}
+\begin{itemize}
+  \item ASL: Azienda sanitaria locale, gestisce la sanità di una singola zona di competenza, solitamente provinciale
+  \item Ospedale: Struttura in cui avvengono visite e interventi dei pazienti
+  \item Referto: Documento prodotto da un medico come resoconto di una visita o un intervento
+  \item Paziente: Persona sottoposta a trattamenti ospedalieri
+  \item Medico: Persona che lavora in un ospedale (o più di uno) e effettua trattamenti
+  \item Impiegato: Persona che lavora in un ospedale ma non effettua trattamenti e non può firmare referti
+  \item Unità operativa: Reparto dell'ospedale specializzato in determinati tipi di trattamenti
+  \item Attrezzatura: Macchinario utilizzato per particolari interventi e/o visite
+  \item Appuntamento: Programmazione di visita o intervento
+  \item Visita: Consulenza con un medico riguardante lo stato di salute del paziente
+  \item Intervento: Operazione ad un paziente da parte di uno o più medici
+  \item Sala: Stanza in cui avvengono visite e interventi
+\end{itemize}
+\section{Riscrittura dell'intervista corretta}
+\end{document}
