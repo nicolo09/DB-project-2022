@@ -24,24 +24,26 @@ Filippo Casadei}
 
 \chapter{Analisi dei requisiti}
 
-Si vuole realizzare un database per la gestione di sistemi ospedalieri. Il sistema dovrà immagazzinare dati relativi a diverse ASL, 
+Si vuole realizzare un database per la gestione di sistemi ospedalieri. Il sistema dovrà immagazzinare dati relativi a diverse ASL,
 agli ospedali ad esse associate, pazienti, medici. Dovrà registrare inoltre referti relativi a visite, interventi e appuntamenti.
 
 \section{Intervista}
+Una prima descrizione delle richieste è la seguente:
+\paragraph{}
 Si vuole tenere traccia dei referti prodotti nei vari ospedali delle varie ASL della regione. Un referto può essere prodotto da un
 intervento o da una visita/esame. Un referto è prodotto da un medico in un ospedale, ed è riferito ad un paziente. Dei pazienti si
-vuole memorizzare nome, cognome, codice fiscale, data di nascita, ASL di appartenenza e referti associati.
-Di un impiegato si vuole memorizzare nome, cognome, codice fiscale e ruolo. Di un medico si vuole inoltre tenere traccia dello 
+vuole memorizzare nome, cognome, codice fiscale, data di nascita, numero di telefono, ASL di appartenenza e referti associati.
+Di un impiegato si vuole memorizzare nome, cognome, codice fiscale e ruolo. Di un medico si vuole inoltre tenere traccia dello
 storico degli interventi.
-Un referto viene prodotto in una specifica data e nel caso sia di un intervento, si vuole sapere la procedura, l'esito, la durata e i medici 
+Un referto viene prodotto in una specifica data e nel caso sia di un intervento, si vuole sapere la procedura, l'esito, la durata e i medici
 coinvolti. Nel caso sia di una visita invece si vuole avere una breve descrizione di quest'ultima e l'eventuale terapia prescritta.
-Si vogliono memorizzare inoltre i seguenti dati per gli ospedali: nome, indirizzo, ASL di appartenenza, posti disponibili e persone 
+Si vogliono memorizzare inoltre i seguenti dati per gli ospedali: nome, indirizzo, ASL di appartenenza, posti disponibili e persone
 che lavorano in una struttura, e se questo dispone di un pronto soccorso.
 Un ospedale si compone inoltre di più unità operative, ognuna caratterizzata da un nome, un dirigente, e dal personale che vi lavora.
-Ogni ospedale ha delle attrezzature, identificate da un codice di inventario e di cui si vuole memorizzare il nome e la data dell'ultima 
+Ogni ospedale ha delle attrezzature, identificate da un codice di inventario e di cui si vuole memorizzare il nome e la data dell'ultima
 manutenzione.
-Si vogliono infine memorizzare degli appuntamenti, che possono essere ad esempio prenotazioni per interventi e coinvolgono uno o più 
-pazienti e uno o più medici in una certa sala dell'ospedale ad una precisa data e ora. Un medico o un paziente non possono avere più 
+Si vogliono infine memorizzare degli appuntamenti, che possono essere ad esempio prenotazioni per interventi e coinvolgono uno o più
+pazienti e uno o più medici in una certa sala dell'ospedale ad una precisa data e ora. Un medico o un paziente non possono avere più
 appuntamenti nello stesso momento. Una sala non può essere occupata da 2 appuntamenti contemporaneamente.
 \section{Concetti principali da modellare}
 \begin{itemize}
@@ -51,7 +53,7 @@ appuntamenti nello stesso momento. Una sala non può essere occupata da 2 appunt
   \item Paziente: Persona sottoposta a trattamenti ospedalieri
   \item Medico: Persona che lavora in un ospedale (o più di uno) e effettua trattamenti
   \item Impiegato: Persona che lavora in un ospedale ma non effettua trattamenti e non può firmare referti
-  \item Unità operativa: Reparto dell'ospedale specializzato in determinati tipi di trattamenti
+  \item Unità operativa (U.O.): Reparto dell'ospedale specializzato in determinati tipi di trattamenti
   \item Attrezzatura: Macchinario utilizzato per particolari interventi e/o visite
   \item Appuntamento: Programmazione di visita o intervento
   \item Visita: Consulenza con un medico riguardante lo stato di salute del paziente
@@ -59,4 +61,46 @@ appuntamenti nello stesso momento. Una sala non può essere occupata da 2 appunt
   \item Sala: Stanza in cui avvengono visite e interventi
 \end{itemize}
 \section{Riscrittura dell'intervista corretta}
+Di un referto si vuole memorizzare la data di emissione, il paziente, i medici coinvolti e il tipo di referto, oltre ad una breve descrizione.
+Se è stato prodotto per un intervento si memorizzano anche procedura, esito e durata, se invece è per una visita la terapia prescritta.
+
+Di una persona si vogliono memorizzare nome, cognome, codice fiscale, numero di telefono.
+Di un paziente inoltre si vogliono memorizzare data di nascita, ASL di appartenenza e i referti associati.
+Di un impiegato si vuole memorizzare il ruolo all'interno della struttura.
+Di un medico si vuole memorizzare lo storico degli interventi.
+
+Di un ospedale si vogliono memorizzare nome, indirizzo, ASL di appartenenza, posti disponibili, persone che vi lavorano e il loro numero.
+Si vuole inoltre sapere se l'ospedale è munito di pronto soccorso.
+
+Di una unità operativa si vogliono memorizzare il nome, l'ospedale a cui appartiene, il dirigente, il personale che vi lavora, la capienza e i posti liberi.
+
+Di ogni attrezzatura si vogliono memorizzare il codice di inventario, l'ospedale di cui fanno parte, il nome e la data dell'ultima manutenzione.
+
+Di ogni appuntamento si vuole memorizzare la data e l'ora, la durata stimata, il tipo, la sala, i pazienti e i medici coinvolti. 
+Un paziente e/o un medico non possono avere più appuntamenti nello stesso lasso di tempo, inoltre una sala non può essere occupata da più 
+appuntamenti allo stesso tempo.
+\section{Principali azioni richieste}
+\begin{itemize}
+  \item Aggiungere un nuovo ospedale
+  \item Aggiungere una nuova unità operativa
+  \item Rimuovere un'unità operativa da un ospedale
+  \item Aggiungere un nuovo paziente
+  \item Aggiungere un nuovo impiegato/medico
+  \item Fissare un appuntamento
+  \item Cancellare un appuntamento
+  \item Cambiare la data e/o il luogo di un appuntamento
+  \item Aggiungere un nuovo referto
+  \item Ricercare i referti per medico o per paziente
+  \item Aggiungere nuova attrezzatura
+  \item Rimuovere attrezzatura
+  \item Aggiornare la data di manutenzione di un'attrezzatura
+  \item Ricerca di unità operative all'interno di un ospedale
+  \item Ricerca di ospedali appartenenti ad un'ASL specifica
+  \item Aggiungere una sala ad un ospedale
+  \item Rimuovere una sala da un ospedale
+  \item Ricercare ospedali con posti liberi in una determinata unità operativa
+\end{itemize}
+
+\chapter{Progettazione concettuale}
+
 \end{document}
