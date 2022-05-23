@@ -102,7 +102,24 @@ appuntamenti allo stesso tempo.
 \end{itemize}
 
 \chapter{Progettazione concettuale}
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/scheletro.png}
+	\caption{Schema scheletro del problema.}
+	\label{img:analysis}
+\end{figure}
+Dopo l'esame del dominio del problema risultano alcune considerazioni da fare, che implicano diversi raffinamenti possibili:
 
+Va considerata la presenza di diverse categorie di lavoratori all'interno di un ospedale e solo alcuni di questi devono essere in grado di rilasciare
+referti ai pazienti. Per questi motivi si è deciso di dividere l'entità dipendenti dello schema scheletro in amministrativi e personale sanitario, che assieme a pazienti
+risultano essere sottocategorie dell'entità persona, identificabili mediante codice fiscale.
 
+Gli appuntamenti vengono modellati come entità perché devono essere identificati da data, ora e luogo in cui avvengono, attributi propri dell'appuntamento 
+stesso. Non risultano però modellabili alcuni requisiti. Essendo gli appuntamenti protratti nel tempo non si può modellare nello schema E-R il vincolo di 
+non poter avere 2 appuntamenti sovrapposti. Diversamente da come descritto sopra un appuntamento non è direttamente connesso ad un referto, ma esprime
+unicamente il concetto di incontro tra un pazienti e medici.
+
+Anche visite e interventi sono estensioni della generica entità referto, ne rappresentano infatti il tipo, e i dati specifici per l'uno o per l'altro caso. Inoltre per
+poter ricostruire lo storico degli interventi di un medico ogni referto è anche associato al medico che lo ha prodotto.
 
 \end{document}
