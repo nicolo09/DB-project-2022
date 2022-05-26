@@ -5,6 +5,9 @@
 \usepackage[utf8]{inputenc}
 \usepackage{float}
 \usepackage{hyperref}
+\usepackage{adjustbox}
+\usepackage{siunitx}
+\sisetup{group-separator={\text{\space}}}
 
 % Questo commentalo se vuoi scrivere in inglese.
 \usepackage[italian]{babel}
@@ -106,13 +109,16 @@ appuntamenti allo stesso tempo.
 	\centering{}
 	\includegraphics[width=\textwidth]{img/scheletro.png}
 	\caption{Schema scheletro del problema.}
-	\label{img:analysis}
+	\label{img:scheletro}
 \end{figure}
 Dopo l'esame del dominio del problema risultano alcune considerazioni da fare, che implicano diversi raffinamenti possibili:
 
 Va considerata la presenza di diverse categorie di lavoratori all'interno di un ospedale e solo alcuni di questi devono essere in grado di rilasciare
 referti ai pazienti. Per questi motivi si è deciso di dividere l'entità dipendenti dello schema scheletro in amministrativi e personale sanitario, che assieme a pazienti
 risultano essere sottocategorie dell'entità persona, identificabili mediante codice fiscale.
+
+Inoltre unicamente gli amministrativi sono collegati direttamente all'ospedale, mentre il personale sanitario si relaziona ad un'unità operativa, quest'ultima associata 
+ad un ospedale.
 
 Gli appuntamenti vengono modellati come entità perché devono essere identificati da data, ora e luogo in cui avvengono, attributi propri dell'appuntamento 
 stesso. Non risultano però modellabili alcuni requisiti. Essendo gli appuntamenti protratti nel tempo non si può modellare nello schema E-R il vincolo di 
@@ -121,5 +127,72 @@ unicamente il concetto di incontro tra un pazienti e medici.
 
 Anche visite e interventi sono estensioni della generica entità referto, ne rappresentano infatti il tipo, e i dati specifici per l'uno o per l'altro caso. Inoltre per
 poter ricostruire lo storico degli interventi di un medico ogni referto è anche associato al medico che lo ha prodotto.
+
+È stata anche aggiunta la relazione di registrazione di un paziente presso una determinata ASL.
+
+Lo schema E/R definitivo risulta quindi essere il seguente:
+\begin{figure}[p]
+  \begin{adjustbox}{addcode={\begin{minipage}{\width}}{\caption{%
+    Schema E/R del problema.
+    }\end{minipage}},rotate=270,center}
+    \includegraphics[height=0.93\textwidth]{img/er_final.png}
+    \label{img:er}
+  \end{adjustbox}
+\end{figure}
+
+\chapter{Progettazione logica}
+\section{Stima del volume dei dati}
+Si stimano nella tabella seguente il volume dei dati previsto nel database:
+\subsection{Entità}
+\begin{center}
+  \begin{tabular}{ c | S[table-format=8.0, table-space-text-pre=(, table-space-text-post=)] }
+    Nome & Quantità \\
+    \hline
+    Amministrativi & 40000 \\
+    Appuntamento & 1000000 \\
+    ASL & 100 \\
+    Attrezzatura & 15000 \\
+    Intervento & 200000 \\
+    Ospedale & 1000 \\
+    Paziente & 50000000 \\
+    Persona & 51000000 \\
+    Personale sanitario & 500000 \\
+    Sala & 30000 \\
+    Unità operativa & 10000\\
+    Visita & 700000 \\
+  \end{tabular}
+\end{center}
+ 
+Va considerato che essendo Personale sanitario, Amministrativi e Paziente gerarchie di persona il loro volume è 
+sovrapposto (la copertura è totale ma non esclusiva). 
+Anche Intervento e Visita sono gerarchie di Referto, ma essendo questa volta una copertura totale e disgiunta Referto
+è stato omesso perché ricavabile come somma di queste 2.
+I volumi di Intervento e Visita sono inoltre calcolati su un anno di operatività. Questo perché sono dati che crescono molto rapidamente 
+e si rende necessario un sistema di archiviazione a lungo termine per evitare di sovraccaricare il sistema e causare inefficienze.
+
+\subsection{Relazioni}
+\begin{center}
+  \begin{tabular}{ c | S[table-format=8.0, table-space-text-pre=(, table-space-text-post=)] }
+    Nome & Quantità \\
+    \hline
+    Appartenenza & 1000 \\
+    Associazione & 900000 \\
+    Coinvolgimento & 1300000 \\
+    Composizione & 10000 \\
+    Cura & 6000000 \\
+    Emissione & 900000 \\
+    Impiegati & 40000 \\
+    Lavora & 700000 \\
+    Possiede & 15000 \\
+    Prenota & 1000000 \\
+    Presenzia & 1500000 \\
+    Registrazione & 45000000 \\
+    Si svolge & 1000000 \\
+    Struttura & 30000 \\
+  \end{tabular}
+\end{center}
+
+Si consideri che come nella sezione precedente anche qui alcuni dati sono stati stimati su un anno di operatività. 
+Cura è una relazione che cambia rapidamente nel tempo e per evitare il sovraccarico del sistema va archiviata a intervalli regolari.
 
 \end{document}
