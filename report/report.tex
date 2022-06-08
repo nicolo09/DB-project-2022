@@ -271,4 +271,125 @@ e della sua relazione con ospedale (composizione).
 \end{tabularx}
 \vspace{3pt}\newline
 Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 25 (all'anno) = 100 all'anno
+
+\subsubsection*{3 - Rimuovere un'unità operativa da un ospedale}
+Rimuovere un unità operativa significa rimuovere anche la sua associazione con l'ospedale a cui apparteneva e l'associazione del personale sanitario 
+attualmente assegnato a quell'unità, in media 40 per unità.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  \hline
+  Unità operativa & E & 1 & W \\ 
+  \hline
+  Composizione & R & 1 & W \\
+  \hline
+  Lavora & R & 40 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W + 40W = 84 \newline Costo totale: 84 * 10 (all'anno) = 840 all'anno
+
+\subsubsection*{4 - Aggiungere un nuovo paziente}
+Aggiungere un paziente richiede la scrittura di una tupla nell'entità \emph{Paziente}. Viene considerata anche la scrittura della relazione \emph{Registrazione}
+nonostante non sia obbligatoria perché la quasi totalità dei pazienti è registrata presso un'ASL.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  \hline
+  Paziente & E & 1 & W \\ 
+  \hline
+  Registrazione & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 1000 (al giorno) = 4000 al giorno
+
+\subsubsection*{5 - Aggiungere un nuovo impiegato/medico}
+Aggiungere un medico, assumendo che le unità operative vengano assegnate in un secondo momento, richiede una nuova tupla nell'entità \emph{Personale sanitario}.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  \hline
+  Personale sanitario & E & 1 & W \\ 
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W = 2 \newline Costo totale: 2 * 1200 (al mese) = 2400 al mese
+\vspace{3pt}
+\newline
+Aggiungere un impiegato invece richiede la scrittura di una tupla in \emph{Personale amministrativo}, e della relazione \emph{Impiegati}.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  \hline
+  Amministrativi & E & 1 & W \\
+  \hline
+  Impiegati & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 2W = 4 \newline Costo totale: 4 * 800 (al mese) = 3200 al mese
+
+\subsubsection*{6 - Fissare un appuntamento}
+Fissare un appuntamento richiede di verificare che il medico non sia occupato in un altro appuntamento e che la sala sia libera in un dato orario.
+Per controllare che il medico non sia occupato è necessario leggere gli appuntamenti di un medico in una certa data, quindi un numero pari alla media
+di appuntamenti giornalieri di un medico dalla relazione \emph{Presenzia}, dopodiche leggere dall'entità \emph{Appuntamento} quanti di questi hanno orario e durata
+tali da sovrapporsi a quello che stiamo inserendo. Dobbiamo poi leggere gli appuntamenti che si svolgono in un giorno in una stanza e controllare anche qui se ci sono
+sovrapposizioni.
+% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Presenzia & R & 4 & R \\
+  \hline
+  Si svolge & R & 8 & R \\
+  \hline
+  Appuntamento & E & 1 & W \\
+  \hline
+  Si svolge & R & 1 & W \\
+  \hline
+  Prenota & R & 1 & W \\
+  \hline
+  Presenzia & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 4R + 8R + 1W + 1W + 1W + 1W = 20 \newline Costo totale: 20 * 30000 (al giorno) = 600000 al giorno
+
+
 \end{document}
