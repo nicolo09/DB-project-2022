@@ -7,6 +7,7 @@
 \usepackage{hyperref}
 \usepackage{adjustbox}
 \usepackage{siunitx}
+\usepackage{tabularx}
 \sisetup{group-separator={\text{\space}}}
 
 % Questo commentalo se vuoi scrivere in inglese.
@@ -222,4 +223,49 @@ Segue ora una tabella in cui vengono riportate le principali operazioni da effet
     Ricercare ospedali con posti liberi in una determinata unità operativa & 200 al giorno \\
   \end{tabular}
 \end{center}
+\subsection{Dettaglio delle operazioni}
+Sono ora descritte le operazioni nel dettaglio con il calcolo del loro costo. A questo fine gli accessi in scrittura vengono considerati 
+di costo doppio rispetto a quelli in lettura.
+\subsubsection*{1 - Aggiungere un nuovo ospedale}
+Conoscendo già il codice dell'ASL a cui l'ospedale da aggiungere dovrà appartenere questa operazione richiede la scrittura dell'entità ospedale 
+e della sua relazione con ASL (appartenenza).
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  \hline
+  Ospedale & E & 1 & W \\ 
+  \hline
+  Appartenenza & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 3 (all'anno) = 12 all'anno
+\subsubsection*{2 - Aggiungere una nuova unità operativa}
+Conoscendo già il codice dell'ospedale a cui l'unità operativa da aggiungere dovrà appartenere questa operazione richiede la scrittura dell'entità unità operativa 
+e della sua relazione con ospedale (composizione).
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  \hline
+  Unità operativa & E & 1 & W \\ 
+  \hline
+  Composizione & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 25 (all'anno) = 100 all'anno
 \end{document}
