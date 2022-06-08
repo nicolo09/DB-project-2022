@@ -195,4 +195,31 @@ e si rende necessario un sistema di archiviazione a lungo termine per evitare di
 Si consideri che come nella sezione precedente anche qui alcuni dati sono stati stimati su un anno di operatività. 
 Cura è una relazione che cambia rapidamente nel tempo e per evitare il sovraccarico del sistema va archiviata a intervalli regolari.
 
+\subsection{Principali operazioni e loro frequenza}
+Segue ora una tabella in cui vengono riportate le principali operazioni da effettuare sul database e la loro frequenza stimata.
+\begin{center}
+  \begin{tabular}{ p{269pt} | l }
+    Operazione & Frequenza \\
+    \hline
+    \hline
+    Aggiungere un nuovo ospedale & 3 all'anno \\
+    Aggiungere una nuova unità operativa & 25 all'anno \\
+    Rimuovere un'unità operativa da un ospedale & 10 all'anno \\
+    Aggiungere un nuovo paziente & 1000 al giorno \\
+    Aggiungere un nuovo impiegato/medico & 2000 al mese \\
+    Fissare un appuntamento & 15000 al giorno \\
+    Cancellare un appuntamento & 3000 al giorno \\
+    Cambiare la data e/o il luogo di un appuntamento & 2000 al giorno \\
+    Aggiungere un nuovo referto & 10000 al giorno \\
+    Ricercare i referti per medico o per paziente & 7000 al giorno \\
+    Aggiungere nuova attrezzatura & 40 all'anno \\
+    Rimuovere attrezzatura & 30 all'anno \\
+    Aggiornare la data di manutenzione di un'attrezzatura & 22500 all'anno \\
+    Ricerca di unità operative all'interno di un ospedale & 750 al giorno \\
+    Ricerca di ospedali appartenenti ad un'ASL specifica & 15000 al giorno \\
+    Aggiungere una sala ad un ospedale & 10 all'anno \\
+    Rimuovere una sala da un ospedale & 5 all'anno \\
+    Ricercare ospedali con posti liberi in una determinata unità operativa & 200 al giorno \\
+  \end{tabular}
+\end{center}
 \end{document}
