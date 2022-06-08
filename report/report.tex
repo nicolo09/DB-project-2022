@@ -150,7 +150,7 @@ Si stimano nella tabella seguente il volume dei dati previsto nel database:
     Nome & Quantità \\
     \hline
     Amministrativi & 40000 \\
-    Appuntamento & 1000000 \\
+    Appuntamento & 12000000 \\
     ASL & 100 \\
     Attrezzatura & 15000 \\
     Intervento & 200000 \\
@@ -170,6 +170,7 @@ Anche Intervento e Visita sono gerarchie di Referto, ma essendo questa volta una
 è stato omesso perché ricavabile come somma di queste 2.
 I volumi di Intervento e Visita sono inoltre calcolati su un anno di operatività. Questo perché sono dati che crescono molto rapidamente 
 e si rende necessario un sistema di archiviazione a lungo termine per evitare di sovraccaricare il sistema e causare inefficienze.
+Anche gli appuntamenti soffrono dello stesso problema, per cui vengono eliminati una volta effettuati.
 
 \subsection{Relazioni}
 \begin{center}
@@ -185,10 +186,10 @@ e si rende necessario un sistema di archiviazione a lungo termine per evitare di
     Impiegati & 40000 \\
     Lavora & 700000 \\
     Possiede & 15000 \\
-    Prenota & 1000000 \\
-    Presenzia & 1500000 \\
+    Prenota & 12000000 \\
+    Presenzia & 15000000 \\
     Registrazione & 45000000 \\
-    Si svolge & 1000000 \\
+    Si svolge & 12000000 \\
     Struttura & 30000 \\
   \end{tabular}
 \end{center}
@@ -208,7 +209,7 @@ Segue ora una tabella in cui vengono riportate le principali operazioni da effet
     Rimuovere un'unità operativa da un ospedale & 10 all'anno \\
     Aggiungere un nuovo paziente & 1000 al giorno \\
     Aggiungere un nuovo impiegato/medico & 2000 al mese \\
-    Fissare un appuntamento & 15000 al giorno \\
+    Fissare un appuntamento & 30000 al giorno \\
     Cancellare un appuntamento & 3000 al giorno \\
     Cambiare la data e/o il luogo di un appuntamento & 2000 al giorno \\
     Aggiungere un nuovo referto & 10000 al giorno \\
@@ -226,6 +227,7 @@ Segue ora una tabella in cui vengono riportate le principali operazioni da effet
 \subsection{Dettaglio delle operazioni}
 Sono ora descritte le operazioni nel dettaglio con il calcolo del loro costo. A questo fine gli accessi in scrittura vengono considerati 
 di costo doppio rispetto a quelli in lettura.
+
 \subsubsection*{1 - Aggiungere un nuovo ospedale}
 Conoscendo già il codice dell'ASL a cui l'ospedale da aggiungere dovrà appartenere questa operazione richiede la scrittura dell'entità ospedale 
 e della sua relazione con ASL (appartenenza).
@@ -247,8 +249,9 @@ e della sua relazione con ASL (appartenenza).
 \end{tabularx}
 \vspace{3pt}\newline
 Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 3 (all'anno) = 12 all'anno
+
 \subsubsection*{2 - Aggiungere una nuova unità operativa}
-Conoscendo già il codice dell'ospedale a cui l'unità operativa da aggiungere dovrà appartenere questa operazione richiede la scrittura dell'entità unità operativa 
+Conoscendo già il codice dell'ospedale a cui l'unità operativa verrà aggiunta questa operazione richiede la scrittura dell'entità unità operativa 
 e della sua relazione con ospedale (composizione).
 \vspace{6pt}
 \newline
