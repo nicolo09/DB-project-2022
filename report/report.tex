@@ -391,5 +391,272 @@ sovrapposizioni.
 \vspace{3pt}\newline
 Costo operazione: 4R + 8R + 1W + 1W + 1W + 1W = 20 \newline Costo totale: 20 * 30000 (al giorno) = 600000 al giorno
 
+\subsubsection*{7 - Cancellare un appuntamento}
+Cancellare un appuntamento richiede di eliminare la relativa tupla dall'entità appuntamento, e le 3 relazioni che la caratterizzano. In condizioni
+normali una visita è presieduta da un solo medico, quindi si considera questo caso ai fini del calcolo dei costi.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Appuntamento & E & 1 & W \\
+  \hline
+  Prenota & R & 1 & W \\
+  \hline
+  Si svolge & R & 1 & W \\
+  \hline
+  Presenzia & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W + 1W + 1W = 8 \newline Costo totale: 8 * 3000 (al giorno) = 24000 al giorno
+
+\subsubsection*{8 - Cambiare la data o il luogo dell'appuntamento}
+Cambiare data e ora di un appuntamento conoscendo la nuova data e ora e la nuova sala in cui si svolgerà richiede solamente di effettuare un aggiornamento
+sull'entità \emph{Appuntamento} e una sulla relazione \emph{Si svolge}.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Appuntamento & E & 1 & W \\
+  \hline
+  Si svolge & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 2000 (al giorno) = 8000 al giorno
+
+\subsubsection*{9 - Aggiungere un nuovo referto}
+\emph{Referto} è un'entità che ha come sotto entità nella gerarchia \emph{Intervento} e \emph{Visita}, essendo però una copertura totale ed esclusiva e non avendo le 
+sotto entità altre relazioni, consideriamo solo \emph{Referto} nel calcolo dei costi per l'inserimento. La media delle associazioni \emph{Coinvolgimento} tra \emph{Personale sanitario}
+e \emph{Referto} è ottenuta considerando che la maggioranza delle visite è tra un solo medico e il paziente, mentre quasi tutti gli interventi richiedono più personale.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Referto & E & 1 & W \\
+  \hline
+  Associazione & R & 1 & W \\
+  \hline
+  Emissione & R & 1 & W \\
+  \hline
+  Coinvolgimento & R & 2 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W + 1W + 2W = 10 \newline Costo totale: 10 * 10000 (al giorno) = 100000 al giorno
+
+\subsubsection*{10 - Ricercare i referti per medico o per paziente}
+Ricercare i referti per paziente assumendo di conoscere già il codice fiscale del paziente richiede di leggere tutte le tuple legate a quel paziente in \emph{Associazione},
+e quindi tutti i referti associati. Si considerano 2 referti per ogni persona come media. Dato che è necessario sapere dove un referto è stato emesso e chi è coinvolto si
+considerano anche le letture di queste relazioni.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Associazione & R & 2 & R \\
+  \hline
+  Referto & E & 2 & R \\
+  \hline
+  Emissione & R & 2 & R \\
+  \hline
+  Coinvolgimento & R & 2 & R \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 2L + 2L + 2L + 2L = 8 \newline Costo totale: 8 * 6000 (al giorno) = 48000 al giorno
+\vspace{3pt}
+\newline
+Ricercare i referti associati ad un medico richiede invece la lettura in coinvolgimento di tutte le associazioni \emph{Coinvolgimento} tra quel medico e un referto. 
+Dopodiche si procede a ricostruire le relazioni di \emph{Referto} come sopra.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  \hline
+  Coinvolgimento & R & 18 & R \\
+  \hline
+  Referto & E & 18 & R \\
+  \hline
+  Associazione & R & 18 & R \\
+  \hline
+  Emissione & R & 18 & R \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 18R + 18R + 18R + 18R = 72 \newline Costo totale: 72 * 1000 (al giorno) = 72000 al giorno
+
+\subsubsection*{11 - Aggiungere nuova attrezzatura}
+L'aggiunta di nuova attrezzatura richiede di aggiungere una tupla all'entità \emph{Attrezzatura}, e di registrare la sua associazione \emph{Possiede} con l'ospedale.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Attrezzatura & E & 1 & W \\
+  \hline
+  Possiede & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 40 (all'anno) = 160 all'anno
+
+\subsubsection*{12 - Rimuovere attrezzatura}
+La rimozione dell'attrezzatura richiede di rimuovere una tupla dall'entità \emph{Attrezzatura}, e di eliminare la sua associazione \emph{Possiede} con l'ospedale.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Attrezzatura & E & 1 & W \\
+  \hline
+  Possiede & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 30 (all'anno) = 120 all'anno
+
+\subsubsection*{12 - Aggiornare la data di manutenzione di un’attrezzatura}
+L'aggiornamento della data di ultima manutenzione dell'attrezzatura richiede di aggiornare una tupla nell'entità \emph{Attrezzatura}.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Attrezzatura & E & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W = 2 \newline Costo totale: 2 * 22500 (all'anno) = 45000 all'anno
+
+\subsubsection*{13 - Ricercare ospedali con determinate unità operative}
+Ricercare ospedali con determinate unità operative richiede di leggere tutte le tuple di \emph{Composizione} con unità operativa corrispondente a quella richiesta, e da quelle
+leggere le tuple dell'entità \emph{Ospedale} associate.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Composizione & R & 140 & R \\
+  \hline
+  Ospedale & E & 140 & R \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 140R + 140R = 280 \newline Costo totale: 280 * 750 (al giorno) = 210000 al giorno
+
+\subsubsection*{14 - Ricerca di ospedali appartenenti ad un’ASL specifica}
+La ricerca di ospedali appartenenti ad una specifica ASL assumendo di conoscerne il codice richiede un numero di letture della relazione \emph{Appartenenza} pari
+al numero medio di ospedali per ASL.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Appartenenza & R & 10 & R \\
+  \hline
+  Ospedale & E & 10 & R \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 10R + 10R = 20 \newline Costo totale: 20 * 15000 (al giorno) = 300000 al giorno
+
+\subsubsection*{15 - Aggiungere una sala ad un ospedale}
+L'aggiunta di una sala ad un ospedale richiede l'aggiunta di una tupla all'entità \emph{Sala} e della sua associazione \emph{Struttura} con ospedale.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Sala & E & 1 & W \\
+  \hline
+  Struttura & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 10 (all'anno) = 40 all'anno
+
+\subsubsection*{16 - Rimuovere una sala da un ospedale}
+La rimozione di una sala da un ospedale richiede la rimozione di una tupla dall'entità \emph{Sala} e della sua associazione \emph{Struttura} con ospedale.
+Non viene considerata la rimozione degli appuntamenti associati a quella sala perché è opportuno non rimuoverla qualora ci siano degli appuntamenti fissati ma prima spostare
+questi ultimi in altre sale.
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Sala & E & 1 & W \\
+  \hline
+  Struttura & R & 1 & W \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 5 (all'anno) = 20 all'anno
+
+
 
 \end{document}
