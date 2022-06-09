@@ -873,5 +873,35 @@ Totale senza ridondanza: 350000 + 150000 + 25000 = 525000.
 \newline
 Risulta chiaro che la ridondanza riduce significativamente il carico sul sistema, quindi verrà mantenuto.
 
+\subsection{Eliminazione delle gerarchie}
+\subsubsection*{Referto}
+La gerarchia di \emph{Referto} è stata eliminata con un collasso verso l'alto. Questo perché accedendo al referto si vuole accedere anche alle relative
+informazioni contenute nelle entità figlie \emph{Intervento} e \emph{Visita}, e queste ultime non hanno ulteriori relazioni. Si è quindi deciso di accorpare gli attributi 
+di entrambe le entità figlie nell'entità padre e aggiungere un attributo di tipo per semplificare lo schema.
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/ger_referto_complete.png}
+	\caption{Schema del collasso della gerarchia \emph{Referto}.}
+	\label{img:ger_referto_complete}
+\end{figure}
+
+\subsubsection*{Persona}
+La gerarchia di \emph{Persona} è totale ma è anche sovrapposta (un medico o un impiegato possono essere anche pazienti) per questo si è deciso di 
+evitare un collasso verso l'alto che avrebbe richiesto 3 attributi booleani per il tipo e avrebbe reso difficile modellare i vincoli e le relazioni
+delle entità figlie.
+
+La copertura non è esclusiva quindi un collasso verso il basso avrebbe introdotto ridondanza, con il possibile problema di dati discordanti fra stesse 
+entità in tabelle diverse, per questo si è deciso di evitare anche questa soluzione.
+
+Seguendo le considerazioni precedenti si è deciso di trasformare la gerarchia sostituendola con associazioni, anche considerando che le entità figlie hanno
+relazioni indipendenti dall'entità padre.
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/ger_persona_complete.png}
+	\caption{Schema del collasso della gerarchia \emph{Persona}.}
+	\label{img:ger_persona_complete}
+\end{figure}
+
+
 
 \end{document}
