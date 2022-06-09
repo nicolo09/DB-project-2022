@@ -103,6 +103,8 @@ appuntamenti allo stesso tempo.
   \item Aggiungere una sala ad un ospedale
   \item Rimuovere una sala da un ospedale
   \item Ricercare ospedali con posti liberi in una determinata unità operativa
+  \item Aggiungere pazienti in cura presso un ospedale
+  \item Rimuovere un paziente in cura presso un ospedale
 \end{itemize}
 
 \chapter{Progettazione concettuale}
@@ -222,11 +224,15 @@ Segue ora una tabella in cui vengono riportate le principali operazioni da effet
     Aggiungere una sala ad un ospedale & 10 all'anno \\
     Rimuovere una sala da un ospedale & 5 all'anno \\
     Ricercare ospedali con posti liberi in una determinata unità operativa & 200 al giorno \\
+    Aggiungere pazienti in cura presso un ospedale & 12500 al giorno \\
+    Rimuovere un paziente in cura presso un ospedale & 12500 al giorno \\
   \end{tabular}
 \end{center}
-\subsection{Dettaglio delle operazioni}
-Sono ora descritte le operazioni nel dettaglio con il calcolo del loro costo. A questo fine gli accessi in scrittura vengono considerati 
-di costo doppio rispetto a quelli in lettura.
+\subsection{Dettaglio delle operazioni e tabelle degli accessi}
+Sono ora descritte le operazioni nel dettaglio con la stima del loro costo e le tabelle degli accessi. A questo fine gli 
+accessi in scrittura vengono considerati di costo doppio rispetto a quelli in lettura.
+
+Per operazioni particolarmente complesse vengono inoltre riportati gli schemi di navigazione.
 
 \subsubsection*{1 - Aggiungere un nuovo ospedale}
 Conoscendo già il codice dell'ASL a cui l'ospedale da aggiungere dovrà appartenere questa operazione richiede la scrittura dell'entità ospedale 
@@ -441,6 +447,7 @@ Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 2000 (al giorno) = 8000
 \emph{Referto} è un'entità che ha come sotto entità nella gerarchia \emph{Intervento} e \emph{Visita}, essendo però una copertura totale ed esclusiva e non avendo le 
 sotto entità altre relazioni, consideriamo solo \emph{Referto} nel calcolo dei costi per l'inserimento. La media delle associazioni \emph{Coinvolgimento} tra \emph{Personale sanitario}
 e \emph{Referto} è ottenuta considerando che la maggioranza delle visite è tra un solo medico e il paziente, mentre quasi tutti gli interventi richiedono più personale.
+% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
 \vspace{6pt}
 \newline
 \begin{tabularx}{\textwidth}{ 
@@ -467,6 +474,7 @@ Costo operazione: 1W + 1W + 1W + 2W = 10 \newline Costo totale: 10 * 10000 (al g
 Ricercare i referti per paziente assumendo di conoscere già il codice fiscale del paziente richiede di leggere tutte le tuple legate a quel paziente in \emph{Associazione},
 e quindi tutti i referti associati. Si considerano 2 referti per ogni persona come media. Dato che è necessario sapere dove un referto è stato emesso e chi è coinvolto si
 considerano anche le letture di queste relazioni.
+% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
 \vspace{6pt}
 \newline
 \begin{tabularx}{\textwidth}{ 
@@ -657,6 +665,75 @@ questi ultimi in altre sale.
 \vspace{3pt}\newline
 Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 5 (all'anno) = 20 all'anno
 
+\subsubsection*{17 - Ricercare ospedali con posti liberi in una determinata unità operativa}
+Inanzitutto è necessario ricercare le unità operative corrispondenti a quella richiesta e i cui posti occupati siano inferiori alla capienza.
+Infine dall'unità bisogna risalire all'ospedale attraverso la relazione \emph{Composizione}. Di tutte le unità operative vengono considerate corrispondenti
+a quella cercata 1 su 70, e di queste con posti liberi i \( \frac{3}{4} \).
+% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Unità operative & E & 105 & R \\
+  \hline
+  Ospedale & E & 105 & R \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 105R + 105R = 210 \newline Costo totale: 210 * 200 (al giorno) = 42000 al giorno
+
+\subsubsection*{18 - Aggiungere pazienti in cura presso un ospedale}
+Bisogna controllare che un paziente non sia già in cura presso una struttura, leggendo le tuple di cura associate a un paziente e controllare se ne esistono
+senza l'attributo data di uscita. Diamo per scontato che si cerchi di aggiungere un paziente ad un unità operativa che non è piena. Per aggiungere un paziente 
+in cura presso un ospedale è sufficiente aggiungere una tupla alla relazione \emph{Cura} e aggiornare i posti occupati nell'unità operativa.
+% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Cura & R & 10 & R \\
+  \hline
+  Cura & R & 1 & W \\
+  \hline
+  Unità operativa & E & 1 & W \\
+  \hline 
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 10R + 1W + 1W = 14 \newline Costo totale: 14 * 12500 (al giorno) = 175000 al giorno
+
+\subsubsection*{19 - Rimuovere un paziente in cura}
+Per rimuovere un paziente in cura presso un ospedale è sufficiente aggiornare la tupla nella relazione \emph{Cura} con la data di uscita del paziente e aggiornare 
+i posti occupati nell'unità operativa.
+% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Cura & R & 1 & W \\
+  \hline
+  Unità operativa & E & 1 & W \\
+  \hline 
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 12500 (al giorno) = 50000 al giorno
 
 
 \end{document}
