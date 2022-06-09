@@ -735,5 +735,143 @@ i posti occupati nell'unità operativa.
 \vspace{3pt}\newline
 Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 12500 (al giorno) = 50000 al giorno
 
+\section{Raffinamento dello schema}
+\subsection{Analisi delle ridondanze}
+\subsubsection*{Capienza unità operative}
+L'attributo \emph{Posti\textunderscore occupati} dell'entità \emph{Unità operativa} è ridondante, in quanto sarebbe deducibile dalla relazione \emph{Cura} contando le tuple corrispondenti
+a quell'unità operativa che non contengono l'attributo \emph{Data\textunderscore uscita}.
+
+Segue l'analisi del costo delle operazioni interessate:
+
+\subsubsection*{17 - Ricercare ospedali con posti liberi in una determinata unità operativa}
+\textbf{Con ridondanza:}
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Unità operativa & E & 105 & R \\
+  \hline
+  Ospedale & E & 105 & R \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 105R + 105R = 210 \newline Costo totale: 210 * 200 (al giorno) = 42000 al giorno
+\vspace{6pt}
+\newline
+\textbf{Senza ridondanza:}
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Unità operativa & E & 140 & R \\
+  \hline
+  Cura & R & 1400 & R \\
+  \hline
+  Composizione & R & 105 & R \\
+  \hline
+  Ospedale & E & 105 & R \\
+  \hline
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 140R + 1400R + 105R + 105R = 1750 \newline Costo totale: 1750 * 200 (al giorno) = 350000 al giorno
+
+\subsubsection*{18 - Aggiungere pazienti in cura presso un ospedale}
+\textbf{Con ridondanza:}
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Cura & R & 10 & R \\
+  \hline
+  Cura & R & 1 & W \\
+  \hline
+  Unità operativa & E & 1 & W \\
+  \hline 
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 10R + 1W + 1W = 14 \newline Costo totale: 14 * 12500 (al giorno) = 175000 al giorno
+\newline
+\textbf{Senza ridondanza:}
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Cura & R & 10 & R \\
+  \hline
+  Cura & R & 1 & W \\
+  \hline 
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 10R + 1W = 12 \newline Costo totale: 12 * 12500 (al giorno) = 150000 al giorno
+
+\subsubsection*{19 - Rimuovere un paziente in cura}
+\textbf{Con ridondanza:}
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Cura & R & 1 & W \\
+  \hline
+  Unità operativa & E & 1 & W \\
+  \hline 
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 12500 (al giorno) = 50000 al giorno
+\newline
+\textbf{Senza ridondanza:}
+\vspace{6pt}
+\newline
+\begin{tabularx}{\textwidth}{ 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X 
+  | >{\centering\arraybackslash}X |}
+  \hline
+  Soggetto & E/R & Accessi & R/W \\
+  \hline
+  Cura & R & 1 & W \\
+  \hline 
+\end{tabularx}
+\vspace{3pt}\newline
+Costo operazione: 1W = 2 \newline Costo totale: 2 * 12500 (al giorno) = 25000 al giorno
+\vspace{3pt}
+\newline
+Totale con ridondanza: 42000 + 175000 + 150000 = 367000. 
+\newline
+Totale senza ridondanza: 350000 + 150000 + 25000 = 525000.
+\vspace{3pt}
+\newline
+Risulta chiaro che la ridondanza riduce significativamente il carico sul sistema, quindi verrà mantenuto.
+
 
 \end{document}
