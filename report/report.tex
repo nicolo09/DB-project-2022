@@ -902,6 +902,22 @@ relazioni indipendenti dall'entità padre.
 	\label{img:ger_persona_complete}
 \end{figure}
 
+\subsection{Eliminazione di attributi multivalore}
+L'unico attributo multivalore presente nello schema è \emph{Telefono} nell'entità \emph{Persona}. Non essendo nota a priori la cardinalità massima
+si decide di trasformare l'attributo in un'entità \emph{Telefono} a parte associata a \emph{Persona} tramite la relazione \emph{Utenza}.
 
+\subsection{Scelta degli identificatori principali}
+Nello schema E/R sono già evidenziate tutte le chiavi primarie di tutte le entità, segue una breve spiegazione su alcuni identificatori non banali:
+
+La sala è identificata dal numero ma anche dall'ospedale in cui si trovano, questo perché i numeri delle sale sono univoci solo all'interno della
+struttura in cui si trovano e potrebbero esistere sale con lo stesso numero in strutture diverse.
+
+Anche per le unità operative è stato scelto un identificatore composto dal nome dell'unità e dalla struttura in cui si trova, perché potrebbero esistere
+unità operative con stesso nome in strutture diverse.
+
+Essendo l'inventario proprio di ogni ospedale anche i codici di inventario dell'attrezzatura sono in relazione all'ospedale in cui si trovano.
+
+L'identificativo dell'appuntamento è inoltre composto dalla sala in cui si svolge, dalla data, e dall'ora. Questo impedisce che ci siano 2 appuntamenti che
+iniziano nello stesso luogo nello stesso momento, ma non la sovrapposizione sfalsata di 2 appuntamenti che quindi andrà gestita diversamente.
 
 \end{document}
