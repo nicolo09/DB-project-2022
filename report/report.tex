@@ -920,4 +920,15 @@ Essendo l'inventario proprio di ogni ospedale anche i codici di inventario dell'
 L'identificativo dell'appuntamento è inoltre composto dalla sala in cui si svolge, dalla data, e dall'ora. Questo impedisce che ci siano 2 appuntamenti che
 iniziano nello stesso luogo nello stesso momento, ma non la sovrapposizione sfalsata di 2 appuntamenti che quindi andrà gestita diversamente.
 
+\subsection{Eliminazione degli identificatori esterni}
+\begin{itemize}
+  \item Relazione \emph{Possiede} tra \emph{Attrezzatura} e \emph{Ospedale}: È stata eliminata con l'importazione di codice ospedale in attrezzatura.
+  \item Relazione \emph{Struttura} tra \emph{Sala} e \emph{Ospedale}: È stata eliminata con l'importazione di codice ospedale in attrezzatura.
+  \item Relazione \emph{Si svolge} tra \emph{Appuntamento} e \emph{Sala}: È stata eliminata con l'importazione di codice ospedale e numero in appuntamento.
+  \item Relazione \emph{Composizione} tra \emph{Unità operativa} e \emph{Ospedale}: È stata eliminata con l'importazione di codice ospedale in unità operativa
+\end{itemize}
+
+\section{Traduzione delle entità e associazioni in relazioni}
+
+
 \end{document}
