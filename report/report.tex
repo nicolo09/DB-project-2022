@@ -370,7 +370,6 @@ Per controllare che il medico non sia occupato è necessario leggere gli appunta
 di appuntamenti giornalieri di un medico dalla relazione \emph{Presenzia}, dopodiche leggere dall'entità \emph{Appuntamento} quanti di questi hanno orario e durata
 tali da sovrapporsi a quello che stiamo inserendo. Dobbiamo poi leggere gli appuntamenti che si svolgono in un giorno in una stanza e controllare anche qui se ci sono
 sovrapposizioni.
-% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
 \vspace{6pt}
 \newline
 \begin{tabularx}{\textwidth}{ 
@@ -396,6 +395,12 @@ sovrapposizioni.
 \end{tabularx}
 \vspace{3pt}\newline
 Costo operazione: 4R + 8R + 1W + 1W + 1W + 1W = 20 \newline Costo totale: 20 * 30000 (al giorno) = 600000 al giorno
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/nav_appuntamento.png}
+	\caption{Schema di navigazione.}
+	\label{img:nav_appuntamento}
+\end{figure}
 
 \subsubsection*{7 - Cancellare un appuntamento}
 Cancellare un appuntamento richiede di eliminare la relativa tupla dall'entità appuntamento, e le 3 relazioni che la caratterizzano. In condizioni
@@ -447,7 +452,6 @@ Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 2000 (al giorno) = 8000
 \emph{Referto} è un'entità che ha come sotto entità nella gerarchia \emph{Intervento} e \emph{Visita}, essendo però una copertura totale ed esclusiva e non avendo le 
 sotto entità altre relazioni, consideriamo solo \emph{Referto} nel calcolo dei costi per l'inserimento. La media delle associazioni \emph{Coinvolgimento} tra \emph{Personale sanitario}
 e \emph{Referto} è ottenuta considerando che la maggioranza delle visite è tra un solo medico e il paziente, mentre quasi tutti gli interventi richiedono più personale.
-% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
 \vspace{6pt}
 \newline
 \begin{tabularx}{\textwidth}{ 
@@ -474,7 +478,6 @@ Costo operazione: 1W + 1W + 1W + 2W = 10 \newline Costo totale: 10 * 10000 (al g
 Ricercare i referti per paziente assumendo di conoscere già il codice fiscale del paziente richiede di leggere tutte le tuple legate a quel paziente in \emph{Associazione},
 e quindi tutti i referti associati. Si considerano 2 referti per ogni persona come media. Dato che è necessario sapere dove un referto è stato emesso e chi è coinvolto si
 considerano anche le letture di queste relazioni.
-% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
 \vspace{6pt}
 \newline
 \begin{tabularx}{\textwidth}{ 
@@ -495,10 +498,15 @@ considerano anche le letture di queste relazioni.
   \hline
 \end{tabularx}
 \vspace{3pt}\newline
-Costo operazione: 2L + 2L + 2L + 2L = 8 \newline Costo totale: 8 * 6000 (al giorno) = 48000 al giorno
+Costo operazione: 2R + 2R + 2R + 2R = 8 \newline Costo totale: 8 * 6000 (al giorno) = 48000 al giorno
 \vspace{3pt}
-\newline
-Ricercare i referti associati ad un medico richiede invece la lettura in coinvolgimento di tutte le associazioni \emph{Coinvolgimento} tra quel medico e un referto. 
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/nav_ref_paziente.png}
+	\caption{Schema di navigazione.}
+	\label{img:nav_ref_paziente}
+\end{figure}
+\noindent Ricercare i referti associati ad un medico richiede invece la lettura in coinvolgimento di tutte le associazioni \emph{Coinvolgimento} tra quel medico e un referto. 
 Dopodiche si procede a ricostruire le relazioni di \emph{Referto} come sopra.
 \vspace{6pt}
 \newline
@@ -522,7 +530,13 @@ Dopodiche si procede a ricostruire le relazioni di \emph{Referto} come sopra.
 \end{tabularx}
 \vspace{3pt}\newline
 Costo operazione: 18R + 18R + 18R + 18R = 72 \newline Costo totale: 72 * 1000 (al giorno) = 72000 al giorno
-
+\vspace{3pt}
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/nav_ref_medico.png}
+	\caption{Schema di navigazione.}
+	\label{img:nav_ref_medico}
+\end{figure}
 \subsubsection*{11 - Aggiungere nuova attrezzatura}
 L'aggiunta di nuova attrezzatura richiede di aggiungere una tupla all'entità \emph{Attrezzatura}, e di registrare la sua associazione \emph{Possiede} con l'ospedale.
 \vspace{6pt}
@@ -669,7 +683,6 @@ Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 5 (all'anno) = 20 all'a
 Inanzitutto è necessario ricercare le unità operative corrispondenti a quella richiesta e i cui posti occupati siano inferiori alla capienza.
 Infine dall'unità bisogna risalire all'ospedale attraverso la relazione \emph{Composizione}. Di tutte le unità operative vengono considerate corrispondenti
 a quella cercata 1 su 70, e di queste con posti liberi i \( \frac{3}{4} \).
-% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
 \vspace{6pt}
 \newline
 \begin{tabularx}{\textwidth}{ 
@@ -692,7 +705,6 @@ Costo operazione: 105R + 105R = 210 \newline Costo totale: 210 * 200 (al giorno)
 Bisogna controllare che un paziente non sia già in cura presso una struttura, leggendo le tuple di cura associate a un paziente e controllare se ne esistono
 senza l'attributo data di uscita. Diamo per scontato che si cerchi di aggiungere un paziente ad un unità operativa che non è piena. Per aggiungere un paziente 
 in cura presso un ospedale è sufficiente aggiungere una tupla alla relazione \emph{Cura} e aggiornare i posti occupati nell'unità operativa.
-% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
 \vspace{6pt}
 \newline
 \begin{tabularx}{\textwidth}{ 
@@ -716,7 +728,6 @@ Costo operazione: 10R + 1W + 1W = 14 \newline Costo totale: 14 * 12500 (al giorn
 \subsubsection*{19 - Rimuovere un paziente in cura}
 Per rimuovere un paziente in cura presso un ospedale è sufficiente aggiornare la tupla nella relazione \emph{Cura} con la data di uscita del paziente e aggiornare 
 i posti occupati nell'unità operativa.
-% TODO: INSERIRE SCHEMA DI NAVIGAZIONE
 \vspace{6pt}
 \newline
 \begin{tabularx}{\textwidth}{ 
@@ -930,7 +941,7 @@ iniziano nello stesso luogo nello stesso momento, ma non la sovrapposizione sfal
 
 \section{Traduzione delle entità e associazioni in relazioni}
 \begin{itemize}
-  \item AMMINISTRATIVI(\underline{Codice\textunderscore fiscale}, Ruolo, Codice\textunderscore ospedale) 
+  \item \textbf{AMMINISTRATIVI}(\underline{Codice\textunderscore fiscale}, Ruolo, Codice\textunderscore ospedale) 
   \\ FK: Codice\textunderscore fiscale REFERENCES PERSONA
   \\ FK: Codice\textunderscore ospedale REFERENCES OSPEDALE
   \item APPUNTAMENTO(\underline{Codice\textunderscore ospedale}, \underline{Numero}, \underline{Data}, \underline{Orario}, Durata, Tipo, Paziente)
