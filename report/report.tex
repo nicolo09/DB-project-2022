@@ -126,12 +126,13 @@ ad un ospedale.
 Gli appuntamenti vengono modellati come entità perché devono essere identificati da data, ora e luogo in cui avvengono, attributi propri dell'appuntamento 
 stesso. Non risultano però modellabili alcuni requisiti. Essendo gli appuntamenti protratti nel tempo non si può modellare nello schema E-R il vincolo di 
 non poter avere 2 appuntamenti sovrapposti. Diversamente da come descritto sopra un appuntamento non è direttamente connesso ad un referto, ma esprime
-unicamente il concetto di incontro tra un pazienti e medici.
+unicamente il concetto di incontro tra pazienti e medici.
 
 Anche visite e interventi sono estensioni della generica entità referto, ne rappresentano infatti il tipo, e i dati specifici per l'uno o per l'altro caso. Inoltre per
 poter ricostruire lo storico degli interventi di un medico ogni referto è anche associato al medico che lo ha prodotto.
 
 È stata anche aggiunta la relazione di registrazione di un paziente presso una determinata ASL.
+% TODO considerazioni per relazione cura, direttore dell'unità operativa, volume Persona
 
 Lo schema E/R definitivo risulta quindi essere il seguente:
 \begin{figure}[p]
@@ -942,43 +943,43 @@ iniziano nello stesso luogo nello stesso momento, ma non la sovrapposizione sfal
 \section{Traduzione delle entità e associazioni in relazioni}
 \begin{itemize}
   \item \textbf{AMMINISTRATIVI}(\underline{Codice\textunderscore fiscale}, Ruolo, Codice\textunderscore ospedale) 
-  \\ FK: Codice\textunderscore fiscale REFERENCES PERSONA
-  \\ FK: Codice\textunderscore ospedale REFERENCES OSPEDALE
-  \item APPUNTAMENTO(\underline{Codice\textunderscore ospedale}, \underline{Numero}, \underline{Data}, \underline{Orario}, Durata, Tipo, Paziente)
-  \\ FK: Codice\textunderscore ospedale, Numero REFERENCES SALA
-  \\ FK: Paziente REFERENCES PAZIENTE
-  \item ASL(\underline{Codice}, Nome, Ind\textunderscore Citta, Ind\textunderscore Via, Ind\textunderscore Numero\textunderscore Civico)
+  \\ FK: Codice\textunderscore fiscale REFERENCES \emph{PERSONA}
+  \\ FK: Codice\textunderscore ospedale REFERENCES \emph{OSPEDALE}
+  \item \textbf{APPUNTAMENTO}(\underline{Codice\textunderscore ospedale}, \underline{Numero}, \underline{Data}, \underline{Orario}, Durata, Tipo, Paziente)
+  \\ FK: Codice\textunderscore ospedale, Numero REFERENCES \emph{SALA}
+  \\ FK: Paziente REFERENCES \emph{PAZIENTE}
+  \item \textbf{ASL}(\underline{Codice}, Nome, Ind\textunderscore Citta, Ind\textunderscore Via, Ind\textunderscore Numero\textunderscore Civico)
   \item ATTREZZATURA(\underline{Codice\textunderscore ospedale}, \underline{Codice\textunderscore inventario}, Nome, Data\textunderscore manutenzione)
-  \\ FK: Codice\textunderscore ospedale REFERENCES OSPEDALE
-  \item COINVOLGIMENTO(\underline{Referto}, \underline{Medico})
-  \\ FK: Referto REFERENCES REFERTO
-  \\ FK: Medico REFERENCES PERSONALE\textunderscore SANITARIO
-  \item CURA(\underline{Paziente}, \underline{Codice\textunderscore ospedale}, \underline{Nome\textunderscore unita}, Data\textunderscore ingresso, Data\textunderscore uscita*, Motivazione)
-  \\ FK: Codice\textunderscore ospedale, Nome\textunderscore unita REFERENCES UNITA\textunderscore OPERATIVA
-  \\ FK: Paziente REFERENCES PAZIENTE
-  \item LAVORA(\underline{Codice\textunderscore ospedale}, \underline{Nome\textunderscore unita}, \underline{Codice\textunderscore fiscale})
-  \\ FK: Codice\textunderscore ospedale, Nome\textunderscore unita REFERENCES UNITA\textunderscore OPERATIVA
-  \\ FK: Codice\textunderscore fiscale REFERENCES PERSONALE\textunderscore SANITARIO
-  \item OSPEDALE(\underline{Codice\textunderscore struttura}, Nome, Ind\textunderscore Citta, Ind\textunderscore Via, Ind\textunderscore Numero\textunderscore Civico, Cod\textunderscore ASL)
-  \\ FK: Cod\textunderscore ASL REFERENCES ASL
-  \item PAZIENTE(\underline{Codice\textunderscore fiscale}, Data\textunderscore nascita, Cod\textunderscore ASL*)
-  \\ FK: Codice\textunderscore fiscale REFERENCES PERSONA
-  \\ FK: Cod\textunderscore ASL REFERENCES ASL
-  \item PERSONA(\underline{Codice\textunderscore fiscale}, Nome, Cognome)
-  \item PERSONALE\textunderscore SANITARIO(\underline{Codice\textunderscore fiscale}, Ruolo)
-  \\ FK: Codice\textunderscore fiscale REFERENCES PERSONA
-  \item PRESENZIA(\underline{Medico}, \underline{Codice\textunderscore ospedale}, \underline{Numero\textunderscore sala}, \underline{Data}, \underline{Orario})
-  \\ FK: Medico REFERENCES PERSONALE\textunderscore SANITARIO
-  \\ FK: Codice\textunderscore ospedale, Numero\textunderscore sala, Data, Orario REFERENCES Appuntamento
-  \item REFERTO(\underline{Codice\textunderscore referto}, Data\textunderscore emissione, Descrizione, Tipo, Terapia*, Procedura*, Esito*, Durata*, Codice\textunderscore ospedale, Paziente)
-  \\ FK: Codice\textunderscore ospedale REFERENCES OSPEDALE
-  \\ FK: Paziente REFERENCES PAZIENTE
-  \item SALA(\underline{Codice\textunderscore ospedale}, \underline{Numero})
-  \\ FK: Codice\textunderscore ospedale REFERENCES OSPEDALE
-  \item TELEFONO(\underline{Telefono}, \underline{Persona})
-  \\ FK: Persona REFERENCES PERSONA
-  \item UNITA\textunderscore OPERATIVA(\underline{Codice\textunderscore ospedale}, \underline{Nome}, Capienza, Posti\textunderscore occupati)
-  \\ FK: Codice\textunderscore ospedale REFERENCES OSPEDALE
+  \\ FK: Codice\textunderscore ospedale REFERENCES \emph{OSPEDALE}
+  \item \textbf{COINVOLGIMENTO}(\underline{Referto}, \underline{Medico})
+  \\ FK: Referto REFERENCES \emph{REFERTO}
+  \\ FK: Medico REFERENCES \emph{PERSONALE\textunderscore SANITARIO}
+  \item \textbf{CURA}(\underline{Paziente}, \underline{Codice\textunderscore ospedale}, \underline{Nome\textunderscore unita}, Data\textunderscore ingresso, Data\textunderscore uscita*, Motivazione)
+  \\ FK: Codice\textunderscore ospedale, Nome\textunderscore unita REFERENCES \emph{UNITA\textunderscore OPERATIVA}
+  \\ FK: Paziente REFERENCES \emph{PAZIENTE}
+  \item \textbf{LAVORA}(\underline{Codice\textunderscore ospedale}, \underline{Nome\textunderscore unita}, \underline{Codice\textunderscore fiscale})
+  \\ FK: Codice\textunderscore ospedale, Nome\textunderscore unita REFERENCES \emph{UNITA\textunderscore OPERATIVA}
+  \\ FK: Codice\textunderscore fiscale REFERENCES \emph{PERSONALE\textunderscore SANITARIO}
+  \item \textbf{OSPEDALE}(\underline{Codice\textunderscore struttura}, Nome, Ind\textunderscore Citta, Ind\textunderscore Via, Ind\textunderscore Numero\textunderscore Civico, Cod\textunderscore ASL)
+  \\ FK: Cod\textunderscore ASL REFERENCES \emph{ASL}
+  \item \textbf{PAZIENTE}(\underline{Codice\textunderscore fiscale}, Data\textunderscore nascita, Cod\textunderscore ASL*)
+  \\ FK: Codice\textunderscore fiscale REFERENCES \emph{PERSONA}
+  \\ FK: Cod\textunderscore ASL REFERENCES \emph{ASL}
+  \item \textbf{PERSONA}(\underline{Codice\textunderscore fiscale}, Nome, Cognome)
+  \item \textbf{PERSONALE\textunderscore SANITARIO}(\underline{Codice\textunderscore fiscale}, Ruolo)
+  \\ FK: Codice\textunderscore fiscale REFERENCES \emph{PERSONA}
+  \item \textbf{PRESENZIA}(\underline{Medico}, \underline{Codice\textunderscore ospedale}, \underline{Numero\textunderscore sala}, \underline{Data}, \underline{Orario})
+  \\ FK: Medico REFERENCES \emph{PERSONALE\textunderscore SANITARIO}
+  \\ FK: Codice\textunderscore ospedale, Numero\textunderscore sala, Data, Orario REFERENCES \emph{APPUNTAMENTO}
+  \item \textbf{REFERTO}(\underline{Codice\textunderscore referto}, Data\textunderscore emissione, Descrizione, Tipo, Terapia*, Procedura*, Esito*, Durata*, Codice\textunderscore ospedale, Paziente)
+  \\ FK: Codice\textunderscore ospedale REFERENCES \emph{OSPEDALE}
+  \\ FK: Paziente REFERENCES \emph{PAZIENTE}
+  \item \textbf{SALA}(\underline{Codice\textunderscore ospedale}, \underline{Numero})
+  \\ FK: Codice\textunderscore ospedale REFERENCES \emph{OSPEDALE}
+  \item \textbf{TELEFONO}(\underline{Telefono}, \underline{Persona})
+  \\ FK: Persona REFERENCES \emph{PERSONA}
+  \item \textbf{UNITA\textunderscore OPERATIVA}(\underline{Codice\textunderscore ospedale}, \underline{Nome}, Capienza, Posti\textunderscore occupati)
+  \\ FK: Codice\textunderscore ospedale REFERENCES \emph{OSPEDALE}
 \end{itemize}
 
 \begin{figure}[p]
