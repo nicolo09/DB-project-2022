@@ -7,8 +7,18 @@
  */
 
 plugins {
+    // Apply the java plugin to add support for Java
+    java
+
     // Apply the application plugin to add support for building a CLI application in Java.
     application
+
+    /*
+     * Adds tasks to export a runnable jar.
+     * In order to create it, launch the "shadowJar" task.
+     * The runnable jar will be found in build/libs/projectname-all.jar
+     */
+    id("com.github.johnrengelman.shadow") version "7.0.0"
 }
 
 repositories {
@@ -16,12 +26,38 @@ repositories {
     mavenCentral()
 }
 
+val javaFXModules = listOf(
+    "base",
+    "controls",
+    "fxml",
+    "swing",
+    "graphics"
+)
+
+val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
+val jUnitVersion = "5.7.1"
+val javaFxVersion = 15
+
 dependencies {
+    // JavaFX: comment out if you do not need them
+    for (platform in supportedPlatforms) {
+        for (module in javaFXModules) {
+            implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
+        }
+    }
+
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
 
     // This dependency is used by the application.
     implementation("com.google.guava:guava:30.1.1-jre")
+}
+
+java {
+}
+
+tasks.withType<JavaCompile> {
+    options.encoding = "UTF-8"
 }
 
 application {
