@@ -62,3 +62,9 @@ VALUES(?, ?, ?, ?, ?, ?)
 
 INSERT INTO PRESENZIA(Medico, Codice_ospedale, Numero_sala, Data_ora)
 VALUES(?, ?, ?, ?)
+
+-- 7 Cancellare un appuntamento
+-- Per cancellare un appuntamento è sufficiente eliminarlo dalla tabella appuntamenti, i vincoli si occuperanno di eliminare a cascata
+-- le presenze dei medici all'appuntamento dalla tabella presenzia.
+DELETE FROM APPUNTAMENTI
+WHERE Codice_ospedale = ? AND Numero_sala = ? AND Data_ora = ?
