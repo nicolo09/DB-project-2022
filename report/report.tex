@@ -991,4 +991,343 @@ iniziano nello stesso luogo nello stesso momento, ma non la sovrapposizione sfal
   \end{adjustbox}
 \end{figure}
 
+\appendix 
+\chapter{Query per la creazione del database}
+\section{Creazione tabelle}
+
+create database Hospital;\newline
+use Hospital;\newline
+
+\noindent create table AMMINISTRATIVI (
+
+     Codice\textunderscore fiscale char(16) not null,
+
+     Ruolo varchar(70) not null,
+
+     Codice\textunderscore ospedale char(10) not null,
+
+     constraint FKPERS\textunderscore AMMINISTRATIVI\textunderscore ID primary key (Codice\textunderscore fiscale));
+     \newline
+
+\noindent create table APPUNTAMENTO (
+
+     Codice\textunderscore ospedale char(10) not null,
+
+     Numero\textunderscore sala int not null,
+
+     Data\textunderscore ora datetime not null,
+
+     Durata int not null,
+
+     Tipo varchar(20) not null,
+
+     Paziente char(16) not null,
+
+     constraint IDAPPUNTAMENTO\textunderscore ID primary key (Codice\textunderscore ospedale, Numero\textunderscore sala, Data\textunderscore ora));
+     \newline
+
+\noindent create table ASL (
+
+     Codice char(6) not null,
+
+     Nome varchar(30) not null,
+     
+     Ind\textunderscore Citta varchar(35) not null,
+     
+     Ind\textunderscore Via varchar(25) not null,
+     
+     Ind\textunderscore Numero\textunderscore civico char(8) not null,
+     
+     constraint IDASL primary key (Codice));
+
+\noindent create table ATTREZZATURA (
+
+     Codice\textunderscore ospedale char(10) not null,
+
+     Codice\textunderscore inventario int not null,
+
+     Nome varchar(30) not null,
+
+     Data\textunderscore manutenzione date not null,
+
+     constraint IDATTREZZATURA primary key (Codice\textunderscore ospedale, Codice\textunderscore inventario));
+     \newline
+
+\noindent create table COINVOLGIMENTO (
+     
+     Referto char(20) not null,
+     
+     Medico char(16) not null,
+     
+     constraint IDCOINVOLGIMENTO primary key (Referto, Medico)); \newline
+
+\noindent create table CURA (
+     
+     Paziente char(16) not null,
+     
+     Codice\textunderscore ospedale char(10) not null,
+     
+     Nome\textunderscore unita varchar(30) not null,
+     
+     Data\textunderscore ingresso date not null,
+     
+     Data\textunderscore uscita date,
+     
+     Motivazione varchar(400) not null,
+     
+     constraint IDCURA primary key (Paziente, Codice\textunderscore ospedale, Nome\textunderscore unita)); \newline
+
+\noindent create table LAVORA (
+
+     Codice\textunderscore ospedale char(10) not null,
+  
+     Nome\textunderscore unita varchar(30) not null,
+  
+     Codice\textunderscore fiscale char(16) not null,
+  
+     constraint IDLAVORA primary key (Codice\textunderscore fiscale, Codice\textunderscore ospedale, Nome\textunderscore unita)); \newline
+
+\noindent create table OSPEDALE (
+
+     Codice\textunderscore struttura char(10) not null,
+  
+     Nome varchar(30) not null,
+  
+     Ind\textunderscore Citta varchar(35) not null,
+  
+     Ind\textunderscore Via varchar(25) not null,
+  
+     Ind\textunderscore Numero\textunderscore civico char(8) not null,
+  
+     Cod\textunderscore ASL char(6) not null,
+  
+     constraint IDOSPEDALE primary key (Codice\textunderscore struttura)); \newline
+
+\noindent create table PAZIENTE (
+
+     Codice\textunderscore fiscale char(16) not null,
+  
+     Data\textunderscore nascita date not null,
+  
+     Cod\textunderscore ASL char(6),
+  
+     constraint FKPERS\textunderscore PAZIENTE\textunderscore ID primary key (Codice\textunderscore fiscale)); \newline
+
+\noindent create table PERSONA (
+
+     Nome varchar(20) not null,
+  
+     Cognome varchar(20) not null,
+  
+     Codice\textunderscore fiscale char(16) not null,
+  
+     constraint IDPERSONA\textunderscore ID primary key (Codice\textunderscore fiscale)); \newline
+
+\noindent create table PERSONALE\textunderscore SANITARIO (
+
+     Codice\textunderscore fiscale char(16) not null,
+  
+     Ruolo varchar(30) not null,
+  
+     constraint FKPERS\textunderscore SANITARI\textunderscore ID primary key (Codice\textunderscore fiscale)); \newline
+
+\noindent create table PRESENZIA (
+
+     Medico char(16) not null,
+  
+     Codice\textunderscore ospedale char(10) not null,
+  
+     Numero\textunderscore sala int not null,
+  
+     Data\textunderscore ora datetime not null,
+  
+     constraint IDPRESENZIA primary key (Medico, Codice\textunderscore ospedale, Numero\textunderscore sala, Data\textunderscore ora)); \newline
+
+\noindent create table REFERTO (
+
+     Codice\textunderscore referto char(20) not null,
+  
+     Data\textunderscore emissione date not null,
+  
+     Descrizione varchar(1000) not null,
+  
+     Tipo varchar(10) not null,
+  
+     Terapia varchar(500),
+  
+     Procedura varchar(500),
+  
+     Esito varchar(500),
+  
+     Durata int,
+  
+     Codice\textunderscore ospedale char(10) not null,
+  
+     Paziente char(16) not null,
+  
+     constraint IDREFERTO\textunderscore ID primary key (Codice\textunderscore referto)); \newline
+
+\noindent create table SALA (
+
+     Codice\textunderscore ospedale char(10) not null,
+  
+     Numero int not null,
+  
+     constraint IDSALA primary key (Codice\textunderscore ospedale, Numero)); \newline
+
+\noindent create table TELEFONO (
+
+     Telefono char(15) not null,
+  
+     Persona char(16) not null,
+  
+     constraint IDTELEFONO primary key (Telefono, Persona)); \newline
+
+\noindent create table UNITA\textunderscore OPERATIVA (
+
+     Codice\textunderscore ospedale char(10) not null,
+  
+     Nome varchar(30) not null,
+  
+     Capienza int not null,
+  
+     Posti\textunderscore occupati int not null,
+  
+     constraint IDUNITA\textunderscore OPERATIVA primary key (Codice\textunderscore ospedale, Nome)); \newline
+
+\section{Constraints}
+
+\noindent alter table AMMINISTRATIVI add constraint FKPERS\textunderscore AMMINISTRATIVI\textunderscore FK
+
+     foreign key (Codice\textunderscore fiscale)
+
+     references PERSONA (Codice\textunderscore fiscale); \newline
+
+\noindent alter table AMMINISTRATIVI add constraint FKIMPIEGATI
+
+     foreign key (Codice\textunderscore ospedale)
+
+     references OSPEDALE (Codice\textunderscore struttura); \newline
+
+\noindent alter table APPUNTAMENTO add constraint FKSI\textunderscore SVOLGE
+
+     foreign key (Codice\textunderscore ospedale, Numero\textunderscore sala)
+
+     references SALA (Codice\textunderscore ospedale, Numero); \newline
+
+\noindent alter table APPUNTAMENTO add constraint FKPRENOTA
+
+     foreign key (Paziente)
+
+     references PAZIENTE (Codice\textunderscore fiscale); \newline
+
+\noindent alter table ATTREZZATURA add constraint FKPOSSIEDE
+
+     foreign key (Codice\textunderscore ospedale)
+
+     references OSPEDALE (Codice\textunderscore struttura); \newline
+
+\noindent alter table COINVOLGIMENTO add constraint FKCOI\textunderscore PER
+
+     foreign key (Medico)
+
+     references PERSONALE\textunderscore SANITARIO (Codice\textunderscore fiscale); \newline
+
+\noindent alter table COINVOLGIMENTO add constraint FKCOI\textunderscore REF
+
+     foreign key (Referto)
+
+     references REFERTO (Codice\textunderscore referto); \newline
+
+\noindent alter table CURA add constraint FKCura\textunderscore Unita\textunderscore operativa
+
+     foreign key (Codice\textunderscore ospedale, Nome\textunderscore unita)
+
+     references UNITA\textunderscore OPERATIVA (Codice\textunderscore ospedale, Nome); \newline
+
+\noindent alter table CURA add constraint FKPaziente
+
+     foreign key (Paziente)
+
+     references PAZIENTE (Codice\textunderscore fiscale); \newline
+
+\noindent alter table LAVORA add constraint FKPersonale
+
+     foreign key (Codice\textunderscore fiscale)
+
+     references PERSONALE\textunderscore SANITARIO (Codice\textunderscore fiscale); \newline
+
+\noindent alter table LAVORA add constraint FKLavora\textunderscore Unita\textunderscore operativa
+
+     foreign key (Codice\textunderscore ospedale, Nome\textunderscore unita)
+
+     references UNITA\textunderscore OPERATIVA (Codice\textunderscore ospedale, Nome); \newline
+
+\noindent alter table OSPEDALE add constraint FKAPPARTENENZA
+
+     foreign key (Cod\textunderscore ASL)
+
+     references ASL (Codice); \newline
+
+\noindent alter table PAZIENTE add constraint FKREGISTRAZIONE
+
+     foreign key (Cod\textunderscore ASL)
+
+     references ASL (Codice); \newline
+
+\noindent alter table PAZIENTE add constraint FKPERS\textunderscore PAZIENTE\textunderscore FK
+
+     foreign key (Codice\textunderscore fiscale)
+
+     references PERSONA (Codice\textunderscore fiscale); \newline 
+
+\noindent alter table PERSONALE\textunderscore SANITARIO add constraint FKPERS\textunderscore SANITARI\textunderscore FK
+
+     foreign key (Codice\textunderscore fiscale)
+
+     references PERSONA (Codice\textunderscore fiscale); \newline
+
+\noindent alter table PRESENZIA add constraint FKPRE\textunderscore APP
+
+     foreign key (Codice\textunderscore ospedale, Numero\textunderscore sala, Data\textunderscore ora)
+
+     references APPUNTAMENTO (Codice\textunderscore ospedale, Numero\textunderscore sala, Data\textunderscore ora); \newline
+
+\noindent alter table PRESENZIA add constraint FKPRE\textunderscore PER
+
+     foreign key (Medico)
+
+     references PERSONALE\textunderscore SANITARIO (Codice\textunderscore fiscale); \newline
+
+\noindent alter table REFERTO add constraint FKEMISSIONE
+
+     foreign key (Codice\textunderscore ospedale)
+
+     references OSPEDALE (Codice\textunderscore struttura); \newline
+
+\noindent alter table REFERTO add constraint FKASSOCIAZIONE
+
+     foreign key (Paziente)
+
+     references PAZIENTE (Codice\textunderscore fiscale); \newline
+
+\noindent alter table SALA add constraint FKSTRUTTURA
+
+     foreign key (Codice\textunderscore ospedale)
+
+     references OSPEDALE (Codice\textunderscore struttura); \newline
+
+\noindent alter table TELEFONO add constraint FKUTENZA
+
+     foreign key (Persona)
+
+     references PERSONA (Codice\textunderscore fiscale); \newline
+
+\noindent alter table UNITA\textunderscore OPERATIVA add constraint FKCOMPOSIZIONE
+
+     foreign key (Codice\textunderscore ospedale)
+     
+     references OSPEDALE (Codice\textunderscore struttura); \newline
+
+
 \end{document}
