@@ -992,7 +992,7 @@ iniziano nello stesso luogo nello stesso momento, ma non la sovrapposizione sfal
 \end{figure}
 
 \appendix 
-\chapter{Query per la creazione del database}
+\chapter{Query SQL per la creazione del database}
 \section{Creazione tabelle}
 
 create database Hospital;\newline
@@ -1009,7 +1009,7 @@ use Hospital;\newline
      constraint FKPERS\textunderscore AMMINISTRATIVI\textunderscore ID primary key (Codice\textunderscore fiscale));
      \newline
 
-\noindent create table APPUNTAMENTO (
+\noindent create table APPUNTAMENTI (
 
      Codice\textunderscore ospedale char(10) not null,
 
@@ -1040,7 +1040,7 @@ use Hospital;\newline
      
      constraint IDASL primary key (Codice));
 
-\noindent create table ATTREZZATURA (
+\noindent create table ATTREZZATURE (
 
      Codice\textunderscore ospedale char(10) not null,
 
@@ -1050,18 +1050,18 @@ use Hospital;\newline
 
      Data\textunderscore manutenzione date not null,
 
-     constraint IDATTREZZATURA primary key (Codice\textunderscore ospedale, Codice\textunderscore inventario));
+     constraint IDATTREZZATURE primary key (Codice\textunderscore ospedale, Codice\textunderscore inventario));
      \newline
 
-\noindent create table COINVOLGIMENTO (
+\noindent create table COINVOLGIMENTI (
      
      Referto char(20) not null,
      
      Medico char(16) not null,
      
-     constraint IDCOINVOLGIMENTO primary key (Referto, Medico)); \newline
+     constraint IDCOINVOLGIMENTI primary key (Referto, Medico)); \newline
 
-\noindent create table CURA (
+\noindent create table CURE (
      
      Paziente char(16) not null,
      
@@ -1075,7 +1075,7 @@ use Hospital;\newline
      
      Motivazione varchar(400) not null,
      
-     constraint IDCURA primary key (Paziente, Codice\textunderscore ospedale, Nome\textunderscore unita)); \newline
+     constraint IDCURE primary key (Paziente, Codice\textunderscore ospedale, Nome\textunderscore unita)); \newline
 
 \noindent create table LAVORA (
 
@@ -1087,7 +1087,7 @@ use Hospital;\newline
   
      constraint IDLAVORA primary key (Codice\textunderscore fiscale, Codice\textunderscore ospedale, Nome\textunderscore unita)); \newline
 
-\noindent create table OSPEDALE (
+\noindent create table OSPEDALI (
 
      Codice\textunderscore struttura char(10) not null,
   
@@ -1103,7 +1103,7 @@ use Hospital;\newline
   
      constraint IDOSPEDALE primary key (Codice\textunderscore struttura)); \newline
 
-\noindent create table PAZIENTE (
+\noindent create table PAZIENTI (
 
      Codice\textunderscore fiscale char(16) not null,
   
@@ -1111,9 +1111,9 @@ use Hospital;\newline
   
      Cod\textunderscore ASL char(6),
   
-     constraint FKPERS\textunderscore PAZIENTE\textunderscore ID primary key (Codice\textunderscore fiscale)); \newline
+     constraint FKPERS\textunderscore PAZIENTI\textunderscore ID primary key (Codice\textunderscore fiscale)); \newline
 
-\noindent create table PERSONA (
+\noindent create table PERSONE (
 
      Nome varchar(20) not null,
   
@@ -1121,7 +1121,7 @@ use Hospital;\newline
   
      Codice\textunderscore fiscale char(16) not null,
   
-     constraint IDPERSONA\textunderscore ID primary key (Codice\textunderscore fiscale)); \newline
+     constraint IDPERSONE\textunderscore ID primary key (Codice\textunderscore fiscale)); \newline
 
 \noindent create table PERSONALE\textunderscore SANITARIO (
 
@@ -1143,7 +1143,7 @@ use Hospital;\newline
   
      constraint IDPRESENZIA primary key (Medico, Codice\textunderscore ospedale, Numero\textunderscore sala, Data\textunderscore ora)); \newline
 
-\noindent create table REFERTO (
+\noindent create table REFERTI (
 
      Codice\textunderscore referto char(20) not null,
   
@@ -1167,7 +1167,7 @@ use Hospital;\newline
   
      constraint IDREFERTO\textunderscore ID primary key (Codice\textunderscore referto)); \newline
 
-\noindent create table SALA (
+\noindent create table SALE (
 
      Codice\textunderscore ospedale char(10) not null,
   
@@ -1175,15 +1175,15 @@ use Hospital;\newline
   
      constraint IDSALA primary key (Codice\textunderscore ospedale, Numero)); \newline
 
-\noindent create table TELEFONO (
+\noindent create table TELEFONI (
 
      Telefono char(15) not null,
   
      Persona char(16) not null,
   
-     constraint IDTELEFONO primary key (Telefono, Persona)); \newline
+     constraint IDTELEFONI primary key (Telefono, Persona)); \newline
 
-\noindent create table UNITA\textunderscore OPERATIVA (
+\noindent create table UNITA\textunderscore OPERATIVE (
 
      Codice\textunderscore ospedale char(10) not null,
   
@@ -1193,7 +1193,7 @@ use Hospital;\newline
   
      Posti\textunderscore occupati int not null,
   
-     constraint IDUNITA\textunderscore OPERATIVA primary key (Codice\textunderscore ospedale, Nome)); \newline
+     constraint IDUNITA\textunderscore OPERATIVE primary key (Codice\textunderscore ospedale, Nome)); \newline
 
 \section{Constraints}
 
@@ -1201,55 +1201,55 @@ use Hospital;\newline
 
      foreign key (Codice\textunderscore fiscale)
 
-     references PERSONA (Codice\textunderscore fiscale); \newline
+     references PERSONE (Codice\textunderscore fiscale); \newline
 
 \noindent alter table AMMINISTRATIVI add constraint FKIMPIEGATI
 
      foreign key (Codice\textunderscore ospedale)
 
-     references OSPEDALE (Codice\textunderscore struttura); \newline
+     references OSPEDALI (Codice\textunderscore struttura); \newline
 
-\noindent alter table APPUNTAMENTO add constraint FKSI\textunderscore SVOLGE
+\noindent alter table APPUNTAMENTI add constraint FKSI\textunderscore SVOLGE
 
      foreign key (Codice\textunderscore ospedale, Numero\textunderscore sala)
 
-     references SALA (Codice\textunderscore ospedale, Numero); \newline
+     references SALE (Codice\textunderscore ospedale, Numero); \newline
 
-\noindent alter table APPUNTAMENTO add constraint FKPRENOTA
+\noindent alter table APPUNTAMENTI add constraint FKPRENOTA
 
      foreign key (Paziente)
 
-     references PAZIENTE (Codice\textunderscore fiscale); \newline
+     references PAZIENTI (Codice\textunderscore fiscale); \newline
 
-\noindent alter table ATTREZZATURA add constraint FKPOSSIEDE
+\noindent alter table ATTREZZATURE add constraint FKPOSSIEDE
 
      foreign key (Codice\textunderscore ospedale)
 
-     references OSPEDALE (Codice\textunderscore struttura); \newline
+     references OSPEDALI (Codice\textunderscore struttura); \newline
 
-\noindent alter table COINVOLGIMENTO add constraint FKCOI\textunderscore PER
+\noindent alter table COINVOLGIMENTI add constraint FKCOI\textunderscore PER
 
      foreign key (Medico)
 
      references PERSONALE\textunderscore SANITARIO (Codice\textunderscore fiscale); \newline
 
-\noindent alter table COINVOLGIMENTO add constraint FKCOI\textunderscore REF
+\noindent alter table COINVOLGIMENTI add constraint FKCOI\textunderscore REF
 
      foreign key (Referto)
 
-     references REFERTO (Codice\textunderscore referto); \newline
+     references REFERTI (Codice\textunderscore referto); \newline
 
-\noindent alter table CURA add constraint FKCura\textunderscore Unita\textunderscore operativa
+\noindent alter table CURE add constraint FKCura\textunderscore Unita\textunderscore operativa
 
      foreign key (Codice\textunderscore ospedale, Nome\textunderscore unita)
 
-     references UNITA\textunderscore OPERATIVA (Codice\textunderscore ospedale, Nome); \newline
+     references UNITA\textunderscore OPERATIVE (Codice\textunderscore ospedale, Nome); \newline
 
-\noindent alter table CURA add constraint FKPaziente
+\noindent alter table CURE add constraint FKPaziente
 
      foreign key (Paziente)
 
-     references PAZIENTE (Codice\textunderscore fiscale); \newline
+     references PAZIENTI (Codice\textunderscore fiscale); \newline
 
 \noindent alter table LAVORA add constraint FKPersonale
 
@@ -1261,37 +1261,37 @@ use Hospital;\newline
 
      foreign key (Codice\textunderscore ospedale, Nome\textunderscore unita)
 
-     references UNITA\textunderscore OPERATIVA (Codice\textunderscore ospedale, Nome); \newline
+     references UNITA\textunderscore OPERATIVE (Codice\textunderscore ospedale, Nome); \newline
 
-\noindent alter table OSPEDALE add constraint FKAPPARTENENZA
-
-     foreign key (Cod\textunderscore ASL)
-
-     references ASL (Codice); \newline
-
-\noindent alter table PAZIENTE add constraint FKREGISTRAZIONE
+\noindent alter table OSPEDALI add constraint FKAPPARTENENZA
 
      foreign key (Cod\textunderscore ASL)
 
      references ASL (Codice); \newline
 
-\noindent alter table PAZIENTE add constraint FKPERS\textunderscore PAZIENTE\textunderscore FK
+\noindent alter table PAZIENTI add constraint FKREGISTRAZIONE
+
+     foreign key (Cod\textunderscore ASL)
+
+     references ASL (Codice); \newline
+
+\noindent alter table PAZIENTI add constraint FKPERS\textunderscore PAZIENTI\textunderscore FK
 
      foreign key (Codice\textunderscore fiscale)
 
-     references PERSONA (Codice\textunderscore fiscale); \newline 
+     references PERSONE (Codice\textunderscore fiscale); \newline 
 
 \noindent alter table PERSONALE\textunderscore SANITARIO add constraint FKPERS\textunderscore SANITARI\textunderscore FK
 
      foreign key (Codice\textunderscore fiscale)
 
-     references PERSONA (Codice\textunderscore fiscale); \newline
+     references PERSONE (Codice\textunderscore fiscale); \newline
 
 \noindent alter table PRESENZIA add constraint FKPRE\textunderscore APP
 
      foreign key (Codice\textunderscore ospedale, Numero\textunderscore sala, Data\textunderscore ora)
 
-     references APPUNTAMENTO (Codice\textunderscore ospedale, Numero\textunderscore sala, Data\textunderscore ora); \newline
+     references APPUNTAMENTI (Codice\textunderscore ospedale, Numero\textunderscore sala, Data\textunderscore ora); \newline
 
 \noindent alter table PRESENZIA add constraint FKPRE\textunderscore PER
 
@@ -1299,35 +1299,41 @@ use Hospital;\newline
 
      references PERSONALE\textunderscore SANITARIO (Codice\textunderscore fiscale); \newline
 
-\noindent alter table REFERTO add constraint FKEMISSIONE
+\noindent alter table REFERTI add constraint FKEMISSIONE
 
      foreign key (Codice\textunderscore ospedale)
 
-     references OSPEDALE (Codice\textunderscore struttura); \newline
+     references OSPEDALI (Codice\textunderscore struttura); \newline
 
-\noindent alter table REFERTO add constraint FKASSOCIAZIONE
+\noindent alter table REFERTI add constraint FKASSOCIAZIONE
 
      foreign key (Paziente)
 
-     references PAZIENTE (Codice\textunderscore fiscale); \newline
+     references PAZIENTI (Codice\textunderscore fiscale); \newline
 
-\noindent alter table SALA add constraint FKSTRUTTURA
+\noindent alter table SALE add constraint FKSTRUTTURA
 
      foreign key (Codice\textunderscore ospedale)
 
-     references OSPEDALE (Codice\textunderscore struttura); \newline
+     references OSPEDALI (Codice\textunderscore struttura); \newline
 
-\noindent alter table TELEFONO add constraint FKUTENZA
+\noindent alter table TELEFONI add constraint FKUTENZA
 
      foreign key (Persona)
 
-     references PERSONA (Codice\textunderscore fiscale); \newline
+     references PERSONE (Codice\textunderscore fiscale); \newline
 
-\noindent alter table UNITA\textunderscore OPERATIVA add constraint FKCOMPOSIZIONE
+\noindent alter table UNITA\textunderscore OPERATIVE add constraint FKCOMPOSIZIONE
 
      foreign key (Codice\textunderscore ospedale)
      
-     references OSPEDALE (Codice\textunderscore struttura); \newline
+     references OSPEDALI (Codice\textunderscore struttura); \newline
 
+\appendix 
+\chapter{Query SQL delle operazioni principali}
 
 \end{document}
+
+%TODO Mettere i plurali alle tabelle
+%TODO Mettere int ai codici auto increment
+%TODO Aggiungere vincoli di identita referenziale (Unità operativa -- Lavora) (Personale sanitario -- Lavora)
