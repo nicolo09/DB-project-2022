@@ -120,11 +120,13 @@ create table UNITA_OPERATIVE (
 
 alter table AMMINISTRATIVI add constraint FKPERS_AMMINISTRATIVI_FK
      foreign key (Codice_fiscale)
-     references PERSONE (Codice_fiscale);
+     references PERSONE (Codice_fiscale)
+     ON DELETE CASCADE;
 
 alter table AMMINISTRATIVI add constraint FKIMPIEGATI
      foreign key (Codice_ospedale)
-     references OSPEDALI (Codice_struttura);
+     references OSPEDALI (Codice_struttura)
+     ON DELETE CASCADE;
 
 alter table APPUNTAMENTI add constraint FKSI_SVOLGE
      foreign key (Codice_ospedale, Numero_sala)
@@ -132,11 +134,13 @@ alter table APPUNTAMENTI add constraint FKSI_SVOLGE
 
 alter table APPUNTAMENTI add constraint FKPRENOTA
      foreign key (Paziente)
-     references PAZIENTI (Codice_fiscale);
+     references PAZIENTI (Codice_fiscale)
+     ON DELETE CASCADE;
 
 alter table ATTREZZATURE add constraint FKPOSSIEDE
      foreign key (Codice_ospedale)
-     references OSPEDALI (Codice_struttura);
+     references OSPEDALI (Codice_struttura)
+     ON DELETE CASCADE;
 
 alter table COINVOLGIMENTI add constraint FKCOI_PER
      foreign key (Medico)
@@ -144,7 +148,8 @@ alter table COINVOLGIMENTI add constraint FKCOI_PER
 
 alter table COINVOLGIMENTI add constraint FKCOI_REF
      foreign key (Referto)
-     references REFERTI (Codice_referto);
+     references REFERTI (Codice_referto)
+     ON DELETE CASCADE;
 
 alter table CURE add constraint FKCura_Unita_operativa
      foreign key (Codice_ospedale, Nome_unita)
@@ -156,11 +161,13 @@ alter table CURE add constraint FKPaziente
 
 alter table LAVORA add constraint FKPersonale
      foreign key (Codice_fiscale)
-     references PERSONALE_SANITARIO (Codice_fiscale);
+     references PERSONALE_SANITARIO (Codice_fiscale)
+     ON DELETE CASCADE;
 
 alter table LAVORA add constraint FKLavora_Unita_operativa
      foreign key (Codice_ospedale, Nome_unita)
-     references UNITA_OPERATIVE (Codice_ospedale, Nome);
+     references UNITA_OPERATIVE (Codice_ospedale, Nome)
+     ON DELETE CASCADE;
 
 alter table OSPEDALI add constraint FKAPPARTENENZA
      foreign key (Cod_ASL)
@@ -168,19 +175,23 @@ alter table OSPEDALI add constraint FKAPPARTENENZA
 
 alter table PAZIENTI add constraint FKREGISTRAZIONE
      foreign key (Cod_ASL)
-     references ASL (Codice);
+     references ASL (Codice)
+     ON DELETE SET NULL;
 
 alter table PAZIENTI add constraint FKPERS_PAZIENTI_FK
      foreign key (Codice_fiscale)
-     references PERSONE (Codice_fiscale); 
+     references PERSONE (Codice_fiscale)
+     ON DELETE CASCADE; 
 
 alter table PERSONALE_SANITARIO add constraint FKPERS_SANITARI_FK
      foreign key (Codice_fiscale)
-     references PERSONE (Codice_fiscale);
+     references PERSONE (Codice_fiscale)
+     ON DELETE CASCADE;
 
 alter table PRESENZIA add constraint FKPRE_APP
      foreign key (Codice_ospedale, Numero_sala, Data_ora)
-     references APPUNTAMENTI (Codice_ospedale, Numero_sala, Data_ora);
+     references APPUNTAMENTI (Codice_ospedale, Numero_sala, Data_ora)
+     ON DELETE CASCADE;
 
 alter table PRESENZIA add constraint FKPRE_PER
      foreign key (Medico)
@@ -192,16 +203,20 @@ alter table REFERTI add constraint FKEMISSIONE
 
 alter table REFERTI add constraint FKASSOCIAZIONE
      foreign key (Paziente)
-     references PAZIENTI (Codice_fiscale);
+     references PAZIENTI (Codice_fiscale)
+     ON DELETE CASCADE;
 
 alter table SALE add constraint FKSTRUTTURA
      foreign key (Codice_ospedale)
-     references OSPEDALI (Codice_struttura);
+     references OSPEDALI (Codice_struttura)
+     ON DELETE CASCADE;
 
 alter table TELEFONI add constraint FKUTENZA
      foreign key (Persona)
-     references PERSONE (Codice_fiscale);
+     references PERSONE (Codice_fiscale)
+     ON DELETE CASCADE;
 
 alter table UNITA_OPERATIVE add constraint FKCOMPOSIZIONE
      foreign key (Codice_ospedale)
-     references OSPEDALI (Codice_struttura);
+     references OSPEDALI (Codice_struttura)
+     ON DELETE CASCADE;
