@@ -7,7 +7,7 @@ create table AMMINISTRATIVI (
      Codice_ospedale char(10) not null,
      constraint FKPERS_AMMINISTRATIVI_ID primary key (Codice_fiscale));
 
-create table APPUNTAMENTO (
+create table APPUNTAMENTI (
      Codice_ospedale char(10) not null,
      Numero_sala int not null,
      Data_ora datetime not null,
@@ -24,26 +24,26 @@ create table ASL (
      Ind_Numero_civico char(8) not null,
      constraint IDASL primary key (Codice));
 
-create table ATTREZZATURA (
+create table ATTREZZATURE (
      Codice_ospedale char(10) not null,
      Codice_inventario int not null,
      Nome varchar(30) not null,
      Data_manutenzione date not null,
-     constraint IDATTREZZATURA primary key (Codice_ospedale, Codice_inventario));
+     constraint IDATTREZZATURE primary key (Codice_ospedale, Codice_inventario));
 
-create table COINVOLGIMENTO (
+create table COINVOLGIMENTI (
      Referto char(20) not null,
      Medico char(16) not null,
-     constraint IDCOINVOLGIMENTO primary key (Referto, Medico));
+     constraint IDCOINVOLGIMENTI primary key (Referto, Medico));
 
-create table CURA (
+create table CURE (
      Paziente char(16) not null,
      Codice_ospedale char(10) not null,
      Nome_unita varchar(30) not null,
      Data_ingresso date not null,
      Data_uscita date,
      Motivazione varchar(400) not null,
-     constraint IDCURA primary key (Paziente, Codice_ospedale, Nome_unita));
+     constraint IDCURE primary key (Paziente, Codice_ospedale, Nome_unita));
 
 create table LAVORA (
      Codice_ospedale char(10) not null,
@@ -51,26 +51,26 @@ create table LAVORA (
      Codice_fiscale char(16) not null,
      constraint IDLAVORA primary key (Codice_fiscale, Codice_ospedale, Nome_unita));
 
-create table OSPEDALE (
+create table OSPEDALI (
      Codice_struttura char(10) not null,
      Nome varchar(30) not null,
      Ind_Citta varchar(35) not null,
      Ind_Via varchar(25) not null,
      Ind_Numero_civico char(8) not null,
      Cod_ASL char(6) not null,
-     constraint IDOSPEDALE primary key (Codice_struttura));
+     constraint IDOSPEDALI primary key (Codice_struttura));
 
-create table PAZIENTE (
+create table PAZIENTI (
      Codice_fiscale char(16) not null,
      Data_nascita date not null,
      Cod_ASL char(6),
-     constraint FKPERS_PAZIENTE_ID primary key (Codice_fiscale));
+     constraint FKPERS_PAZIENTI_ID primary key (Codice_fiscale));
 
-create table PERSONA (
+create table PERSONE (
      Nome varchar(20) not null,
      Cognome varchar(20) not null,
      Codice_fiscale char(16) not null,
-     constraint IDPERSONA_ID primary key (Codice_fiscale));
+     constraint IDPERSONE_ID primary key (Codice_fiscale));
 
 create table PERSONALE_SANITARIO (
      Codice_fiscale char(16) not null,
@@ -84,7 +84,7 @@ create table PRESENZIA (
      Data_ora datetime not null,
      constraint IDPRESENZIA primary key (Medico, Codice_ospedale, Numero_sala, Data_ora));
 
-create table REFERTO (
+create table REFERTI (
      Codice_referto char(20) not null,
      Data_emissione date not null,
      Descrizione varchar(1000) not null,
@@ -95,24 +95,24 @@ create table REFERTO (
      Durata int,
      Codice_ospedale char(10) not null,
      Paziente char(16) not null,
-     constraint IDREFERTO_ID primary key (Codice_referto));
+     constraint IDREFERTI_ID primary key (Codice_referto));
 
-create table SALA (
+create table SALE (
      Codice_ospedale char(10) not null,
      Numero int not null,
-     constraint IDSALA primary key (Codice_ospedale, Numero));
+     constraint IDSALE primary key (Codice_ospedale, Numero));
 
-create table TELEFONO (
+create table TELEFONI (
      Telefono char(15) not null,
      Persona char(16) not null,
-     constraint IDTELEFONO primary key (Telefono, Persona));
+     constraint IDTELEFONI primary key (Telefono, Persona));
 
-create table UNITA_OPERATIVA (
+create table UNITA_OPERATIVE (
      Codice_ospedale char(10) not null,
      Nome varchar(30) not null,
      Capienza int not null,
      Posti_occupati int not null,
-     constraint IDUNITA_OPERATIVA primary key (Codice_ospedale, Nome));
+     constraint IDUNITA_OPERATIVE primary key (Codice_ospedale, Nome));
 
 
 -- Constraints Section
@@ -120,39 +120,39 @@ create table UNITA_OPERATIVA (
 
 alter table AMMINISTRATIVI add constraint FKPERS_AMMINISTRATIVI_FK
      foreign key (Codice_fiscale)
-     references PERSONA (Codice_fiscale);
+     references PERSONE (Codice_fiscale);
 
 alter table AMMINISTRATIVI add constraint FKIMPIEGATI
      foreign key (Codice_ospedale)
-     references OSPEDALE (Codice_struttura);
+     references OSPEDALI (Codice_struttura);
 
-alter table APPUNTAMENTO add constraint FKSI_SVOLGE
+alter table APPUNTAMENTI add constraint FKSI_SVOLGE
      foreign key (Codice_ospedale, Numero_sala)
-     references SALA (Codice_ospedale, Numero);
+     references SALE (Codice_ospedale, Numero);
 
-alter table APPUNTAMENTO add constraint FKPRENOTA
+alter table APPUNTAMENTI add constraint FKPRENOTA
      foreign key (Paziente)
-     references PAZIENTE (Codice_fiscale);
+     references PAZIENTI (Codice_fiscale);
 
-alter table ATTREZZATURA add constraint FKPOSSIEDE
+alter table ATTREZZATURE add constraint FKPOSSIEDE
      foreign key (Codice_ospedale)
-     references OSPEDALE (Codice_struttura);
+     references OSPEDALI (Codice_struttura);
 
-alter table COINVOLGIMENTO add constraint FKCOI_PER
+alter table COINVOLGIMENTI add constraint FKCOI_PER
      foreign key (Medico)
      references PERSONALE_SANITARIO (Codice_fiscale);
 
-alter table COINVOLGIMENTO add constraint FKCOI_REF
+alter table COINVOLGIMENTI add constraint FKCOI_REF
      foreign key (Referto)
-     references REFERTO (Codice_referto);
+     references REFERTI (Codice_referto);
 
-alter table CURA add constraint FKCura_Unita_operativa
+alter table CURE add constraint FKCura_Unita_operativa
      foreign key (Codice_ospedale, Nome_unita)
-     references UNITA_OPERATIVA (Codice_ospedale, Nome);
+     references UNITA_OPERATIVE (Codice_ospedale, Nome);
 
-alter table CURA add constraint FKPaziente
+alter table CURE add constraint FKPaziente
      foreign key (Paziente)
-     references PAZIENTE (Codice_fiscale);
+     references PAZIENTI (Codice_fiscale);
 
 alter table LAVORA add constraint FKPersonale
      foreign key (Codice_fiscale)
@@ -160,48 +160,48 @@ alter table LAVORA add constraint FKPersonale
 
 alter table LAVORA add constraint FKLavora_Unita_operativa
      foreign key (Codice_ospedale, Nome_unita)
-     references UNITA_OPERATIVA (Codice_ospedale, Nome);
+     references UNITA_OPERATIVE (Codice_ospedale, Nome);
 
-alter table OSPEDALE add constraint FKAPPARTENENZA
+alter table OSPEDALI add constraint FKAPPARTENENZA
      foreign key (Cod_ASL)
      references ASL (Codice);
 
-alter table PAZIENTE add constraint FKREGISTRAZIONE
+alter table PAZIENTI add constraint FKREGISTRAZIONE
      foreign key (Cod_ASL)
      references ASL (Codice);
 
-alter table PAZIENTE add constraint FKPERS_PAZIENTE_FK
+alter table PAZIENTI add constraint FKPERS_PAZIENTI_FK
      foreign key (Codice_fiscale)
-     references PERSONA (Codice_fiscale); 
+     references PERSONE (Codice_fiscale); 
 
 alter table PERSONALE_SANITARIO add constraint FKPERS_SANITARI_FK
      foreign key (Codice_fiscale)
-     references PERSONA (Codice_fiscale);
+     references PERSONE (Codice_fiscale);
 
 alter table PRESENZIA add constraint FKPRE_APP
      foreign key (Codice_ospedale, Numero_sala, Data_ora)
-     references APPUNTAMENTO (Codice_ospedale, Numero_sala, Data_ora);
+     references APPUNTAMENTI (Codice_ospedale, Numero_sala, Data_ora);
 
 alter table PRESENZIA add constraint FKPRE_PER
      foreign key (Medico)
      references PERSONALE_SANITARIO (Codice_fiscale);
 
-alter table REFERTO add constraint FKEMISSIONE
+alter table REFERTI add constraint FKEMISSIONE
      foreign key (Codice_ospedale)
-     references OSPEDALE (Codice_struttura);
+     references OSPEDALI (Codice_struttura);
 
-alter table REFERTO add constraint FKASSOCIAZIONE
+alter table REFERTI add constraint FKASSOCIAZIONE
      foreign key (Paziente)
-     references PAZIENTE (Codice_fiscale);
+     references PAZIENTI (Codice_fiscale);
 
-alter table SALA add constraint FKSTRUTTURA
+alter table SALE add constraint FKSTRUTTURA
      foreign key (Codice_ospedale)
-     references OSPEDALE (Codice_struttura);
+     references OSPEDALI (Codice_struttura);
 
-alter table TELEFONO add constraint FKUTENZA
+alter table TELEFONI add constraint FKUTENZA
      foreign key (Persona)
-     references PERSONA (Codice_fiscale);
+     references PERSONE (Codice_fiscale);
 
-alter table UNITA_OPERATIVA add constraint FKCOMPOSIZIONE
+alter table UNITA_OPERATIVE add constraint FKCOMPOSIZIONE
      foreign key (Codice_ospedale)
-     references OSPEDALE (Codice_struttura);
+     references OSPEDALI (Codice_struttura);
