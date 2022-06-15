@@ -1,7 +1,6 @@
 package db.project.view;
 
 import java.io.IOException;
-import java.nio.file.Paths;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
