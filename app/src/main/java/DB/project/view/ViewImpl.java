@@ -1,11 +1,21 @@
 package db.project.view;
 
-public class ViewImpl implements View {
+import javafx.stage.Stage;
 
+public class ViewImpl implements View {
+	
+	private final Stage stage;
+	
+	public ViewImpl(final Stage stage) {
+		this.stage = stage;
+	}
+	
     @Override
     public void goToMainMenu() {
-        // TODO Auto-generated method stub
-
+       final MainMenuController mmcontroller = new MainMenuControllerImpl(this);
+       final MainMenuView mmview = new MainMenuViewImpl(mmcontroller, stage);
+       
+       mmview.show();
     }
 
     @Override
@@ -20,4 +30,6 @@ public class ViewImpl implements View {
 
     }
 
+    
+    
 }

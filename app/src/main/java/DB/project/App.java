@@ -3,14 +3,16 @@
  */
 package db.project;
 
+import db.project.view.View;
+import db.project.view.ViewImpl;
 import javafx.stage.Stage;
 
 public class App extends javafx.application.Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // TODO Auto-generated method stub
-        
+        final View view = new ViewImpl(primaryStage);
+        view.goToMainMenu();
     }
 
 }
