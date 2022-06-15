@@ -36,7 +36,7 @@ val javaFXModules = listOf(
 
 val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
 val jUnitVersion = "5.7.1"
-val javaFxVersion = 15
+val javaFxVersion = 18
 
 dependencies {
     // JavaFX: comment out if you do not need them
@@ -62,7 +62,7 @@ tasks.withType<JavaCompile> {
 
 application {
     // Define the main class for the application.
-    mainClass.set("db.project.App")
+    mainClass.set("db.project.Launcher")
 }
 
 tasks.test {
