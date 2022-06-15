@@ -8,6 +8,7 @@ public class ViewImpl implements View {
 	
 	public ViewImpl(final Stage stage) {
 		this.stage = stage;
+		this.stage.setTitle("Hospital explorer");
 	}
 	
     @Override
