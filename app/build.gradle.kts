@@ -62,7 +62,7 @@ tasks.withType<JavaCompile> {
 
 application {
     // Define the main class for the application.
-    mainClass.set("DB.project.App")
+    mainClass.set("db.project.App")
 }
 
 tasks.test {
