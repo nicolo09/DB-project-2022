@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import db.project.controller.Controller;
 import db.project.view.View;
+import db.project.view.search.person.SearchPersonControllerImpl;
+import db.project.view.search.person.SearchPersonView;
+import db.project.view.search.person.SearchPersonViewImpl;
 import db.project.view.search.referti.SearchRefertiControllerImpl;
 import db.project.view.search.referti.SearchRefertiView;
 import db.project.view.search.referti.SearchRefertiViewImpl;
@@ -24,15 +27,7 @@ public class SearchMainViewImpl implements SearchMainView {
         this.mainView = mainView;
         this.mainController = mainController;
         this.stage = stage;
-        final FXMLLoader loader = new FXMLLoader();
-        SearchMainControllerImpl controller = new SearchMainControllerImpl(this);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + PATH));
-        try {
-            this.parent = loader.load();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
     }
     
     @Override
@@ -55,20 +50,19 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPazienti() {
-        // TODO Auto-generated method stub
-
+        final SearchPersonView view = new SearchPersonViewImpl(stage, () -> this.show());
+        view.show();
     }
 
     @Override
     public void goToPersonaleAmministrativo() {
         // TODO Auto-generated method stub
-
     }
 
     @Override
     public void goToPersonaleSanitario() {
-        // TODO Auto-generated method stub
-
+        final SearchPersonView view = new SearchMedicsViewImpl(stage, () -> this.show());
+        view.show();
     }
 
     @Override
@@ -92,6 +86,15 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void show() {
+        final FXMLLoader loader = new FXMLLoader();
+        SearchMainControllerImpl controller = new SearchMainControllerImpl(this);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + PATH));
+        try {
+            this.parent = loader.load();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         final Scene scene = new Scene(parent);
         this.stage.setScene(scene);
         this.stage.show();

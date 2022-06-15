@@ -27,7 +27,7 @@ public class SearchMainControllerImpl {
 
     @FXML
     private void onPazienti(ActionEvent event) {
-
+        this.view.goToPazienti();
     }
 
     @FXML
@@ -37,12 +37,12 @@ public class SearchMainControllerImpl {
 
     @FXML
     private void onPersonaleSanitario(ActionEvent event) {
-
+        this.view.goToPersonaleSanitario();
     }
 
     @FXML
     private void onReferti() {
-        view.goToReferti();
+        this.view.goToReferti();
     }
 
     @FXML
