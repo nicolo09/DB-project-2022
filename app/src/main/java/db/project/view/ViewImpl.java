@@ -12,11 +12,12 @@ import javafx.stage.Stage;
 public class ViewImpl implements View {
 	
 	private final Stage stage;
-	private Controller mainController;
+	private final Controller mainController;
 	
-	public ViewImpl(final Stage stage) {
+	public ViewImpl(final Controller controller, final Stage stage) {
 		this.stage = stage;
 		this.stage.setTitle("Hospital explorer");
+		this.mainController = controller;
 	}
 	
     @Override
