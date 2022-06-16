@@ -19,6 +19,8 @@ plugins {
      * The runnable jar will be found in build/libs/projectname-all.jar
      */
     id("com.github.johnrengelman.shadow") version "7.0.0"
+
+    id ("org.openjfx.javafxplugin") version "0.0.10"
 }
 
 repositories {
@@ -26,25 +28,27 @@ repositories {
     mavenCentral()
 }
 
-val javaFXModules = listOf(
-    "base",
-    "controls",
-    "fxml",
-    "swing",
-    "graphics"
-)
-
 val supportedPlatforms = listOf("linux", "mac", "win") // All required for OOP
 val jUnitVersion = "5.7.1"
-val javaFxVersion = 18
+val javaFxVersion = "18"
+
+javafx {
+    version = javaFxVersion
+    modules = listOf(
+    "javafx.base",
+    "javafx.controls",
+    "javafx.fxml",
+    "javafx.swing",
+    "javafx.graphics"
+)}
 
 dependencies {
     // JavaFX: comment out if you do not need them
-    for (platform in supportedPlatforms) {
-        for (module in javaFXModules) {
-            implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
-        }
-    }
+    // for (platform in supportedPlatforms) {
+    //     for (module in javaFXModules) {
+    //         implementation("org.openjfx:javafx-$module:$javaFxVersion:$platform")
+    //     }
+    // }
 
     // Use JUnit Jupiter for testing.
     testImplementation("org.junit.jupiter:junit-jupiter:5.7.2")
