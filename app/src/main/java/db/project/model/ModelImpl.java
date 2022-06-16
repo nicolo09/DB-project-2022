@@ -34,10 +34,10 @@ public class ModelImpl implements Model{
     public Collection<Person> getPersons(Optional<String> name, Optional<String> surname) {
         String query = "SELECT * FROM " + tablePersons + " ";
         if (name.isPresent()) {
-            query += "WHERE Nome='" + name.get() + "' ,";
+            query += "WHERE Nome LIKE '" + name.get() + "' ,";
         }
         if (surname.isPresent()) {
-            query += "WHERE Cognome='" + surname.get() + "' ,";
+            query += "WHERE Cognome LIKE '" + surname.get() + "' ,";
         }
         query = query.substring(0, query.length()-2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
@@ -71,13 +71,13 @@ public class ModelImpl implements Model{
         String query = "SELECT persone.*, personale_sanitario.Ruolo FROM personale_sanitario INNER JOIN persone "
                 + "ON personale_sanitario.Codice_fiscale = persone.Codice_fiscale" + " WHERE ";
         if (name.isPresent()) {
-            query += "Nome='" + name.get() + "', ";
+            query += "Nome LIKE '" + name.get() + "', ";
         }
         if (surname.isPresent()) {
-            query += "Cognome='" + surname.get() + "', ";
+            query += "Cognome LIKE '" + surname.get() + "', ";
         }
         if (role.isPresent()) {
-            query += "Ruolo='" + role.get() + "', ";
+            query += "Ruolo LIKE '" + role.get() + "', ";
         }
         query = query.substring(0, query.length()-2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
@@ -108,12 +108,12 @@ public class ModelImpl implements Model{
     public Collection<Person> getPatients(Optional<String> name, Optional<String> surname, Optional<Date> birthDate,
             Optional<Integer> ASLCode) {
         String query = "SELECT persone.*, pazienti.Data_nascita, pazienti.Cod_ASL FROM pazienti INNER JOIN persone "
-                + "ON pazienti.Codice_fiscale = pazienti.Codice_fiscale" + " WHERE ";
+                + "ON pazienti.Codice_fiscale = persone.Codice_fiscale" + " WHERE ";
         if (name.isPresent()) {
-            query += "Nome='" + name.get() + "', ";
+            query += "Nome LIKE '" + name.get() + "', ";
         }
         if (surname.isPresent()) {
-            query += "Cognome='" + surname.get() + "', ";
+            query += "Cognome LIKE '" + surname.get() + "', ";
         }
         if (birthDate.isPresent()) {
             query += "Data_nascita='" + birthDate.get() + "', ";
