@@ -1,14 +1,11 @@
 package db.project.view.search.person;
 
-import java.net.URL;
 import java.util.Collection;
-import java.util.ResourceBundle;
 
 import db.project.Command;
 import db.project.model.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.Initializable;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;

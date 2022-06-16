@@ -3,18 +3,20 @@ package db.project.view.search;
 import java.io.IOException;
 
 import db.project.controller.Controller;
+import db.project.model.Person;
 import db.project.view.View;
 import db.project.view.search.person.SearchDoctorsControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
-import db.project.view.search.person.SearchPersonControllerImpl;
 import db.project.view.search.person.SearchPersonView;
 import db.project.view.search.person.SearchPersonViewImpl;
+import db.project.view.search.person.SelectPersonControllerImpl;
 import db.project.view.search.referti.SearchRefertiControllerImpl;
 import db.project.view.search.referti.SearchRefertiView;
 import db.project.view.search.referti.SearchRefertiViewImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class SearchMainViewImpl implements SearchMainView {

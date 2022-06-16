@@ -1,20 +1,15 @@
 package db.project.view.search.referti;
 
 import java.util.Date;
-import java.util.Optional;
-
 import db.project.controller.Controller;
-import db.project.model.Doctor;
-import db.project.model.Patient;
+import db.project.model.Person;
 import db.project.model.Report;
-import db.project.view.View;
 import db.project.view.search.SearchMainView;
 import javafx.fxml.FXML;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.control.cell.PropertyValueFactory;
 
 public class SearchRefertiControllerImpl {
 

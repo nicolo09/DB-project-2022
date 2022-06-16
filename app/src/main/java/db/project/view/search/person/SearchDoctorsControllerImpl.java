@@ -1,15 +1,11 @@
 package db.project.view.search.person;
 
-import java.time.ZoneId;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 
 public class SearchDoctorsControllerImpl extends SearchPersonControllerImpl {
 

@@ -2,8 +2,6 @@ package db.project.view.search.person;
 
 import java.io.IOException;
 
-import db.project.Command;
-import db.project.view.search.SearchMainControllerImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
