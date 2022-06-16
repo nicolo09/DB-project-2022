@@ -68,3 +68,79 @@ VALUES(?, ?, ?, ?)
 -- le presenze dei medici all'appuntamento dalla tabella presenzia.
 DELETE FROM APPUNTAMENTI
 WHERE Codice_ospedale = ? AND Numero_sala = ? AND Data_ora = ?
+
+-- 8 Cambiare la data e/o il luogo di un appuntamento
+UPDATE APPUNTAMENTI
+SET Data_ora = ?, Numero_sala = ?
+WHERE Codice_ospedale = ? AND Numero_sala = ? AND Data_ora = ?
+
+-- 9 Aggiungere un nuovo referto
+INSERT INTO REFERTI(Data_emissione, Descrizione, Tipo, Terapia, Procedura, Esito, Durata, Codice_ospedale, Paziente)
+VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+-- 10 Ricercare referti per medico o per paziente
+-- Per avere tutti i referti associati ad un paziente specifico si utilizza la seguente query:
+SELECT *
+FROM REFERTI
+WHERE Paziente = ?
+-- Per avere i referti associati ad un medico invece si usa la seguente:
+SELECT *
+FROM REFERTI
+WHERE Codice_referto IN (
+    SELECT Referto
+    FROM COINVOLGIMENTI
+    WHERE Medico = ?
+    )
+
+-- 11 Aggiungere nuova attrezzatura
+INSERT INTO ATTREZZATURE(Codice_ospedale, Codice_inventario, Nome, Data_manutenzione)
+VALUES(?, ?, ?, ?)
+
+-- 12 Rimuovere attrezzatura
+DELETE FROM ATTREZZATURE
+WHERE Codice_ospedale = ? AND Codice_inventario = ?
+
+-- 13 Aggiornare la data di manutenzione di un'attrezzatura
+UPDATE ATTREZZATURE
+SET Data_emissione = ?
+WHERE Codice_ospedale = ? AND Codice_inventario = ?
+
+-- 14 Ricercare ospedali con determinate unità operative
+SELECT *
+FROM OSPEDALI
+WHERE Codice_struttura IN (
+    SELECT Codice_ospedale
+    FROM UNITA_OPERATIVE
+    WHERE Nome = ?
+)
+
+-- 15 Ricerca di ospedali appartenenti ad un'ASL specifica
+SELECT *
+FROM OSPEDALI
+WHERE Cod_ASL = ?
+
+-- 16 Aggiungere una nuova sala ad un ospedale
+INSERT INTO SALE(Codice_ospedale, Numero)
+VALUES(?, ?)
+
+-- 17 Rimuovere una sala da un ospedale
+DELETE FROM SALE
+WHERE Codice_ospedale = ?, Numero = ?
+
+-- 18 Ricercare ospedali con posti liberi in una determinata unità operativa
+SELECT *
+FROM OSPEDALI
+WHERE Codice_struttura IN (
+    SELECT Codice_ospedale
+    FROM UNITA_OPERATIVE
+    WHERE Nome = ? AND Capienza > Posti_occupati
+)
+
+-- 19 Aggiungere pazienti in cura presso un ospedale
+INSERT INTO CURE(Paziente, Codice_ospedale, Nome_unita, Data_ingresso, Data_uscita, Motivazione)
+VALUES(?, ?, ?, ?, ?, ?)
+
+-- 20 Rimuovere un paziente in cura presso un ospedale
+UPDATE CURE
+SET Data_uscita = ?
+WHERE Paziente = ?, Codice_ospedale = ?, Nome_unita = ?
