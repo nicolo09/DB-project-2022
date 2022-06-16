@@ -7,10 +7,10 @@ public class PersonImpl implements Person {
     private final String surname;
     private final String CF;
         
-    public PersonImpl(String name, String surname, String cF) {
+    public PersonImpl(String name, String surname, String CF) {
         this.name = name;
         this.surname = surname;
-        this.CF = cF;
+        this.CF = CF;
     }
     
     @Override

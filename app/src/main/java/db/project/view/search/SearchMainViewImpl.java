@@ -52,7 +52,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPazienti() {
-        final SearchPersonView view = new SearchPersonViewImpl(stage, new SearchPatientsControllerImpl(() -> this.show()));
+        final SearchPersonView view = new SearchPersonViewImpl(stage, new SearchPatientsControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 
@@ -63,7 +63,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPersonaleSanitario() {
-        final SearchPersonView view = new SearchPersonViewImpl(stage, new SearchDoctorsControllerImpl(() -> this.show()));
+        final SearchPersonView view = new SearchPersonViewImpl(stage, new SearchDoctorsControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 
