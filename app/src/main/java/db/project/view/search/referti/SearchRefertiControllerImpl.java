@@ -38,7 +38,7 @@ public class SearchRefertiControllerImpl {
 
     @FXML
     private void onPersonSelectButton() {
-        Person selected = view.selectPerson();
+        final Person selected = view.selectPerson();
         if (selected != null) {
             this.textCodiceFiscale.setText(selected.getCF());
         }

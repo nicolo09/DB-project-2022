@@ -32,7 +32,7 @@ public class SearchMainControllerImpl {
 
     @FXML
     private void onPersonaleAmministrativo(ActionEvent event) {
-
+        this.view.goToPersonaleAmministrativo();
     }
 
     @FXML

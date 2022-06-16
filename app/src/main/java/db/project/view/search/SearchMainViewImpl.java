@@ -6,6 +6,7 @@ import db.project.controller.Controller;
 import db.project.model.Person;
 import db.project.view.View;
 import db.project.view.search.person.SearchDoctorsControllerImpl;
+import db.project.view.search.person.SearchManagersControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
 import db.project.view.search.person.SearchPersonView;
 import db.project.view.search.person.SearchPersonViewImpl;
@@ -60,7 +61,8 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPersonaleAmministrativo() {
-        // TODO Auto-generated method stub
+        final SearchPersonView view = new SearchPersonViewImpl(mainStage, new SearchManagersControllerImpl(() -> this.show(), mainController));
+        view.show();
     }
 
     @Override

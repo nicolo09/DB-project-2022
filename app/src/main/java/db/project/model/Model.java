@@ -19,4 +19,7 @@ public interface Model {
 
     Optional<Person> getPatient(String CF);
 
+    Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
+            Optional<Integer> hospitalCode);
+
 }

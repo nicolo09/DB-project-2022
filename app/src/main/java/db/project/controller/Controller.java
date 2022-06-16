@@ -22,5 +22,8 @@ public interface Controller {
 
     Collection<Person> getPatients(Optional<String> name, Optional<String> surname, Optional<Date> birthDate,
             Optional<Integer> ASLCode);
+    
+    Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role, 
+            Optional<Integer> HospitalCode);
 
 }

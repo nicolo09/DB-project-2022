@@ -51,4 +51,10 @@ public class ControllerImpl implements Controller {
         return null;
     }
 
+    @Override
+    public Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
+            Optional<Integer> HospitalCode) {
+        return this.model.getManagers(name, surname, role, HospitalCode);
+    }
+
 }
