@@ -39,7 +39,7 @@ public class ModelImpl implements Model{
         if (surname.isPresent()) {
             query += "WHERE Cognome='" + surname.get() + "' ,";
         }
-        query = query.substring(0, query.length()-3);
+        query = query.substring(0, query.length()-2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
@@ -79,7 +79,7 @@ public class ModelImpl implements Model{
         if (role.isPresent()) {
             query += "Ruolo='" + role.get() + "', ";
         }
-        query = query.substring(0, query.length()-3);
+        query = query.substring(0, query.length()-2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
@@ -121,7 +121,7 @@ public class ModelImpl implements Model{
         if (ASLCode.isPresent()) {
             query += "Cod_ASL=" + ASLCode.get() + ", ";
         }
-        query = query.substring(0, query.length()-3);
+        query = query.substring(0, query.length()-2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
