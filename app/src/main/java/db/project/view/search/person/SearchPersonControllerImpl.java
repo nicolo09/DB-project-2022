@@ -5,10 +5,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 
-public class SearchPersonControllerImpl {
+public abstract class SearchPersonControllerImpl {
 
     private final Command onExit;
     
@@ -36,15 +37,22 @@ public class SearchPersonControllerImpl {
 
     @FXML
     private TextField surnameText;
-
+    
     @FXML
-    void onBack(ActionEvent event) {
+    private Label typeLabel;
+
+    public void setLabelText(String text) {
+        typeLabel.setText(text);
+    }
+    
+    protected abstract String getLabelText();
+    
+    @FXML
+    private void onBack(ActionEvent event) {
         this.onExit.execute();
     }
 
     @FXML
-    void onSearch(ActionEvent event) {
-        //TODO: Search persons
-    }
+    protected abstract void onSearch(ActionEvent event);
 
 }

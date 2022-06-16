@@ -4,6 +4,8 @@ import java.io.IOException;
 
 import db.project.controller.Controller;
 import db.project.view.View;
+import db.project.view.search.person.SearchDoctorsControllerImpl;
+import db.project.view.search.person.SearchPatientsControllerImpl;
 import db.project.view.search.person.SearchPersonControllerImpl;
 import db.project.view.search.person.SearchPersonView;
 import db.project.view.search.person.SearchPersonViewImpl;
@@ -29,7 +31,7 @@ public class SearchMainViewImpl implements SearchMainView {
         this.stage = stage;
         
     }
-    
+
     @Override
     public void goToASL() {
         // TODO Auto-generated method stub
@@ -50,7 +52,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPazienti() {
-        final SearchPersonView view = new SearchPersonViewImpl(stage, () -> this.show());
+        final SearchPersonView view = new SearchPersonViewImpl(stage, new SearchPatientsControllerImpl(() -> this.show()));
         view.show();
     }
 
@@ -61,7 +63,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPersonaleSanitario() {
-        final SearchPersonView view = new SearchMedicsViewImpl(stage, () -> this.show());
+        final SearchPersonView view = new SearchPersonViewImpl(stage, new SearchDoctorsControllerImpl(() -> this.show()));
         view.show();
     }
 

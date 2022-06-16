@@ -11,32 +11,37 @@ import javafx.stage.Stage;
 
 public class SearchPersonViewImpl implements SearchPersonView{
 
-    protected static final String PATH = "search_persone.fxml";
-    protected final Stage stage;
-    protected final Command onExit;
+    private static final String PATH = "search_persone.fxml";
+    private final Stage stage;
+    
+    private Stage getStage() {
+        return this.stage;
+    }
 
-    public SearchPersonViewImpl(Stage stage, Command onExit) {
+    private SearchPersonControllerImpl controller;
+
+    public SearchPersonViewImpl(Stage stage, SearchPersonControllerImpl controller) {
         this.stage = stage;
-        this.onExit = onExit;
+        this.controller = controller;
     }
     
     @Override
     public void show() {
         Parent parent = null;
         final FXMLLoader loader = new FXMLLoader();
-        final SearchPersonControllerImpl controller = new SearchDoctorsControllerImpl(onExit);
-        loader.setController(controller);
+        loader.setController(this.controller);
         loader.setLocation(getClass().getResource("/" + PATH));
         try {
             parent = loader.load();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        this.controller.setLabelText(this.controller.getLabelText());
         final Scene scene = new Scene(parent);
-        this.stage.setScene(scene);
-        this.stage.show();
-        stage.setMinWidth(scene.getWidth());
-        stage.setMinHeight(scene.getHeight());
+        this.getStage().setScene(scene);
+        this.getStage().show();
+        this.getStage().setMinWidth(scene.getWidth());
+        this.getStage().setMinHeight(scene.getHeight());
     }
-    
+
 }

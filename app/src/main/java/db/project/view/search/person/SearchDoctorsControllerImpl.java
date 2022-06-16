@@ -4,15 +4,22 @@ import db.project.Command;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
-public class SearchMedicsControllerImpl extends SearchPersonControllerImpl {
+public class SearchDoctorsControllerImpl extends SearchPersonControllerImpl {
+    
+    private static final String LABEL = "Personale sanitario";
 
-    public SearchMedicsControllerImpl(Command onExit) {
+    public SearchDoctorsControllerImpl(Command onExit) {
         super(onExit);
     }
 
     @Override
     @FXML
-    void onSearch(ActionEvent event) {
+    protected void onSearch(ActionEvent event) {
         //TODO: Add medic only filter
+    }
+    
+    @Override
+    protected String getLabelText() {
+        return LABEL;
     }
 }
