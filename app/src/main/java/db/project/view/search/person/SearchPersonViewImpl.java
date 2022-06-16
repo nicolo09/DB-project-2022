@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class SearchPersonViewImpl implements SearchPersonView{
 
-    private static final String PATH = "search_persone.fxml";
+    public static final String PATH = "search_persone.fxml";
     private final Stage stage;
     
     private Stage getStage() {

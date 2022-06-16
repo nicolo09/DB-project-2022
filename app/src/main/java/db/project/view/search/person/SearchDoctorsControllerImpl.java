@@ -18,12 +18,6 @@ public class SearchDoctorsControllerImpl extends SearchPersonControllerImpl {
     }
 
     @Override
-    @FXML
-    protected void onSearch(ActionEvent event) {
-        // TODO: Add medic only filter
-    }
-
-    @Override
     protected String getLabelText() {
         return LABEL;
     }

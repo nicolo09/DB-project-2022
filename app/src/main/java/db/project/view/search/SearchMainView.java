@@ -1,5 +1,7 @@
 package db.project.view.search;
 
+import db.project.model.Person;
+
 public interface SearchMainView {
 
     void goToASL();
@@ -23,4 +25,7 @@ public interface SearchMainView {
     void goToMainMenu();
 
     void show();
+    
+    Person selectPerson();
+
 }

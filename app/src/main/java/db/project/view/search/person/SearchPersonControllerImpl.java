@@ -41,7 +41,7 @@ public abstract class SearchPersonControllerImpl{
     protected TextField surnameText;
 
     @FXML
-    private TableView<Person> personTableView;
+    protected TableView<Person> personTableView = new TableView<Person>();
 
     @FXML
     private TableColumn<Person, String> nameColumn;

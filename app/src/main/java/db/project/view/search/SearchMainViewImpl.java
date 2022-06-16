@@ -24,13 +24,13 @@ public class SearchMainViewImpl implements SearchMainView {
     private static final String PATH = "search_selection.fxml";
     private final View mainView;
     private final Controller mainController;
-    private final Stage stage;
+    private final Stage mainStage;
     private Parent parent;
     
     public SearchMainViewImpl(View mainView, Controller mainController, Stage stage) {
         this.mainView = mainView;
         this.mainController = mainController;
-        this.stage = stage;
+        this.mainStage = stage;
         
     }
 
@@ -54,7 +54,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPazienti() {
-        final SearchPersonView view = new SearchPersonViewImpl(stage, new SearchPatientsControllerImpl(() -> this.show(), mainController));
+        final SearchPersonView view = new SearchPersonViewImpl(mainStage, new SearchPatientsControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 
@@ -65,14 +65,14 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPersonaleSanitario() {
-        final SearchPersonView view = new SearchPersonViewImpl(stage, new SearchDoctorsControllerImpl(() -> this.show(), mainController));
+        final SearchPersonView view = new SearchPersonViewImpl(mainStage, new SearchDoctorsControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 
     @Override
     public void goToReferti() {
         final SearchRefertiControllerImpl controller = new SearchRefertiControllerImpl(this, null);
-        final SearchRefertiView view = new SearchRefertiViewImpl(controller, stage);
+        final SearchRefertiView view = new SearchRefertiViewImpl(controller, mainStage);
         view.show();
     }
 
@@ -100,15 +100,34 @@ public class SearchMainViewImpl implements SearchMainView {
             e.printStackTrace();
         }
         final Scene scene = new Scene(parent);
-        this.stage.setScene(scene);
-        this.stage.show();
-        stage.setMinWidth(scene.getWidth());
-        stage.setMinHeight(scene.getHeight());
+        this.mainStage.setScene(scene);
+        this.mainStage.show();
+        mainStage.setMinWidth(scene.getWidth());
+        mainStage.setMinHeight(scene.getHeight());
     }
 
     @Override
     public void goToMainMenu() {
         this.mainView.goToMainMenu();
+    }
+
+    @Override
+    public Person selectPerson() {
+        Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectPersonControllerImpl controller = new SelectPersonControllerImpl(() -> stage.close(), () -> stage.close(), mainController);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_persone.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select person...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedPerson();
     }
 
 }

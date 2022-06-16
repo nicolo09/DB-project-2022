@@ -25,6 +25,8 @@ public class SearchRefertiControllerImpl {
     private TableColumn<Report, String> typeColumn;
     @FXML
     private TableColumn<Report, Integer> hospitalColumn;
+    @FXML
+    private TextField textCodiceFiscale;
 
     private final SearchMainView view;
     private final Controller controller;
@@ -36,7 +38,10 @@ public class SearchRefertiControllerImpl {
 
     @FXML
     private void onPersonSelectButton() {
-        System.out.println("Selected button pressed");
+        Person selected = view.selectPerson();
+        if (selected != null) {
+            this.textCodiceFiscale.setText(selected.getCF());
+        }
     }
 
     @FXML
