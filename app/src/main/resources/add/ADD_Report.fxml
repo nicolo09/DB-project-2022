@@ -37,7 +37,7 @@
          <children>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice Referto" underline="true">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice Referto**" underline="true">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -45,7 +45,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <TextField fx:id="txtCodeReport" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <TextField fx:id="txtCodeReport" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Auto-generato" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="2">
@@ -60,7 +60,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Esito**">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Esito***">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -87,7 +87,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="38.0" GridPane.rowIndex="2">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Terapia**">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Terapia***">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -97,7 +97,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Procedura**">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Procedura***">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -117,7 +117,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Durata**">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Durata***">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -181,6 +181,6 @@
             <Insets top="100.0" />
          </padding>
       </VBox>
-      <Label layoutX="576.0" layoutY="39.0" text="**I campi indicati con due asterischi sono da inserire in base al tipo di referto selezionato:&#10;Per un intervento bisogna compilare Procedura, Durata ed Esito&#10;Per una visita bisogna compilare Terapia&#10;" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="39.0" />
+      <Label layoutX="621.8" layoutY="27.0" text="**Il campo Codice Referto verrà compilato in automatico&#10;***I campi indicati con tre asterischi sono da inserire in base al tipo di referto selezionato:&#10;Per un intervento bisogna compilare Procedura, Durata ed Esito&#10;Per una visita bisogna compilare Terapia&#10;" AnchorPane.rightAnchor="32.0" AnchorPane.topAnchor="27.0" />
    </children>
 </AnchorPane>
