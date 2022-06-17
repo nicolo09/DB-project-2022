@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-
 import db.project.model.TABLES;
 
 public class DataInserterImpl implements DataInserter {
@@ -102,6 +102,7 @@ public class DataInserterImpl implements DataInserter {
 			
 			statement.executeUpdate();
 			
+			//TODO return false if cannot add presence or make the user select the doctor/doctors
 			doctorCF.forEach(doctor -> insertPresence(doctor, hospitalCode, roomNumber, date));
 			
 		} catch (SQLException e) {
@@ -115,8 +116,11 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public boolean insertASL(int codeASL, String name, String city, String street, int streetNumber) {
-		// TODO Auto-generated method stub
-		return false;
+		if(Objects.isNull(codeASL) || Objects.isNull(name) || Objects.isNull(city) || Objects.isNull(street) || Objects.isNull(streetNumber)) {
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -162,12 +166,58 @@ public class DataInserterImpl implements DataInserter {
 		return false;
 	}
 
+	//TODO remove report code from arguments
 	@Override
 	public boolean insertReport(int reportCode, Date emissionDate, String description, String type,
 			Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
 			int hospitalCode, String patientCF, Collection<String> doctorCF) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if(checkNulls(List.of(reportCode, emissionDate, description, type, hospitalCode, patientCF, doctorCF))) {
+			return false;
+		}
+		
+		String query = INSERT_SENTENCE + TABLES.REPORT.get() + "(Data_emissione, Descrizione, Tipo, Terapia, Procedura, Esito, Durata, Codice_ospedale, Paziente) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			if(therapy.isEmpty()) {
+				if(procedure.isEmpty() || outcome.isEmpty() || duration.isEmpty()) {				
+					return false;
+				} else {
+					statement.setNull(4, java.sql.Types.NULL);
+					statement.setString(5, procedure.get());
+					statement.setString(6, outcome.get());
+					statement.setInt(7, duration.get());
+				}
+			} else if(procedure.isPresent() || outcome.isPresent() || duration.isPresent()) {
+				return false;
+			} else {
+				statement.setString(4, therapy.get());
+				statement.setNull(5, java.sql.Types.NULL);
+				statement.setNull(6, java.sql.Types.NULL);
+				statement.setNull(7, java.sql.Types.NULL);
+			}
+			
+			statement.setDate(1, new java.sql.Date(emissionDate.getTime()));
+			statement.setString(2, description);
+			statement.setString(3, type);
+			statement.setInt(8, hospitalCode);
+			statement.setString(9, patientCF);
+			
+			
+			statement.executeUpdate();
+			
+			//TODO return false if cannot insert involvement or make the user select the doctor/doctors
+			//TODO how to get the report code ?
+			for (String doctor : doctorCF) {
+				insertInvolvement(reportCode, doctor);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
@@ -184,6 +234,34 @@ public class DataInserterImpl implements DataInserter {
 	
 	private boolean insertPresence(String doctor, int hospitalCode, int roomNumber, Timestamp date) {
 		//TODO
+		return false;
+	}
+	
+	private boolean insertInvolvement(int reportCode, String doctor) {
+		if(checkNulls(List.of(reportCode, doctor))) {
+			return false;			
+		}
+		String query = INSERT_SENTENCE + TABLES.INVOLVEMENTS.get() + "(Referto, Medico) VALUES(?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			statement.setInt(1, reportCode);
+			statement.setString(2, doctor);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
+	}
+	
+	private boolean checkNulls(final Collection<Object> args) {
+		for (Object object : args) {
+			if(Objects.isNull(object)) {
+				return true;
+			}
+		}
 		return false;
 	}
 
