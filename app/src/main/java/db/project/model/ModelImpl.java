@@ -184,4 +184,19 @@ public class ModelImpl implements Model{
         }
     }
 
+    private Boolean checkASLExists(final Integer code) {
+        String query = "SELECT COUNT(*) AS total FROM " + tableASL + " WHERE Codice = " + code;
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            ResultSet resultSet = statement.getResultSet();
+            resultSet.next();
+            if (resultSet.getInt("total") != 1) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch (final SQLException e) {
+            return false;
+        }
+    }
 }
