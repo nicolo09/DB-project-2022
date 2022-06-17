@@ -1,5 +1,7 @@
 package db.project.view;
 
+import db.project.view.modify.MainModifyView;
+import db.project.view.modify.MainModifyViewImpl;
 import javafx.stage.Stage;
 
 public class ViewImpl implements View {
@@ -27,8 +29,9 @@ public class ViewImpl implements View {
 
     @Override
     public void goToModifyMenu() {
-        // TODO Auto-generated method stub
-
+        final MainModifyView mmview = new MainModifyViewImpl(this, stage);
+        
+        mmview.show();
     }
 
     
