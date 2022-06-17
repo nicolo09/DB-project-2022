@@ -146,19 +146,6 @@ public class ModelImpl implements Model {
         }
     }
 
-    private Collection<Person> readPersonsFromResultSet(ResultSet resultSet) {
-        Set<Person> result = new HashSet<>();
-        try {
-            while (resultSet.next()) {
-                result.add(new PersonImpl(resultSet.getString("Nome"), resultSet.getString("Cognome"),
-                        resultSet.getString("Codice_fiscale")));
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return result;
-    }
-
     @Override
     public Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
             Optional<Integer> hospitalCode) {
@@ -226,6 +213,19 @@ public class ModelImpl implements Model {
         } catch (final SQLException e) {
             return List.of();
         }
+    }
+
+    private Collection<Person> readPersonsFromResultSet(ResultSet resultSet) {
+        Set<Person> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new PersonImpl(resultSet.getString("Nome"), resultSet.getString("Cognome"),
+                        resultSet.getString("Codice_fiscale")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
