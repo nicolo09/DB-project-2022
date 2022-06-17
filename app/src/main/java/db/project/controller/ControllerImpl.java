@@ -2,9 +2,7 @@ package db.project.controller;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
-
 import db.project.model.Model;
 import db.project.model.Person;
 import db.project.model.Report;
@@ -34,15 +32,13 @@ public class ControllerImpl implements Controller {
     }
     
     @Override
-    public List<Report> getRefertiByDoctor(Person doctor) {
-        // TODO Auto-generated method stub
-        return null;
+    public Collection<Report> getRefertiByDoctor(Person doctor) {
+        return this.model.getReports(Optional.empty(), Optional.of(doctor));
     }
 
     @Override
-    public List<Report> getRefertiByPatient(Person patient) {
-        // TODO Auto-generated method stub
-        return null;
+    public Collection<Report> getRefertiByPatient(Person patient) {
+        return this.model.getReports(Optional.of(patient), Optional.empty());
     }
 
     @Override
