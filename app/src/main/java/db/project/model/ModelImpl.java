@@ -186,6 +186,47 @@ public class ModelImpl implements Model {
         }
     }
 
+    private Collection<Report> readReportsFromResultSet(ResultSet resultSet) {
+        Set<Report> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                // Discrimina tra visite e interventi
+                switch (REPORT_TYPES.valueOf(resultSet.getString("type"))) {
+                case SURGERY -> result.add(new SurgeryReportImpl(resultSet.getInt("Codice_referto"),
+                        resultSet.getDate("Data_emissione"), resultSet.getString("Descrizione"),
+                        this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
+                        this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Procedura"),
+                        resultSet.getString("Esito"), Duration.ofMinutes(resultSet.getInt("Durata"))));
+                case VISIT -> result.add(new VisitReportImpl(resultSet.getInt("Codice_referto"),
+                        resultSet.getDate("Data_emissione"), resultSet.getString("Descrizione"),
+                        this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
+                        this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Terapia")));
+                default -> throw new IllegalArgumentException("Unexpected value: " + resultSet.getString("type"));
+                }
+            }
+        } catch (SQLException e) {
+            return Set.of();
+        }
+        return result;
+    }
+
+    @Override
+    public Collection<Report> getReports(Optional<Person> patient, Optional<Person> doctor) {
+        String query = "SELECT * " + "FROM " + tableReports + " WHERE ";
+        if (patient.isPresent()) {
+            query += "Paziente LIKE '" + patient.get().getCF() + "', ";
+        }
+        if (doctor.isPresent()) {
+            query += "Dottore LIKE '" + doctor.get().getCF() + "', ";
+        }
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readReportsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
 
     @Override
     public Optional<Hospital> getHospital(final Integer code) {
