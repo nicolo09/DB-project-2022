@@ -17,6 +17,8 @@ import db.project.view.search.referti.SearchRefertiViewImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -115,7 +117,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public Person selectPerson() {
-        Stage stage = new Stage();
+        final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
         SelectPersonControllerImpl controller = new SelectPersonControllerImpl(() -> stage.close(), () -> stage.close(), mainController);
         loader.setController(controller);
@@ -134,8 +136,8 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void showError(String errorMessage) {
-        // TODO Auto-generated method stub
-        
+        Alert alert = new Alert(AlertType.ERROR, errorMessage);
+        alert.showAndWait();
     }
 
 }
