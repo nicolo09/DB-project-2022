@@ -26,10 +26,10 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public boolean insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName) {
-		if(Objects.isNull(CF) || Objects.isNull(role) || Objects.isNull(hospitalCode)) {
+		if(checkNulls(List.of(CF, role, hospitalCode))) {
 			return false;
 		}
-		String controlQuery = "SELECT COUNT(*) FROM PERSONE WHERE Codice_fiscale LIKE '?'";
+		String controlQuery = "SELECT COUNT(*) FROM PERSONE WHERE Codice_fiscale LIKE ?";
 		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)) {
 			controlStatement.setString(1, CF);
 			var rs = controlStatement.executeQuery();
@@ -40,7 +40,7 @@ public class DataInserterImpl implements DataInserter {
 				}
 				this.insertPerson(CF, name.get(), lastName.get());
 			}
-			String query = INSERT_SENTENCE + TABLES.AMMINISTRATIVE.get() + "(Codice_fiscale, Ruolo, Codice_ospedale) VALUES('?', '?', ?)";
+			String query = INSERT_SENTENCE + TABLES.AMMINISTRATIVE.get() + "(Codice_fiscale, Ruolo, Codice_ospedale) VALUES(?, ?, ?)";
 			final PreparedStatement statement = this.connection.prepareStatement(query);
 			
 			statement.setString(1, CF);
@@ -60,8 +60,8 @@ public class DataInserterImpl implements DataInserter {
 	@Override
 	public boolean insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration,
 			String type, String patientCF, Collection<String> doctorCF) {
-		if(Objects.isNull(hospitalCode) || Objects.isNull(roomNumber) || Objects.isNull(date) || Objects.isNull(duration) 
-				|| Objects.isNull(type) || Objects.isNull(patientCF) || Objects.isNull(doctorCF)){
+		
+		if(checkNulls(List.of(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF))){
 			return false;
 		}
 		
@@ -92,7 +92,7 @@ public class DataInserterImpl implements DataInserter {
 					return false;
 				}
 			}
-			String query = INSERT_SENTENCE + TABLES.APPOINTMENT.get() + "(Codice_ospedale, Numero_sala, Data_ora, Durata, Tipo, Paziente) VALUES(?, ?, ?, ?, '?', '?')";
+			String query = INSERT_SENTENCE + TABLES.APPOINTMENT.get() + "(Codice_ospedale, Numero_sala, Data_ora, Durata, Tipo, Paziente) VALUES(?, ?, ?, ?, ?, ?)";
 			final PreparedStatement statement = this.connection.prepareStatement(query);
 			
 			statement.setInt(1, hospitalCode);
@@ -117,8 +117,23 @@ public class DataInserterImpl implements DataInserter {
 	}
 
 	@Override
-	public boolean insertASL(int codeASL, String name, String city, String street, int streetNumber) {
-		if(Objects.isNull(codeASL) || Objects.isNull(name) || Objects.isNull(city) || Objects.isNull(street) || Objects.isNull(streetNumber)) {
+	public boolean insertASL(String name, String city, String street, int streetNumber) {
+		if(checkNulls(List.of(name, city, street, streetNumber))) {
+			return false;
+		}
+		
+		String query = INSERT_SENTENCE + TABLES.ASL.get() + "(Nome, Ind_Citta, Ind_Via, Ind_Numero_civico) VALUES(?, ?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setString(1, name);
+			statement.setString(2, city);
+			statement.setString(3, street);
+			statement.setInt(4, streetNumber);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
 			return false;
 		}
 		
@@ -238,8 +253,24 @@ public class DataInserterImpl implements DataInserter {
 	}
 	
 	private boolean insertPresence(String doctor, int hospitalCode, int roomNumber, Timestamp date) {
-		//TODO
-		return false;
+		if(checkNulls(List.of(doctor, hospitalCode, roomNumber, date))) {
+			return false;			
+		}
+		String query = INSERT_SENTENCE + TABLES.PRESENCE.get() + "(Medico, Codice_ospedale, Numero_sala, Data_ora) VALUES(?, ?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			statement.setString(1, doctor);
+			statement.setInt(2, hospitalCode);
+			statement.setInt(3, roomNumber);
+			statement.setTimestamp(4, date);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 	
 	private boolean insertInvolvement(int reportCode, String doctor) {
