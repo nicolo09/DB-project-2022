@@ -3,6 +3,7 @@ package db.project.model.mysql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
@@ -11,6 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 import db.project.model.TABLES;
 
+//TODO rivedere i tipi inseriti nel database logico e correggerli
 public class DataInserterImpl implements DataInserter {
 	
 	private final static String INSERT_SENTENCE = "INSERT INTO ";
@@ -168,17 +170,16 @@ public class DataInserterImpl implements DataInserter {
 
 	//TODO remove report code from arguments
 	@Override
-	public boolean insertReport(int reportCode, Date emissionDate, String description, String type,
+	public boolean insertReport(Date emissionDate, String description, String type,
 			Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
 			int hospitalCode, String patientCF, Collection<String> doctorCF) {
 		
-		if(checkNulls(List.of(reportCode, emissionDate, description, type, hospitalCode, patientCF, doctorCF))) {
+		if(checkNulls(List.of(emissionDate, description, type, hospitalCode, patientCF, doctorCF))) {
 			return false;
 		}
 		
 		String query = INSERT_SENTENCE + TABLES.REPORT.get() + "(Data_emissione, Descrizione, Tipo, Terapia, Procedura, Esito, Durata, Codice_ospedale, Paziente) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
-			
+		try (final PreparedStatement statement = this.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
 			if(therapy.isEmpty()) {
 				if(procedure.isEmpty() || outcome.isEmpty() || duration.isEmpty()) {				
 					return false;
@@ -206,8 +207,12 @@ public class DataInserterImpl implements DataInserter {
 			
 			statement.executeUpdate();
 			
+			var rs = statement.getGeneratedKeys();
+			rs.next();
+			//TODO test if it works
+			var reportCode = rs.getInt(1);
+			
 			//TODO return false if cannot insert involvement or make the user select the doctor/doctors
-			//TODO how to get the report code ?
 			for (String doctor : doctorCF) {
 				insertInvolvement(reportCode, doctor);
 			}
@@ -243,7 +248,7 @@ public class DataInserterImpl implements DataInserter {
 		}
 		String query = INSERT_SENTENCE + TABLES.INVOLVEMENTS.get() + "(Referto, Medico) VALUES(?, ?)";
 		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
-			statement.setInt(1, reportCode);
+			statement.setLong(1, reportCode);
 			statement.setString(2, doctor);
 			
 			statement.executeUpdate();
