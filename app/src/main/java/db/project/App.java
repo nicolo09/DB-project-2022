@@ -3,15 +3,26 @@
  */
 package db.project;
 
+import db.project.controller.Controller;
+import db.project.controller.ControllerImpl;
+import db.project.model.Model;
+import db.project.model.ModelImpl;
 import db.project.view.View;
 import db.project.view.ViewImpl;
 import javafx.stage.Stage;
 
 public class App extends javafx.application.Application {
 
+    
+    
+    private static final String DBUSERNAME = "root";
+    private static final String DBPASSWORD = "password";
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final View view = new ViewImpl(primaryStage);
+        final Model model = new ModelImpl(DBUSERNAME, DBPASSWORD);
+        final Controller controller = new ControllerImpl(model);
+        final View view = new ViewImpl(controller, primaryStage);
         view.goToMainMenu();
     }
 
