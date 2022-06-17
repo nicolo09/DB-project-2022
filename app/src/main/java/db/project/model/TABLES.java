@@ -9,6 +9,7 @@ public enum TABLES {
 	EQUIPMENT("attrezzature"),
 	HEALTHCARE("personale sanitario"),
 	HOSPITAL("ospedali"),
+	INVOLVEMENTS("coinvolgimenti"),
 	PATIENT("pazienti"),
 	PERSON("persone"),
 	PHONE("telefoni"),
