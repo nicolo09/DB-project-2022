@@ -13,9 +13,14 @@ import javafx.stage.Stage;
 
 public class App extends javafx.application.Application {
 
+    
+    
+    private static final String DBUSERNAME = "root";
+    private static final String DBPASSWORD = "password";
+
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final Model model = new ModelImpl();
+        final Model model = new ModelImpl(DBUSERNAME, DBPASSWORD);
         final Controller controller = new ControllerImpl(model);
         final View view = new ViewImpl(controller, primaryStage);
         view.goToMainMenu();

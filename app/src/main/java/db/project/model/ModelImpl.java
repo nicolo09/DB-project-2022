@@ -16,8 +16,6 @@ import db.project.model.mysql.ConnectionProvider;
 public class ModelImpl implements Model{
 
     private Connection dbConnection;
-    private String username;
-    private String password;
     private String dbName = "hospital";
     private String tablePersons = "persone";
     private String tableDoctors = "personale_sanitario";
@@ -26,7 +24,7 @@ public class ModelImpl implements Model{
     /**
      * Creates a simple connection to a local database
      */
-    public ModelImpl() {
+    public ModelImpl(String username, String password) {
         dbConnection = new ConnectionProvider(username, password, dbName).getMySQLConnection();
     }
     
