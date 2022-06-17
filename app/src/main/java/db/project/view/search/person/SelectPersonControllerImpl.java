@@ -30,7 +30,7 @@ public class SelectPersonControllerImpl extends SearchPersonControllerImpl {
 
     @Override
     protected String getLabelText() {
-        return "";
+        return "Persone";
     }
     
     @Override

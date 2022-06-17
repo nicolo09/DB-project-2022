@@ -77,7 +77,13 @@ public class SearchRefertiControllerImpl {
 
     @FXML
     private void onSearchButton() {
-        refertiTableView.getItems().setAll(getReports());
+        Collection<Report> reports = this.getReports();
+        if (reports.isEmpty()) {
+            this.view.showError("Nessun referto trovato");
+        }
+        else {
+            refertiTableView.getItems().setAll();            
+        }
     }
 
     private Collection<Report> getReports() {
@@ -90,11 +96,11 @@ public class SearchRefertiControllerImpl {
                     view.showError("Medico non trovato");
                 }
             } else if (searchType.getSelectedToggle().equals(togglePaziente)) {
-                final Optional<Person> doc = controller.getPatientByCF(this.textCodiceFiscale.getText());
-                if (doc.isPresent()) {
-                    return controller.getRefertiByDoctor(doc.get());
+                final Optional<Person> pat = controller.getPatientByCF(this.textCodiceFiscale.getText());
+                if (pat.isPresent()) {
+                    return controller.getRefertiByPatient(pat.get());
                 } else {
-                    view.showError("Medico non trovato");
+                    view.showError("Paziente non trovato");
                 }
             }
         } else {
