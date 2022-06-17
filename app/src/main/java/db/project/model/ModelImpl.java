@@ -186,6 +186,38 @@ public class ModelImpl implements Model {
         }
     }
 
+    private Optional<ASL> getASL(final Integer code) {
+        if (checkASLExists(code) == false) {
+            return Optional.empty();
+        }
+        String query = "SELECT * FROM " + tableASL + " " + "WHERE Codice = " + code;
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            Collection<ASL> result = readASLFromResultSet(statement.getResultSet());
+            if (result.size() == 1) {
+                return Optional.of(result.iterator().next());
+            } else {
+                return Optional.empty();
+            }
+        } catch (final SQLException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Collection<ASL> readASLFromResultSet(ResultSet resultSet) {
+        Set<ASL> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new ASLImpl(resultSet.getInt("Codice"), resultSet.getString("Nome"),
+                        resultSet.getString("Ind_Citta"), resultSet.getString("Ind_Via"),
+                        resultSet.getString("Ind_Numero_civico")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private Boolean checkHospitalExists(final Integer code) {
         String query = "SELECT COUNT(*) AS total FROM " + tableHospital + " WHERE Codice_struttura = " + code;
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
