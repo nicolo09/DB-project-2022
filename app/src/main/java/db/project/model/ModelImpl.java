@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.Duration;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -90,20 +91,21 @@ public class ModelImpl implements Model {
 
     @Override
     public Optional<Person> getDoctor(String CF) {
-        String query = "SELECT COUNT(*) AS total FROM " + tableDoctors + " WHERE Codice_fiscale = " + CF;
+        String query = "SELECT COUNT(*) AS total FROM " + tableDoctors + " WHERE Codice_fiscale = '" + CF + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
-            if (statement.getResultSet().getInt("total") != 1) {
+            ResultSet resultSet = statement.getResultSet();
+            resultSet.next();
+            if (resultSet.getInt("total") != 1) {
                 return Optional.empty();
-            }
-            else {
-                return getPerson(CF);
+            } else {
+                return this.getPerson(CF);
             }
         } catch (final SQLException e) {
             return Optional.empty();
         }
     }
-    
+
     @Override
     public Collection<Person> getPatients(Optional<String> name, Optional<String> surname, Optional<Date> birthDate,
             Optional<Integer> ASLCode) {
@@ -121,7 +123,7 @@ public class ModelImpl implements Model {
         if (ASLCode.isPresent()) {
             query += "Cod_ASL=" + ASLCode.get() + ", ";
         }
-        query = query.substring(0, query.length()-2);
+        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
@@ -129,16 +131,17 @@ public class ModelImpl implements Model {
             return List.of();
         }
     }
-    
+
     @Override
     public Optional<Person> getPatient(String CF) {
-        String query = "SELECT COUNT(*) AS total FROM " + tablePatients  + " WHERE Codice_fiscale = " + CF;
+        String query = "SELECT COUNT(*) AS total FROM " + tablePatients + " WHERE Codice_fiscale = '" + CF + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
-            if (statement.getResultSet().getInt("total") != 1) {
+            ResultSet resultSet = statement.getResultSet();
+            resultSet.next();
+            if (resultSet.getInt("total") != 1) {
                 return Optional.empty();
-            }
-            else {
+            } else {
                 return getPerson(CF);
             }
         } catch (final SQLException e) {
@@ -164,7 +167,7 @@ public class ModelImpl implements Model {
         if (hospitalCode.isPresent()) {
             query += "Codice_ospedale=" + hospitalCode.get() + ", ";
         }
-        query = query.substring(0, query.length()-2);
+        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
