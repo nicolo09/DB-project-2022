@@ -13,13 +13,16 @@ import java.util.Set;
 
 import db.project.model.mysql.ConnectionProvider;
 
-public class ModelImpl implements Model{
+public class ModelImpl implements Model {
 
     private Connection dbConnection;
     private String dbName = "hospital";
     private String tablePersons = "persone";
     private String tableDoctors = "personale_sanitario";
     private String tablePatients = "pazienti";
+    private String tableReports = "referti";
+    private String tableHospital = "ospedali";
+    private String tableASL = "asl";
 
     /**
      * Creates a simple connection to a local database
@@ -37,7 +40,7 @@ public class ModelImpl implements Model{
         if (surname.isPresent()) {
             query += "WHERE Cognome LIKE '" + surname.get() + "' ,";
         }
-        query = query.substring(0, query.length()-2);
+        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
@@ -45,7 +48,7 @@ public class ModelImpl implements Model{
             return List.of();
         }
     }
-    
+
     @Override
     public Optional<Person> getPerson(String CF) {
         String query = "SELECT * FROM " + tablePersons + " ";
@@ -63,7 +66,6 @@ public class ModelImpl implements Model{
         }
     }
 
-    
     @Override
     public Collection<Person> getDoctors(Optional<String> name, Optional<String> surname, Optional<String> role) {
         String query = "SELECT persone.*, personale_sanitario.Ruolo FROM personale_sanitario INNER JOIN persone "
@@ -77,7 +79,7 @@ public class ModelImpl implements Model{
         if (role.isPresent()) {
             query += "Ruolo LIKE '" + role.get() + "', ";
         }
-        query = query.substring(0, query.length()-2);
+        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
