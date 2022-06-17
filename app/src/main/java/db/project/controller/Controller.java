@@ -16,6 +16,8 @@ public interface Controller {
     
     Optional<Person> getDoctorByCF(String CF);
 
+    Optional<Person> getPatientByCF(String text);
+
     Collection<Person> getPersons(Optional<String> name, Optional<String> surname);
 
     Collection<Person> getDoctors(Optional<String> name, Optional<String> surname, Optional<String> role);

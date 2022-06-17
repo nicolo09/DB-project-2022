@@ -47,8 +47,12 @@ public class ControllerImpl implements Controller {
 
     @Override
     public Optional<Person> getDoctorByCF(String CF) {
-        // TODO Auto-generated method stub
-        return null;
+        return model.getDoctor(CF);
+    }
+
+    @Override
+    public Optional<Person> getPatientByCF(String CF) {
+        return model.getPatient(CF);
     }
 
     @Override
