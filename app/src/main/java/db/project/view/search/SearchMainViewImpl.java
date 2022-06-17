@@ -73,7 +73,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToReferti() {
-        final SearchRefertiControllerImpl controller = new SearchRefertiControllerImpl(this, null);
+        final SearchRefertiControllerImpl controller = new SearchRefertiControllerImpl(this, this.mainController);
         final SearchRefertiView view = new SearchRefertiViewImpl(controller, mainStage);
         view.show();
     }
@@ -130,6 +130,12 @@ public class SearchMainViewImpl implements SearchMainView {
         stage.initOwner(mainStage);
         stage.showAndWait();
         return controller.getSelectedPerson();
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+        // TODO Auto-generated method stub
+        
     }
 
 }
