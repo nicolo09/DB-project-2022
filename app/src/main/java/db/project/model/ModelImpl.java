@@ -199,7 +199,7 @@ public class ModelImpl implements Model{
 	}
 
 	@Override
-	public boolean insertASL(int codeASL, String name, String city, String street, int streetNumber) {
+	public boolean insertASL(String name, String city, String street, int streetNumber) {
 		// TODO Auto-generated method stub
 		return false;
 	}

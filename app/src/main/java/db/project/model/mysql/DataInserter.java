@@ -12,7 +12,7 @@ boolean insertAmministratives(String CF, String Role, int hospitalCode, Optional
     boolean insertAppointment(int hospitalCode, int roomNumber, Timestamp date,
     		int duration, String type, String patientCF, Collection<String> doctorCF);
     
-    boolean insertASL(int codeASL, String name, String city, String street, int streetNumber);
+    boolean insertASL(String name, String city, String street, int streetNumber);
     
     boolean insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
     		Optional<Date> exitDate, String description);
