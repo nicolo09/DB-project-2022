@@ -186,6 +186,40 @@ public class ModelImpl implements Model {
         }
     }
 
+
+    @Override
+    public Optional<Hospital> getHospital(final Integer code) {
+        if (checkHospitalExists(code) == false) {
+            return Optional.empty();
+        }
+        String query = "SELECT * FROM " + tableHospital + " " + "WHERE Codice_struttura = " + code;
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            Collection<Hospital> result = readHospitalsFromResultSet(statement.getResultSet());
+            if (result.size() == 1) {
+                return Optional.of(result.iterator().next());
+            } else {
+                return Optional.empty();
+            }
+        } catch (final SQLException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Collection<Hospital> readHospitalsFromResultSet(final ResultSet resultSet) {
+        Set<Hospital> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new HospitalImpl(resultSet.getInt("Codice_struttura"), resultSet.getString("Nome"),
+                        resultSet.getString("Ind_Citta"), resultSet.getString("Ind_Via"),
+                        resultSet.getString("Ind_Numero_civico"), this.getASL(resultSet.getInt("Cod_ASL")).get()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
     private Optional<ASL> getASL(final Integer code) {
         if (checkASLExists(code) == false) {
             return Optional.empty();
