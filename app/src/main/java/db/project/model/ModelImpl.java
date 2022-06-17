@@ -248,7 +248,7 @@ public class ModelImpl implements Model{
 	}
 
 	@Override
-	public boolean insertReport(int reportCode, Date emissionDate, String description, String type,
+	public boolean insertReport(Date emissionDate, String description, String type,
 			Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
 			int hospitalCode, String patientCF, Collection<String> doctorCF) {
 		// TODO Auto-generated method stub

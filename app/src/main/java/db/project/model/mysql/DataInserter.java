@@ -29,7 +29,7 @@ boolean insertAmministratives(String CF, String Role, int hospitalCode, Optional
     
     boolean insertPhone(String phoneNumber, String personCF);
     
-    boolean insertReport(int reportCode, Date emissionDate, String description, String type, 
+    boolean insertReport(Date emissionDate, String description, String type, 
     		Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration, 
     		int hospitalCode, String patientCF, Collection<String> doctorCF);
     
