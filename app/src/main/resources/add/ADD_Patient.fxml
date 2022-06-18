@@ -43,9 +43,10 @@
          </children>
       </VBox>
       <Label layoutX="202.0" layoutY="431.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="202.0" />
-      <GridPane layoutX="100.0" layoutY="103.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="399.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="103.0">
+      <GridPane hgap="20.0" layoutX="100.0" layoutY="103.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="399.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="103.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -70,7 +71,7 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtLastName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <TextField fx:id="txtCodeASL" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </children>
             </VBox>
             <VBox prefWidth="323.0" spacing="20.0" GridPane.rowIndex="2">
@@ -83,8 +84,28 @@
                   <DatePicker fx:id="birthDay" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </children>
             </VBox>
+            <VBox spacing="20.0" GridPane.columnIndex="1">
+               <children>
+                  <Label text="Nome**">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+               </children>
+            </VBox>
+            <VBox spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+               <children>
+                  <Label text="Cognome**">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
+                  <TextField fx:id="txtLastName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+               </children>
+            </VBox>
          </children>
       </GridPane>
-      <Label layoutX="560.0" layoutY="45.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="*I campi indicati con un asterisco sono opzionali" AnchorPane.rightAnchor="63.0" AnchorPane.topAnchor="45.0" />
+      <Label layoutX="452.0" layoutY="42.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="*I campi indicati con un asterisco sono opzionali&#10;**I campi indicati con due asterischi sono da compilare&#10;solo se la persona non è già registrata" AnchorPane.rightAnchor="140.60000000000002" AnchorPane.topAnchor="42.0" />
    </children>
 </AnchorPane>
