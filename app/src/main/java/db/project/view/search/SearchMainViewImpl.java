@@ -78,8 +78,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToReferti() {
-        final SearchRefertiControllerImpl controller = new SearchRefertiControllerImpl(this, this.mainController);
-        final SearchRefertiView view = new SearchRefertiViewImpl(controller, mainStage);
+        final SearchRefertiView view = new SearchRefertiViewImpl(new SearchRefertiControllerImpl(this, this.mainController), mainStage);
         view.show();
     }
 
