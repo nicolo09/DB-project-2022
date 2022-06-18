@@ -3,7 +3,7 @@ package db.project.model;
 import java.time.Duration;
 import java.util.Date;
 
-public class SurgeryReportImpl extends AbstractReport implements Report {
+public class SurgeryReportImpl extends AbstractReport{
 
     private final String procedure;
     private final String outcome;

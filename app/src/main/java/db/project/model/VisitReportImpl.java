@@ -2,7 +2,7 @@ package db.project.model;
 
 import java.util.Date;
 
-public class VisitReportImpl extends AbstractReport implements Report {
+public class VisitReportImpl extends AbstractReport {
 
     private final String therapy;
 
