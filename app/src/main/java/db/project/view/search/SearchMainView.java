@@ -27,5 +27,7 @@ public interface SearchMainView {
     void show();
     
     Person selectPerson();
+    
+    void showError(String errorMessage);
 
 }

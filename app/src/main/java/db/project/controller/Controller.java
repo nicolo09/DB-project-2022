@@ -3,19 +3,21 @@ package db.project.controller;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
+import db.project.model.ASL;
 import db.project.model.Person;
 import db.project.model.Report;
 
 public interface Controller {
     
-    List<Report> getRefertiByDoctor(Person doctor);
+    Collection<Report> getRefertiByDoctor(Person doctor);
     
-    List<Report> getRefertiByPatient(Person patient);
+    Collection<Report> getRefertiByPatient(Person patient);
     
     Optional<Person> getDoctorByCF(String CF);
+
+    Optional<Person> getPatientByCF(String text);
 
     Collection<Person> getPersons(Optional<String> name, Optional<String> surname);
 
@@ -58,5 +60,8 @@ public interface Controller {
     boolean insertUO(int hospitalCode, String name, int capacity, int seatsOccupied);
     
     boolean insertWorking(String CF, String unitName, int hospitalCode);
+
+        Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way,
+                        Optional<String> number);
 
 }

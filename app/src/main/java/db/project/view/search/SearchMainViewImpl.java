@@ -5,6 +5,9 @@ import java.io.IOException;
 import db.project.controller.Controller;
 import db.project.model.Person;
 import db.project.view.View;
+import db.project.view.search.hospital.SearchASLControllerImpl;
+import db.project.view.search.hospital.SearchASLView;
+import db.project.view.search.hospital.SearchASLViewImpl;
 import db.project.view.search.person.SearchDoctorsControllerImpl;
 import db.project.view.search.person.SearchManagersControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
@@ -17,6 +20,8 @@ import db.project.view.search.referti.SearchRefertiViewImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -37,8 +42,8 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToASL() {
-        // TODO Auto-generated method stub
-
+        final SearchASLView view = new SearchASLViewImpl(mainStage, new SearchASLControllerImpl(() -> this.show(), mainController));
+        view.show();
     }
 
     @Override
@@ -73,8 +78,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToReferti() {
-        final SearchRefertiControllerImpl controller = new SearchRefertiControllerImpl(this, null);
-        final SearchRefertiView view = new SearchRefertiViewImpl(controller, mainStage);
+        final SearchRefertiView view = new SearchRefertiViewImpl(new SearchRefertiControllerImpl(this, this.mainController), mainStage);
         view.show();
     }
 
@@ -115,7 +119,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public Person selectPerson() {
-        Stage stage = new Stage();
+        final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
         SelectPersonControllerImpl controller = new SelectPersonControllerImpl(() -> stage.close(), () -> stage.close(), mainController);
         loader.setController(controller);
@@ -130,6 +134,12 @@ public class SearchMainViewImpl implements SearchMainView {
         stage.initOwner(mainStage);
         stage.showAndWait();
         return controller.getSelectedPerson();
+    }
+
+    @Override
+    public void showError(String errorMessage) {
+        Alert alert = new Alert(AlertType.ERROR, errorMessage);
+        alert.showAndWait();
     }
 
 }

@@ -33,5 +33,5 @@ public class SearchRefertiViewImpl implements SearchRefertiView {
         stage.setMinWidth(scene.getWidth());
         stage.setMinHeight(scene.getHeight());
     }
-    
+
 }

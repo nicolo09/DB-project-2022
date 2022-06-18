@@ -55,4 +55,10 @@ public interface Model {
     
     boolean insertWorking(String CF, String unitName, int hospitalCode);
 
+    Collection<Report> getReports(Optional<Person> patient, Optional<Person> doctor);
+
+    Optional<Hospital> getHospital(Integer code);
+
+    Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way, Optional<String> number);
+
 }

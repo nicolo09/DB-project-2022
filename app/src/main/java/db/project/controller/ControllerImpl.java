@@ -3,9 +3,9 @@ package db.project.controller;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
+import db.project.model.ASL;
 import db.project.model.Model;
 import db.project.model.Person;
 import db.project.model.Report;
@@ -35,21 +35,23 @@ public class ControllerImpl implements Controller {
     }
     
     @Override
-    public List<Report> getRefertiByDoctor(Person doctor) {
-        // TODO Auto-generated method stub
-        return null;
+    public Collection<Report> getRefertiByDoctor(Person doctor) {
+        return this.model.getReports(Optional.empty(), Optional.of(doctor));
     }
 
     @Override
-    public List<Report> getRefertiByPatient(Person patient) {
-        // TODO Auto-generated method stub
-        return null;
+    public Collection<Report> getRefertiByPatient(Person patient) {
+        return this.model.getReports(Optional.of(patient), Optional.empty());
     }
 
     @Override
     public Optional<Person> getDoctorByCF(String CF) {
-        // TODO Auto-generated method stub
-        return null;
+        return model.getDoctor(CF);
+    }
+
+    @Override
+    public Optional<Person> getPatientByCF(String CF) {
+        return model.getPatient(CF);
     }
 
     @Override
@@ -133,5 +135,10 @@ public class ControllerImpl implements Controller {
 	public boolean insertWorking(String CF, String unitName, int hospitalCode) {
 		return this.model.insertWorking(CF, unitName, hospitalCode);
 	}
+    @Override
+    public Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way,
+            Optional<String> number) {
+        return this.model.getASL(name, city, way, number);
+    }
 
 }
