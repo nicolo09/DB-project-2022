@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface DataUpdater {
 	
-	boolean updateAmministratives(String CF, Optional<String> Role, Optional<Integer> hospitalCode);
+	boolean updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode);
     
     boolean updateAppointment(int hospitalCode, int roomNumber, Timestamp date, Optional<Integer> duration, 
     		Optional<String> type, Optional<String> patientCF);//, Optional<Collection<String>> doctorCF);

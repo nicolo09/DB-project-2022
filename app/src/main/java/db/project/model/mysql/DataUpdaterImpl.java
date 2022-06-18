@@ -1,15 +1,44 @@
 package db.project.model.mysql;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
+import db.project.model.TABLES;
+
 public class DataUpdaterImpl implements DataUpdater {
+	
+	private final Connection connection;
+	
+	public DataUpdaterImpl(final Connection connection) {
+		this.connection = connection;
+	}
 
 	@Override
-	public boolean updateAmministratives(String CF, Optional<String> Role, Optional<Integer> hospitalCode) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode) {
+		if(role.isEmpty() && hospitalCode.isEmpty()) {
+			return false;
+		}
+		
+		String query = "UPDATE " + TABLES.AMMINISTRATIVE.get() + " SET";
+		query += role.isPresent() ? " Ruolo = '" + role.get() + "'," : "";
+		query += hospitalCode.isPresent() ? " Codice_ospedale = " + hospitalCode.get() + "," : "";
+		query = query.substring(0, query.length() - 1);
+		query += "WHERE Codice_fiscale = ?";
+		
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			statement.setString(1, CF);
+			
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
