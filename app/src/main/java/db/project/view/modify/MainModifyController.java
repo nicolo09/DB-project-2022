@@ -28,5 +28,7 @@ public interface MainModifyController {
 	
 	void goToUO();
 	
+	void goToWorking();
+	
 	void goBack();
 }

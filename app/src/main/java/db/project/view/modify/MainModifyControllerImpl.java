@@ -90,6 +90,12 @@ public class MainModifyControllerImpl implements MainModifyController {
 	public void goToUO() {
 		modifyView.toUO();
 	}
+	
+	@Override
+	@FXML
+	public void goToWorking() {
+		modifyView.toWorking();
+	}
 
 	@Override
 	@FXML

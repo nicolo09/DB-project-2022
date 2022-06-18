@@ -217,8 +217,8 @@ public class ModelImpl implements Model{
 	}
 
 	@Override
-	public boolean insertHealtcare(String CF, String Role, Optional<String> unitName, Optional<Integer> hospitalCode) {
-		return inserter.insertHealtcare(CF, Role, unitName, hospitalCode);
+	public boolean insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName) {
+		return inserter.insertHealtcare(CF, role, name, lastName);
 	}
 
 	@Override
@@ -256,6 +256,11 @@ public class ModelImpl implements Model{
 	@Override
 	public boolean insertUO(int hospitalCode, String name, int capacity, int seatsOccupied) {
 		return inserter.insertUO(hospitalCode, name, capacity, seatsOccupied);
+	}
+
+	@Override
+	public boolean insertWorking(String CF, String unitName, int hospitalCode) {
+		return inserter.insertWorking(CF, unitName, hospitalCode);
 	}
 
 }

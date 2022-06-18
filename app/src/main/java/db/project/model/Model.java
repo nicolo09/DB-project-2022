@@ -35,7 +35,7 @@ public interface Model {
     
     boolean insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance);
     
-    boolean insertHealtcare(String CF, String role, Optional<String> unitName, Optional<Integer> hospitalCode);
+    boolean insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName);
     
     boolean insertHospital(int structureCode, String name, String city, String street, String streetNumber);
     
@@ -52,5 +52,7 @@ public interface Model {
     boolean insertRoom(int hospitalCode, int roomNumber);
     
     boolean insertUO(int hospitalCode, String name, int capacity, int seatsOccupied);
+    
+    boolean insertWorking(String CF, String unitName, int hospitalCode);
 
 }

@@ -27,5 +27,7 @@ public interface MainModifyView extends SimpleView{
 	void toRoom();
 	
 	void toUO();
+	
+	void toWorking();
 
 }

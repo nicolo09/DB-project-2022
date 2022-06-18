@@ -16,7 +16,8 @@ public enum TABLES {
 	PRESENCE("presenzia"),
 	REPORT("referti"),
 	ROOM("sale"),
-	UO("unita operative");
+	UO("unita operative"),
+	WORKING("lavora");
 	
 	private final String name;
 	

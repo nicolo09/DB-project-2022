@@ -142,5 +142,13 @@ public class MainModifyViewImpl implements MainModifyView {
 		
 		uoView.show();		
 	}
+	
+	@Override
+	public void toWorking() {
+		final ModifyController controller = new WorkingModifyController(this.view);
+		final SimpleView workingView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Working_Status.fxml");
+		
+		workingView.show();
+	}
 
 }
