@@ -181,7 +181,7 @@ public class DataInserterImpl implements DataInserter {
 			return false;
 		}
 		
-		String query = INSERT_SENTENCE + TABLES.EQUIPMENT.get() + "(Codice_ospedale, Nome, Capienza, Posti_occupati) VALUES(?, ?, ?, ?)";
+		String query = INSERT_SENTENCE + TABLES.EQUIPMENT.get() + "(Codice_ospedale, Codice_inventario, Nome, Data_manutenzione) VALUES(?, ?, ?, ?)";
 		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
 			
 			statement.setInt(1, hospitalCode);
@@ -414,14 +414,46 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public boolean insertUO(int hospitalCode, String name, int capacity, int seatsOccupied) {
-		// TODO Auto-generated method stub
-		return false;
+		if(checkNulls(List.of(hospitalCode, name, capacity, seatsOccupied))) {
+			return false;
+		}
+		
+		String query = INSERT_SENTENCE + TABLES.UO.get() + "(Codice_ospedale, Nome, Capienza, Posti_occupati) VALUES(?, ?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setInt(1, hospitalCode);
+			statement.setString(2, name);
+			statement.setInt(3, capacity);
+			statement.setInt(4, seatsOccupied);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	@Override
 	public boolean insertWorking(String CF, String unitName, int hospitalCode) {
-		//TODO
-		return false;
+		if(checkNulls(List.of(CF, unitName, hospitalCode))) {
+			return false;
+		}
+		String query = INSERT_SENTENCE + TABLES.WORKING.get() + "(Codice_ospedale, Nome_unita, Codice_fiscale) VALUES(?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setInt(1, hospitalCode);
+			statement.setString(2, unitName);
+			statement.setString(3, CF);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 	
 	private boolean insertPresence(String doctor, int hospitalCode, int roomNumber, Timestamp date) {
@@ -430,6 +462,7 @@ public class DataInserterImpl implements DataInserter {
 		}
 		String query = INSERT_SENTENCE + TABLES.PRESENCE.get() + "(Medico, Codice_ospedale, Numero_sala, Data_ora) VALUES(?, ?, ?, ?)";
 		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
 			statement.setString(1, doctor);
 			statement.setInt(2, hospitalCode);
 			statement.setInt(3, roomNumber);
