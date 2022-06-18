@@ -198,36 +198,143 @@ public class DataInserterImpl implements DataInserter {
 	}
 
 	@Override
-	public boolean insertHealtcare(String CF, String Role, Optional<String> unitName, Optional<Integer> hospitalCode) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName) {
+		if(checkNulls(List.of(CF, role))) {
+			return false;
+		}
+		
+		String controlQuery = "SELECT COUNT(*) FROM PERSONE WHERE Codice_fiscale LIKE ?";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)) {
+			controlStatement.setString(1, CF);
+			var rs = controlStatement.executeQuery();
+			rs.next();
+			if(rs.getInt("total") > 0) {
+				if(name.isEmpty() || lastName.isEmpty()) {
+					return false;
+				}
+				this.insertPerson(CF, name.get(), lastName.get());
+			}
+			
+			String query = INSERT_SENTENCE + TABLES.HEALTHCARE.get() + "(Codice_fiscale, Ruolo) VALUES(?, ?)";
+			final PreparedStatement statement = this.connection.prepareStatement(query);
+			
+			statement.setString(1, CF);
+			statement.setString(2, role);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public boolean insertHospital(int structureCode, String name, String city, String street, String streetNumber) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insertHospital(String name, String city, String street, int streetNumber, int codeASL) {
+		if(checkNulls(List.of(name, city, street, streetNumber, codeASL))) {
+			return false;
+		}
+		String query = INSERT_SENTENCE + TABLES.HOSPITAL.get() + "(Nome, Ind_Citta, Ind_via, Ind_Numero_civico, Cod_ASL) VALUES(?, ?, ?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setString(1, name);
+			statement.setString(2, city);
+			statement.setString(3, street);
+			statement.setInt(4, streetNumber);
+			statement.setInt(5, codeASL);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
-	public boolean insertPatient(String CF, Date birthDay, Optional<Integer> codASL) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName) {
+		if(checkNulls(List.of(CF, birthDay))) {
+			return false;
+		}
+		
+		String controlQuery = "SELECT COUNT(*) FROM PERSONE WHERE Codice_fiscale LIKE ?";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)) {
+			controlStatement.setString(1, CF);
+			var rs = controlStatement.executeQuery();
+			rs.next();
+			if(rs.getInt("total") > 0) {
+				if(name.isEmpty() || lastName.isEmpty()) {
+					return false;
+				}
+				this.insertPerson(CF, name.get(), lastName.get());
+			}
+			
+			String query = INSERT_SENTENCE + TABLES.PATIENT.get() + "(Codice_fiscale, Data_nascita, Cod_ASL) VALUES(?, ?, ?)";
+			final PreparedStatement statement = this.connection.prepareStatement(query);
+			
+			statement.setString(1, CF);
+			statement.setDate(2, new java.sql.Date(birthDay.getTime()));
+			if(codASL.isPresent()) {
+				statement.setInt(3, codASL.get());
+			} else {
+				statement.setNull(3, java.sql.Types.NULL);
+			}
+			
+			statement.executeUpdate();
+			
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
 	public boolean insertPerson(String CF, String name, String lastName) {
-		// TODO Auto-generated method stub
-		return false;
+		if(checkNulls(List.of(CF, name, lastName))) {
+			return false;
+		}
+		
+		String query = INSERT_SENTENCE + TABLES.PERSON.get() + "(Codice_fiscale, Nome, Cognome) VALUES(?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setString(1, CF);
+			statement.setString(2, name);
+			statement.setString(3, lastName);
+			
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean insertPhone(String phoneNumber, String personCF) {
-		// TODO Auto-generated method stub
-		return false;
+		if(checkNulls(List.of(phoneNumber, personCF))) {
+			return false;
+		}
+		String query = INSERT_SENTENCE + TABLES.PHONE.get() + "(Telefono, Persona) VALUES(?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setString(1, phoneNumber);
+			statement.setString(2, personCF);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
-	//TODO remove report code from arguments
 	@Override
 	public boolean insertReport(Date emissionDate, String description, String type,
 			Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
@@ -286,13 +393,34 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public boolean insertRoom(int hospitalCode, int roomNumber) {
-		// TODO Auto-generated method stub
-		return false;
+		if(checkNulls(List.of(hospitalCode, roomNumber))) {
+			return false;
+		}
+		
+		String query = INSERT_SENTENCE + TABLES.ROOM.get() + "(Codice_ospedale, Numero) VALUES(?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setInt(1, hospitalCode);
+			statement.setInt(2, roomNumber);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		return true;
 	}
 
 	@Override
 	public boolean insertUO(int hospitalCode, String name, int capacity, int seatsOccupied) {
 		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	@Override
+	public boolean insertWorking(String CF, String unitName, int hospitalCode) {
+		//TODO
 		return false;
 	}
 	
