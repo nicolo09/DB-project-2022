@@ -13,6 +13,8 @@ import java.util.Optional;
 import java.util.Set;
 
 import db.project.model.mysql.ConnectionProvider;
+import db.project.model.mysql.DataInserter;
+import db.project.model.mysql.DataInserterImpl;
 
 public class ModelImpl implements Model{
 
@@ -21,12 +23,14 @@ public class ModelImpl implements Model{
     private String tablePersons = "persone";
     private String tableDoctors = "personale_sanitario";
     private String tablePatients = "pazienti";
+    private final DataInserter inserter;
 
     /**
      * Creates a simple connection to a local database
      */
     public ModelImpl(String username, String password) {
         dbConnection = new ConnectionProvider(username, password, dbName).getMySQLConnection();
+        inserter = new DataInserterImpl(dbConnection);
     }
     
     @Override
@@ -187,84 +191,71 @@ public class ModelImpl implements Model{
 
 	@Override
 	public boolean insertAmministratives(String CF, String Role, int hospitalCode, Optional<String> name, Optional<String> lastName) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertAmministratives(CF, Role, hospitalCode, name, lastName);
 	}
 
 	@Override
 	public boolean insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration,
 			String type, String patientCF, Collection<String> doctorCF) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertAppointment(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF);
 	}
 
 	@Override
 	public boolean insertASL(String name, String city, String street, int streetNumber) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertASL(name, city, street, streetNumber);
 	}
 
 	@Override
 	public boolean insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
 			Optional<Date> exitDate, String description) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertCure(patientCF, hospitalCode, unitName, ingressDate, exitDate, description);
 	}
 
 	@Override
 	public boolean insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertEquipment(hospitalCode, inventoryCode, name, lastMaintenance);
 	}
 
 	@Override
 	public boolean insertHealtcare(String CF, String Role, Optional<String> unitName, Optional<Integer> hospitalCode) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertHealtcare(CF, Role, unitName, hospitalCode);
 	}
 
 	@Override
 	public boolean insertHospital(int structureCode, String name, String city, String street, String streetNumber) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertHospital(structureCode, name, city, street, streetNumber);
 	}
 
 	@Override
 	public boolean insertPatient(String CF, Date birthDay, Optional<Integer> codASL) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertPatient(CF, birthDay, codASL);
 	}
 
 	@Override
 	public boolean insertPerson(String CF, String name, String lastName) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertPerson(CF, name, lastName);
 	}
 
 	@Override
 	public boolean insertPhone(String phoneNumber, String personCF) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertPhone(phoneNumber, personCF);
 	}
 
 	@Override
 	public boolean insertReport(Date emissionDate, String description, String type,
 			Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
 			int hospitalCode, String patientCF, Collection<String> doctorCF) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertReport(emissionDate, description, type, therapy, procedure, outcome, duration, hospitalCode, patientCF, doctorCF);
 	}
 
 	@Override
 	public boolean insertRoom(int hospitalCode, int roomNumber) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertRoom(hospitalCode, roomNumber);
 	}
 
 	@Override
 	public boolean insertUO(int hospitalCode, String name, int capacity, int seatsOccupied) {
-		// TODO Auto-generated method stub
-		return false;
+		return inserter.insertUO(hospitalCode, name, capacity, seatsOccupied);
 	}
 
 }
