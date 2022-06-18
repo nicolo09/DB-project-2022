@@ -10,17 +10,16 @@ import javafx.stage.Stage;
 public class SearchPersonViewImpl implements SearchPersonView{
 
     public static final String PATH = "search_persone.fxml";
-    private final Stage stage;
-    
-    private Stage getStage() {
-        return this.stage;
-    }
-
+    private final Stage stage; 
     private SearchPersonControllerImpl controller;
-
+    
     public SearchPersonViewImpl(Stage stage, SearchPersonControllerImpl controller) {
         this.stage = stage;
         this.controller = controller;
+    }
+   
+    private Stage getStage() {
+        return this.stage;
     }
     
     @Override
