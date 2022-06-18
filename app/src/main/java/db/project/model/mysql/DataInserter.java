@@ -7,7 +7,7 @@ import java.util.Optional;
 
 public interface DataInserter {
 	
-boolean insertAmministratives(String CF, String Role, int hospitalCode, Optional<String> name, Optional<String> lastName);
+	boolean insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName);
     
     boolean insertAppointment(int hospitalCode, int roomNumber, Timestamp date,
     		int duration, String type, String patientCF, Collection<String> doctorCF);

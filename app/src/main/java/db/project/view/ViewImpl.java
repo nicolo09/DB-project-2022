@@ -33,9 +33,8 @@ public class ViewImpl implements View {
 
     @Override
     public void goToModifyMenu() {
-        final MainModifyView mmview = new MainModifyViewImpl(this, stage);
-        
-        mmview.show();
+        final MainModifyView view = new MainModifyViewImpl(this, mainController, stage);
+        view.show();
     }
 
 }

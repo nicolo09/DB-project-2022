@@ -190,8 +190,8 @@ public class ModelImpl implements Model{
     }
 
 	@Override
-	public boolean insertAmministratives(String CF, String Role, int hospitalCode, Optional<String> name, Optional<String> lastName) {
-		return inserter.insertAmministratives(CF, Role, hospitalCode, name, lastName);
+	public boolean insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName) {
+		return inserter.insertAmministratives(CF, role, hospitalCode, name, lastName);
 	}
 
 	@Override
