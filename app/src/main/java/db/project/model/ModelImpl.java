@@ -222,13 +222,13 @@ public class ModelImpl implements Model{
 	}
 
 	@Override
-	public boolean insertHospital(int structureCode, String name, String city, String street, String streetNumber) {
-		return inserter.insertHospital(structureCode, name, city, street, streetNumber);
+	public boolean insertHospital(String name, String city, String street, int streetNumber, int codeASL) {
+		return inserter.insertHospital(name, city, street, streetNumber, codeASL);
 	}
 
 	@Override
-	public boolean insertPatient(String CF, Date birthDay, Optional<Integer> codASL) {
-		return inserter.insertPatient(CF, birthDay, codASL);
+	public boolean insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName) {
+		return inserter.insertPatient(CF, birthDay, codASL, name, lastName);
 	}
 
 	@Override

@@ -37,9 +37,9 @@ public interface Model {
     
     boolean insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName);
     
-    boolean insertHospital(int structureCode, String name, String city, String street, String streetNumber);
+    boolean insertHospital(String name, String city, String street, int streetNumber, int codeASL);
     
-    boolean insertPatient(String CF, Date birthDay, Optional<Integer> codASL);
+    boolean insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName);
     
     boolean insertPerson(String CF, String name, String lastName);
     
