@@ -1,17 +1,20 @@
 package db.project.view.modify.entities;
 
-import db.project.view.View;
+import db.project.Command;
+import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
 
 public class HealthCareModifyController extends ModifyController{
 
-	public HealthCareModifyController(final View view) {
-		super(view);
+	
+	public HealthCareModifyController(Command exit, Controller mainController) {
+		super(exit, mainController);
 	}
 
 	@Override
 	public void addElement() {
 		// TODO Auto-generated method stub
+		this.mainController.insertHealtcare(null, null, null, null);
 		
 	}
 
