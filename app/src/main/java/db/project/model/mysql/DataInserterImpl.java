@@ -143,14 +143,58 @@ public class DataInserterImpl implements DataInserter {
 	@Override
 	public boolean insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
 			Optional<Date> exitDate, String description) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		if(checkNulls(List.of(patientCF, hospitalCode, unitName, ingressDate, description))) {
+			return false;
+		}
+		
+		String query = INSERT_SENTENCE + TABLES.CURE.get() + "(Paziente, Codice_ospedale, Nome_unita, Data_ingresso, Data_uscita, Motivazione) VALUES(?, ?, ?, ?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setString(1, patientCF);
+			statement.setInt(2, hospitalCode);
+			statement.setString(3, unitName);
+			statement.setDate(4, new java.sql.Date(ingressDate.getTime()));
+			
+			if(exitDate.isEmpty()) {
+				statement.setNull(5, java.sql.Types.NULL);;
+			} else {
+				statement.setDate(5, new java.sql.Date(exitDate.get().getTime()));
+			}
+			
+			statement.setString(6, description);
+			
+			statement.executeUpdate();
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		
+		return true;
 	}
 
 	@Override
 	public boolean insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance) {
-		// TODO Auto-generated method stub
-		return false;
+		if(checkNulls(List.of(hospitalCode, inventoryCode, name, lastMaintenance))) {
+			return false;
+		}
+		
+		String query = INSERT_SENTENCE + TABLES.EQUIPMENT.get() + "(Codice_ospedale, Nome, Capienza, Posti_occupati) VALUES(?, ?, ?, ?)";
+		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			
+			statement.setInt(1, hospitalCode);
+			statement.setInt(2, inventoryCode);
+			statement.setString(3, name);
+			statement.setDate(4, new java.sql.Date(lastMaintenance.getTime()));
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 
 	@Override
