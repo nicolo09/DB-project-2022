@@ -12,4 +12,6 @@ public interface ASL {
 
     String getNumber();
 
+    String getAddress();
+
 }

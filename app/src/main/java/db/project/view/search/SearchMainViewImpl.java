@@ -5,6 +5,9 @@ import java.io.IOException;
 import db.project.controller.Controller;
 import db.project.model.Person;
 import db.project.view.View;
+import db.project.view.search.hospital.SearchASLControllerImpl;
+import db.project.view.search.hospital.SearchASLView;
+import db.project.view.search.hospital.SearchASLViewImpl;
 import db.project.view.search.person.SearchDoctorsControllerImpl;
 import db.project.view.search.person.SearchManagersControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
@@ -39,8 +42,8 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToASL() {
-        // TODO Auto-generated method stub
-
+        final SearchASLView view = new SearchASLViewImpl(mainStage, new SearchASLControllerImpl(() -> this.show(), mainController));
+        view.show();
     }
 
     @Override

@@ -327,4 +327,29 @@ public class ModelImpl implements Model {
             return false;
         }
     }
+
+    @Override
+    public Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way,
+            Optional<String> number) {
+        String query = "SELECT * FROM asl" + " WHERE ";
+        if (name.isPresent()) {
+            query += "Nome LIKE '" + name.get() + "', ";
+        }
+        if (city.isPresent()) {
+            query += "Ind_Citta LIKE '" + city.get() + "', ";
+        }
+        if (way.isPresent()) {
+            query += "Ind_Via LIKE '" + way.get() + "', ";
+        }
+        if (number.isPresent()) {
+            query += "Ind_Numero_civico LIKE '" + number.get() + "', ";
+        }
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readASLFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
 }

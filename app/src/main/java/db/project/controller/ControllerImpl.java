@@ -3,6 +3,8 @@ package db.project.controller;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
+
+import db.project.model.ASL;
 import db.project.model.Model;
 import db.project.model.Person;
 import db.project.model.Report;
@@ -55,6 +57,12 @@ public class ControllerImpl implements Controller {
     public Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
             Optional<Integer> HospitalCode) {
         return this.model.getManagers(name, surname, role, HospitalCode);
+    }
+
+    @Override
+    public Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way,
+            Optional<String> number) {
+        return this.model.getASL(name, city, way, number);
     }
 
 }

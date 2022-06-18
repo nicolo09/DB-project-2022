@@ -26,4 +26,6 @@ public interface Model {
 
     Optional<Hospital> getHospital(Integer code);
 
+    Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way, Optional<String> number);
+
 }
