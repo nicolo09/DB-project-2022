@@ -52,7 +52,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToAppuntamenti() {
         // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
@@ -88,13 +88,13 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToRicoveri() {
         // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public void goToUnitaOperative() {
         // TODO Auto-generated method stub
-
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
