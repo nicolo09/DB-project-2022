@@ -24,14 +24,14 @@ public class SearchASLControllerImpl {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         codeColumn.setCellValueFactory(new PropertyValueFactory<ASL, Integer>("code"));
         nameColumn.setCellValueFactory(new PropertyValueFactory<ASL, String>("name"));
         addressColumn.setCellValueFactory(new PropertyValueFactory<ASL, String>("address"));
     }
 
     @FXML
-    private TableView<ASL> aslTableView;
+    protected TableView<ASL> aslTableView;
     @FXML
     private TableColumn<ASL, Integer> codeColumn;
     @FXML
@@ -49,7 +49,8 @@ public class SearchASLControllerImpl {
 
     @FXML
     void onSearchButton(final ActionEvent event) {
-        final Collection<ASL> asls = mainController.getASL(Optional.of(textName.getText()), Optional.empty(), Optional.empty(), Optional.empty());
+        final Collection<ASL> asls = mainController.getASL(Optional.of(textName.getText()), Optional.empty(),
+                Optional.empty(), Optional.empty());
         aslTableView.getItems().addAll(asls);
     }
 

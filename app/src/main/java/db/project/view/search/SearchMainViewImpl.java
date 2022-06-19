@@ -3,6 +3,7 @@ package db.project.view.search;
 import java.io.IOException;
 
 import db.project.controller.Controller;
+import db.project.model.ASL;
 import db.project.model.Hospital;
 import db.project.model.Person;
 import db.project.view.View;
@@ -15,6 +16,7 @@ import db.project.view.search.hospital.SearchUoView;
 import db.project.view.search.hospital.SearchHospitalControllerImpl;
 import db.project.view.search.hospital.SearchUoControllerImpl;
 import db.project.view.search.hospital.SearchUoViewImpl;
+import db.project.view.search.hospital.SelectASLControllerImpl;
 import db.project.view.search.hospital.SelectHospitalControllerImpl;
 import db.project.view.search.person.SearchDoctorsControllerImpl;
 import db.project.view.search.person.SearchManagersControllerImpl;
@@ -62,7 +64,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToOspedali() {
-        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage, new SearchHospitalControllerImpl(() -> this.show(), mainController));
+        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage, new SearchHospitalControllerImpl(() -> this.show(), mainController, this));
         view.show();
     }
 
@@ -148,7 +150,7 @@ public class SearchMainViewImpl implements SearchMainView {
     public Hospital selectHospital() {
         final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
-        SelectHospitalControllerImpl controller = new SelectHospitalControllerImpl(() -> stage.close(), () -> stage.close(), mainController);
+        SelectHospitalControllerImpl controller = new SelectHospitalControllerImpl(() -> stage.close(), () -> stage.close(), mainController, this);
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/" + "select_ospedali.fxml"));
         try {
@@ -161,6 +163,25 @@ public class SearchMainViewImpl implements SearchMainView {
         stage.initOwner(mainStage);
         stage.showAndWait();
         return controller.getSelectedHospital();
+    }
+
+    @Override
+    public ASL selectAsl() {
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectASLControllerImpl controller = new SelectASLControllerImpl(() -> stage.close(), () -> stage.close(), mainController);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_asl.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select ASL...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedAsl();
     }
 
     @Override
