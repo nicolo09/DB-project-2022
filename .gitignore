@@ -24,6 +24,9 @@
 hs_err_pid*
 
 # LATEX
+## Generated PDF
+report/report.pdf
+
 ## Core latex/pdflatex auxiliary files:
 *.aux
 *.lof
