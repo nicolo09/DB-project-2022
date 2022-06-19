@@ -8,6 +8,9 @@ import db.project.view.View;
 import db.project.view.search.hospital.SearchASLControllerImpl;
 import db.project.view.search.hospital.SearchASLView;
 import db.project.view.search.hospital.SearchASLViewImpl;
+import db.project.view.search.hospital.SearchHospitalView;
+import db.project.view.search.hospital.SearchHospitalViewImpl;
+import db.project.view.search.hospital.SearchHospitalControllerImpl;
 import db.project.view.search.person.SearchDoctorsControllerImpl;
 import db.project.view.search.person.SearchManagersControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
@@ -54,8 +57,8 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToOspedali() {
-        // TODO Auto-generated method stub
-
+        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage, new SearchHospitalControllerImpl(() -> this.show(), mainController));
+        view.show();
     }
 
     @Override
