@@ -356,7 +356,7 @@ public class ModelImpl implements Model {
     @Override
     public Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
             Optional<String> number, Optional<ASL> asl) {
-        String query = "SELECT * FROM hospital" + " WHERE ";
+        String query = "SELECT * FROM " + tableHospital + " WHERE ";
         if (name.isPresent()) {
             query += "Nome LIKE '" + name.get() + "', ";
         }
