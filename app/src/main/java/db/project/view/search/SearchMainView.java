@@ -1,5 +1,6 @@
 package db.project.view.search;
 
+import db.project.model.Hospital;
 import db.project.model.Person;
 
 public interface SearchMainView {
@@ -27,6 +28,8 @@ public interface SearchMainView {
     void show();
 
     Person selectPerson();
+    
+    Hospital selectHospital();
 
     void showError(String errorMessage);
 

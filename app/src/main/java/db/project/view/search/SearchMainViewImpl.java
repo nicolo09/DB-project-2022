@@ -3,6 +3,7 @@ package db.project.view.search;
 import java.io.IOException;
 
 import db.project.controller.Controller;
+import db.project.model.Hospital;
 import db.project.model.Person;
 import db.project.view.View;
 import db.project.view.search.hospital.SearchASLControllerImpl;
@@ -14,6 +15,7 @@ import db.project.view.search.hospital.SearchUoView;
 import db.project.view.search.hospital.SearchHospitalControllerImpl;
 import db.project.view.search.hospital.SearchUoControllerImpl;
 import db.project.view.search.hospital.SearchUoViewImpl;
+import db.project.view.search.hospital.SelectHospitalControllerImpl;
 import db.project.view.search.person.SearchDoctorsControllerImpl;
 import db.project.view.search.person.SearchManagersControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
@@ -96,7 +98,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToUnitaOperative() {
-        final SearchUoView view = new SearchUoViewImpl(mainStage, new SearchUoControllerImpl(() -> this.show(), mainController));
+        final SearchUoView view = new SearchUoViewImpl(mainStage, new SearchUoControllerImpl(() -> this.show(), mainController, this));
         view.show();
     }
 
@@ -140,6 +142,25 @@ public class SearchMainViewImpl implements SearchMainView {
         stage.initOwner(mainStage);
         stage.showAndWait();
         return controller.getSelectedPerson();
+    }
+
+    @Override
+    public Hospital selectHospital() {
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectHospitalControllerImpl controller = new SelectHospitalControllerImpl(() -> stage.close(), () -> stage.close(), mainController);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_ospedali.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select hospital...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedHospital();
     }
 
     @Override

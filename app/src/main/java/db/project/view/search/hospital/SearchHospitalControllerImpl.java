@@ -21,7 +21,7 @@ import javafx.util.Callback;
 public class SearchHospitalControllerImpl {
 
     @FXML
-    private TableView<Hospital> hospitalsTableView;
+    protected TableView<Hospital> hospitalsTableView;
 
     @FXML
     private TableColumn<Hospital, Integer> columnCode;
