@@ -56,7 +56,7 @@ public class SearchHospitalControllerImpl {
     }
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         columnCode.setCellValueFactory(new PropertyValueFactory<Hospital, Integer>("code"));
         columnName.setCellValueFactory(new PropertyValueFactory<Hospital, String>("name"));
         columnAddress.setCellValueFactory(new PropertyValueFactory<Hospital, String>("address"));
@@ -64,7 +64,7 @@ public class SearchHospitalControllerImpl {
             public ObservableValue<Integer> call(CellDataFeatures<Hospital, Integer> p) {
                 return new ReadOnlyObjectWrapper<>(p.getValue().getAsl().getCode());
             }
-         });
+        });
     }
 
     @FXML
@@ -74,16 +74,17 @@ public class SearchHospitalControllerImpl {
 
     @FXML
     private void onAslSelectButton(ActionEvent event) {
-        
+
     }
 
     @FXML
     private void onSearchButton(ActionEvent event) {
         hospitalsTableView.getItems().clear();
         final Collection<Hospital> hospitals = mainController.getHospitals(
-            checkName.isSelected()? Optional.of(textName.getText()) : Optional.empty(), 
-            checkAsl.isSelected()? Optional.of(textAslCode.getText()) : Optional.empty(),
-            Optional.empty(), Optional.empty(), Optional.empty());
+                checkName.isSelected() ? Optional.of(textName.getText()) : Optional.empty(), Optional.empty(),
+                Optional.empty(), Optional.empty(),
+                checkAsl.isSelected() ? mainController.getASL(Integer.parseInt(textAslCode.getText()))
+                        : Optional.empty());
         hospitalsTableView.getItems().addAll(hospitals);
     }
 
