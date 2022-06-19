@@ -44,17 +44,17 @@ public class SearchMainViewImpl implements SearchMainView {
     private final Controller mainController;
     private final Stage mainStage;
     private Parent parent;
-    
+
     public SearchMainViewImpl(View mainView, Controller mainController, Stage stage) {
         this.mainView = mainView;
         this.mainController = mainController;
         this.mainStage = stage;
-        
     }
 
     @Override
     public void goToASL() {
-        final SearchASLView view = new SearchASLViewImpl(mainStage, new SearchASLControllerImpl(() -> this.show(), mainController));
+        final SearchASLView view = new SearchASLViewImpl(mainStage,
+                new SearchASLControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 
@@ -66,31 +66,36 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToOspedali() {
-        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage, new SearchHospitalControllerImpl(() -> this.show(), mainController, this));
+        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage,
+                new SearchHospitalControllerImpl(() -> this.show(), mainController, this));
         view.show();
     }
 
     @Override
     public void goToPazienti() {
-        final SearchPersonView view = new SearchPatientsViewImpl(mainStage, new SearchPatientsControllerImpl(() -> this.show(), mainController, this));
+        final SearchPersonView view = new SearchPatientsViewImpl(mainStage,
+                new SearchPatientsControllerImpl(() -> this.show(), mainController, this));
         view.show();
     }
 
     @Override
     public void goToPersonaleAmministrativo() {
-        final SearchPersonView view = new SearchPersonViewImpl(mainStage, new SearchManagersControllerImpl(() -> this.show(), mainController));
+        final SearchPersonView view = new SearchPersonViewImpl(mainStage,
+                new SearchManagersControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 
     @Override
     public void goToPersonaleSanitario() {
-        final SearchPersonView view = new SearchDoctorsViewImpl(mainStage, new SearchDoctorsControllerImpl(() -> this.show(), mainController));
+        final SearchPersonView view = new SearchDoctorsViewImpl(mainStage,
+                new SearchDoctorsControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 
     @Override
     public void goToReferti() {
-        final SearchRefertiView view = new SearchRefertiViewImpl(new SearchRefertiControllerImpl(this, this.mainController), mainStage);
+        final SearchRefertiView view = new SearchRefertiViewImpl(
+                new SearchRefertiControllerImpl(this, this.mainController), mainStage);
         view.show();
     }
 
@@ -102,7 +107,8 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToUnitaOperative() {
-        final SearchUoView view = new SearchUoViewImpl(mainStage, new SearchUoControllerImpl(() -> this.show(), mainController, this));
+        final SearchUoView view = new SearchUoViewImpl(mainStage,
+                new SearchUoControllerImpl(() -> this.show(), mainController, this));
         view.show();
     }
 
@@ -133,7 +139,8 @@ public class SearchMainViewImpl implements SearchMainView {
     public Person selectPerson() {
         final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
-        SelectPersonControllerImpl controller = new SelectPersonControllerImpl(() -> stage.close(), () -> stage.close(), mainController);
+        SelectPersonControllerImpl controller = new SelectPersonControllerImpl(() -> stage.close(), () -> stage.close(),
+                mainController);
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/" + "select_persone.fxml"));
         try {
@@ -152,7 +159,8 @@ public class SearchMainViewImpl implements SearchMainView {
     public Hospital selectHospital() {
         final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
-        SelectHospitalControllerImpl controller = new SelectHospitalControllerImpl(() -> stage.close(), () -> stage.close(), mainController, this);
+        SelectHospitalControllerImpl controller = new SelectHospitalControllerImpl(() -> stage.close(),
+                () -> stage.close(), mainController, this);
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/" + "select_ospedali.fxml"));
         try {
@@ -171,7 +179,8 @@ public class SearchMainViewImpl implements SearchMainView {
     public ASL selectAsl() {
         final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
-        SelectASLControllerImpl controller = new SelectASLControllerImpl(() -> stage.close(), () -> stage.close(), mainController);
+        SelectASLControllerImpl controller = new SelectASLControllerImpl(() -> stage.close(), () -> stage.close(),
+                mainController);
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/" + "select_asl.fxml"));
         try {
