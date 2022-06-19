@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import db.project.model.TABLES;
@@ -27,7 +26,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName) {
-		if(checkNulls(List.of(CF, role, hospitalCode))) {
+		if(checkNulls(CF, role, hospitalCode)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		String controlQuery = "SELECT COUNT(*) FROM PERSONE WHERE Codice_fiscale LIKE ?";
@@ -62,7 +61,7 @@ public class DataInserterImpl implements DataInserter {
 	public OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration,
 			String type, String patientCF, Collection<String> doctorCF) {
 		
-		if(checkNulls(List.of(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF))){
+		if(checkNulls(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF)){
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -119,7 +118,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertASL(String name, String city, String street, int streetNumber) {
-		if(checkNulls(List.of(name, city, street, streetNumber))) {
+		if(checkNulls(name, city, street, streetNumber)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -145,12 +144,23 @@ public class DataInserterImpl implements DataInserter {
 	public OPERATION_OUTCOME insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
 			Optional<Date> exitDate, String description) {
 		
-		if(checkNulls(List.of(patientCF, hospitalCode, unitName, ingressDate, description))) {
+		if(checkNulls(patientCF, hospitalCode, unitName, ingressDate, description)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		String query = INSERT_SENTENCE + TABLES.CURE.get() + "(Paziente, Codice_ospedale, Nome_unita, Data_ingresso, Data_uscita, Motivazione) VALUES(?, ?, ?, ?, ?, ?)";
-		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+		String controlQuery = "SELECT * FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome = ?";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
+			controlStatement.setInt(1, hospitalCode);
+			controlStatement.setString(2, unitName);
+			
+			var rs = controlStatement.executeQuery();
+			if(rs.getInt("Capienza") == rs.getInt("Posti_occupati")) {
+				return OPERATION_OUTCOME.CAPACITY_REACHED;
+			}
+		
+		
+			String query = INSERT_SENTENCE + TABLES.CURE.get() + "(Paziente, Codice_ospedale, Nome_unita, Data_ingresso, Data_uscita, Motivazione) VALUES(?, ?, ?, ?, ?, ?)";
+			final PreparedStatement statement = this.connection.prepareStatement(query);
 			
 			statement.setString(1, patientCF);
 			statement.setInt(2, hospitalCode);
@@ -166,6 +176,12 @@ public class DataInserterImpl implements DataInserter {
 			statement.setString(6, description);
 			
 			statement.executeUpdate();
+			String updateQuery = "UPDATE " + TABLES.UO.get() + " SET Posti_occupati = Posti_occupati+1 WHERE Codice_ospedale LIKE ? AND Nome = ?";
+			final PreparedStatement updateStatement = this.connection.prepareStatement(updateQuery);
+			updateStatement.setInt(1, hospitalCode);
+			updateStatement.setString(2, unitName);
+			
+			updateStatement.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -177,13 +193,18 @@ public class DataInserterImpl implements DataInserter {
 	}
 
 	@Override
-	public OPERATION_OUTCOME insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance) {
-		if(checkNulls(List.of(hospitalCode, inventoryCode, name, lastMaintenance))) {
+	public OPERATION_OUTCOME insertEquipment(int hospitalCode, String name, Date lastMaintenance) {
+		if(checkNulls(hospitalCode, name, lastMaintenance)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		String query = INSERT_SENTENCE + TABLES.EQUIPMENT.get() + "(Codice_ospedale, Codice_inventario, Nome, Data_manutenzione) VALUES(?, ?, ?, ?)";
-		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+		String controlQuery = "SELECT Count(*) FROM " + TABLES.EQUIPMENT;
+		try (final Statement controlStatement = this.connection.createStatement()){
+			var rs = controlStatement.executeQuery(controlQuery);
+			int inventoryCode = rs.getInt(1) + 1;
+		
+			String query = INSERT_SENTENCE + TABLES.EQUIPMENT.get() + "(Codice_ospedale, Codice_inventario, Nome, Data_manutenzione) VALUES(?, ?, ?, ?)";
+			final PreparedStatement statement = this.connection.prepareStatement(query);
 			
 			statement.setInt(1, hospitalCode);
 			statement.setInt(2, inventoryCode);
@@ -200,7 +221,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName) {
-		if(checkNulls(List.of(CF, role))) {
+		if(checkNulls(CF, role)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -233,7 +254,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertHospital(String name, String city, String street, int streetNumber, int codeASL) {
-		if(checkNulls(List.of(name, city, street, streetNumber, codeASL))) {
+		if(checkNulls(name, city, street, streetNumber, codeASL)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		String query = INSERT_SENTENCE + TABLES.HOSPITAL.get() + "(Nome, Ind_Citta, Ind_via, Ind_Numero_civico, Cod_ASL) VALUES(?, ?, ?, ?, ?)";
@@ -256,7 +277,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName) {
-		if(checkNulls(List.of(CF, birthDay))) {
+		if(checkNulls(CF, birthDay)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -296,7 +317,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertPerson(String CF, String name, String lastName) {
-		if(checkNulls(List.of(CF, name, lastName))) {
+		if(checkNulls(CF, name, lastName)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -317,7 +338,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertPhone(String phoneNumber, String personCF) {
-		if(checkNulls(List.of(phoneNumber, personCF))) {
+		if(checkNulls(phoneNumber, personCF)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		String query = INSERT_SENTENCE + TABLES.PHONE.get() + "(Telefono, Persona) VALUES(?, ?)";
@@ -341,7 +362,7 @@ public class DataInserterImpl implements DataInserter {
 			Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
 			int hospitalCode, String patientCF, Collection<String> doctorCF) {
 		
-		if(checkNulls(List.of(emissionDate, description, type, hospitalCode, patientCF, doctorCF))) {
+		if(checkNulls(emissionDate, description, type, hospitalCode, patientCF, doctorCF)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -394,7 +415,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertRoom(int hospitalCode, int roomNumber) {
-		if(checkNulls(List.of(hospitalCode, roomNumber))) {
+		if(checkNulls(hospitalCode, roomNumber)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -415,7 +436,7 @@ public class DataInserterImpl implements DataInserter {
 
 	@Override
 	public OPERATION_OUTCOME insertUO(int hospitalCode, String name, int capacity, int seatsOccupied) {
-		if(checkNulls(List.of(hospitalCode, name, capacity, seatsOccupied))) {
+		if(checkNulls(hospitalCode, name, capacity, seatsOccupied)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -438,7 +459,7 @@ public class DataInserterImpl implements DataInserter {
 	
 	@Override
 	public OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode) {
-		if(checkNulls(List.of(CF, unitName, hospitalCode))) {
+		if(checkNulls(CF, unitName, hospitalCode)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		String query = INSERT_SENTENCE + TABLES.WORKING.get() + "(Codice_ospedale, Nome_unita, Codice_fiscale) VALUES(?, ?, ?)";
@@ -458,7 +479,7 @@ public class DataInserterImpl implements DataInserter {
 	}
 	
 	private OPERATION_OUTCOME insertPresence(String doctor, int hospitalCode, int roomNumber, Timestamp date) {
-		if(checkNulls(List.of(doctor, hospitalCode, roomNumber, date))) {
+		if(checkNulls(doctor, hospitalCode, roomNumber, date)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;			
 		}
 		String query = INSERT_SENTENCE + TABLES.PRESENCE.get() + "(Medico, Codice_ospedale, Numero_sala, Data_ora) VALUES(?, ?, ?, ?)";
@@ -480,7 +501,7 @@ public class DataInserterImpl implements DataInserter {
 	}
 	
 	private OPERATION_OUTCOME insertInvolvement(int reportCode, String doctor) {
-		if(checkNulls(List.of(reportCode, doctor))) {
+		if(checkNulls(reportCode, doctor)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;			
 		}
 		String query = INSERT_SENTENCE + TABLES.INVOLVEMENTS.get() + "(Referto, Medico) VALUES(?, ?)";
@@ -498,7 +519,7 @@ public class DataInserterImpl implements DataInserter {
 		return OPERATION_OUTCOME.SUCCESS;
 	}
 	
-	private boolean checkNulls(final Collection<Object> args) {
+	private boolean checkNulls(Object ... args) {
 		for (Object object : args) {
 			if(Objects.isNull(object)) {
 				return true;
