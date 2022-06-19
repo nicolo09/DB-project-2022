@@ -3,6 +3,7 @@ package db.project.model.mysql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -195,9 +196,34 @@ public class DataUpdaterImpl implements DataUpdater {
 	}
 
 	@Override
-	public OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity,
-			Optional<Integer> seatsOccupied) {
-		// TODO Auto-generated method stub
+	public OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity) {
+		if(checkNulls(hospitalCode, name) || checkModifies(capacity)) {
+			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
+		}
+		
+		String controlQuery = "SELECT * FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome = ?";
+		try (final Statement controlStatement = this.connection.createStatement()){
+			
+			var rs = controlStatement.executeQuery(controlQuery);
+			if(capacity.get() <= rs.getInt("Posti_occupati")) {
+				return OPERATION_OUTCOME.CAPACITY_REACHED;
+			}
+		
+			String query = "UPDATE " + TABLES.UO.get() + " SET";
+			query += " Capienza = " + capacity.get();
+			query += " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
+		
+			final PreparedStatement statement = this.connection.prepareStatement(query);
+			
+			statement.setInt(1, hospitalCode);
+			statement.setString(2, name);
+			
+			statement.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return OPERATION_OUTCOME.FAILURE;
+		}
+		
 		return OPERATION_OUTCOME.SUCCESS;
 	}
 	
