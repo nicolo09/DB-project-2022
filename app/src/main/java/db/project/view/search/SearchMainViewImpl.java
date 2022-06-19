@@ -7,6 +7,7 @@ import db.project.model.ASL;
 import db.project.model.Hospital;
 import db.project.model.Person;
 import db.project.view.View;
+import db.project.view.ViewImpl;
 import db.project.view.search.hospital.SearchASLControllerImpl;
 import db.project.view.search.hospital.SearchASLView;
 import db.project.view.search.hospital.SearchASLViewImpl;
@@ -124,10 +125,8 @@ public class SearchMainViewImpl implements SearchMainView {
             e.printStackTrace();
         }
         final Scene scene = new Scene(parent);
-        this.mainStage.setScene(scene);
-        this.mainStage.show();
-        mainStage.setMinWidth(scene.getWidth());
-        mainStage.setMinHeight(scene.getHeight());
+        ViewImpl.adjustStageAndSetScene(mainStage, scene);
+		this.mainStage.show();
     }
 
     @Override
