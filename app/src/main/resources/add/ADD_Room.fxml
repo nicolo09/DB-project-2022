@@ -34,11 +34,6 @@
                   <Font size="29.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Button>
          </children>
       </VBox>
       <Label layoutX="202.0" layoutY="431.0" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="201.0" />

@@ -34,15 +34,10 @@
                   <Font size="29.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Button>
          </children>
       </VBox>
       <Label layoutX="202.0" layoutY="431.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="202.0" />
-      <GridPane hgap="10.0" layoutX="42.0" layoutY="103.0" prefHeight="287.0" prefWidth="506.0" AnchorPane.bottomAnchor="150.0" AnchorPane.leftAnchor="42.0" AnchorPane.topAnchor="110.0">
+      <GridPane hgap="10.0" layoutX="74.0" layoutY="120.0" prefHeight="287.0" prefWidth="506.0" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="74.0" AnchorPane.topAnchor="120.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
