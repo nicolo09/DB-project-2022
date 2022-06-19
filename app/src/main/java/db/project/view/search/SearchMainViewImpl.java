@@ -19,6 +19,7 @@ import db.project.view.search.hospital.SearchUoViewImpl;
 import db.project.view.search.hospital.SelectASLControllerImpl;
 import db.project.view.search.hospital.SelectHospitalControllerImpl;
 import db.project.view.search.person.SearchDoctorsControllerImpl;
+import db.project.view.search.person.SearchDoctorsViewImpl;
 import db.project.view.search.person.SearchManagersControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
 import db.project.view.search.person.SearchPersonView;
@@ -82,7 +83,7 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToPersonaleSanitario() {
-        final SearchPersonView view = new SearchPersonViewImpl(mainStage, new SearchDoctorsControllerImpl(() -> this.show(), mainController));
+        final SearchPersonView view = new SearchDoctorsViewImpl(mainStage, new SearchDoctorsControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 

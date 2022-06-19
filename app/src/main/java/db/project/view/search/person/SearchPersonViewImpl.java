@@ -21,13 +21,17 @@ public class SearchPersonViewImpl implements SearchPersonView{
     private Stage getStage() {
         return this.stage;
     }
+
+    protected String getPath() {
+        return PATH;
+    }
     
     @Override
     public void show() {
         Parent parent = null;
         final FXMLLoader loader = new FXMLLoader();
         loader.setController(this.controller);
-        loader.setLocation(getClass().getResource("/" + PATH));
+        loader.setLocation(getClass().getResource("/" + this.getPath()));
         try {
             parent = loader.load();
         } catch (IOException e) {
