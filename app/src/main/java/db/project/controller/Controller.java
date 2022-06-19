@@ -31,8 +31,17 @@ public interface Controller {
 
     Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
             Optional<Integer> HospitalCode);
+
+    Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way, Optional<String> number);
+
+    Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
+            Optional<String> number, Optional<ASL> asl);
+
+    Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace);
+
+    Optional<Uo> getUo(Hospital hospital, String name);
     
- OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName);
+    OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName);
     
     OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date,
     		int duration, String type, String patientCF, Collection<String> doctorCF);
@@ -63,13 +72,4 @@ public interface Controller {
     OPERATION_OUTCOME insertUO(int hospitalCode, String name, int capacity, int seatsOccupied);
     
     OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode);
-
-    Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way, Optional<String> number);
-
-    Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
-            Optional<String> number, Optional<ASL> asl);
-
-    Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace);
-
-    Optional<Uo> getUo(Hospital hospital, String name);
 }

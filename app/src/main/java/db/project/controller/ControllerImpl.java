@@ -63,7 +63,29 @@ public class ControllerImpl implements Controller {
         return this.model.getManagers(name, surname, role, HospitalCode);
     }
 
-	@Override
+    @Override
+    public Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way,
+            Optional<String> number) {
+        return this.model.getASL(name, city, way, number);
+    }
+
+    @Override
+    public Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
+            Optional<String> number, Optional<ASL> asl) {
+        return this.model.getHospitals(name, city, way, number, asl);
+    }
+
+    @Override
+    public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace) {
+        return this.model.getUos(name, freeSpace);
+    }
+
+    @Override
+    public Optional<Uo> getUo(Hospital hospital, String name) {
+        return this.model.getUo(hospital, name);
+    }
+    
+    @Override
 	public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
 			Optional<String> lastName) {
 		return this.model.insertAmministratives(CF, role, hospitalCode, name, lastName);
@@ -138,26 +160,5 @@ public class ControllerImpl implements Controller {
 	public OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode) {
 		return this.model.insertWorking(CF, unitName, hospitalCode);
 	}
-    @Override
-    public Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way,
-            Optional<String> number) {
-        return this.model.getASL(name, city, way, number);
-    }
-
-    @Override
-    public Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
-            Optional<String> number, Optional<ASL> asl) {
-        return this.model.getHospitals(name, city, way, number, asl);
-    }
-
-    @Override
-    public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace) {
-        return this.model.getUos(name, freeSpace);
-    }
-
-    @Override
-    public Optional<Uo> getUo(Hospital hospital, String name) {
-        return this.model.getUo(hospital, name);
-    }
 
 }

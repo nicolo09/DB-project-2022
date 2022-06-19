@@ -15,7 +15,7 @@ public class EquipmentModifyController extends ModifyController{
 	@Override
 	public void addElement() {
 		// TODO Auto-generated method stub
-		this.mainController.insertEquipment(0, 0, null, null);
+		this.mainController.insertEquipment(0, null, null);
 		
 	}
 
