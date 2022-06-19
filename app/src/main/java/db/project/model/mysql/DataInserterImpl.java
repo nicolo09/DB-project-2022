@@ -36,7 +36,7 @@ public class DataInserterImpl implements DataInserter {
 			rs.next();
 			if(rs.getInt("total") > 0) {
 				if(name.isEmpty() || lastName.isEmpty()) {
-					return OPERATION_OUTCOME.MISSING_ARGUMENTS;
+					return OPERATION_OUTCOME.MISSING_PERSON;
 				}
 				this.insertPerson(CF, name.get(), lastName.get());
 			}
@@ -232,7 +232,7 @@ public class DataInserterImpl implements DataInserter {
 			rs.next();
 			if(rs.getInt("total") > 0) {
 				if(name.isEmpty() || lastName.isEmpty()) {
-					return OPERATION_OUTCOME.MISSING_ARGUMENTS;
+					return OPERATION_OUTCOME.MISSING_PERSON;
 				}
 				this.insertPerson(CF, name.get(), lastName.get());
 			}
@@ -288,7 +288,7 @@ public class DataInserterImpl implements DataInserter {
 			rs.next();
 			if(rs.getInt("total") > 0) {
 				if(name.isEmpty() || lastName.isEmpty()) {
-					return OPERATION_OUTCOME.MISSING_ARGUMENTS;
+					return OPERATION_OUTCOME.MISSING_PERSON;
 				}
 				this.insertPerson(CF, name.get(), lastName.get());
 			}
