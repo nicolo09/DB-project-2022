@@ -46,7 +46,4 @@ public class ASLImpl implements ASL {
     public String getAddress() {
         return this.way + " " + this.number + ", " + this.city;
     }
-    
-    
-
 }
