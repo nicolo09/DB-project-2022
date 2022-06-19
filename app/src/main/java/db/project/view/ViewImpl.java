@@ -1,5 +1,7 @@
 package db.project.view;
 
+import db.project.view.modify.MainModifyView;
+import db.project.view.modify.MainModifyViewImpl;
 import db.project.controller.Controller;
 import db.project.view.search.SearchMainView;
 import db.project.view.search.SearchMainViewImpl;
@@ -31,8 +33,8 @@ public class ViewImpl implements View {
 
     @Override
     public void goToModifyMenu() {
-        // TODO Auto-generated method stub
-
+        final MainModifyView view = new MainModifyViewImpl(this, mainController, stage);
+        view.show();
     }
 
 }
