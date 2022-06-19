@@ -4,10 +4,10 @@ public enum TABLES {
 	
 	AMMINISTRATIVE("amministrativi"),
 	APPOINTMENT("appuntamenti"),
-	ASL("ASL"),
+	ASL("asl"),
 	CURE("cure"),
 	EQUIPMENT("attrezzature"),
-	HEALTHCARE("personale sanitario"),
+	HEALTHCARE("personale_sanitario"),
 	HOSPITAL("ospedali"),
 	INVOLVEMENTS("coinvolgimenti"),
 	PATIENT("pazienti"),
@@ -16,7 +16,7 @@ public enum TABLES {
 	PRESENCE("presenzia"),
 	REPORT("referti"),
 	ROOM("sale"),
-	UO("unita operative"),
+	UO("unita_operative"),
 	WORKING("lavora");
 	
 	private final String name;
