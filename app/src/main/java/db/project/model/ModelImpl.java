@@ -352,4 +352,33 @@ public class ModelImpl implements Model {
             return List.of();
         }
     }
+
+    @Override
+    public Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
+            Optional<String> number, Optional<ASL> asl) {
+        String query = "SELECT * FROM hospital" + " WHERE ";
+        if (name.isPresent()) {
+            query += "Nome LIKE '" + name.get() + "', ";
+        }
+        if (city.isPresent()) {
+            query += "Ind_Citta LIKE '" + city.get() + "', ";
+        }
+        if (way.isPresent()) {
+            query += "Ind_Via LIKE '" + way.get() + "', ";
+        }
+        if (number.isPresent()) {
+            query += "Ind_Numero_civico LIKE '" + number.get() + "', ";
+        }
+        if (asl.isPresent()) {
+            query += "Cod_ASL = " + asl.get().getCode() + ", ";
+        }
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readHospitalsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
 }
