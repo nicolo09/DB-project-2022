@@ -80,7 +80,7 @@ public class DataUpdaterImpl implements DataUpdater {
 		if(checkNulls(patientCF, hospitalCode, unitName) || checkModifies(exitDate, description)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
-		
+		//TODO control if exitdate is already present
 		String query = "UPDATE " + TABLES.CURE.get() + " SET";
 		query += exitDate.isPresent() ? " Data_uscita = " + new java.sql.Date(exitDate.get().getTime()) + "," : "";
 		query += description.isPresent() ? " Motivazione = '" + description.get() + "'," : "";

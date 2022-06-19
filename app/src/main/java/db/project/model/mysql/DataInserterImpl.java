@@ -400,9 +400,12 @@ public class DataInserterImpl implements DataInserter {
 			//TODO test if it works
 			var reportCode = rs.getInt(1);
 			
-			//TODO return false if cannot insert involvement or make the user select the doctor/doctors
 			for (String doctor : doctorCF) {
-				insertInvolvement(reportCode, doctor);
+				var op_outcome = insertInvolvement(reportCode, doctor);
+				if(op_outcome != OPERATION_OUTCOME.SUCCESS) {
+					//TODO delete report 
+					return op_outcome;
+				}
 			}
 			
 		} catch (SQLException e) {
