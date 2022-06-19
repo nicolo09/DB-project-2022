@@ -9,6 +9,7 @@ import db.project.model.Hospital;
 import db.project.model.Model;
 import db.project.model.Person;
 import db.project.model.Report;
+import db.project.model.Uo;
 
 public class ControllerImpl implements Controller {
 
@@ -70,6 +71,16 @@ public class ControllerImpl implements Controller {
     public Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
             Optional<String> number, Optional<ASL> asl) {
         return this.model.getHospitals(name, city, way, number, asl);
+    }
+
+    @Override
+    public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace) {
+        return this.model.getUos(name, freeSpace);
+    }
+
+    @Override
+    public Optional<Uo> getUo(Hospital hospital, String name) {
+        return this.model.getUo(hospital, name);
     }
 
 }

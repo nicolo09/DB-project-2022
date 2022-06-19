@@ -24,6 +24,7 @@ public class ModelImpl implements Model {
     private String tableReports = "referti";
     private String tableHospital = "ospedali";
     private String tableASL = "asl";
+    private String tableUo = "uo";
 
     /**
      * Creates a simple connection to a local database
@@ -31,7 +32,7 @@ public class ModelImpl implements Model {
     public ModelImpl(String username, String password) {
         dbConnection = new ConnectionProvider(username, password, dbName).getMySQLConnection();
     }
-    
+
     @Override
     public Collection<Person> getPersons(Optional<String> name, Optional<String> surname) {
         String query = "SELECT * FROM " + tablePersons + " ";
@@ -263,8 +264,9 @@ public class ModelImpl implements Model {
         }
         return result;
     }
-
-    private Optional<ASL> getASL(final Integer code) {
+    
+    @Override
+    public Optional<ASL> getASL(final Integer code) {
         if (checkASLExists(code) == false) {
             return Optional.empty();
         }
@@ -376,6 +378,59 @@ public class ModelImpl implements Model {
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readHospitalsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    @Override
+    public Optional<Uo> getUo(Hospital hospital, String name) {
+        String query = "SELECT * FROM " + tableUo + " WHERE " + "Codice_ospedale = " + hospital.getCode() + " AND "
+                + "Nome = '" + name + "'";
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            Collection<Uo> result = readUoFromResultSet(statement.getResultSet());
+            if (result.size() == 1) {
+                return Optional.of(result.iterator().next());
+            } else {
+                return Optional.empty();
+            }
+        } catch (final SQLException e) {
+            return Optional.empty();
+        }
+    }
+
+    private Collection<Uo> readUoFromResultSet(ResultSet resultSet) {
+        Set<Uo> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new UoImpl(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
+                        resultSet.getString("Nome"), resultSet.getInt("Capacita"), resultSet.getInt("Posti_occupati")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace) {
+        String query = "SELECT * FROM " + tableHospital + " WHERE ";
+        if (name.isPresent()) {
+            query += "Nome LIKE '" + name.get() + "', ";
+        }
+        if (freeSpace.isPresent()) {
+            if (freeSpace.get()) {
+                query += "Capienza > Posti_occupati, ";
+            } else {
+                query += "Capienza <= Posti_occupati, ";
+            }
+        }
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readUoFromResultSet(statement.getResultSet());
         } catch (final SQLException e) {
             return List.of();
         }

@@ -8,6 +8,7 @@ import db.project.model.ASL;
 import db.project.model.Hospital;
 import db.project.model.Person;
 import db.project.model.Report;
+import db.project.model.Uo;
 
 public interface Controller {
 
@@ -33,4 +34,8 @@ public interface Controller {
 
     Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
             Optional<String> number, Optional<ASL> asl);
+
+    Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace);
+
+    Optional<Uo> getUo(Hospital hospital, String name);
 }
