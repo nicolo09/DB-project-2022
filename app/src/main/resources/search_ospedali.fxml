@@ -72,7 +72,7 @@
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </padding>
       </GridPane>
-      <TableView fx:id="refertiTableView" layoutX="14.0" layoutY="158.0" prefHeight="343.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="158.0">
+      <TableView fx:id="hospitalsTableView" layoutX="14.0" layoutY="158.0" prefHeight="343.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="158.0">
         <columns>
           <TableColumn fx:id="columnCode" prefWidth="75.0" text="Codice" />
           <TableColumn fx:id="columnName" prefWidth="75.0" text="Nome" />

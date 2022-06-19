@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Optional;
 
 import db.project.model.ASL;
+import db.project.model.Hospital;
 import db.project.model.Model;
 import db.project.model.Person;
 import db.project.model.Report;
@@ -63,6 +64,12 @@ public class ControllerImpl implements Controller {
     public Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way,
             Optional<String> number) {
         return this.model.getASL(name, city, way, number);
+    }
+
+    @Override
+    public Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
+            Optional<String> number, Optional<ASL> asl) {
+        return this.model.getHospitals(name, city, way, number, asl);
     }
 
 }

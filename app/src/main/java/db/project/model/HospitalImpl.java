@@ -48,5 +48,10 @@ public class HospitalImpl implements Hospital {
     public ASL getAsl() {
         return this.asl;
     }
+
+    @Override
+    public String getAddress() {
+        return this.getAddressWay() + " " + this.getAddressNumber() + ", " + this.getAddressCity();
+    }
     
 }
