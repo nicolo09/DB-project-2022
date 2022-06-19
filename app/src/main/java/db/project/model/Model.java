@@ -33,7 +33,7 @@ public interface Model {
     OPERATION_OUTCOME insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
     		Optional<Date> exitDate, String description);
     
-    OPERATION_OUTCOME insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance);
+    OPERATION_OUTCOME insertEquipment(int hospitalCode, String name, Date lastMaintenance);
     
     OPERATION_OUTCOME insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName);
     

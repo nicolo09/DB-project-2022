@@ -204,8 +204,8 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public OPERATION_OUTCOME insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance) {
-		return inserter.insertEquipment(hospitalCode, inventoryCode, name, lastMaintenance);
+	public OPERATION_OUTCOME insertEquipment(int hospitalCode, String name, Date lastMaintenance) {
+		return inserter.insertEquipment(hospitalCode, name, lastMaintenance);
 	}
 
 	@Override

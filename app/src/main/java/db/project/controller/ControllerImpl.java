@@ -85,8 +85,8 @@ public class ControllerImpl implements Controller {
 	}
 
 	@Override
-	public OPERATION_OUTCOME insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance) {
-		return this.model.insertEquipment(hospitalCode, inventoryCode, name, lastMaintenance);
+	public OPERATION_OUTCOME insertEquipment(int hospitalCode, String name, Date lastMaintenance) {
+		return this.model.insertEquipment(hospitalCode, name, lastMaintenance);
 	}
 
 	@Override
