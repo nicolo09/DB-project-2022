@@ -14,4 +14,6 @@ public interface Hospital {
 
     ASL getAsl();
 
+    String getAddress();
+
 }

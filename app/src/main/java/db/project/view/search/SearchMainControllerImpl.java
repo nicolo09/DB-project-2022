@@ -17,12 +17,12 @@ public class SearchMainControllerImpl {
 
     @FXML
     private void onAppuntamenti(ActionEvent event) {
-        // TODO Auto-generated method stub
+        this.view.goToAppuntamenti();
     }
 
     @FXML
     private void onOspedali(ActionEvent event) {
-        // TODO Auto-generated method stub
+        this.view.goToOspedali();
     }
 
     @FXML
@@ -47,12 +47,12 @@ public class SearchMainControllerImpl {
 
     @FXML
     private void onRicoveri(ActionEvent event) {
-        // TODO Auto-generated method stub
+        this.view.goToRicoveri();
     }
 
     @FXML
     private void onUnitaOperative(ActionEvent event) {
-        // TODO Auto-generated method stub
+        this.view.goToUnitaOperative();
     }
     
 }

@@ -21,13 +21,13 @@ public interface SearchMainView {
     void goToRicoveri();
 
     void goToUnitaOperative();
-    
+
     void goToMainMenu();
 
     void show();
-    
+
     Person selectPerson();
-    
+
     void showError(String errorMessage);
 
 }
