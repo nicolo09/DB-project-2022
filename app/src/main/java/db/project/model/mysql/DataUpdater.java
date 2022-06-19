@@ -1,42 +1,38 @@
 package db.project.model.mysql;
 
-import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Optional;
 
+import db.project.model.OPERATION_OUTCOME;
+
 public interface DataUpdater {
 	
-	boolean updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode);
+	OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode);
     
-    boolean updateAppointment(int hospitalCode, int roomNumber, Timestamp date, Optional<Integer> duration, 
-    		Optional<String> type, Optional<String> patientCF);//, Optional<Collection<String>> doctorCF);
+    OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city, Optional<String> street, Optional<Integer> streetNumber);
     
-    boolean updateASL(int codeASL, Optional<String> name, Optional<String> city, Optional<String> street, Optional<Integer> streetNumber);
+    OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate, Optional<String> description);
     
-    boolean updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> ingressDate,
-    		Optional<Date> exitDate, Optional<String> description);
+    OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance);
     
-    boolean updateEquipment(int hospitalCode, int inventoryCode, Optional<String> name, Optional<Date> lastMaintenance);
+    OPERATION_OUTCOME updateHealtcare(String CF, Optional<String> role);
     
-    boolean updateHealtcare(String CF, Optional<String> role);
+    OPERATION_OUTCOME updateHospital(int structureCode, Optional<String> name, Optional<Integer> codeASL);
     
-    boolean updateHospital(int structureCode, Optional<String> name, Optional<String> city, Optional<String> street,
-    		Optional<Integer> streetNumber, Optional<Integer> codeASL);
+    OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL);
     
-    boolean updatePatient(String CF, Optional<Date> birthDay, Optional<Integer> codASL);
+    //OPERATION_OUTCOME updatePerson(String CF, String name, String lastName);
     
-    //boolean updatePerson(String CF, String name, String lastName);
+    //OPERATION_OUTCOME updatePhone(String phoneNumber, String personCF);
     
-    //boolean updatePhone(String phoneNumber, String personCF);
-    
-    /*boolean updateReport(Date emissionDate, String description, String type, 
+    /*OPERATION_OUTCOME updateReport(Date emissionDate, String description, String type, 
     		Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration, 
     		int hospitalCode, String patientCF, Collection<String> doctorCF);*/
     
-    //boolean updateRoom(int hospitalCode, int roomNumber);
+    //OPERATION_OUTCOME updateRoom(int hospitalCode, int roomNumber);
     
-    boolean updateUO(int hospitalCode, String name, Optional<Integer> capacity, Optional<Integer> seatsOccupied);
+    OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity, Optional<Integer> seatsOccupied);
     
-    //boolean updateWorking(String CF, String unitName, int hospitalCode);
+    //OPERATION_OUTCOME updateWorking(String CF, String unitName, int hospitalCode);
 
 }
