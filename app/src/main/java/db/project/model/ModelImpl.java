@@ -182,76 +182,76 @@ public class ModelImpl implements Model {
     }
 
 	@Override
-	public boolean insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName) {
+	public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName) {
 		return inserter.insertAmministratives(CF, role, hospitalCode, name, lastName);
 	}
 
 	@Override
-	public boolean insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration,
+	public OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration,
 			String type, String patientCF, Collection<String> doctorCF) {
 		return inserter.insertAppointment(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF);
 	}
 
 	@Override
-	public boolean insertASL(String name, String city, String street, int streetNumber) {
+	public OPERATION_OUTCOME insertASL(String name, String city, String street, int streetNumber) {
 		return inserter.insertASL(name, city, street, streetNumber);
 	}
 
 	@Override
-	public boolean insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
+	public OPERATION_OUTCOME insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
 			Optional<Date> exitDate, String description) {
 		return inserter.insertCure(patientCF, hospitalCode, unitName, ingressDate, exitDate, description);
 	}
 
 	@Override
-	public boolean insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance) {
+	public OPERATION_OUTCOME insertEquipment(int hospitalCode, int inventoryCode, String name, Date lastMaintenance) {
 		return inserter.insertEquipment(hospitalCode, inventoryCode, name, lastMaintenance);
 	}
 
 	@Override
-	public boolean insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName) {
+	public OPERATION_OUTCOME insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName) {
 		return inserter.insertHealtcare(CF, role, name, lastName);
 	}
 
 	@Override
-	public boolean insertHospital(String name, String city, String street, int streetNumber, int codeASL) {
+	public OPERATION_OUTCOME insertHospital(String name, String city, String street, int streetNumber, int codeASL) {
 		return inserter.insertHospital(name, city, street, streetNumber, codeASL);
 	}
 
 	@Override
-	public boolean insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName) {
+	public OPERATION_OUTCOME insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName) {
 		return inserter.insertPatient(CF, birthDay, codASL, name, lastName);
 	}
 
 	@Override
-	public boolean insertPerson(String CF, String name, String lastName) {
+	public OPERATION_OUTCOME insertPerson(String CF, String name, String lastName) {
 		return inserter.insertPerson(CF, name, lastName);
 	}
 
 	@Override
-	public boolean insertPhone(String phoneNumber, String personCF) {
+	public OPERATION_OUTCOME insertPhone(String phoneNumber, String personCF) {
 		return inserter.insertPhone(phoneNumber, personCF);
 	}
 
 	@Override
-	public boolean insertReport(Date emissionDate, String description, String type,
+	public OPERATION_OUTCOME insertReport(Date emissionDate, String description, String type,
 			Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
 			int hospitalCode, String patientCF, Collection<String> doctorCF) {
 		return inserter.insertReport(emissionDate, description, type, therapy, procedure, outcome, duration, hospitalCode, patientCF, doctorCF);
 	}
 
 	@Override
-	public boolean insertRoom(int hospitalCode, int roomNumber) {
+	public OPERATION_OUTCOME insertRoom(int hospitalCode, int roomNumber) {
 		return inserter.insertRoom(hospitalCode, roomNumber);
 	}
 
 	@Override
-	public boolean insertUO(int hospitalCode, String name, int capacity, int seatsOccupied) {
+	public OPERATION_OUTCOME insertUO(int hospitalCode, String name, int capacity, int seatsOccupied) {
 		return inserter.insertUO(hospitalCode, name, capacity, seatsOccupied);
 	}
 
 	@Override
-	public boolean insertWorking(String CF, String unitName, int hospitalCode) {
+	public OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode) {
 		return inserter.insertWorking(CF, unitName, hospitalCode);
 	}
 
@@ -375,7 +375,7 @@ public class ModelImpl implements Model {
         return result;
     }
 
-    private Boolean checkHospitalExists(final Integer code) {
+    private boolean checkHospitalExists(final Integer code) {
         String query = "SELECT COUNT(*) AS total FROM " + tableHospital + " WHERE Codice_struttura = " + code;
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -391,7 +391,7 @@ public class ModelImpl implements Model {
         }
     }
 
-    private Boolean checkASLExists(final Integer code) {
+    private boolean checkASLExists(final Integer code) {
         String query = "SELECT COUNT(*) AS total FROM " + tableASL + " WHERE Codice = " + code;
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
