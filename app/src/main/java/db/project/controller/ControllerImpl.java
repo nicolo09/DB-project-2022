@@ -76,13 +76,23 @@ public class ControllerImpl implements Controller {
     }
 
     @Override
-    public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace) {
-        return this.model.getUos(name, freeSpace);
+    public Optional<Uo> getUo(Hospital hospital, String name) {
+        return this.model.getUo(hospital, name);
     }
 
     @Override
-    public Optional<Uo> getUo(Hospital hospital, String name) {
-        return this.model.getUo(hospital, name);
+    public Optional<Hospital> getHospital(Integer code) {
+        return this.model.getHospital(code);
+    }
+
+    @Override
+    public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital) {
+        return this.model.getUos(name, freeSpace, hospital);
+    }
+
+    @Override
+    public Optional<ASL> getASL(Integer code) {
+        return model.getASL(code);
     }
     
     @Override

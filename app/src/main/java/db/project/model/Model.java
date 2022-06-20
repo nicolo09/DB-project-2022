@@ -74,9 +74,10 @@ public interface Model {
     /**
      * @param name name of the Uo
      * @param freeSpace true if show only Uo with free space, false show only full Uos
+     * @param hospital
      * @return the collection of all UOs filtered by the given name or free space (or both)
      */
-    Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace);
+    Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital);
     
     OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName);
     

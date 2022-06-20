@@ -34,13 +34,17 @@ public interface Controller {
 
     Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way, Optional<String> number);
 
+    Optional<Hospital> getHospital(Integer code);
+
     Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
             Optional<String> number, Optional<ASL> asl);
 
-    Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace);
+    Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital);
 
     Optional<Uo> getUo(Hospital hospital, String name);
-    
+
+    Optional<ASL> getASL(Integer code);
+
     OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName);
     
     OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date,

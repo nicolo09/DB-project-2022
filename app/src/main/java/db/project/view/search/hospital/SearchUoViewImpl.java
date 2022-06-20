@@ -7,13 +7,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SearchHospitalViewImpl implements SearchHospitalView {
+public class SearchUoViewImpl implements SearchUoView {
     
-    private static final String PATH = "search_ospedali.fxml";
-    private final SearchHospitalControllerImpl controller;
+    private static final String PATH = "search_uo.fxml";
+    private final SearchUoControllerImpl controller;
     private final Stage mainStage;
 
-    public SearchHospitalViewImpl(final Stage stage, final SearchHospitalControllerImpl controller) {
+    public SearchUoViewImpl(final Stage stage, final SearchUoControllerImpl controller) {
         this.mainStage = stage;
         this.controller = controller;
     }
@@ -39,5 +39,4 @@ public class SearchHospitalViewImpl implements SearchHospitalView {
     private Stage getStage() {
         return this.mainStage;
     }
-
 }

@@ -429,7 +429,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace) {
+    public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital) {
         String query = "SELECT * FROM " + tableHospital + " WHERE ";
         if (name.isPresent()) {
             query += "Nome LIKE '" + name.get() + "', ";
@@ -440,6 +440,9 @@ public class ModelImpl implements Model {
             } else {
                 query += "Capienza <= Posti_occupati, ";
             }
+        }
+        if (hospital.isPresent()) {
+            query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
         }
         query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
