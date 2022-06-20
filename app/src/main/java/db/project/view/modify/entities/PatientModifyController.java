@@ -24,4 +24,10 @@ public class PatientModifyController extends ModifyController{
 		
 	}
 
+	@Override
+	protected void removeElement() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

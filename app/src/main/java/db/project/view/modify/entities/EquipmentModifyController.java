@@ -25,4 +25,10 @@ public class EquipmentModifyController extends ModifyController{
 		
 	}
 
+	@Override
+	protected void removeElement() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

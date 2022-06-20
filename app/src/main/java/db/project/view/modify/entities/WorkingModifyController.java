@@ -19,7 +19,7 @@ public class WorkingModifyController extends ModifyController{
 	}
 
 	@Override
-	public void updateElement() {
+	protected void removeElement() {
 		// TODO Auto-generated method stub
 		
 	}

@@ -2,8 +2,11 @@ package db.project.view.modify;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import javafx.fxml.FXML;
 
 public abstract class ModifyController {
+	
+	protected final static int CFLENGHT = 16;
 	
 	private final Command exit;
 	protected final Controller mainController;
@@ -13,34 +16,27 @@ public abstract class ModifyController {
 		this.mainController = mainController;
 	}
 	
-	public void goBack() {
+	@FXML
+	protected void goBack() {
 		exit.execute();
 	}
 	
-	public void selectASL() {
-		// overridable method, it isn't implemented by default
+	protected abstract void addElement();
+	
+	protected abstract void removeElement();
+	
+	protected void updateElement() {
+		//updatable elements must override this method
 	}
 	
-	public void selectPersonCF() {
-		// overridable method, it isn't implemented by default
+	protected boolean isInteger(final String number) {
+		try {
+			Integer.parseInt(number);
+			return true;
+		} catch(NumberFormatException e) {
+			return false;
+		}
+		
 	}
-	
-	public void selectPatientCF() {
-		// overridable method, it isn't implemented by default
-	}
-	
-	public void selectDoctorCF() {
-		// overridable method, it isn't implemented by default
-	}
-	
-	public void selectRoom() {
-		// overridable method, it isn't implemented by default
-	}
-	
-	// public abstract void selectExistingElement(); TODO is possible?
-	
-	public abstract void addElement();
-	
-	public abstract void updateElement();
 
 }
