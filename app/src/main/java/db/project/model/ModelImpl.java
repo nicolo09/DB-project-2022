@@ -39,6 +39,15 @@ public class ModelImpl implements Model {
     }
 
     @Override
+    public void close() {
+        try {
+            dbConnection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Collection<Person> getPersons(Optional<String> name, Optional<String> surname) {
         String query = "SELECT * FROM " + tablePersons + " ";
         if (name.isPresent()) {

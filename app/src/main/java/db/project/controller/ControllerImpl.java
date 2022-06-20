@@ -171,4 +171,9 @@ public class ControllerImpl implements Controller {
 		return this.model.insertWorking(CF, unitName, hospitalCode);
 	}
 
+    @Override
+    public void close() {
+        this.model.close();
+    }
+
 }

@@ -7,6 +7,8 @@ import java.util.Optional;
 
 public interface Model {
 
+    void close();
+
     /**
      * 
      * @param name

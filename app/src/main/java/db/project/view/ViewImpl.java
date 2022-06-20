@@ -18,6 +18,12 @@ public class ViewImpl implements View {
 		this.stage = stage;
 		this.stage.setTitle("Hospital explorer");
 		this.mainController = controller;
+        this.stage.setOnCloseRequest(handler -> {
+            Platform.exit();
+            controller.close();
+            //If any daemon thread exists this will kill it.
+            System.exit(0);
+        });
 	}
 	
     @Override
