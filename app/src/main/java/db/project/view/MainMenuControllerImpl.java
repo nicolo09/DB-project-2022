@@ -11,12 +11,6 @@ public class MainMenuControllerImpl implements MainMenuController {
 
 	@Override
 	@FXML
-	public void goToMainMenu() {
-		view.goToMainMenu();
-	}
-
-	@Override
-	@FXML
 	public void goToModifyMenu() {
 		view.goToModifyMenu();
 	}
