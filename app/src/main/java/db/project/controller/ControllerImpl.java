@@ -1,11 +1,13 @@
 package db.project.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
 import db.project.model.ASL;
+import db.project.model.Appointment;
 import db.project.model.Hospital;
 import db.project.model.Model;
 import db.project.model.OPERATION_OUTCOME;
@@ -93,6 +95,12 @@ public class ControllerImpl implements Controller {
     @Override
     public Optional<ASL> getASL(Integer code) {
         return model.getASL(code);
+    }
+
+    @Override
+    public Collection<Appointment> getAppointments(Optional<Person> doctor, Optional<Person> patient,
+            Optional<Hospital> hospital, Optional<LocalDate> date) {
+        return this.model.getAppointments(doctor, patient, hospital, date);
     }
     
     @Override

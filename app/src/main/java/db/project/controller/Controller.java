@@ -1,11 +1,13 @@
 package db.project.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
 import db.project.model.ASL;
+import db.project.model.Appointment;
 import db.project.model.OPERATION_OUTCOME;
 import db.project.model.Hospital;
 import db.project.model.Person;
@@ -22,7 +24,7 @@ public interface Controller {
 
     Optional<Person> getDoctorByCF(String CF);
 
-    Optional<Person> getPatientByCF(String text);
+    Optional<Person> getPatientByCF(String CF);
 
     Collection<Person> getPersons(Optional<String> name, Optional<String> surname);
 
@@ -46,6 +48,9 @@ public interface Controller {
     Optional<Uo> getUo(Hospital hospital, String name);
 
     Optional<ASL> getASL(Integer code);
+
+    Collection<Appointment> getAppointments(Optional<Person> doctor, Optional<Person> patient,
+            Optional<Hospital> hospital, Optional<LocalDate> date);
 
     OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
             Optional<String> lastName);
