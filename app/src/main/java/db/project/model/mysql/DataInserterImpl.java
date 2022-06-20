@@ -34,7 +34,7 @@ public class DataInserterImpl implements DataInserter {
 			controlStatement.setString(1, CF);
 			var rs = controlStatement.executeQuery();
 			rs.next();
-			if(rs.getInt("total") > 0) {
+			if(rs.getInt(1) <= 0) {
 				if(name.isEmpty() || lastName.isEmpty()) {
 					return OPERATION_OUTCOME.MISSING_PERSON;
 				}
@@ -230,7 +230,7 @@ public class DataInserterImpl implements DataInserter {
 			controlStatement.setString(1, CF);
 			var rs = controlStatement.executeQuery();
 			rs.next();
-			if(rs.getInt("total") > 0) {
+			if(rs.getInt(1) <= 0) {
 				if(name.isEmpty() || lastName.isEmpty()) {
 					return OPERATION_OUTCOME.MISSING_PERSON;
 				}
@@ -286,7 +286,7 @@ public class DataInserterImpl implements DataInserter {
 			controlStatement.setString(1, CF);
 			var rs = controlStatement.executeQuery();
 			rs.next();
-			if(rs.getInt("total") > 0) {
+			if(rs.getInt(1) <= 0) {
 				if(name.isEmpty() || lastName.isEmpty()) {
 					return OPERATION_OUTCOME.MISSING_PERSON;
 				}
