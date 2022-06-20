@@ -1,5 +1,6 @@
 package db.project.model;
 
+import java.util.Collection;
 import java.util.Date;
 
 public interface Report {
@@ -13,5 +14,7 @@ public interface Report {
     Hospital getHospital();
 
     Person getPatient();
+
+    Collection<Person> getInvolvedDoctors();
 
 }

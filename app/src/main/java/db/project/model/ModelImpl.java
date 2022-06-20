@@ -33,6 +33,7 @@ public class ModelImpl implements Model {
     private String tableUo = "uo";
     private String tableAppointment = "appuntamenti";
     private String tablePresence = "presenzia";
+    private String tableInvolvements;
 
     /**
      * Creates a simple connection to a local database
@@ -205,11 +206,13 @@ public class ModelImpl implements Model {
                         resultSet.getDate("Data_emissione"), resultSet.getString("Descrizione"),
                         this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
                         this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Procedura"),
-                        resultSet.getString("Esito"), Duration.ofMinutes(resultSet.getInt("Durata"))));
+                        resultSet.getString("Esito"), Duration.ofMinutes(resultSet.getInt("Durata")),
+                        this.getDoctorsFromReferto(resultSet.getInt("Codice_referto"))));
                 case VISIT -> result.add(new VisitReportImpl(resultSet.getInt("Codice_referto"),
                         resultSet.getDate("Data_emissione"), resultSet.getString("Descrizione"),
                         this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
-                        this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Terapia")));
+                        this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Terapia"),
+                        this.getDoctorsFromReferto(resultSet.getInt("Codice_referto"))));
                 default -> throw new IllegalArgumentException("Unexpected value: " + resultSet.getString("type"));
                 }
             }
@@ -222,17 +225,28 @@ public class ModelImpl implements Model {
     @Override
     public Collection<Report> getReports(Optional<Person> patient, Optional<Person> doctor) {
         String query = "SELECT * " + "FROM " + tableReports + " WHERE ";
-        if (patient.isPresent()) {
-            query += "Paziente LIKE '" + patient.get().getCF() + "', ";
-        }
         // TODO This is wrong
         if (doctor.isPresent()) {
             query += "Dottore LIKE '" + doctor.get().getCF() + "', ";
+        }
+        if (patient.isPresent()) {
+            query += "Paziente LIKE '" + patient.get().getCF() + "', ";
         }
         query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readReportsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    public Collection<Person> getDoctorsFromReferto(Integer reportCode) {
+        String query = "SELECT persone.* " + "FROM " + tableInvolvements + " INNER JOIN persone "
+                + "ON persone.Codice_fiscale = " + tableInvolvements + ".Medico " + "WHERE Referto = " + reportCode;
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readPersonsFromResultSet(statement.getResultSet());
         } catch (final SQLException e) {
             return List.of();
         }
@@ -490,13 +504,12 @@ public class ModelImpl implements Model {
         Set<Appointment> result = new HashSet<>();
         try {
             while (resultSet.next()) {
-                final Room room = new RoomImpl(this.getHospital(resultSet.getInt("Codice_ospedale")).get(), resultSet.getInt("Numero_sala"));
-                result.add(new AppointmentImpl(room,
-                resultSet.getTimestamp("Data_ora").toLocalDateTime(),
-                Duration.ofMinutes(resultSet.getInt("Durata")),
-                this.getPatient(resultSet.getString("Paziente")).get(),
-                resultSet.getString("Tipo"),
-                getAppointmentDoctors(room, resultSet.getTimestamp("Data_ora").toLocalDateTime())));
+                final Room room = new RoomImpl(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
+                        resultSet.getInt("Numero_sala"));
+                result.add(new AppointmentImpl(room, resultSet.getTimestamp("Data_ora").toLocalDateTime(),
+                        Duration.ofMinutes(resultSet.getInt("Durata")),
+                        this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Tipo"),
+                        getAppointmentDoctors(room, resultSet.getTimestamp("Data_ora").toLocalDateTime())));
             }
         } catch (SQLException e) {
             e.printStackTrace();
