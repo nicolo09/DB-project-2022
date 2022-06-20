@@ -41,12 +41,12 @@ public class ControllerImpl implements Controller {
     
     @Override
     public Collection<Report> getRefertiByDoctor(Person doctor) {
-        return this.model.getReports(Optional.empty(), Optional.of(doctor));
+        return this.model.getReportsFromDoctor(doctor);
     }
 
     @Override
     public Collection<Report> getRefertiByPatient(Person patient) {
-        return this.model.getReports(Optional.of(patient), Optional.empty());
+        return this.model.getReportsFromPatient(patient);
     }
 
     @Override

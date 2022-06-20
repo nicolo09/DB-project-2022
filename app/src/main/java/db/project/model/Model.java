@@ -46,7 +46,9 @@ public interface Model {
     Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
             Optional<Integer> hospitalCode);
 
-    Collection<Report> getReports(Optional<Person> patient, Optional<Person> doctor);
+    Collection<Report> getReportsFromPatient(Person patient);
+
+    Collection<Report> getReportsFromDoctor(Person doctor);
 
     /**
      * 

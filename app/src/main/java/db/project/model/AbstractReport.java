@@ -3,9 +3,6 @@ package db.project.model;
 import java.util.Collection;
 import java.util.Date;
 
-
-import javafx.print.Collation;
-
 public abstract class AbstractReport implements Report {
 
     private final Integer code;

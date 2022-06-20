@@ -223,16 +223,19 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Collection<Report> getReports(Optional<Person> patient, Optional<Person> doctor) {
-        String query = "SELECT * " + "FROM " + tableReports + " WHERE ";
-        // TODO This is wrong
-        if (doctor.isPresent()) {
-            query += "Dottore LIKE '" + doctor.get().getCF() + "', ";
+    public Collection<Report> getReportsFromPatient(final Person patient) {
+        String query = "SELECT * " + "FROM " + tableReports + " WHERE " + "Paziente LIKE '" + patient.getCF() + "'";
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readReportsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
         }
-        if (patient.isPresent()) {
-            query += "Paziente LIKE '" + patient.get().getCF() + "', ";
-        }
-        query = query.substring(0, query.length() - 2);
+    }
+
+    @Override
+    public Collection<Report> getReportsFromDoctor(final Person doctor) {
+        String query = "SELECT * FROM "+ tableReports + "WHERE Codice_referto IN " + "(SELECT Referto FROM " + tableInvolvements + " WHERE Medico LIKE '" + doctor.getCF() + "')";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readReportsFromResultSet(statement.getResultSet());
