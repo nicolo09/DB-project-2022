@@ -49,7 +49,7 @@ public class ASLModifyController extends ModifyController{
 	@FXML
 	public void updateElement() {
 		
-		var codeASL = isInteger(txtName.getText().trim()) ? Integer.parseInt(txtName.getText().trim()) : null;
+		var codeASL = isInteger(txtCodeASL.getText().trim()) ? Integer.parseInt(txtCodeASL.getText().trim()) : null;
 		
 		Optional<String> name = txtName.getText().trim() != "" ? Optional.of(txtName.getText().trim()) : Optional.empty();
 		
@@ -66,7 +66,7 @@ public class ASLModifyController extends ModifyController{
 	@FXML
 	protected void removeElement() {
 		
-		var codeASL = isInteger(txtName.getText().trim()) ? Integer.parseInt(txtName.getText().trim()) : null;
+		var codeASL = isInteger(txtCodeASL.getText().trim()) ? Integer.parseInt(txtCodeASL.getText().trim()) : null;
 		
 		this.mainController.removeASL(codeASL);
 	}
