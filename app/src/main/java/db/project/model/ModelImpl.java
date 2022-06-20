@@ -133,7 +133,7 @@ public class ModelImpl implements Model {
             query += "Cognome LIKE '" + surname.get() + "', ";
         }
         if (birthDate.isPresent()) {
-            query += "Data_nascita='" + birthDate.get() + "', ";
+            query += "Data_nascita='" + new java.sql.Date(birthDate.get().getTime()) + "', ";
         }
         if (ASLCode.isPresent()) {
             query += "Cod_ASL=" + ASLCode.get() + ", ";
@@ -527,6 +527,8 @@ public class ModelImpl implements Model {
     public OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode) {
     	return inserter.insertWorking(CF, unitName, hospitalCode);
     }
+
+    
 
 
 }

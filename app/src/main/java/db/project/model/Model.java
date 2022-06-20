@@ -21,7 +21,8 @@ public interface Model {
      * 
      * @param name
      * @param surname
-     * @return the persons associated with the given name and surname (or Optional.empty() if no such person exists)
+     * @return the persons associated with the given name and surname (or
+     *         Optional.empty() if no such person exists)
      */
     Optional<Person> getPerson(String CF);
 
@@ -64,7 +65,7 @@ public interface Model {
      * @return the asl associated with the given code
      */
     Optional<ASL> getASL(final Integer code);
-    
+
     /**
      * 
      * @param hospital
@@ -74,42 +75,46 @@ public interface Model {
     Optional<Uo> getUo(Hospital hospital, String name);
 
     /**
-     * @param name name of the Uo
-     * @param freeSpace true if show only Uo with free space, false show only full Uos
+     * @param name      name of the Uo
+     * @param freeSpace true if show only Uo with free space, false show only full
+     *                  Uos
      * @param hospital
-     * @return the collection of all UOs filtered by the given name or free space (or both)
+     * @return the collection of all UOs filtered by the given name or free space
+     *         (or both)
      */
     Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital);
-    
-    OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName);
-    
-    OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date,
-    		int duration, String type, String patientCF, Collection<String> doctorCF);
-    
+
+    OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
+            Optional<String> lastName);
+
+    OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration, String type,
+            String patientCF, Collection<String> doctorCF);
+
     OPERATION_OUTCOME insertASL(String name, String city, String street, int streetNumber);
-    
+
     OPERATION_OUTCOME insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
-    		Optional<Date> exitDate, String description);
-    
+            Optional<Date> exitDate, String description);
+
     OPERATION_OUTCOME insertEquipment(int hospitalCode, String name, Date lastMaintenance);
-    
+
     OPERATION_OUTCOME insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName);
-    
+
     OPERATION_OUTCOME insertHospital(String name, String city, String street, int streetNumber, int codeASL);
-    
-    OPERATION_OUTCOME insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName);
-    
+
+    OPERATION_OUTCOME insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name,
+            Optional<String> lastName);
+
     OPERATION_OUTCOME insertPerson(String CF, String name, String lastName);
-    
+
     OPERATION_OUTCOME insertPhone(String phoneNumber, String personCF);
-    
-    OPERATION_OUTCOME insertReport(Date emissionDate, String description, String type, 
-    		Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration, 
-    		int hospitalCode, String patientCF, Collection<String> doctorCF);
-    
+
+    OPERATION_OUTCOME insertReport(Date emissionDate, String description, String type, Optional<String> therapy,
+            Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration, int hospitalCode,
+            String patientCF, Collection<String> doctorCF);
+
     OPERATION_OUTCOME insertRoom(int hospitalCode, int roomNumber);
-    
+
     OPERATION_OUTCOME insertUO(int hospitalCode, String name, int capacity, int seatsOccupied);
-    
+
     OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode);
 }
