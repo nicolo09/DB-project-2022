@@ -1,33 +1,72 @@
 package db.project.view.modify.entities;
 
+import java.util.Optional;
+
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import javafx.fxml.FXML;
+import javafx.scene.control.TextField;
 
 public class HealthCareModifyController extends ModifyController{
 
+	@FXML
+    private TextField txtCF;
+
+    @FXML
+    private TextField txtLastName;
+
+    @FXML
+    private TextField txtName;
+
+    @FXML
+    private TextField txtRole;
 	
 	public HealthCareModifyController(Command exit, Controller mainController) {
 		super(exit, mainController);
 	}
 
 	@Override
-	public void addElement() {
-		// TODO Auto-generated method stub
-		this.mainController.insertHealtcare(null, null, null, null);
+	@FXML
+	protected void addElement() {
+		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
+		
+		var role = txtRole.getText().trim() != "" ? txtRole.getText().trim() : null;
+		
+		Optional<String> name = txtName.getText().trim() != "" ? Optional.of(txtName.getText().trim()) : Optional.empty();
+		
+		Optional<String> lastName = txtLastName.getText().trim() != "" ? Optional.of(txtLastName.getText().trim()) : Optional.empty();
+		
+		this.mainController.insertHealtcare(cf, role, name, lastName);
 		
 	}
 
 	@Override
-	public void updateElement() {
-		// TODO Auto-generated method stub
+	@FXML
+	protected void updateElement() {
+		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
+		Optional<String> role = txtRole.getText().trim() != "" ? Optional.of(txtRole.getText().trim()) : Optional.empty();
+		
+		this.mainController.updateHealtcare(cf, role);
 	}
 
 	@Override
+	@FXML
 	protected void removeElement() {
-		// TODO Auto-generated method stub
+		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
+		this.mainController.removeHealtcare(cf);
+	}
+	
+	@FXML
+	private void selectElement() {
+		//TODO
+	}
+
+	@FXML
+	private void selectPersonCF() {
+		//TODO
 	}
 
 }
