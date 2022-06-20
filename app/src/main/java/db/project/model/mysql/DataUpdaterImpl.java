@@ -175,11 +175,11 @@ public class DataUpdaterImpl implements DataUpdater {
 
 	@Override
 	public OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL) {
-		if(checkNulls(CF) || checkModifies(codASL)) {
+		if(checkNulls(CF)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		String query = "UPDATE " + TABLES.PATIENT.get() + " SET";
-		query += " Cod_ASL = " + codASL.get();
+		query += codASL.isPresent() ? " Cod_ASL = " + codASL.get() : " Cod_ASL = NULL ";
 		query += " WHERE Codice_fiscale LIKE ?";
 		
 		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
