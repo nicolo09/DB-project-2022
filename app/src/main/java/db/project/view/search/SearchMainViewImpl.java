@@ -27,6 +27,9 @@ import db.project.view.search.person.SearchPatientsViewImpl;
 import db.project.view.search.person.SearchPersonView;
 import db.project.view.search.person.SearchPersonViewImpl;
 import db.project.view.search.person.SelectPersonControllerImpl;
+import db.project.view.search.referti.SearchAppointmentsControllerImpl;
+import db.project.view.search.referti.SearchAppointmentsView;
+import db.project.view.search.referti.SearchAppointmentsViewImpl;
 import db.project.view.search.referti.SearchRefertiControllerImpl;
 import db.project.view.search.referti.SearchRefertiView;
 import db.project.view.search.referti.SearchRefertiViewImpl;
@@ -61,8 +64,9 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToAppuntamenti() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Not supported yet.");
+        final SearchAppointmentsView view = new SearchAppointmentsViewImpl(mainStage,
+                new SearchAppointmentsControllerImpl(() -> this.show(), mainController, this));
+        view.show();
     }
 
     @Override
