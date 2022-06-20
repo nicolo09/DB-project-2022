@@ -32,9 +32,9 @@ public class AmministrativeModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void addElement() {
-		var cf = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
+		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		var role = txtRole.getText().trim() != "" ? txtRole.getText().trim() : null;
-		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		Optional<String> name = txtName.getText().trim() != "" ? Optional.of(txtName.getText().trim()) : Optional.empty();
 		Optional<String> lastName = txtLastName.getText().trim() != "" ? Optional.of(txtLastName.getText().trim()) : Optional.empty();
 		
@@ -44,9 +44,9 @@ public class AmministrativeModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void updateElement() {
-		var cf = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
+		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		Optional<String> role = txtRole.getText().trim() != "" ? Optional.of(txtRole.getText().trim()) : Optional.empty();
-		Optional<Integer> hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) 
+		Optional<Integer> hospitalCode = isInteger(txtCodeHospital.getText().trim()) 
 				? Optional.of(Integer.parseInt(txtCodeHospital.getText().trim())) 
 				: Optional.empty();
 		this.mainController.updateAmministratives(cf, role, hospitalCode);
@@ -55,7 +55,7 @@ public class AmministrativeModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var cf = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
+		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		this.mainController.removeAmministratives(cf);
 	}
 	

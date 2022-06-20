@@ -34,8 +34,8 @@ public class EquipmentModifyController extends ModifyController{
 
 	@Override
 	@FXML
-	public void addElement() {
-		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+	protected void addElement() {
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
 		var name = txtName.getText().trim() != "" ? txtName.getText().trim() : null;
 		
@@ -48,10 +48,10 @@ public class EquipmentModifyController extends ModifyController{
 
 	@Override
 	@FXML
-	public void updateElement() {
-		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+	protected void updateElement() {
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
-		var inventoryCode = txtCodInventory.getText().trim() != "" && isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
+		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
 		
 		Optional<Date> lastMaintenance = !Objects.isNull(dpLastMaintenance.getValue()) 
 				? Optional.of(Date.from(Instant.from(dpLastMaintenance.getValue().atStartOfDay(ZoneId.systemDefault()))))
@@ -63,20 +63,20 @@ public class EquipmentModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
-		var inventoryCode = txtCodInventory.getText().trim() != "" && isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
+		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
 		
 		this.mainController.removeEquipment(hospitalCode, inventoryCode);
 	}
 	
 	@FXML
-    void selectEquipment() {
+    private void selectEquipment() {
 		//TODO
     }
 
     @FXML
-    void selectHospital() {
+    private void selectHospital() {
     	//TODO
     }
 

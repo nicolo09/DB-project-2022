@@ -40,10 +40,10 @@ public class CureModifyController extends ModifyController{
 
 	@Override
 	@FXML
-	public void addElement() {
-		var patient = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
+	protected void addElement() {
+		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
@@ -58,10 +58,10 @@ public class CureModifyController extends ModifyController{
 
 	@Override
 	@FXML
-	public void updateElement() {
-		var patient = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
+	protected void updateElement() {
+		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
@@ -75,9 +75,9 @@ public class CureModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var patient = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
+		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
@@ -85,17 +85,17 @@ public class CureModifyController extends ModifyController{
 	}
 	
 	@FXML
-    void selectCure() {
+    private void selectCure() {
 		//TODO
     }
 
     @FXML
-    void selectPatientCF() {
+    private void selectPatientCF() {
     	//TODO
     }
 
     @FXML
-    void selectUO() {
+    private void selectUO() {
     	//TODO
     }
 

@@ -25,6 +25,7 @@ public class AppointmentModifyController extends ModifyController{
     @FXML
     private TextField txtAppointmentDuration;
 
+    //TODO change with datatimepicker
     @FXML
     private TextField txtHours;
 
@@ -53,9 +54,9 @@ public class AppointmentModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void addElement() {
-		var hospitalCode = txtCodeHospital.getText().trim() != "" ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
-		var roomNumber = txtRoomNumber.getText().trim() != "" ? Integer.parseInt(txtRoomNumber.getText().trim()) : null;
+		var roomNumber = isInteger(txtRoomNumber.getText().trim()) ? Integer.parseInt(txtRoomNumber.getText().trim()) : null;
 		
 		int hour = isInteger(txtHours.getText().trim()) ? Integer.parseInt(txtHours.getText().trim()) : 0;
 		int minutes = isInteger(txtMinutes.getText().trim()) ? Integer.parseInt(txtMinutes.getText().trim()) : 0;
@@ -65,13 +66,14 @@ public class AppointmentModifyController extends ModifyController{
 			date = txtAppointmentDate.getValue().toString() != "" ? Timestamp.valueOf(txtAppointmentDate.getValue().atTime(hour, minutes)) : null;
 		}
 		
-		var duration = txtAppointmentDuration.getText().trim() != "" ? Integer.parseInt(txtAppointmentDuration.getText().trim()) : null;
+		var duration = isInteger(txtAppointmentDuration.getText().trim()) ? Integer.parseInt(txtAppointmentDuration.getText().trim()) : null;
 		
 		var type = txtAppointmentType.getText().trim() != "" ? txtAppointmentType.getText().trim() : null;
 		
 		var patient = txtPatientCF.getText().trim() != "" && txtPatientCF.getText().trim().length() == CFLENGHT ? txtPatientCF.getText().trim() : null;
 		
 		List<String> doctors = txtDoctorCF.getText().trim() != "" ? List.of(txtDoctorCF.getText().trim().split(":")) : null;
+		checkDoctorCF(doctors);
 		
 		this.mainController.insertAppointment(hospitalCode, roomNumber, date, duration, type, patient, doctors);
 		
@@ -80,9 +82,9 @@ public class AppointmentModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var hospitalCode = txtCodeHospital.getText().trim() != "" ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
-		var roomNumber = txtRoomNumber.getText().trim() != "" ? Integer.parseInt(txtRoomNumber.getText().trim()) : null;
+		var roomNumber = isInteger(txtRoomNumber.getText().trim()) ? Integer.parseInt(txtRoomNumber.getText().trim()) : null;
 		
 		int hour = isInteger(txtHours.getText().trim()) ? Integer.parseInt(txtHours.getText().trim()) : 0;
 		int minutes = isInteger(txtMinutes.getText().trim()) ? Integer.parseInt(txtMinutes.getText().trim()) : 0;
@@ -113,6 +115,18 @@ public class AppointmentModifyController extends ModifyController{
     @FXML
     private void selectRoom() {
     	//TODO
+    }
+    
+    private void checkDoctorCF(List<String> doctors){
+    	boolean nullify = false;
+    	for (String doctor : doctors) {
+			if(doctor.length() != CFLENGHT) {
+				nullify = true;
+			}
+		}
+    	if(nullify) {
+    		doctors = null;    		
+    	}
     }
 
 	
