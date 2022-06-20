@@ -43,7 +43,7 @@
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
-                  <HBox spacing="10.0">
+                  <HBox spacing="5.0">
                      <children>
                         <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Paziente &#10;(Codice fiscale)" underline="true">
                            <font>
@@ -75,7 +75,7 @@
                         <Button mnemonicParsing="false" onMouseClicked="#selectUO" text="Cerca&#10;Unità op." />
                      </children>
                   </HBox>
-                  <TextField fx:id="txtNameUO" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <TextField fx:id="txtNameUO" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona unità operativa" />
                </children>
                <opaqueInsets>
                   <Insets top="20.0" />
@@ -120,7 +120,7 @@
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Rimuovi">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
                   <Font size="29.0" />
                </font>

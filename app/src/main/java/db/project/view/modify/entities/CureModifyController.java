@@ -3,6 +3,8 @@ package db.project.view.modify.entities;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Objects;
+import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
@@ -39,37 +41,62 @@ public class CureModifyController extends ModifyController{
 	@Override
 	@FXML
 	public void addElement() {
-		Date entry = Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault())));
-		this.mainController.insertCure(null, 0, null, null, null, null);
+		var patient = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
+		
+		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		
+		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
+		
+		Date entry = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
+		
+		Optional<Date> exit = !Objects.isNull(exitDate.getValue()) ? Optional.of(Date.from(Instant.from(exitDate.getValue().atStartOfDay(ZoneId.systemDefault())))) : Optional.empty();
+		
+		var description = txtMotivation.getText().trim();
+		
+		this.mainController.insertCure(patient, hospitalCode, operativeUnit, entry, exit, description);
 	}
 
 	@Override
 	@FXML
 	public void updateElement() {
-		// TODO Auto-generated method stub
+		var patient = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
+		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		
+		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
+		
+		Optional<Date> exit = !Objects.isNull(exitDate.getValue()) ? Optional.of(Date.from(Instant.from(exitDate.getValue().atStartOfDay(ZoneId.systemDefault())))) : Optional.empty();
+		
+		Optional<String> description = txtMotivation.getText().trim() != "" ? Optional.of(txtMotivation.getText().trim()) : Optional.empty();
+		
+		this.mainController.updateCure(patient, hospitalCode, operativeUnit, exit, description);
 	}
 
 	@Override
 	@FXML
 	protected void removeElement() {
-		// TODO Auto-generated method stub
+		var patient = txtCF.getText().trim() != "" && txtCF.getText().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
+		var hospitalCode = txtCodeHospital.getText().trim() != "" && isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		
+		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
+		
+		this.mainController.removeCure(patient, hospitalCode, operativeUnit);
 	}
 	
 	@FXML
     void selectCure() {
-
+		//TODO
     }
 
     @FXML
     void selectPatientCF() {
-
+    	//TODO
     }
 
     @FXML
     void selectUO() {
-
+    	//TODO
     }
 
 }
