@@ -25,7 +25,7 @@ public class PhoneModifyController extends ModifyController{
 		
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		this.mainController.insertPhone(phone, cf);
+		showOutcome(this.mainController.insertPhone(phone, cf));
 	}
 
 	@Override
@@ -35,7 +35,7 @@ public class PhoneModifyController extends ModifyController{
 		
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		this.mainController.removePhone(phone, cf);
+		showOutcome(this.mainController.removePhone(phone, cf));
 	}
 
 	@FXML

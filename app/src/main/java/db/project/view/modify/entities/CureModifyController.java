@@ -53,7 +53,7 @@ public class CureModifyController extends ModifyController{
 		
 		var description = txtMotivation.getText().trim();
 		
-		this.mainController.insertCure(patient, hospitalCode, operativeUnit, entry, exit, description);
+		showOutcome(this.mainController.insertCure(patient, hospitalCode, operativeUnit, entry, exit, description));
 	}
 
 	@Override
@@ -69,7 +69,7 @@ public class CureModifyController extends ModifyController{
 		
 		Optional<String> description = txtMotivation.getText().trim() != "" ? Optional.of(txtMotivation.getText().trim()) : Optional.empty();
 		
-		this.mainController.updateCure(patient, hospitalCode, operativeUnit, exit, description);
+		showOutcome(this.mainController.updateCure(patient, hospitalCode, operativeUnit, exit, description));
 	}
 
 	@Override
@@ -81,7 +81,7 @@ public class CureModifyController extends ModifyController{
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
-		this.mainController.removeCure(patient, hospitalCode, operativeUnit);
+		showOutcome(this.mainController.removeCure(patient, hospitalCode, operativeUnit));
 	}
 	
 	@FXML

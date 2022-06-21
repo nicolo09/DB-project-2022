@@ -43,7 +43,7 @@ public class EquipmentModifyController extends ModifyController{
 				? Date.from(Instant.from(dpLastMaintenance.getValue().atStartOfDay(ZoneId.systemDefault()))) 
 				: Date.from(Instant.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault())));
 		
-		this.mainController.insertEquipment(hospitalCode, name, lastMaintenance);
+		showOutcome(this.mainController.insertEquipment(hospitalCode, name, lastMaintenance));
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class EquipmentModifyController extends ModifyController{
 				? Optional.of(Date.from(Instant.from(dpLastMaintenance.getValue().atStartOfDay(ZoneId.systemDefault()))))
 				: Optional.empty();
 
-		this.mainController.updateEquipment(hospitalCode, inventoryCode, lastMaintenance);
+		showOutcome(this.mainController.updateEquipment(hospitalCode, inventoryCode, lastMaintenance));
 	}
 
 	@Override
@@ -67,7 +67,7 @@ public class EquipmentModifyController extends ModifyController{
 		
 		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
 		
-		this.mainController.removeEquipment(hospitalCode, inventoryCode);
+		showOutcome(this.mainController.removeEquipment(hospitalCode, inventoryCode));
 	}
 	
 	@FXML

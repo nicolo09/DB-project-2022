@@ -37,7 +37,7 @@ public class UOModifyController extends ModifyController{
 		
 		var seatsOccupied = isInteger(txtSeatsOccupied.getText().trim()) ? Integer.parseInt(txtSeatsOccupied.getText().trim()) : 0;
 		
-		this.mainController.insertUO(hospitalCode, name, capacity, seatsOccupied);
+		showOutcome(this.mainController.insertUO(hospitalCode, name, capacity, seatsOccupied));
 	}
 
 	@Override
@@ -49,7 +49,7 @@ public class UOModifyController extends ModifyController{
 		
 		Optional<Integer> capacity = isInteger(txtCapacity.getText().trim()) ? Optional.of(Integer.parseInt(txtCapacity.getText().trim())) : Optional.empty();
 		
-		this.mainController.updateUO(hospitalCode, name, capacity);
+		showOutcome(this.mainController.updateUO(hospitalCode, name, capacity));
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public class UOModifyController extends ModifyController{
 		
 		var name = txtName.getText().trim() != "" ? txtName.getText().trim() : null;
 		
-		this.mainController.removeUO(hospitalCode, name);
+		showOutcome(this.mainController.removeUO(hospitalCode, name));
 	}
 	
 	@FXML

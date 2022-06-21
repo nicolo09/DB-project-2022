@@ -38,7 +38,7 @@ public class AmministrativeModifyController extends ModifyController{
 		Optional<String> name = txtName.getText().trim() != "" ? Optional.of(txtName.getText().trim()) : Optional.empty();
 		Optional<String> lastName = txtLastName.getText().trim() != "" ? Optional.of(txtLastName.getText().trim()) : Optional.empty();
 		
-		this.mainController.insertAmministratives(cf, role , hospitalCode, name, lastName);		
+		showOutcome(this.mainController.insertAmministratives(cf, role , hospitalCode, name, lastName));		
 	}
 
 	@Override
@@ -49,14 +49,14 @@ public class AmministrativeModifyController extends ModifyController{
 		Optional<Integer> hospitalCode = isInteger(txtCodeHospital.getText().trim()) 
 				? Optional.of(Integer.parseInt(txtCodeHospital.getText().trim())) 
 				: Optional.empty();
-		this.mainController.updateAmministratives(cf, role, hospitalCode);
+		showOutcome(this.mainController.updateAmministratives(cf, role, hospitalCode));
 	}
 
 	@Override
 	@FXML
 	protected void removeElement() {
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
-		this.mainController.removeAmministratives(cf);
+		showOutcome(this.mainController.removeAmministratives(cf));
 	}
 	
 	@FXML

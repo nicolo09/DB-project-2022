@@ -45,7 +45,7 @@ public class HospitalModifyController extends ModifyController{
 		
 		var aslCode = isInteger(txtASLCode.getText().trim()) ? Integer.parseInt(txtASLCode.getText().trim()) : null; 
 		
-		this.mainController.insertHospital(name, city, street, streetNumber, aslCode);
+		showOutcome(this.mainController.insertHospital(name, city, street, streetNumber, aslCode));
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class HospitalModifyController extends ModifyController{
 		
 		Optional<Integer> aslCode = isInteger(txtASLCode.getText().trim()) ? Optional.of(Integer.parseInt(txtASLCode.getText().trim())) : Optional.empty(); 
 		
-		this.mainController.updateHospital(structureCode, name, aslCode);
+		showOutcome(this.mainController.updateHospital(structureCode, name, aslCode));
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class HospitalModifyController extends ModifyController{
 	protected void removeElement() {
 		var structureCode = isInteger(txtFacilityCode.getText().trim()) ? Integer.parseInt(txtFacilityCode.getText().trim()) : null;
 		
-		this.mainController.removeHospital(structureCode);	
+		showOutcome(this.mainController.removeHospital(structureCode));	
 	}
 	
 	@FXML

@@ -47,7 +47,7 @@ public class PatientModifyController extends ModifyController{
 		
 		Optional<String> lastName = txtLastName.getText().trim() != "" ? Optional.of(txtLastName.getText().trim()) : Optional.empty();
 
-		this.mainController.insertPatient(cf, birth, aslCode, name, lastName);
+		showOutcome(this.mainController.insertPatient(cf, birth, aslCode, name, lastName));
 	}
 
 	@Override
@@ -57,7 +57,7 @@ public class PatientModifyController extends ModifyController{
 		
 		Optional<Integer> aslCode = isInteger(txtCodeASL.getText().trim()) ? Optional.of(Integer.parseInt(txtCodeASL.getText().trim())) : Optional.empty();
 		
-		this.mainController.updatePatient(cf, aslCode);
+		showOutcome(this.mainController.updatePatient(cf, aslCode));
 	}
 
 	@Override
@@ -65,7 +65,7 @@ public class PatientModifyController extends ModifyController{
 	protected void removeElement() {
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		this.mainController.removePatient(cf);
+		showOutcome(this.mainController.removePatient(cf));
 	}
 	
 	@FXML

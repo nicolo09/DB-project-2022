@@ -30,7 +30,7 @@ public class WorkingModifyController extends ModifyController{
 		
 		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
-		this.mainController.insertWorking(cf, unitName, hospitalCode);
+		showOutcome(this.mainController.insertWorking(cf, unitName, hospitalCode));
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class WorkingModifyController extends ModifyController{
 		
 		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
 		
-		this.mainController.removeWorking(cf, unitName, hospitalCode);
+		showOutcome(this.mainController.removeWorking(cf, unitName, hospitalCode));
 	}
 	
 	@FXML

@@ -75,7 +75,7 @@ public class AppointmentModifyController extends ModifyController{
 		List<String> doctors = txtDoctorCF.getText().trim() != "" ? List.of(txtDoctorCF.getText().trim().split(":")) : null;
 		checkDoctorCF(doctors);
 		
-		this.mainController.insertAppointment(hospitalCode, roomNumber, date, duration, type, patient, doctors);
+		showOutcome(this.mainController.insertAppointment(hospitalCode, roomNumber, date, duration, type, patient, doctors));
 		
 	}
 
@@ -94,7 +94,7 @@ public class AppointmentModifyController extends ModifyController{
 			date = Timestamp.valueOf(txtAppointmentDate.getValue().atTime(hour, minutes));
 		}
 		
-		this.mainController.removeAppointment(hospitalCode, roomNumber, date);		
+		showOutcome(this.mainController.removeAppointment(hospitalCode, roomNumber, date));		
 	}
 	
 	@FXML

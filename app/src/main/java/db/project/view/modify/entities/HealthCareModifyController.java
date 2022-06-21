@@ -37,7 +37,7 @@ public class HealthCareModifyController extends ModifyController{
 		
 		Optional<String> lastName = txtLastName.getText().trim() != "" ? Optional.of(txtLastName.getText().trim()) : Optional.empty();
 		
-		this.mainController.insertHealtcare(cf, role, name, lastName);
+		showOutcome(this.mainController.insertHealtcare(cf, role, name, lastName));
 		
 	}
 
@@ -48,7 +48,7 @@ public class HealthCareModifyController extends ModifyController{
 		
 		Optional<String> role = txtRole.getText().trim() != "" ? Optional.of(txtRole.getText().trim()) : Optional.empty();
 		
-		this.mainController.updateHealtcare(cf, role);
+		showOutcome(this.mainController.updateHealtcare(cf, role));
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class HealthCareModifyController extends ModifyController{
 	protected void removeElement() {
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		this.mainController.removeHealtcare(cf);
+		showOutcome(this.mainController.removeHealtcare(cf));
 	}
 	
 	@FXML

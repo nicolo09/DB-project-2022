@@ -30,7 +30,7 @@ public class PersonModifyController extends ModifyController{
 		
 		var lastName = txtLastName.getText().trim() != "" ? txtLastName.getText().trim() : null;
 		
-		this.mainController.insertPerson(cf, name, lastName);
+		showOutcome(this.mainController.insertPerson(cf, name, lastName));
 	}
 
 	@Override
@@ -38,7 +38,7 @@ public class PersonModifyController extends ModifyController{
 	protected void removeElement() {
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		this.mainController.removePerson(cf);
+		showOutcome(this.mainController.removePerson(cf));
 	}
 
 	@FXML

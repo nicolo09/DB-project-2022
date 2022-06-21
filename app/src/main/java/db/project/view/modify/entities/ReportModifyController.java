@@ -79,7 +79,7 @@ public class ReportModifyController extends ModifyController{
 		List<String> doctors = txtDoctors.getText().trim() != "" ? List.of(txtDoctors.getText().trim().split(":")) : null;
 		checkDoctorCF(doctors);
 		
-		this.mainController.insertReport(issueDate, description, type, treatment, procedure, outcome, duration, hospitalCode, patient, doctors);
+		showOutcome(this.mainController.insertReport(issueDate, description, type, treatment, procedure, outcome, duration, hospitalCode, patient, doctors));
 	}
 
 	@Override
@@ -87,7 +87,7 @@ public class ReportModifyController extends ModifyController{
 	protected void removeElement() {
 		var reportCode = isInteger(txtCodeReport.getText().trim()) ? Integer.parseInt(txtCodeReport.getText().trim()) : null;
 		
-		this.mainController.removeReport(reportCode);
+		showOutcome(this.mainController.removeReport(reportCode));
 	}
 
 	private void checkDoctorCF(List<String> doctors){

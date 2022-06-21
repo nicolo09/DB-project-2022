@@ -41,7 +41,7 @@ public class ASLModifyController extends ModifyController{
 		
 		var streetNumber = isInteger(txtStreetNumber.getText().trim()) ? Integer.parseInt(txtStreetNumber.getText().trim()) : null;
 		
-		this.mainController.insertASL(name, city, street, streetNumber);
+		showOutcome(this.mainController.insertASL(name, city, street, streetNumber));
 		
 	}
 
@@ -59,7 +59,7 @@ public class ASLModifyController extends ModifyController{
 		
 		Optional<Integer> streetNumber = isInteger(txtStreetNumber.getText().trim()) ? Optional.of(Integer.parseInt(txtStreetNumber.getText().trim())) : Optional.empty();
 		
-		this.mainController.updateASL(codeASL, name, city, street, streetNumber);
+		showOutcome(this.mainController.updateASL(codeASL, name, city, street, streetNumber));
 	}
 
 	@Override
@@ -68,7 +68,7 @@ public class ASLModifyController extends ModifyController{
 		
 		var codeASL = isInteger(txtCodeASL.getText().trim()) ? Integer.parseInt(txtCodeASL.getText().trim()) : null;
 		
-		this.mainController.removeASL(codeASL);
+		showOutcome(this.mainController.removeASL(codeASL));
 	}
 	
 	@FXML

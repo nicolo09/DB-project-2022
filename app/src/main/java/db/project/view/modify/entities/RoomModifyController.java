@@ -26,7 +26,7 @@ public class RoomModifyController extends ModifyController{
 		
 		var roomNumber = isInteger(txtRoomNumber.getText().trim()) ? Integer.parseInt(txtRoomNumber.getText().trim()) : null;
 		
-		this.mainController.insertRoom(hospitalCode, roomNumber);
+		showOutcome(this.mainController.insertRoom(hospitalCode, roomNumber));
 	}
 
 	@Override
@@ -36,7 +36,7 @@ public class RoomModifyController extends ModifyController{
 		
 		var roomNumber = isInteger(txtRoomNumber.getText().trim()) ? Integer.parseInt(txtRoomNumber.getText().trim()) : null;
 		
-		this.mainController.removeRoom(hospitalCode, roomNumber);
+		showOutcome(this.mainController.removeRoom(hospitalCode, roomNumber));
 		
 	}
 
