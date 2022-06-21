@@ -73,7 +73,7 @@
                               <Font size="26.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#selectPersonCF" text="Seleziona">
+                        <Button mnemonicParsing="false" onMouseClicked="#selectPersonCF" text="Cerca&#10;Persona&#10;">
                            <HBox.margin>
                               <Insets top="5.0" />
                            </HBox.margin>
@@ -113,7 +113,10 @@
                         <Font size="26.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <TextField fx:id="txtName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
+                     <VBox.margin>
+                        <Insets top="2.5" />
+                     </VBox.margin></TextField>
                </children>
             </VBox>
             <VBox spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">

@@ -183,5 +183,117 @@ public class ControllerImpl implements Controller {
     public void close() {
         this.model.close();
     }
+    
+	@Override
+	public OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode) {
+		return this.model.updateAmministratives(CF, role, hospitalCode);
+	}
+
+	@Override
+	public OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city,
+			Optional<String> street, Optional<Integer> streetNumber) {
+		return this.model.updateASL(codeASL, name, city, street, streetNumber);
+	}
+
+	@Override
+	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate,
+			Optional<String> description) {
+		return this.model.updateCure(patientCF, hospitalCode, unitName, exitDate, description);
+	}
+
+	@Override
+	public OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance) {
+		return this.model.updateEquipment(hospitalCode, inventoryCode, lastMaintenance);
+	}
+
+	@Override
+	public OPERATION_OUTCOME updateHealtcare(String CF, Optional<String> role) {
+		return this.model.updateHealtcare(CF, role);
+	}
+
+	@Override
+	public OPERATION_OUTCOME updateHospital(int structureCode, Optional<String> name, Optional<Integer> codeASL) {
+		return this.model.updateHospital(structureCode, name, codeASL);
+	}
+
+	@Override
+	public OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL) {
+		return this.model.updatePatient(CF, codASL);
+	}
+
+	@Override
+	public OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity) {
+		return this.model.updateUO(hospitalCode, name, capacity);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeAmministratives(String CF) {
+		return this.model.removeAmministratives(CF);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeAppointment(int hospitalCode, int roomNumber, Timestamp date) {
+		return this.model.removeAppointment(hospitalCode, roomNumber, date);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeASL(int codeASL) {
+		return this.model.removeASL(codeASL);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName) {
+		return this.model.removeCure(patientCF, hospitalCode, unitName);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode) {
+		return this.model.removeEquipment(hospitalCode, inventoryCode);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeHealtcare(String CF) {
+		return this.model.removeHealtcare(CF);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeHospital(int structureCode) {
+		return this.model.removeHospital(structureCode);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removePatient(String CF) {
+		return this.model.removePatient(CF);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removePerson(String CF) {
+		return this.model.removePerson(CF);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removePhone(String phoneNumber, String personCF) {
+		return this.model.removePhone(phoneNumber, personCF);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeReport(int reportCode) {
+		return this.model.removeReport(reportCode);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeRoom(int hospitalCode, int roomNumber) {
+		return this.model.removeRoom(hospitalCode, roomNumber);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeUO(int hospitalCode, String name) {
+		return this.model.removeUO(hospitalCode, name);
+	}
+
+	@Override
+	public OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode) {
+		return this.model.removeWorking(CF, unitName, hospitalCode);
+	}
 
 }

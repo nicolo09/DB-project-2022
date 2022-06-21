@@ -21,18 +21,6 @@ public interface DataUpdater {
     
     OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL);
     
-    //OPERATION_OUTCOME updatePerson(String CF, String name, String lastName);
-    
-    //OPERATION_OUTCOME updatePhone(String phoneNumber, String personCF);
-    
-    /*OPERATION_OUTCOME updateReport(Date emissionDate, String description, String type, 
-    		Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration, 
-    		int hospitalCode, String patientCF, Collection<String> doctorCF);*/
-    
-    //OPERATION_OUTCOME updateRoom(int hospitalCode, int roomNumber);
-    
-    OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity, Optional<Integer> seatsOccupied);
-    
-    //OPERATION_OUTCOME updateWorking(String CF, String unitName, int hospitalCode);
+    OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity);
 
 }

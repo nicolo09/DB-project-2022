@@ -9,17 +9,27 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="573.0" prefWidth="1154.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label layoutX="59.0" layoutY="40.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Cura" AnchorPane.leftAnchor="59.0" AnchorPane.topAnchor="40.0">
-         <font>
-            <Font size="33.0" />
-         </font>
-      </Label>
+      <HBox layoutX="59.0" layoutY="40.0" spacing="15.0" AnchorPane.leftAnchor="59.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Cura">
+               <font>
+                  <Font size="33.0" />
+               </font>
+            </Label>
+            <Button mnemonicParsing="false" onMouseClicked="#selectCure" text="Seleziona">
+               <HBox.margin>
+                  <Insets top="12.0" />
+               </HBox.margin>
+            </Button>
+         </children>
+      </HBox>
       <GridPane hgap="20.0" layoutX="86.0" layoutY="134.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="394.0" AnchorPane.bottomAnchor="3.0" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="134.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -33,25 +43,39 @@
          <children>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Paziente &#10;(Codice fiscale)" underline="true">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Label>
+                  <HBox spacing="5.0">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Paziente &#10;(Codice fiscale)" underline="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </Label>
+                        <Button mnemonicParsing="false" onMouseClicked="#selectPatientCF" text="Cerca&#10;Persona">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                  </HBox>
                   <TextField fx:id="txtCF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </children>
             </VBox>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Nome Unità" underline="true">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtNameUO" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <HBox alignment="TOP_RIGHT" spacing="26.0">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Nome Unità" underline="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button mnemonicParsing="false" onMouseClicked="#selectUO" text="Cerca&#10;Unità op." />
+                     </children>
+                  </HBox>
+                  <TextField fx:id="txtNameUO" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Seleziona unità operativa" />
                </children>
                <opaqueInsets>
                   <Insets top="20.0" />
@@ -74,10 +98,10 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField fx:id="txtCodeHospital" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <TextField fx:id="txtCodeHospital" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Auto-compilato" />
                </children>
             </VBox>
-            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+            <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" spacing="25.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
                   <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Data ingresso">
                      <font>
@@ -96,7 +120,7 @@
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Rimuovi">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
                   <Font size="29.0" />
                </font>
