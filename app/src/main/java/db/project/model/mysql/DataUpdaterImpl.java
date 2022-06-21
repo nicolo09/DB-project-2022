@@ -133,7 +133,7 @@ public class DataUpdaterImpl implements DataUpdater {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		String query = "UPDATE " + TABLES.HEALTHCARE.get() + " SET";
-		query += " Ruole = '" + role.get() + "'";
+		query += " Ruolo = '" + role.get() + "'";
 		query += " WHERE Codice_fiscale LIKE ?";
 		
 		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
