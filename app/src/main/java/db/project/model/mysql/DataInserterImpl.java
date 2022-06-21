@@ -88,7 +88,7 @@ public class DataInserterImpl implements DataInserter {
 				controlStatement.setInt(4, roomNumber);
 				var rs = controlStatement.executeQuery();
 				rs.next();
-				if(rs.getInt("total") > 0) {
+				if(rs.getInt(1) > 0) {
 					return OPERATION_OUTCOME.OVERLAPPING;
 				}
 			}
@@ -104,8 +104,20 @@ public class DataInserterImpl implements DataInserter {
 			
 			statement.executeUpdate();
 			
-			//TODO return false if cannot add presence or make the user select the doctor/doctors
-			doctorCF.forEach(doctor -> insertPresence(doctor, hospitalCode, roomNumber, date));
+			for (String doctor : doctorCF) {
+				var op_outcome = insertPresence(doctor, hospitalCode, roomNumber, date);
+				if(op_outcome != OPERATION_OUTCOME.SUCCESS) {
+					String failureQuery = "DELETE FROM " + TABLES.APPOINTMENT.get() + " WHERE Codice_ospedale LIKE ? AND Numero_sala LIKE ? AND Data_ora LIKE ?";
+					final PreparedStatement failureStatement = this.connection.prepareStatement(failureQuery);
+					failureStatement.setInt(1, hospitalCode);
+					failureStatement.setInt(2, roomNumber);
+					failureStatement.setTimestamp(3, date);
+					
+					failureStatement.executeUpdate();
+					
+					return op_outcome;
+				}
+			}
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -197,10 +209,11 @@ public class DataInserterImpl implements DataInserter {
 		if(checkNulls(hospitalCode, name, lastMaintenance)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
-		
-		String controlQuery = "SELECT Count(*) FROM " + TABLES.EQUIPMENT;
-		try (final Statement controlStatement = this.connection.createStatement()){
-			var rs = controlStatement.executeQuery(controlQuery);
+		String controlQuery = "SELECT MAX(Codice_inventario) FROM " + TABLES.EQUIPMENT.get() + " WHERE Codice_ospedale LIKE ?";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
+			controlStatement.setInt(1, hospitalCode);
+			var rs = controlStatement.executeQuery();
+			rs.next();
 			int inventoryCode = rs.getInt(1) + 1;
 		
 			String query = INSERT_SENTENCE + TABLES.EQUIPMENT.get() + "(Codice_ospedale, Codice_inventario, Nome, Data_manutenzione) VALUES(?, ?, ?, ?)";
@@ -211,11 +224,12 @@ public class DataInserterImpl implements DataInserter {
 			statement.setString(3, name);
 			statement.setDate(4, new java.sql.Date(lastMaintenance.getTime()));
 			
+			statement.executeUpdate();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 			return OPERATION_OUTCOME.FAILURE;
 		}
-		
 		return OPERATION_OUTCOME.SUCCESS;
 	}
 
@@ -403,7 +417,11 @@ public class DataInserterImpl implements DataInserter {
 			for (String doctor : doctorCF) {
 				var op_outcome = insertInvolvement(reportCode, doctor);
 				if(op_outcome != OPERATION_OUTCOME.SUCCESS) {
-					//TODO delete report 
+					String failureQuery = "DELETE FROM " + TABLES.REPORT.get() + " WHERE Codice_referto LIKE ?";
+					final PreparedStatement failureStatement = this.connection.prepareStatement(failureQuery);
+					failureStatement.setInt(1, reportCode);
+					
+					failureStatement.executeUpdate();
 					return op_outcome;
 				}
 			}
