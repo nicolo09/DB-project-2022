@@ -39,6 +39,12 @@ public class RoomModifyController extends ModifyController{
 		showOutcome(this.mainController.removeRoom(hospitalCode, roomNumber));
 		
 	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtRoomNumber, NUMBER_FORMATTER);
+	}
 
 	@FXML
     void selectElement() {

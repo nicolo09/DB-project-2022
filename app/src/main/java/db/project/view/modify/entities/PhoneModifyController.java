@@ -37,6 +37,12 @@ public class PhoneModifyController extends ModifyController{
 		
 		showOutcome(this.mainController.removePhone(phone, cf));
 	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtPhoneNumber, NUMBER_FORMATTER);
+	}
 
 	@FXML
     void selectElement() {

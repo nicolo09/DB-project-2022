@@ -63,6 +63,14 @@ public class UOModifyController extends ModifyController{
 	}
 	
 	@FXML
+	private void initialize() {
+		setTextFormatter(txtCapacity, NUMBER_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtName, COMPLETE_FORMATTER);
+		setTextFormatter(txtSeatsOccupied, NUMBER_FORMATTER);
+	}
+	
+	@FXML
     private void selectElement() {
 		//TODO
     }

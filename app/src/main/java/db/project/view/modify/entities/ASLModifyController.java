@@ -72,6 +72,15 @@ public class ASLModifyController extends ModifyController{
 	}
 	
 	@FXML
+	private void initialize() {
+		setTextFormatter(txtCodeASL, NUMBER_FORMATTER);
+		setTextFormatter(txtCity, SIMPLE_FORMATTER);
+		setTextFormatter(txtStreet, SIMPLE_FORMATTER);
+		setTextFormatter(txtStreetNumber, NUMBER_FORMATTER);
+		setTextFormatter(txtName, COMPLETE_FORMATTER);
+	}
+	
+	@FXML
     void selectASL() {
 		//TODO
     }

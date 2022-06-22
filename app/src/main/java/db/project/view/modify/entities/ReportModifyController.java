@@ -18,6 +18,8 @@ import javafx.scene.control.TextField;
 
 public class ReportModifyController extends ModifyController{
 
+	private final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:]*";
+	
 	@FXML
     private ComboBox<String> combType;
 
@@ -101,6 +103,19 @@ public class ReportModifyController extends ModifyController{
     		doctors = null;    		
     	}
     }
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtCodeReport, NUMBER_FORMATTER);
+		setTextFormatter(txtDuration, NUMBER_FORMATTER);
+		setTextFormatter(txtDoctors,DOCTORS_FORMATTER);
+		setTextFormatter(txtDescription, COMPLETE_FORMATTER);
+		setTextFormatter(txtOutcome, SIMPLE_FORMATTER);
+		setTextFormatter(txtProcedure, SIMPLE_FORMATTER);
+		setTextFormatter(txtTreatment, SIMPLE_FORMATTER);
+	}
 	
 	@FXML
     void selectDoctorsCF() {

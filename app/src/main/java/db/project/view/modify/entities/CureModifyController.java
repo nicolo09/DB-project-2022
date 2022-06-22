@@ -85,6 +85,14 @@ public class CureModifyController extends ModifyController{
 	}
 	
 	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtMotivation, SIMPLE_FORMATTER);
+		setTextFormatter(txtNameUO, COMPLETE_FORMATTER);
+	}
+	
+	@FXML
     private void selectCure() {
 		//TODO
     }

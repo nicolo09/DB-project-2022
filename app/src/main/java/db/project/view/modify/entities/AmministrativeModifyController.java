@@ -60,12 +60,26 @@ public class AmministrativeModifyController extends ModifyController{
 	}
 	
 	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtName, SIMPLE_FORMATTER);
+		setTextFormatter(txtLastName, SIMPLE_FORMATTER);
+		setTextFormatter(txtRole, SIMPLE_FORMATTER);
+	}
+	
+	@FXML
     private void selectAmministratives() {
 		//TODO
     }
 
     @FXML
     private void selectPersonCF() {
+    	//TODO
+    }
+    
+    @FXML
+    private void selectHospital() {
     	//TODO
     }
 

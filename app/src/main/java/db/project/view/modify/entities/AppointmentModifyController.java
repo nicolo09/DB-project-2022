@@ -13,6 +13,8 @@ import javafx.scene.control.TextField;
 
 public class AppointmentModifyController extends ModifyController{
 	
+	private final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:]*";
+	
 	private final static int MAX_HOUR = 24;
 	private final static int MIN_HOUR = 0;
 	
@@ -95,6 +97,16 @@ public class AppointmentModifyController extends ModifyController{
 		}
 		
 		showOutcome(this.mainController.removeAppointment(hospitalCode, roomNumber, date));		
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtAppointmentDuration, NUMBER_FORMATTER);
+		setTextFormatter(txtAppointmentType, SIMPLE_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtPatientCF, CF_FORMATTER);
+		setTextFormatter(txtRoomNumber, NUMBER_FORMATTER);
+		setTextFormatter(txtDoctorCF, DOCTORS_FORMATTER);
 	}
 	
 	@FXML

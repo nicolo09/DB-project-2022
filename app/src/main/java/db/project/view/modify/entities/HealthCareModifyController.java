@@ -60,6 +60,14 @@ public class HealthCareModifyController extends ModifyController{
 	}
 	
 	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtRole, COMPLETE_FORMATTER);
+		setTextFormatter(txtName, SIMPLE_FORMATTER);
+		setTextFormatter(txtLastName, SIMPLE_FORMATTER);
+	}
+	
+	@FXML
 	private void selectElement() {
 		//TODO
 	}

@@ -40,10 +40,18 @@ public class PersonModifyController extends ModifyController{
 		
 		showOutcome(this.mainController.removePerson(cf));
 	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtLastName, SIMPLE_FORMATTER);
+		setTextFormatter(txtName, SIMPLE_FORMATTER);
+	}
 
 	@FXML
     private void selectElement() {
 		//TODO
     }
+	
 
 }

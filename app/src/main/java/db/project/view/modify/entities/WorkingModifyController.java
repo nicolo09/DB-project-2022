@@ -46,6 +46,13 @@ public class WorkingModifyController extends ModifyController{
 	}
 	
 	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtUnitName, COMPLETE_FORMATTER);
+	}
+	
+	@FXML
     void selectElement() {
 		//TODO
     }

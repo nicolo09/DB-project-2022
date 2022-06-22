@@ -69,6 +69,16 @@ public class HospitalModifyController extends ModifyController{
 	}
 	
 	@FXML
+	private void initialize() {
+		setTextFormatter(txtASLCode, NUMBER_FORMATTER);
+		setTextFormatter(txtFacilityCode, NUMBER_FORMATTER);
+		setTextFormatter(txtCity, SIMPLE_FORMATTER);
+		setTextFormatter(txtStreet, SIMPLE_FORMATTER);
+		setTextFormatter(txtStreetNumber, NUMBER_FORMATTER);
+		setTextFormatter(txtName, COMPLETE_FORMATTER);
+	}
+	
+	@FXML
     private void selectElement() {
 		//TODO
     }

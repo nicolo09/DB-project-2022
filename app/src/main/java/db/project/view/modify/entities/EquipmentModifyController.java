@@ -71,6 +71,13 @@ public class EquipmentModifyController extends ModifyController{
 	}
 	
 	@FXML
+	private void initialize() {
+		setTextFormatter(txtCodInventory, NUMBER_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtName, SIMPLE_FORMATTER);
+	}
+	
+	@FXML
     private void selectEquipment() {
 		//TODO
     }
