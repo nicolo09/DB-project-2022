@@ -540,9 +540,9 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate,
-			Optional<String> description) {
-		return updater.updateCure(patientCF, hospitalCode, unitName, exitDate, description);
+	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Date ingressDate, 
+			Optional<Date> exitDate, Optional<String> description) {
+		return updater.updateCure(patientCF, hospitalCode, unitName, ingressDate, exitDate, description);
 	}
 
 	@Override
@@ -586,8 +586,8 @@ public class ModelImpl implements Model {
 	}
 
 	@Override
-	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName) {
-		return remover.removeCure(patientCF, hospitalCode, unitName);
+	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate) {
+		return remover.removeCure(patientCF, hospitalCode, unitName, ingressDate);
 	}
 
 	@Override
