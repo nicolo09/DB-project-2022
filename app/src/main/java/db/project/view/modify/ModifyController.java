@@ -1,15 +1,23 @@
 package db.project.view.modify;
 
+import java.util.regex.Pattern;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.OPERATION_OUTCOME;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.TextFormatter;
+import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Alert.AlertType;
 
 public abstract class ModifyController {
 	
 	protected final static int CFLENGHT = 16;
+	
+	protected final static String SIMPLE_FORMATTER = "[a-z_A-Z_\\ ]*";
+	protected final static String NUMBER_FORMATTER = "[0-9]*";
+	protected final static String CF_FORMATTER = "[a-z_A-Z_0-9]*";
+	protected final static String COMPLETE_FORMATTER = ".*";
 	
 	private final Command exit;
 	protected final Controller mainController;
@@ -39,6 +47,24 @@ public abstract class ModifyController {
 		} catch(NumberFormatException e) {
 			return false;
 		}
+		
+	}
+	
+	protected void setTextFormatter(final TextInputControl txt, final String pattern){
+		var p = Pattern.compile(pattern);
+
+		TextFormatter<String> formatter = new TextFormatter<>((change) -> {
+			if (p.matcher(change.getControlNewText()).matches() 
+					&& !(pattern.equals(CF_FORMATTER) && change.getControlNewText().length() > CFLENGHT)) {
+				if(change.getControlNewText().length() == 1 || pattern.equals(CF_FORMATTER)) {
+					change.setText(change.getText().toUpperCase());
+				}
+				return change;
+		    } else {
+		        return null ;
+		    }
+		});
+		txt.setTextFormatter(formatter);
 		
 	}
 	
