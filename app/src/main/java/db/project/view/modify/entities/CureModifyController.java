@@ -47,13 +47,13 @@ public class CureModifyController extends ModifyController{
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
-		Date entry = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
+		Date ingress = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
 		
 		Optional<Date> exit = !Objects.isNull(exitDate.getValue()) ? Optional.of(Date.from(Instant.from(exitDate.getValue().atStartOfDay(ZoneId.systemDefault())))) : Optional.empty();
 		
 		var description = txtMotivation.getText().trim();
 		
-		showOutcome(this.mainController.insertCure(patient, hospitalCode, operativeUnit, entry, exit, description));
+		showOutcome(this.mainController.insertCure(patient, hospitalCode, operativeUnit, ingress, exit, description));
 	}
 
 	@Override
@@ -65,11 +65,13 @@ public class CureModifyController extends ModifyController{
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
+		Date ingress = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
+		
 		Optional<Date> exit = !Objects.isNull(exitDate.getValue()) ? Optional.of(Date.from(Instant.from(exitDate.getValue().atStartOfDay(ZoneId.systemDefault())))) : Optional.empty();
 		
 		Optional<String> description = txtMotivation.getText().trim() != "" ? Optional.of(txtMotivation.getText().trim()) : Optional.empty();
 		
-		showOutcome(this.mainController.updateCure(patient, hospitalCode, operativeUnit, exit, description));
+		showOutcome(this.mainController.updateCure(patient, hospitalCode, operativeUnit, ingress, exit, description));
 	}
 
 	@Override
@@ -81,7 +83,9 @@ public class CureModifyController extends ModifyController{
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
-		showOutcome(this.mainController.removeCure(patient, hospitalCode, operativeUnit));
+		Date ingress = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
+		
+		showOutcome(this.mainController.removeCure(patient, hospitalCode, operativeUnit, ingress));
 	}
 	
 	@FXML
