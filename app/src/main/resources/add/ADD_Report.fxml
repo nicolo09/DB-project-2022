@@ -55,7 +55,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <TextField fx:id="txtCodeReport" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Auto-generato" />
+                  <TextField fx:id="txtCodeReport" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Auto-generato" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="2">

@@ -52,7 +52,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <TextField fx:id="txtCodeHospital" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Auto-compilato" />
+                  <TextField fx:id="txtCodeHospital" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
@@ -91,7 +91,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <TextField fx:id="txtRoomNumber" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
+                  <TextField fx:id="txtRoomNumber" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -188,7 +188,7 @@
                   </Button>
                </children>
             </HBox>
-            <TextArea fx:id="txtDoctorCF" prefHeight="188.0" prefWidth="223.0" />
+            <TextArea fx:id="txtDoctorCF" prefHeight="188.0" prefWidth="223.0" promptText="Scrivere qui i codici fiscali dei medici coinvolti, separati tra loro con i due punti come da esempio.   CodiceFiscale1:CodiceFiscale2:CodiceFiscale3" />
          </children>
       </VBox>
    </children>

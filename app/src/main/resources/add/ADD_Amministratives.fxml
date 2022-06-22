@@ -96,7 +96,7 @@
                   <TextField fx:id="txtRole" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </children>
             </VBox>
-            <VBox spacing="20.0" GridPane.rowIndex="2">
+            <VBox spacing="3.0" GridPane.rowIndex="2">
                <children>
                   <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice Ospedale">
                      <font>
@@ -104,6 +104,7 @@
                      </font>
                   </Label>
                   <TextField fx:id="txtCodeHospital" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#selectHospital" text="Cerca Ospedale" />
                </children>
             </VBox>
             <VBox spacing="20.0" GridPane.columnIndex="1">
