@@ -17,8 +17,6 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ReportModifyController extends ModifyController{
-
-	private final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:]*";
 	
 	@FXML
     private ComboBox<String> combType;

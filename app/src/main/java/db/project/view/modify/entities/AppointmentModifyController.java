@@ -13,8 +13,6 @@ import javafx.scene.control.TextField;
 
 public class AppointmentModifyController extends ModifyController{
 	
-	private final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:]*";
-	
 	private final static int MAX_HOUR = 24;
 	private final static int MIN_HOUR = 0;
 	
