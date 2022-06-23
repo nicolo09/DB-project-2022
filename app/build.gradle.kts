@@ -57,6 +57,8 @@ dependencies {
     implementation("com.google.guava:guava:30.1.1-jre")
 
     implementation("mysql:mysql-connector-java:8.0.29")
+
+    implementation("no.tornado:tornadofx-controls:1.0.6")
 }
 
 java {
