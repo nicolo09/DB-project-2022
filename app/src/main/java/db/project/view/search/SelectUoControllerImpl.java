@@ -10,8 +10,8 @@ public class SelectUoControllerImpl extends SearchUoControllerImpl {
 
     private final Command onSelect;
 
-    public SelectUoControllerImpl(final Command onExit, final Command onSelect, final Controller mainController, final SearchMainView mainView) {
-        super(onExit, mainController, mainView);
+    public SelectUoControllerImpl(final Command onExit, final Command onSelect, final Controller mainController, final Selector selector) {
+        super(onExit, mainController, selector);
         this.onSelect = onSelect;
     }
 

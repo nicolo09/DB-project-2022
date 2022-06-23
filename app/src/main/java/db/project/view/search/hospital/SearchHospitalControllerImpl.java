@@ -6,7 +6,7 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Hospital;
-import db.project.view.search.SearchMainView;
+import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -50,12 +50,12 @@ public class SearchHospitalControllerImpl {
 
     private final Controller mainController;
     private final Command onExit;
-    private final SearchMainView mainView;
+    private final Selector selector;
 
-    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final SearchMainView view) {
+    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector) {
         this.onExit = onExit;
         this.mainController = mainController;
-        this.mainView = view;
+        this.selector = selector;
     }
 
     @FXML
@@ -77,7 +77,7 @@ public class SearchHospitalControllerImpl {
 
     @FXML
     private void onAslSelectButton(ActionEvent event) {
-        this.textAslCode.setText(this.mainView.selectAsl().getCode().toString());
+        this.textAslCode.setText(this.selector.selectAsl().getCode().toString());
     }
 
     @FXML
