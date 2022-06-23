@@ -6,6 +6,7 @@ import db.project.controller.Controller;
 import db.project.model.ASL;
 import db.project.model.Hospital;
 import db.project.model.Person;
+import db.project.model.Uo;
 import db.project.view.View;
 import db.project.view.ViewImpl;
 import db.project.view.search.hospital.SearchASLControllerImpl;
@@ -30,6 +31,9 @@ import db.project.view.search.person.SelectPersonControllerImpl;
 import db.project.view.search.referti.SearchAppointmentsControllerImpl;
 import db.project.view.search.referti.SearchAppointmentsView;
 import db.project.view.search.referti.SearchAppointmentsViewImpl;
+import db.project.view.search.referti.SearchCureControllerImpl;
+import db.project.view.search.referti.SearchCureView;
+import db.project.view.search.referti.SearchCureViewImpl;
 import db.project.view.search.referti.SearchRefertiControllerImpl;
 import db.project.view.search.referti.SearchRefertiView;
 import db.project.view.search.referti.SearchRefertiViewImpl;
@@ -106,8 +110,9 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToRicoveri() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Not supported yet.");
+        final SearchCureView view = new SearchCureViewImpl(mainStage,
+                new SearchCureControllerImpl(() -> this.show(), this.mainController, this));
+        view.show();
     }
 
     @Override
@@ -130,7 +135,7 @@ public class SearchMainViewImpl implements SearchMainView {
         }
         final Scene scene = new Scene(parent);
         ViewImpl.adjustStageAndSetScene(mainStage, scene);
-		this.mainStage.show();
+        this.mainStage.show();
     }
 
     @Override
@@ -202,6 +207,12 @@ public class SearchMainViewImpl implements SearchMainView {
     public void showError(String errorMessage) {
         Alert alert = new Alert(AlertType.ERROR, errorMessage);
         alert.showAndWait();
+    }
+
+    @Override
+    public Uo selectUo() {
+        // TODO Add uo selection
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

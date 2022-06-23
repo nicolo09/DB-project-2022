@@ -22,6 +22,7 @@ import db.project.model.mysql.DataRemover;
 import db.project.model.mysql.DataRemoverImpl;
 import db.project.model.mysql.DataUpdater;
 import db.project.model.mysql.DataUpdaterImpl;
+import javafx.util.Pair;
 
 public class ModelImpl implements Model {
 
@@ -39,7 +40,8 @@ public class ModelImpl implements Model {
     private String tableUo = "uo";
     private String tableAppointment = "appuntamenti";
     private String tablePresence = "presenzia";
-    private String tableInvolvements;
+    private String tableInvolvements = "coinvolgimenti";
+    private String tableCure = "cure";
 
     /**
      * Creates a simple connection to a local database
@@ -531,7 +533,7 @@ public class ModelImpl implements Model {
 
     public Collection<Person> getAppointmentDoctors(final Room room, final LocalDateTime dateTime) {
         String query = "SELECT * FROM " + tablePresence + " WHERE " + "Numero_sala = " + room.getRoomNumber() + " AND "
-                + "Data_ora = '" + java.sql.Timestamp.valueOf(dateTime) + "'";
+        + "Data_ora = '" + java.sql.Timestamp.valueOf(dateTime) + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             ResultSet resultSet = statement.getResultSet();
@@ -542,6 +544,53 @@ public class ModelImpl implements Model {
             return result;
         } catch (final SQLException e) {
             return List.of();
+        }
+    }
+    
+    @Override
+    public Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo,
+            Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,
+            Optional<String> reason) {
+        String query = "SELECT * FROM " + tableCure + " WHERE ";
+        if (patient.isPresent()) {
+            query += "Paziente = '" + patient.get().getCF() + "', ";
+        }
+        if (uo.isPresent()) {
+            query += "Nome_unita = " + uo.get().getName() + ", "+ "Codice_ospedale = "+uo.get().getHospital().getCode()+", ";
+        }
+        if (dateInInterval.isPresent()) {
+            query += "Data_inizio BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
+                    + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "', ";
+        }
+        if (dateOutInterval.isPresent()) {
+            query += "Data_fine BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
+                    + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "', ";
+        }
+        if (reason.isPresent()) {
+            query += "Motivazione LIKE '" + reason.get() + "', ";
+        }
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readCuresFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    private Collection<Cure> readCuresFromResultSet(ResultSet resultSet) {
+        Set<Cure> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new CureImpl(this.getPatient(resultSet.getString("Paziente")).get(),
+                        this.getUo(this.getHospital(resultSet.getInt("Codice_ospedale")).get(), resultSet.getString("Nome_unita")).get(),
+                        resultSet.getDate("Data_ingresso").toLocalDate(),
+                        resultSet.getDate("Data_uscita").toLocalDate(), resultSet.getString("Motivazione")));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Set.of();
         }
     }
 
@@ -733,6 +782,7 @@ public class ModelImpl implements Model {
 	public OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode) {
 		return remover.removeWorking(CF, unitName, hospitalCode);
 	}
+
 
 
 }

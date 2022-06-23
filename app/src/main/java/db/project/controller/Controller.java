@@ -8,11 +8,13 @@ import java.util.Optional;
 
 import db.project.model.ASL;
 import db.project.model.Appointment;
+import db.project.model.Cure;
 import db.project.model.OPERATION_OUTCOME;
 import db.project.model.Hospital;
 import db.project.model.Person;
 import db.project.model.Report;
 import db.project.model.Uo;
+import javafx.util.Pair;
 
 public interface Controller {
 
@@ -29,25 +31,27 @@ public interface Controller {
     Collection<Person> getPersons(Optional<String> name, Optional<String> surname);
 
     Collection<Person> getDoctors(Optional<String> name, Optional<String> surname, Optional<String> role);
-
+    
     Collection<Person> getPatients(Optional<String> name, Optional<String> surname, Optional<Date> birthDate,
-            Optional<Integer> ASLCode);
-
+    Optional<Integer> ASLCode);
+    
     Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
-            Optional<Integer> HospitalCode);
-
+    Optional<Integer> HospitalCode);
+    
     Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way, Optional<String> number);
-
+    
     Optional<Hospital> getHospital(Integer code);
-
+    
     Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
-            Optional<String> number, Optional<ASL> asl);
-
+    Optional<String> number, Optional<ASL> asl);
+    
     Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital);
-
+    
     Optional<Uo> getUo(Hospital hospital, String name);
-
+    
     Optional<ASL> getASL(Integer code);
+    
+    Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo, Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,Optional<String> reason);
 
     Collection<Appointment> getAppointments(Optional<Person> doctor, Optional<Person> patient,
             Optional<Hospital> hospital, Optional<LocalDate> date);
@@ -129,4 +133,5 @@ public interface Controller {
     OPERATION_OUTCOME removeUO(int hospitalCode, String name);
     
     OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode);
+
 }

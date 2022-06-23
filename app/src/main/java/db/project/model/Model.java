@@ -6,6 +6,8 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
+import javafx.util.Pair;
+
 public interface Model {
 
     void close();
@@ -90,6 +92,10 @@ public interface Model {
     Collection<Appointment> getAppointments(Optional<Person> doctor, Optional<Person> patient,
             Optional<Hospital> hospital, Optional<LocalDate> date);
 
+    Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo,
+            Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,
+            Optional<String> reason);
+
     OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
             Optional<String> lastName);
 
@@ -123,48 +129,51 @@ public interface Model {
     OPERATION_OUTCOME insertUO(int hospitalCode, String name, int capacity, int seatsOccupied);
 
     OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode);
-    
+
     OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode);
-    
-    OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city, Optional<String> street, Optional<Integer> streetNumber);
-    
-    OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate, Optional<String> description);
-    
+
+    OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city, Optional<String> street,
+            Optional<Integer> streetNumber);
+
+    OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate,
+            Optional<String> description);
+
     OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance);
-    
+
     OPERATION_OUTCOME updateHealtcare(String CF, Optional<String> role);
-    
+
     OPERATION_OUTCOME updateHospital(int structureCode, Optional<String> name, Optional<Integer> codeASL);
-    
+
     OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL);
-    
+
     OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity);
-    
+
     OPERATION_OUTCOME removeAmministratives(String CF);
-    
+
     OPERATION_OUTCOME removeAppointment(int hospitalCode, int roomNumber, Timestamp date);
-    
+
     OPERATION_OUTCOME removeASL(int codeASL);
-    
+
     OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName);
-    
+
     OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode);
-    
+
     OPERATION_OUTCOME removeHealtcare(String CF);
-    
+
     OPERATION_OUTCOME removeHospital(int structureCode);
-    
+
     OPERATION_OUTCOME removePatient(String CF);
-    
+
     OPERATION_OUTCOME removePerson(String CF);
-    
+
     OPERATION_OUTCOME removePhone(String phoneNumber, String personCF);
-    
+
     OPERATION_OUTCOME removeReport(int reportCode);
-    
+
     OPERATION_OUTCOME removeRoom(int hospitalCode, int roomNumber);
-    
+
     OPERATION_OUTCOME removeUO(int hospitalCode, String name);
-    
+
     OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode);
+
 }
