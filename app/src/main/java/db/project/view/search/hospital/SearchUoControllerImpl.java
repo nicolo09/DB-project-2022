@@ -43,7 +43,7 @@ public class SearchUoControllerImpl {
     private CheckBox checkName;
 
     @FXML
-    private TableView<Uo> uoTableView;
+    protected TableView<Uo> uoTableView;
 
     @FXML
     private TableColumn<Uo, Integer> columnHospitalCode;

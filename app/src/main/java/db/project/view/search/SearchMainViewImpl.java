@@ -211,8 +211,22 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public Uo selectUo() {
-        // TODO Add uo selection
-        throw new UnsupportedOperationException("Not supported yet.");
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectUoControllerImpl controller = new SelectUoControllerImpl(() -> stage.close(), () -> stage.close(),
+                mainController, this);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_uo.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select U.O. ...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedUo();
     }
 
 }
