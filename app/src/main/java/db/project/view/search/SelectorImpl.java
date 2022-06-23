@@ -14,12 +14,19 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+/**
+ * This class is used to select an entity using a dialog window.
+ */
 public class SelectorImpl implements Selector {
 
     private final Controller mainController;
     private final Stage mainStage;
 
+    /**
+     * 
+     * @param mainController the application main controller.
+     * @param mainStage the stage dialog window will be modal to.
+     */
     public SelectorImpl(final Controller mainController, final Stage mainStage) {
         this.mainController = mainController;
         this.mainStage = mainStage;
