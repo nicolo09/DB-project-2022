@@ -120,4 +120,22 @@ public interface Controller {
     OPERATION_OUTCOME removeUO(int hospitalCode, String name);
     
     OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode);
+    
+    void setHospital(int hospitalCode);
+	
+	int countDeletedEquipments();
+	
+	int countDeletedAmministratives();
+	
+	int countDeletedReports();
+	
+	int countDeletedRooms();
+	
+	int countDeletedAppointments();
+	
+	int countDeletedUOs();
+	
+	int countDeletedCures();
+	
+	int countDeletedJobs();
 }

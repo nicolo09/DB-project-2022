@@ -283,4 +283,49 @@ public class ControllerImpl implements Controller {
 		return this.model.removeWorking(CF, unitName, hospitalCode);
 	}
 
+	@Override
+	public void setHospital(int hospitalCode) {
+		this.model.setHospital(hospitalCode);
+	}
+
+	@Override
+	public int countDeletedEquipments() {
+		return this.model.countDeletedEquipments();
+	}
+
+	@Override
+	public int countDeletedAmministratives() {
+		return this.model.countDeletedAmministratives();
+	}
+
+	@Override
+	public int countDeletedReports() {
+		return this.model.countDeletedReports();
+	}
+
+	@Override
+	public int countDeletedRooms() {
+		return this.model.countDeletedRooms();
+	}
+
+	@Override
+	public int countDeletedAppointments() {
+		return this.model.countDeletedAppointments();
+	}
+
+	@Override
+	public int countDeletedUOs() {
+		return this.model.countDeletedUOs();
+	}
+
+	@Override
+	public int countDeletedCures() {
+		return this.model.countDeletedCures();
+	}
+
+	@Override
+	public int countDeletedJobs() {
+		return this.model.countDeletedJobs();
+	}
+
 }

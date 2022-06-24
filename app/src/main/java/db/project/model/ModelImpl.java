@@ -20,6 +20,8 @@ import db.project.model.mysql.DataRemover;
 import db.project.model.mysql.DataRemoverImpl;
 import db.project.model.mysql.DataUpdater;
 import db.project.model.mysql.DataUpdaterImpl;
+import db.project.model.mysql.HospitalDeletionCounter;
+import db.project.model.mysql.HospitalDeletionCounterImpl;
 
 public class ModelImpl implements Model {
 
@@ -27,6 +29,7 @@ public class ModelImpl implements Model {
     private final DataInserter inserter;
     private final DataUpdater updater;
     private final DataRemover remover;
+    private final HospitalDeletionCounter counter;
     private String dbName = "hospital";
     private String tablePersons = "persone";
     private String tableDoctors = "personale_sanitario";
@@ -45,6 +48,7 @@ public class ModelImpl implements Model {
         inserter = new DataInserterImpl(dbConnection);
         updater = new DataUpdaterImpl(dbConnection);
         remover = new DataRemoverImpl(dbConnection);
+        counter = new HospitalDeletionCounterImpl(dbConnection);
     }
 
     @Override
@@ -638,6 +642,51 @@ public class ModelImpl implements Model {
 	@Override
 	public OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode) {
 		return remover.removeWorking(CF, unitName, hospitalCode);
+	}
+
+	@Override
+	public void setHospital(int hospitalCode) {
+		this.counter.setHospital(hospitalCode);
+	}
+
+	@Override
+	public int countDeletedEquipments() {
+		return this.countDeletedEquipments();
+	}
+
+	@Override
+	public int countDeletedAmministratives() {
+		return this.counter.countDeletedAmministratives();
+	}
+
+	@Override
+	public int countDeletedReports() {
+		return this.counter.countDeletedReports();
+	}
+
+	@Override
+	public int countDeletedRooms() {
+		return this.counter.countDeletedRooms();
+	}
+
+	@Override
+	public int countDeletedAppointments() {
+		return this.counter.countDeletedAppointments();
+	}
+
+	@Override
+	public int countDeletedUOs() {
+		return this.counter.countDeletedUOs();
+	}
+
+	@Override
+	public int countDeletedCures() {
+		return this.counter.countDeletedCures();
+	}
+
+	@Override
+	public int countDeletedJobs() {
+		return this.counter.countDeletedJobs();
 	}
 
 
