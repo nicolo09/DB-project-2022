@@ -4,12 +4,18 @@ import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.OPERATION_OUTCOME;
 import db.project.view.modify.ModifyController;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 
 public class HospitalModifyController extends ModifyController{
 
+	private final static String NEWLINE = System.getProperty("line.separator");
+	
 	@FXML
     private TextField txtASLCode;
 
@@ -27,9 +33,12 @@ public class HospitalModifyController extends ModifyController{
 
     @FXML
     private TextField txtStreetNumber;
+    
+    private final Alert alert;
 
 	public HospitalModifyController(Command exit, Controller mainController) {
 		super(exit, mainController);
+		alert = new Alert(AlertType.WARNING, "", ButtonType.YES, ButtonType.NO);
 	}
 
 	@Override
@@ -65,7 +74,15 @@ public class HospitalModifyController extends ModifyController{
 	protected void removeElement() {
 		var structureCode = isInteger(txtFacilityCode.getText().trim()) ? Integer.parseInt(txtFacilityCode.getText().trim()) : null;
 		
-		showOutcome(this.mainController.removeHospital(structureCode));	
+		this.mainController.setHospital(structureCode);
+		var message = setAlertMessage();
+		if(message.contains("-1")) {
+			showOutcome(OPERATION_OUTCOME.FAILURE);
+		} else {
+			alert.showAndWait().filter(btn -> btn.equals(ButtonType.YES)).ifPresent(a -> {
+				showOutcome(this.mainController.removeHospital(structureCode));
+			});
+		}
 	}
 	
 	@FXML
@@ -82,5 +99,19 @@ public class HospitalModifyController extends ModifyController{
     private void selectElement() {
 		//TODO
     }
+	
+	
+	
+	private String setAlertMessage() {
+		return "La rimozione di questo ospedale comporterà anche la rimozione di: " + NEWLINE
+				+ "Attrezzature: " + this.mainController.countDeletedEquipments() + NEWLINE
+				+ "Amministrativi: " + this.mainController.countDeletedAmministratives() + NEWLINE
+				+ "Stanze: " + this.mainController.countDeletedRooms() + NEWLINE
+				+ "Unità operative: " + this.mainController.countDeletedUOs() + NEWLINE
+				+ "Cure registrate: " + this.mainController.countDeletedCures() + NEWLINE
+				+ "Personale Sanitario registrato: " + this.mainController.countDeletedJobs() + NEWLINE
+				+ "Appuntamenti prenotati: " + this.mainController.countDeletedAppointments() + NEWLINE
+				+ "Referti: " + this.mainController.countDeletedReports();
+	}
 
 }
