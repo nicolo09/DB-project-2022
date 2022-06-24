@@ -38,7 +38,7 @@ public class HospitalModifyController extends ModifyController{
 
 	public HospitalModifyController(Command exit, Controller mainController) {
 		super(exit, mainController);
-		alert = new Alert(AlertType.WARNING, "", ButtonType.YES, ButtonType.NO);
+		alert = new Alert(AlertType.WARNING, "", ButtonType.NO,  ButtonType.YES);
 	}
 
 	@Override
@@ -72,13 +72,15 @@ public class HospitalModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var structureCode = isInteger(txtFacilityCode.getText().trim()) ? Integer.parseInt(txtFacilityCode.getText().trim()) : null;
+		var structureCode = isInteger(txtFacilityCode.getText().trim()) ? Integer.parseInt(txtFacilityCode.getText().trim()) : -1;
 		
 		this.mainController.setHospital(structureCode);
 		var message = setAlertMessage();
 		if(message.contains("-1")) {
 			showOutcome(OPERATION_OUTCOME.FAILURE);
 		} else {
+			alert.setHeaderText("Rimozione ospedale, procedere?");
+			alert.setContentText(message);
 			alert.showAndWait().filter(btn -> btn.equals(ButtonType.YES)).ifPresent(a -> {
 				showOutcome(this.mainController.removeHospital(structureCode));
 			});

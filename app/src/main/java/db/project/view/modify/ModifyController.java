@@ -11,7 +11,7 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Alert.AlertType;
 
 public abstract class ModifyController {
-	
+	//TODO methods cannot have input arguments null when they need an integer
 	protected final static int CFLENGHT = 16;
 	
 	protected final static String SIMPLE_FORMATTER = "[a-z_A-Z_\\ ]*";
@@ -51,14 +51,13 @@ public abstract class ModifyController {
 		
 	}
 	
-	//TODO add doctorscf to always upper
 	protected void setTextFormatter(final TextInputControl txt, final String pattern){
 		var p = Pattern.compile(pattern);
 
 		TextFormatter<String> formatter = new TextFormatter<>((change) -> {
 			if (p.matcher(change.getControlNewText()).matches() 
 					&& !(pattern.equals(CF_FORMATTER) && change.getControlNewText().length() > CFLENGHT)) {
-				if(change.getControlNewText().length() == 1 || pattern.equals(CF_FORMATTER)) {
+				if(change.getControlNewText().length() == 1 || pattern.equals(CF_FORMATTER) || pattern.equals(DOCTORS_FORMATTER)) {
 					change.setText(change.getText().toUpperCase());
 				}
 				return change;

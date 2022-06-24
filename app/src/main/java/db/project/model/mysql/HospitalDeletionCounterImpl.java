@@ -68,7 +68,7 @@ public class HospitalDeletionCounterImpl implements HospitalDeletionCounter {
 		
 		if(hospitalCode.isEmpty()) {
 			return -1;
-		} else if(genericCounter(TABLES.HOSPITAL) <= 0) {
+		} else if(!table.equals(TABLES.HOSPITAL) && genericCounter(TABLES.HOSPITAL) <= 0) {
 			return -1;
 		}
 		
