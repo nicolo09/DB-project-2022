@@ -16,6 +16,8 @@ import db.project.model.OPERATION_OUTCOME;
 public class DataInserterImpl implements DataInserter {
 	
 	private final static String INSERT_SENTENCE = "INSERT INTO ";
+	private final static String VISIT = "Visita";
+	private final static String OPERATION = "Intervento";
 	
 	private final Connection connection;
 	
@@ -71,7 +73,7 @@ public class DataInserterImpl implements DataInserter {
 		+ "SELECT COUNT(*)"
 		+ "FROM "+ TABLES.APPOINTMENT.get() + " "
 		+ "INNER JOIN "+ TABLES.PRESENCE.get() + " "
-		+ "ON "+ TABLES.APPOINTMENT.get() +".Numero_sala = "+ TABLES.PRESENCE.get() +".Numero_sala AND "+ TABLES.APPOINTMENT.get() +".Codice_ospedale = "+ TABLES.PRESENCE.get() +".Codice_ospedale"
+		+ "ON "+ TABLES.APPOINTMENT.get() +".Numero_sala = "+ TABLES.PRESENCE.get() +".Numero_sala AND "+ TABLES.APPOINTMENT.get() +".Codice_ospedale = "+ TABLES.PRESENCE.get() +".Codice_ospedale "
 		+ "WHERE (Medico = ? AND "
 		+	"(TIMESTAMPDIFF(SECOND, @newdate , "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR"
 		+	"(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))"
@@ -160,7 +162,7 @@ public class DataInserterImpl implements DataInserter {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		String controlQuery = "SELECT * FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome = ?";
+		String controlQuery = "SELECT * FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
 		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
 			controlStatement.setInt(1, hospitalCode);
 			controlStatement.setString(2, unitName);
@@ -382,22 +384,22 @@ public class DataInserterImpl implements DataInserter {
 		
 		String query = INSERT_SENTENCE + TABLES.REPORT.get() + "(Data_emissione, Descrizione, Tipo, Terapia, Procedura, Esito, Durata, Codice_ospedale, Paziente) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		try (final PreparedStatement statement = this.connection.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)){
-			if(therapy.isEmpty()) {
-				if(procedure.isEmpty() || outcome.isEmpty() || duration.isEmpty()) {				
-					return OPERATION_OUTCOME.WRONG_INSERTION;
-				} else {
-					statement.setNull(4, java.sql.Types.NULL);
-					statement.setString(5, procedure.get());
-					statement.setString(6, outcome.get());
-					statement.setInt(7, duration.get());
-				}
-			} else if(procedure.isPresent() || outcome.isPresent() || duration.isPresent()) {
-				return OPERATION_OUTCOME.WRONG_INSERTION;
-			} else {
+			if(type.equalsIgnoreCase(VISIT) && therapy.isPresent() && !(procedure.isPresent() || outcome.isPresent() || duration.isPresent())) {
+				
 				statement.setString(4, therapy.get());
 				statement.setNull(5, java.sql.Types.NULL);
 				statement.setNull(6, java.sql.Types.NULL);
 				statement.setNull(7, java.sql.Types.NULL);
+				
+			} else if (type.equalsIgnoreCase(OPERATION) && procedure.isPresent() && outcome.isPresent() && duration.isPresent() && therapy.isEmpty()) {
+				
+				statement.setNull(4, java.sql.Types.NULL);
+				statement.setString(5, procedure.get());
+				statement.setString(6, outcome.get());
+				statement.setInt(7, duration.get());
+				
+			} else {
+				return OPERATION_OUTCOME.WRONG_INSERTION;
 			}
 			
 			statement.setDate(1, new java.sql.Date(emissionDate.getTime()));
