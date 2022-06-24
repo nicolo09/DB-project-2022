@@ -651,7 +651,7 @@ public class ModelImpl implements Model {
 
 	@Override
 	public int countDeletedEquipments() {
-		return this.countDeletedEquipments();
+		return this.counter.countDeletedEquipments();
 	}
 
 	@Override
