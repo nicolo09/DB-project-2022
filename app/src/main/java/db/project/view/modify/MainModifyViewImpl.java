@@ -5,6 +5,8 @@ import java.io.IOException;
 import db.project.controller.Controller;
 import db.project.view.View;
 import db.project.view.modify.entities.*;
+import db.project.view.search.Selector;
+import db.project.view.search.SelectorImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -15,6 +17,7 @@ public class MainModifyViewImpl implements MainModifyView {
 	private final static String PATH = "/Modify_Menu.fxml";
 	private final View view;
 	private final Controller mainController;
+	private final Selector selector;
 	private final Stage stage;
 	private Parent parent;
 	
@@ -22,6 +25,7 @@ public class MainModifyViewImpl implements MainModifyView {
 		this.stage = stage;
 		this.view = view;
 		this.mainController = mainController;
+		this.selector = new SelectorImpl(mainController, stage);
 		final FXMLLoader loader = new FXMLLoader();
 		final MainModifyController controller = new MainModifyControllerImpl(view, this);
 		loader.setController(controller);
@@ -44,7 +48,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toAmministratives() {
-		final ModifyController controller = new AmministrativeModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new AmministrativeModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView amministrativeView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Amministratives.fxml");
 		
 		amministrativeView.show();		
@@ -52,7 +56,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toAppointment() {
-		final ModifyController controller = new AppointmentModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new AppointmentModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView appointmentView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Appointment.fxml");
 		
 		appointmentView.show();
@@ -60,7 +64,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toASL() {
-		final ModifyController controller = new ASLModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new ASLModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView aslView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_ASL.fxml");
 		
 		aslView.show();		
@@ -68,7 +72,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toCure() {
-		final ModifyController controller = new CureModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new CureModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView cureView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Cure.fxml");
 		
 		cureView.show();			
@@ -76,7 +80,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toEquipment() {
-		final ModifyController controller = new EquipmentModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new EquipmentModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView equipmentView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Equipment.fxml");
 		
 		equipmentView.show();		
@@ -84,7 +88,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toHealthcare() {
-		final ModifyController controller = new HealthCareModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new HealthCareModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView healtcareView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Healthcare_worker.fxml");
 		
 		healtcareView.show();			
@@ -92,7 +96,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toHospital() {
-		final ModifyController controller = new HospitalModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new HospitalModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView hospitalView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Hospital.fxml");
 		
 		hospitalView.show();
@@ -100,7 +104,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toPatient() {
-		final ModifyController controller = new PatientModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new PatientModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView patientView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Patient.fxml");
 		
 		patientView.show();		
@@ -108,7 +112,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toPerson() {
-		final ModifyController controller = new PersonModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new PersonModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView personView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Person.fxml");
 		
 		personView.show();			
@@ -116,7 +120,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toPhone() {
-		final ModifyController controller = new PhoneModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new PhoneModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView phoneView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Phone.fxml");
 		
 		phoneView.show();			
@@ -124,7 +128,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toReport() {
-		final ModifyController controller = new ReportModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new ReportModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView reportView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Report.fxml");
 		
 		reportView.show();		
@@ -132,7 +136,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toRoom() {
-		final ModifyController controller = new RoomModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new RoomModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView roomView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Room.fxml");
 		
 		roomView.show();		
@@ -140,7 +144,7 @@ public class MainModifyViewImpl implements MainModifyView {
 
 	@Override
 	public void toUO() {
-		final ModifyController controller = new UOModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new UOModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView uoView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_UO.fxml");
 		
 		uoView.show();		
@@ -148,7 +152,7 @@ public class MainModifyViewImpl implements MainModifyView {
 	
 	@Override
 	public void toWorking() {
-		final ModifyController controller = new WorkingModifyController(() -> this.view.goToModifyMenu(), this.mainController);
+		final ModifyController controller = new WorkingModifyController(() -> this.view.goToModifyMenu(), this.mainController, this.selector);
 		final SimpleView workingView = new GenericModifyViewImpl(controller, this.stage, "/add/ADD_Working_Status.fxml");
 		
 		workingView.show();

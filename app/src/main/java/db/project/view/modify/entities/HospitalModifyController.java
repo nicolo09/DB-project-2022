@@ -6,6 +6,7 @@ import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.OPERATION_OUTCOME;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
@@ -36,8 +37,8 @@ public class HospitalModifyController extends ModifyController{
     
     private final Alert alert;
 
-	public HospitalModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public HospitalModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 		alert = new Alert(AlertType.WARNING, "", ButtonType.NO,  ButtonType.YES);
 	}
 

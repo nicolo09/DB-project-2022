@@ -10,6 +10,7 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -51,8 +52,8 @@ public class ReportModifyController extends ModifyController{
     @FXML
     private TextField txtTreatment;
 
-	public ReportModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public ReportModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override

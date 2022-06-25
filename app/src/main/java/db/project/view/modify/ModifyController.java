@@ -4,6 +4,7 @@ import java.util.regex.Pattern;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.OPERATION_OUTCOME;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextFormatter;
@@ -24,10 +25,12 @@ public abstract class ModifyController {
 	
 	private final Command exit;
 	protected final Controller mainController;
+	protected final Selector selector;
 	
-	public ModifyController(final Command exit, final Controller mainController) {
+	public ModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		this.exit = exit;
 		this.mainController = mainController;
+		this.selector = selector;
 	}
 	
 	@FXML
