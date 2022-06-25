@@ -35,7 +35,7 @@ public class EquipmentModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void addElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var name = txtName.getText().trim() != "" ? txtName.getText().trim() : null;
 		
@@ -49,9 +49,9 @@ public class EquipmentModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void updateElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
-		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
+		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : INVALID_INT;
 		
 		Optional<Date> lastMaintenance = !Objects.isNull(dpLastMaintenance.getValue()) 
 				? Optional.of(Date.from(Instant.from(dpLastMaintenance.getValue().atStartOfDay(ZoneId.systemDefault()))))
@@ -63,9 +63,9 @@ public class EquipmentModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
-		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
+		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : INVALID_INT;
 		
 		showOutcome(this.mainController.removeEquipment(hospitalCode, inventoryCode));
 	}

@@ -29,11 +29,11 @@ public class UOModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void addElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var name = txtName.getText().trim() != "" ? txtName.getText().trim() : null;
 		
-		var capacity = isInteger(txtCapacity.getText().trim()) ? Integer.parseInt(txtCapacity.getText().trim()) : null;
+		var capacity = isInteger(txtCapacity.getText().trim()) ? Integer.parseInt(txtCapacity.getText().trim()) : INVALID_INT;
 		
 		var seatsOccupied = isInteger(txtSeatsOccupied.getText().trim()) ? Integer.parseInt(txtSeatsOccupied.getText().trim()) : 0;
 		
@@ -43,7 +43,7 @@ public class UOModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void updateElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var name = txtName.getText().trim() != "" ? txtName.getText().trim() : null;
 		
@@ -55,7 +55,7 @@ public class UOModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var name = txtName.getText().trim() != "" ? txtName.getText().trim() : null;
 		

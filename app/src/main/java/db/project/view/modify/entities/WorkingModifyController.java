@@ -28,7 +28,7 @@ public class WorkingModifyController extends ModifyController{
 		
 		var unitName = txtUnitName.getText().trim() != "" ? txtUnitName.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		showOutcome(this.mainController.insertWorking(cf, unitName, hospitalCode));
 	}
@@ -40,7 +40,7 @@ public class WorkingModifyController extends ModifyController{
 		
 		var unitName = txtUnitName.getText().trim() != "" ? txtUnitName.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		showOutcome(this.mainController.removeWorking(cf, unitName, hospitalCode));
 	}

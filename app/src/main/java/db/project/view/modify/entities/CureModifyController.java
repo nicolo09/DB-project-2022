@@ -43,7 +43,7 @@ public class CureModifyController extends ModifyController{
 	protected void addElement() {
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
@@ -61,7 +61,7 @@ public class CureModifyController extends ModifyController{
 	protected void updateElement() {
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
@@ -79,7 +79,7 @@ public class CureModifyController extends ModifyController{
 	protected void removeElement() {
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		

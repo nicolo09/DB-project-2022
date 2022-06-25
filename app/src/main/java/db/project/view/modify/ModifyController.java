@@ -20,6 +20,8 @@ public abstract class ModifyController {
 	protected final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:]*";
 	protected final static String COMPLETE_FORMATTER = ".*";
 	
+	protected final static int INVALID_INT = -1;
+	
 	private final Command exit;
 	protected final Controller mainController;
 	

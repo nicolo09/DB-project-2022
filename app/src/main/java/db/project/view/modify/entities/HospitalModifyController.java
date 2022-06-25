@@ -50,9 +50,9 @@ public class HospitalModifyController extends ModifyController{
 		
 		var street = txtStreet.getText().trim() != "" ? txtStreet.getText().trim() : null;
 		
-		var streetNumber = isInteger(txtStreetNumber.getText().trim()) ? Integer.parseInt(txtStreetNumber.getText().trim()) : null;
+		var streetNumber = isInteger(txtStreetNumber.getText().trim()) ? Integer.parseInt(txtStreetNumber.getText().trim()) : INVALID_INT;
 		
-		var aslCode = isInteger(txtASLCode.getText().trim()) ? Integer.parseInt(txtASLCode.getText().trim()) : null; 
+		var aslCode = isInteger(txtASLCode.getText().trim()) ? Integer.parseInt(txtASLCode.getText().trim()) : INVALID_INT; 
 		
 		showOutcome(this.mainController.insertHospital(name, city, street, streetNumber, aslCode));
 	}
@@ -60,7 +60,7 @@ public class HospitalModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void updateElement() {
-		var structureCode = isInteger(txtFacilityCode.getText().trim()) ? Integer.parseInt(txtFacilityCode.getText().trim()) : null;
+		var structureCode = isInteger(txtFacilityCode.getText().trim()) ? Integer.parseInt(txtFacilityCode.getText().trim()) : INVALID_INT;
 		
 		Optional<String> name = txtName.getText().trim() != "" ? Optional.of(txtName.getText().trim()) : Optional.empty();
 		
@@ -72,7 +72,7 @@ public class HospitalModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var structureCode = isInteger(txtFacilityCode.getText().trim()) ? Integer.parseInt(txtFacilityCode.getText().trim()) : -1;
+		var structureCode = isInteger(txtFacilityCode.getText().trim()) ? Integer.parseInt(txtFacilityCode.getText().trim()) : INVALID_INT;
 		
 		this.mainController.setHospital(structureCode);
 		var message = setAlertMessage();

@@ -58,7 +58,12 @@ public class ReportModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void addElement() {
-		Date issueDate = !Objects.isNull(txtIssueDate.getValue()) ? Date.from(Instant.from(txtIssueDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
+		Date issueDate = null;
+		
+		try {
+			issueDate = Date.from(Instant.from(txtIssueDate.getValue().atStartOfDay(ZoneId.systemDefault())));
+		}
+		catch (Exception e) {}
 		
 		var description = txtDescription.getText().trim() != "" ? txtDescription.getText().trim() : null;
 		
@@ -72,11 +77,11 @@ public class ReportModifyController extends ModifyController{
 		
 		Optional<Integer> duration = isInteger(txtDuration.getText().trim()) ? Optional.of(Integer.parseInt(txtDuration.getText().trim())) : Optional.empty();
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		List<String> doctors = txtDoctors.getText().trim() != "" ? List.of(txtDoctors.getText().trim().split(":")) : null;
+		List<String> doctors = txtDoctors.getText().trim() != "" ? List.of(txtDoctors.getText().trim().split(":")) : List.of();
 		checkDoctorCF(doctors);
 		
 		showOutcome(this.mainController.insertReport(issueDate, description, type, treatment, procedure, outcome, duration, hospitalCode, patient, doctors));
@@ -85,13 +90,13 @@ public class ReportModifyController extends ModifyController{
 	@Override
 	@FXML
 	protected void removeElement() {
-		var reportCode = isInteger(txtCodeReport.getText().trim()) ? Integer.parseInt(txtCodeReport.getText().trim()) : null;
+		var reportCode = isInteger(txtCodeReport.getText().trim()) ? Integer.parseInt(txtCodeReport.getText().trim()) : INVALID_INT;
 		
 		showOutcome(this.mainController.removeReport(reportCode));
 	}
 
 	private void checkDoctorCF(List<String> doctors){
-    	boolean nullify = false;
+    	boolean nullify = doctors.size() == 0 ? true : false;
     	for (String doctor : doctors) {
 			if(doctor.length() != CFLENGHT) {
 				nullify = true;
