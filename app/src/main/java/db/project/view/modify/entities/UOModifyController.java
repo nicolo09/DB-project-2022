@@ -1,5 +1,6 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import db.project.Command;
@@ -73,12 +74,21 @@ public class UOModifyController extends ModifyController{
 	
 	@FXML
     private void selectElement() {
-		//TODO
+		var operative_unit = this.selector.selectUo();
+		if(Objects.nonNull(operative_unit)) {
+			txtCapacity.setText(operative_unit.getCapacity().toString());
+			txtCodeHospital.setText(operative_unit.getHospital().getCode().toString());
+			txtName.setText(operative_unit.getName());
+			txtSeatsOccupied.setText(operative_unit.getOccupiedPlaces().toString());
+		}
     }
 
     @FXML
     private void selectHospital() {
-    	//TODO
+    	var hospital = this.selector.selectHospital();
+    	if(Objects.nonNull(hospital)) {
+    		txtCodeHospital.setText(hospital.getCode().toString());
+    	}
     }
 
 }
