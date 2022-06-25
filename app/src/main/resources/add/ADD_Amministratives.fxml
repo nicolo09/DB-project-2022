@@ -40,7 +40,7 @@
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Rimuovi">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
                   <Font size="29.0" />
                </font>
