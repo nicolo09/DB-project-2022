@@ -19,6 +19,8 @@ public class DataInserterImpl implements DataInserter {
 	private final static String VISIT = "Visita";
 	private final static String OPERATION = "Intervento";
 	
+	private final static int INVALID_INT = -1;
+	
 	private final Connection connection;
 	
 	
@@ -544,6 +546,12 @@ public class DataInserterImpl implements DataInserter {
 	
 	private boolean checkNulls(Object ... args) {
 		for (Object object : args) {
+			if(object instanceof Integer) {
+				Integer value = (Integer) object;
+				if(value.equals(INVALID_INT)) {
+					return true;
+				}
+			}
 			if(Objects.isNull(object)) {
 				return true;
 			}

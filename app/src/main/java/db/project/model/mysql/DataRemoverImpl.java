@@ -12,6 +12,8 @@ import db.project.model.TABLES;
 
 public class DataRemoverImpl implements DataRemover {
 
+	private final static int INVALID_INT = -1;
+	
 	final Connection connection;
 	
 	public DataRemoverImpl(final Connection connection) {
@@ -276,6 +278,12 @@ public class DataRemoverImpl implements DataRemover {
 	
 	private boolean checkNulls(Object ... args) {
 		for (Object object : args) {
+			if(object instanceof Integer) {
+				Integer value = (Integer) object;
+				if(value.equals(INVALID_INT)) {
+					return true;
+				}
+			}
 			if(Objects.isNull(object)) {
 				return true;
 			}

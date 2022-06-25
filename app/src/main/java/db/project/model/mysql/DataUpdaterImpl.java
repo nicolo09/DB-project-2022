@@ -13,6 +13,8 @@ import db.project.model.TABLES;
 
 public class DataUpdaterImpl implements DataUpdater {
 	
+	private final static int INVALID_INT = -1;
+	
 	private final Connection connection;
 	
 	public DataUpdaterImpl(final Connection connection) {
@@ -248,6 +250,12 @@ public class DataUpdaterImpl implements DataUpdater {
 	
 	private boolean checkNulls(Object ... args) {
 		for (Object object : args) {
+			if(object instanceof Integer) {
+				Integer value = (Integer) object;
+				if(value.equals(INVALID_INT)) {
+					return true;
+				}
+			}
 			if(Objects.isNull(object)) {
 				return true;
 			}
