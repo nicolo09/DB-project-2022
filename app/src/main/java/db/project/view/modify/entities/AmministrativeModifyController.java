@@ -1,5 +1,6 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import db.project.Command;
@@ -76,12 +77,20 @@ public class AmministrativeModifyController extends ModifyController{
 
     @FXML
     private void selectPersonCF() {
-    	//TODO
+    	var person = this.selector.selectPerson();
+		if(Objects.nonNull(person)) {
+			txtCF.setText(person.getCF());
+			txtName.setText(person.getName());
+			txtLastName.setText(person.getSurname());
+		}
     }
     
     @FXML
     private void selectHospital() {
-    	//TODO
+    	var hospital = this.selector.selectHospital();
+    	if(Objects.nonNull(hospital)) {
+    		txtCodeHospital.setText(hospital.getCode().toString());
+    	}
     }
 
 }

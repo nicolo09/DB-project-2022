@@ -1,5 +1,7 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
+
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
@@ -54,7 +56,10 @@ public class RoomModifyController extends ModifyController{
 
     @FXML
     void selectHospital() {
-    	//TODO
+    	var hospital = this.selector.selectHospital();
+    	if(Objects.nonNull(hospital)) {
+    		txtCodeHospital.setText(hospital.getCode().toString());
+    	}
     }
 
 }

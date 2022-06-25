@@ -1,5 +1,6 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import db.project.Command;
@@ -100,7 +101,15 @@ public class HospitalModifyController extends ModifyController{
 	
 	@FXML
     private void selectElement() {
-		//TODO
+		var hospital = this.selector.selectHospital();
+		if(Objects.nonNull(hospital)) {
+			txtFacilityCode.setText(hospital.getCode().toString());
+			txtName.setText(hospital.getName());
+			txtCity.setText(hospital.getAddressCity());
+			txtStreet.setText(hospital.getAddressWay());
+			txtStreetNumber.setText(hospital.getAddressNumber());
+			txtASLCode.setText(hospital.getAsl().getCode().toString());
+		}
     }
 	
 	

@@ -85,7 +85,10 @@ public class EquipmentModifyController extends ModifyController{
 
     @FXML
     private void selectHospital() {
-    	//TODO
+    	var hospital = this.selector.selectHospital();
+    	if(Objects.nonNull(hospital)) {
+    		txtCodeHospital.setText(hospital.getCode().toString());
+    	}
     }
 
 }

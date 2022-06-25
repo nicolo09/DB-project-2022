@@ -1,5 +1,6 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import db.project.Command;
@@ -83,7 +84,15 @@ public class ASLModifyController extends ModifyController{
 	
 	@FXML
     void selectASL() {
-		//TODO
+		var asl = this.selector.selectAsl();
+		if(Objects.nonNull(asl)) {
+			txtCodeASL.setText(asl.getCode().toString());
+			txtName.setText(asl.getName());
+			txtCity.setText(asl.getCity());
+			txtStreet.setText(asl.getAddress());
+			txtStreetNumber.setText(asl.getNumber().toString());
+		}
+		
     }
 
 }

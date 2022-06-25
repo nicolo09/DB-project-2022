@@ -109,7 +109,11 @@ public class CureModifyController extends ModifyController{
 
     @FXML
     private void selectUO() {
-    	//TODO
+    	var operative_unit = this.selector.selectUo();
+    	if(Objects.nonNull(operative_unit)) {
+    		txtNameUO.setText(operative_unit.getName());
+    		txtCodeHospital.setText(operative_unit.getHospital().getCode().toString());
+    	}
     }
 
 }

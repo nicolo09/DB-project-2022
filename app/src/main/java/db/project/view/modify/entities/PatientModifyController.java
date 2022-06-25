@@ -79,7 +79,10 @@ public class PatientModifyController extends ModifyController{
 	
 	@FXML
 	private void selectASL() {
-		//TODO
+		var asl = this.selector.selectAsl();
+		if(Objects.nonNull(asl)) {
+			txtCodeASL.setText(asl.getCode().toString());
+		}
 	}
 
 	@FXML
@@ -89,7 +92,12 @@ public class PatientModifyController extends ModifyController{
 
 	@FXML
 	private void selectPersonCF() {
-		//TODO
+		var person = this.selector.selectPerson();
+		if(Objects.nonNull(person)) {
+			txtCF.setText(person.getCF());
+			txtName.setText(person.getName());
+			txtLastName.setText(person.getSurname());
+		}
 	}
 
 }

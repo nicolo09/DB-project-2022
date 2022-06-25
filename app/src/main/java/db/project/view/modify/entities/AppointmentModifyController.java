@@ -19,6 +19,8 @@ public class AppointmentModifyController extends ModifyController{
 	
 	private final static int MAX_MINUTE = 60;
 	private final static int MIN_MINUTE = 0;
+	
+	private final static String TIME_FORMATTER = "[0-9][0-9]";
 
 	@FXML
     private DatePicker txtAppointmentDate;
@@ -112,6 +114,8 @@ public class AppointmentModifyController extends ModifyController{
 		setTextFormatter(txtPatientCF, CF_FORMATTER);
 		setTextFormatter(txtRoomNumber, NUMBER_FORMATTER);
 		setTextFormatter(txtDoctorCF, DOCTORS_FORMATTER);
+		setTextFormatter(txtHours, TIME_FORMATTER);
+		setTextFormatter(txtMinutes, TIME_FORMATTER);
 	}
 	
 	@FXML
