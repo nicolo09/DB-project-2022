@@ -5,6 +5,8 @@ import db.project.view.modify.MainModifyViewImpl;
 import db.project.controller.Controller;
 import db.project.view.search.SearchMainView;
 import db.project.view.search.SearchMainViewImpl;
+import javafx.application.Platform;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class ViewImpl implements View {
@@ -16,6 +18,12 @@ public class ViewImpl implements View {
 		this.stage = stage;
 		this.stage.setTitle("Hospital explorer");
 		this.mainController = controller;
+        this.stage.setOnCloseRequest(handler -> {
+            Platform.exit();
+            controller.close();
+            //If any daemon thread exists this will kill it.
+            System.exit(0);
+        });
 	}
 	
     @Override
@@ -35,6 +43,20 @@ public class ViewImpl implements View {
     public void goToModifyMenu() {
         final MainModifyView view = new MainModifyViewImpl(this, mainController, stage);
         view.show();
+    }
+
+    public static void adjustStageAndSetScene(final Stage stage, final Scene scene) {
+        Platform.runLater(() -> {
+            final var width = stage.getWidth();
+            final var height = stage.getHeight();
+            stage.setMinWidth(scene.getWidth());
+            // stage.setWidth(scene.getWidth());
+            stage.setMinHeight(scene.getHeight());
+            // stage.setHeight(scene.getHeight());
+            stage.setScene(scene);
+            stage.setWidth(scene.getWidth() < width ? width : scene.getWidth());
+            stage.setHeight(scene.getHeight() < height ? height : scene.getHeight());
+        });
     }
 
 }

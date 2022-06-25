@@ -6,6 +6,7 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Uo;
+import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -24,10 +25,12 @@ public class SearchUoControllerImpl {
 
     private final Controller mainController;
     private final Command onExit;
+    private final Selector selector;
 
-    public SearchUoControllerImpl(final Command onExit, final Controller mainController) {
+    public SearchUoControllerImpl(final Command onExit, final Controller mainController, final Selector selector) {
         this.onExit = onExit;
         this.mainController = mainController;
+        this.selector = selector;
     }
 
     @FXML
@@ -40,7 +43,7 @@ public class SearchUoControllerImpl {
     private CheckBox checkName;
 
     @FXML
-    private TableView<Uo> uoTableView;
+    protected TableView<Uo> uoTableView;
 
     @FXML
     private TableColumn<Uo, Integer> columnHospitalCode;
@@ -88,7 +91,7 @@ public class SearchUoControllerImpl {
 
     @FXML
     void onHospitalSelectButton(ActionEvent event) {
-        // TODO Select hospital
+        this.textHospitalCode.setText(this.selector.selectHospital().getCode().toString());
     }
 
     @FXML

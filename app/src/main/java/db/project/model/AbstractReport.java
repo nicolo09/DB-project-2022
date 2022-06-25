@@ -1,5 +1,6 @@
 package db.project.model;
 
+import java.util.Collection;
 import java.util.Date;
 
 public abstract class AbstractReport implements Report {
@@ -9,15 +10,17 @@ public abstract class AbstractReport implements Report {
     private final String description;
     private final Hospital hospital;
     private final Person patient;
+    private final Collection<Person> involvedDoctors;
 
     public AbstractReport(final Integer code, final Date date, final String description, final Hospital hospital,
-            final Person patient) {
+            final Person patient, Collection<Person> involvedDoctors) {
         // Throws IllegalArgumentException if type is not in REPORT_TYPES
         this.code = code;
         this.date = date;
         this.description = description;
         this.hospital = hospital;
         this.patient = patient;
+        this.involvedDoctors = involvedDoctors;
     }
 
     @Override
@@ -43,5 +46,10 @@ public abstract class AbstractReport implements Report {
     @Override
     public Person getPatient() {
         return this.patient;
+    }
+
+    @Override
+    public Collection<Person> getInvolvedDoctors() {
+        return this.involvedDoctors;
     }
 }

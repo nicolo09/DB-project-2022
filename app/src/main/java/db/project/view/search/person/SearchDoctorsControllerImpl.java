@@ -6,6 +6,9 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 public class SearchDoctorsControllerImpl extends SearchPersonControllerImpl {
 
@@ -17,6 +20,12 @@ public class SearchDoctorsControllerImpl extends SearchPersonControllerImpl {
         this.mainController = mainController;
     }
 
+    @FXML
+    private CheckBox roleCheckbox;
+
+    @FXML
+    private TextField roleText;
+
     @Override
     protected String getLabelText() {
         return LABEL;
@@ -27,6 +36,7 @@ public class SearchDoctorsControllerImpl extends SearchPersonControllerImpl {
         return mainController.getDoctors(
                 this.nameCheckBox.isSelected() ? Optional.of(nameText.getText()) : Optional.empty(),
                 this.surnameCheckBox.isSelected() ? Optional.of(surnameText.getText()) : Optional.empty(),
-                Optional.empty());
+                this.roleCheckbox.isSelected() ? Optional.of(roleText.getText()) : Optional.empty()
+                );
     }
 }

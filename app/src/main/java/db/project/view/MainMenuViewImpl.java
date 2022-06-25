@@ -28,10 +28,8 @@ public class MainMenuViewImpl implements MainMenuView {
 	@Override
 	public void show() {
 		final Scene scene = new Scene(parent);
-		this.stage.setScene(scene);
+		ViewImpl.adjustStageAndSetScene(stage, scene);
 		this.stage.show();
-		stage.setMinWidth(scene.getWidth());
-		stage.setMinHeight(scene.getHeight());
 	}
 
 }

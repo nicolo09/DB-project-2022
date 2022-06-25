@@ -1,17 +1,21 @@
 package db.project.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
 import db.project.model.ASL;
+import db.project.model.Appointment;
+import db.project.model.Cure;
 import db.project.model.Hospital;
 import db.project.model.Model;
 import db.project.model.OPERATION_OUTCOME;
 import db.project.model.Person;
 import db.project.model.Report;
 import db.project.model.Uo;
+import javafx.util.Pair;
 
 public class ControllerImpl implements Controller {
 
@@ -39,12 +43,12 @@ public class ControllerImpl implements Controller {
     
     @Override
     public Collection<Report> getRefertiByDoctor(Person doctor) {
-        return this.model.getReports(Optional.empty(), Optional.of(doctor));
+        return this.model.getReportsFromDoctor(doctor);
     }
 
     @Override
     public Collection<Report> getRefertiByPatient(Person patient) {
-        return this.model.getReports(Optional.of(patient), Optional.empty());
+        return this.model.getReportsFromPatient(patient);
     }
 
     @Override
@@ -68,48 +72,61 @@ public class ControllerImpl implements Controller {
             Optional<String> number) {
         return this.model.getASL(name, city, way, number);
     }
-
+    
     @Override
     public Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
-            Optional<String> number, Optional<ASL> asl) {
+    Optional<String> number, Optional<ASL> asl) {
         return this.model.getHospitals(name, city, way, number, asl);
     }
-
+    
     @Override
     public Optional<Uo> getUo(Hospital hospital, String name) {
         return this.model.getUo(hospital, name);
     }
-
+    
     @Override
     public Optional<Hospital> getHospital(Integer code) {
         return this.model.getHospital(code);
     }
-
+    
     @Override
     public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital) {
         return this.model.getUos(name, freeSpace, hospital);
     }
-
+    
     @Override
     public Optional<ASL> getASL(Integer code) {
         return model.getASL(code);
     }
     
     @Override
-	public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
-			Optional<String> lastName) {
-		return this.model.insertAmministratives(CF, role, hospitalCode, name, lastName);
-	}
+    public Collection<Appointment> getAppointments(Optional<Person> doctor, Optional<Person> patient,
+    Optional<Hospital> hospital, Optional<LocalDate> date) {
+        return this.model.getAppointments(doctor, patient, hospital, date);
+    }
+    
+    @Override
+    public Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo,
+            Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,
+            Optional<String> reason) {
+        return this.model.getCures(patient, uo, dateInInterval, dateOutInterval, reason);
+    }
 
+    @Override
+	public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
+    Optional<String> lastName) {
+        return this.model.insertAmministratives(CF, role, hospitalCode, name, lastName);
+	}
+    
 	@Override
 	public OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration, String type,
-			String patientCF, Collection<String> doctorCF) {
-		return this.model.insertAppointment(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF);
+    String patientCF, Collection<String> doctorCF) {
+        return this.model.insertAppointment(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF);
 	}
-
+    
 	@Override
 	public OPERATION_OUTCOME insertASL(String name, String city, String street, int streetNumber) {
-		return this.model.insertASL(name, city, street, streetNumber);
+        return this.model.insertASL(name, city, street, streetNumber);
 	}
 
 	@Override
@@ -155,7 +172,7 @@ public class ControllerImpl implements Controller {
 			String patientCF, Collection<String> doctorCF) {
 		return this.model.insertReport(emissionDate, description, type, therapy, procedure, outcome, duration, hospitalCode, patientCF, doctorCF);
 	}
-
+    
 	@Override
 	public OPERATION_OUTCOME insertRoom(int hospitalCode, int roomNumber) {
 		return this.model.insertRoom(hospitalCode, roomNumber);
@@ -171,6 +188,11 @@ public class ControllerImpl implements Controller {
 		return this.model.insertWorking(CF, unitName, hospitalCode);
 	}
 
+    @Override
+    public void close() {
+        this.model.close();
+    }
+    
 	@Override
 	public OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode) {
 		return this.model.updateAmministratives(CF, role, hospitalCode);

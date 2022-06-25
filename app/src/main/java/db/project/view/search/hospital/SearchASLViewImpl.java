@@ -2,6 +2,7 @@ package db.project.view.search.hospital;
 
 import java.io.IOException;
 
+import db.project.view.ViewImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -30,10 +31,8 @@ public class SearchASLViewImpl implements SearchASLView {
             e.printStackTrace();
         }
         final Scene scene = new Scene(parent);
-        this.getStage().setScene(scene);
+        ViewImpl.adjustStageAndSetScene(getStage(), scene);
         this.getStage().show();
-        this.getStage().setMinWidth(scene.getWidth());
-        this.getStage().setMinHeight(scene.getHeight());
     }
 
     private Stage getStage() {

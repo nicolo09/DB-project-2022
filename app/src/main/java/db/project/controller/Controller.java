@@ -1,18 +1,24 @@
 package db.project.controller;
 
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Optional;
 
 import db.project.model.ASL;
+import db.project.model.Appointment;
+import db.project.model.Cure;
 import db.project.model.OPERATION_OUTCOME;
 import db.project.model.Hospital;
 import db.project.model.Person;
 import db.project.model.Report;
 import db.project.model.Uo;
+import javafx.util.Pair;
 
 public interface Controller {
+
+    void close();
 
     Collection<Report> getRefertiByDoctor(Person doctor);
 
@@ -20,61 +26,68 @@ public interface Controller {
 
     Optional<Person> getDoctorByCF(String CF);
 
-    Optional<Person> getPatientByCF(String text);
+    Optional<Person> getPatientByCF(String CF);
 
     Collection<Person> getPersons(Optional<String> name, Optional<String> surname);
 
     Collection<Person> getDoctors(Optional<String> name, Optional<String> surname, Optional<String> role);
-
+    
     Collection<Person> getPatients(Optional<String> name, Optional<String> surname, Optional<Date> birthDate,
-            Optional<Integer> ASLCode);
-
+    Optional<Integer> ASLCode);
+    
     Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
-            Optional<Integer> HospitalCode);
-
+    Optional<Integer> HospitalCode);
+    
     Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way, Optional<String> number);
-
+    
     Optional<Hospital> getHospital(Integer code);
-
+    
     Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
-            Optional<String> number, Optional<ASL> asl);
-
+    Optional<String> number, Optional<ASL> asl);
+    
     Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital);
-
+    
     Optional<Uo> getUo(Hospital hospital, String name);
-
+    
     Optional<ASL> getASL(Integer code);
+    
+    Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo, Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,Optional<String> reason);
 
-    OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName);
-    
-    OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date,
-    		int duration, String type, String patientCF, Collection<String> doctorCF);
-    
+    Collection<Appointment> getAppointments(Optional<Person> doctor, Optional<Person> patient,
+            Optional<Hospital> hospital, Optional<LocalDate> date);
+
+    OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
+            Optional<String> lastName);
+
+    OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration, String type,
+            String patientCF, Collection<String> doctorCF);
+
     OPERATION_OUTCOME insertASL(String name, String city, String street, int streetNumber);
-    
+
     OPERATION_OUTCOME insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
-    		Optional<Date> exitDate, String description);
-    
+            Optional<Date> exitDate, String description);
+
     OPERATION_OUTCOME insertEquipment(int hospitalCode, String name, Date lastMaintenance);
-    
+
     OPERATION_OUTCOME insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName);
-    
+
     OPERATION_OUTCOME insertHospital(String name, String city, String street, int streetNumber, int codeASL);
-    
-    OPERATION_OUTCOME insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName);
-    
+
+    OPERATION_OUTCOME insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name,
+            Optional<String> lastName);
+
     OPERATION_OUTCOME insertPerson(String CF, String name, String lastName);
-    
+
     OPERATION_OUTCOME insertPhone(String phoneNumber, String personCF);
-    
-    OPERATION_OUTCOME insertReport(Date emissionDate, String description, String type, 
-    		Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration, 
-    		int hospitalCode, String patientCF, Collection<String> doctorCF);
-    
+
+    OPERATION_OUTCOME insertReport(Date emissionDate, String description, String type, Optional<String> therapy,
+            Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration, int hospitalCode,
+            String patientCF, Collection<String> doctorCF);
+
     OPERATION_OUTCOME insertRoom(int hospitalCode, int roomNumber);
-    
+
     OPERATION_OUTCOME insertUO(int hospitalCode, String name, int capacity, int seatsOccupied);
-    
+
     OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode);
     
     OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode);
@@ -123,19 +136,20 @@ public interface Controller {
     
     void setHospital(int hospitalCode);
 	
-	int countDeletedEquipments();
+    int countDeletedEquipments();
 	
-	int countDeletedAmministratives();
+    int countDeletedAmministratives();
 	
-	int countDeletedReports();
+    int countDeletedReports();
 	
-	int countDeletedRooms();
+    int countDeletedRooms();
 	
-	int countDeletedAppointments();
+    int countDeletedAppointments();
 	
-	int countDeletedUOs();
+    int countDeletedUOs();
 	
-	int countDeletedCures();
+    int countDeletedCures();
 	
-	int countDeletedJobs();
+    int countDeletedJobs();
+
 }

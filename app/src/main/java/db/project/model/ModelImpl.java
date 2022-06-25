@@ -6,6 +6,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
@@ -22,6 +24,7 @@ import db.project.model.mysql.DataUpdater;
 import db.project.model.mysql.DataUpdaterImpl;
 import db.project.model.mysql.HospitalDeletionCounter;
 import db.project.model.mysql.HospitalDeletionCounterImpl;
+import javafx.util.Pair;
 
 public class ModelImpl implements Model {
 
@@ -38,6 +41,10 @@ public class ModelImpl implements Model {
     private String tableHospital = "ospedali";
     private String tableASL = "asl";
     private String tableUo = "uo";
+    private String tableAppointment = "appuntamenti";
+    private String tablePresence = "presenzia";
+    private String tableInvolvements = "coinvolgimenti";
+    private String tableCure = "cure";
 
     /**
      * Creates a simple connection to a local database
@@ -49,6 +56,15 @@ public class ModelImpl implements Model {
         updater = new DataUpdaterImpl(dbConnection);
         remover = new DataRemoverImpl(dbConnection);
         counter = new HospitalDeletionCounterImpl(dbConnection);
+    }
+
+    @Override
+    public void close() {
+        try {
+            dbConnection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -137,7 +153,7 @@ public class ModelImpl implements Model {
             query += "Cognome LIKE '" + surname.get() + "', ";
         }
         if (birthDate.isPresent()) {
-            query += "Data_nascita='" + birthDate.get() + "', ";
+            query += "Data_nascita='" + new java.sql.Date(birthDate.get().getTime()) + "', ";
         }
         if (ASLCode.isPresent()) {
             query += "Cod_ASL=" + ASLCode.get() + ", ";
@@ -205,11 +221,13 @@ public class ModelImpl implements Model {
                         resultSet.getDate("Data_emissione"), resultSet.getString("Descrizione"),
                         this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
                         this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Procedura"),
-                        resultSet.getString("Esito"), Duration.ofMinutes(resultSet.getInt("Durata"))));
+                        resultSet.getString("Esito"), Duration.ofMinutes(resultSet.getInt("Durata")),
+                        this.getDoctorsFromReferto(resultSet.getInt("Codice_referto"))));
                 case VISIT -> result.add(new VisitReportImpl(resultSet.getInt("Codice_referto"),
                         resultSet.getDate("Data_emissione"), resultSet.getString("Descrizione"),
                         this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
-                        this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Terapia")));
+                        this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Terapia"),
+                        this.getDoctorsFromReferto(resultSet.getInt("Codice_referto"))));
                 default -> throw new IllegalArgumentException("Unexpected value: " + resultSet.getString("type"));
                 }
             }
@@ -220,18 +238,33 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Collection<Report> getReports(Optional<Person> patient, Optional<Person> doctor) {
-        String query = "SELECT * " + "FROM " + tableReports + " WHERE ";
-        if (patient.isPresent()) {
-            query += "Paziente LIKE '" + patient.get().getCF() + "', ";
-        }
-        if (doctor.isPresent()) {
-            query += "Dottore LIKE '" + doctor.get().getCF() + "', ";
-        }
-        query = query.substring(0, query.length() - 2);
+    public Collection<Report> getReportsFromPatient(final Person patient) {
+        String query = "SELECT * " + "FROM " + tableReports + " WHERE " + "Paziente LIKE '" + patient.getCF() + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readReportsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    @Override
+    public Collection<Report> getReportsFromDoctor(final Person doctor) {
+        String query = "SELECT * FROM "+ tableReports + "WHERE Codice_referto IN " + "(SELECT Referto FROM " + tableInvolvements + " WHERE Medico LIKE '" + doctor.getCF() + "')";
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readReportsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    public Collection<Person> getDoctorsFromReferto(Integer reportCode) {
+        String query = "SELECT persone.* " + "FROM " + tableInvolvements + " INNER JOIN persone "
+                + "ON persone.Codice_fiscale = " + tableInvolvements + ".Medico " + "WHERE Referto = " + reportCode;
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readPersonsFromResultSet(statement.getResultSet());
         } catch (final SQLException e) {
             return List.of();
         }
@@ -282,7 +315,7 @@ public class ModelImpl implements Model {
         }
         return result;
     }
-    
+
     @Override
     public Optional<ASL> getASL(final Integer code) {
         if (checkASLExists(code) == false) {
@@ -456,80 +489,190 @@ public class ModelImpl implements Model {
             return List.of();
         }
     }
-    
-    
+
     @Override
-    public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name, Optional<String> lastName) {
-    	return inserter.insertAmministratives(CF, role, hospitalCode, name, lastName);
+    public Collection<Appointment> getAppointments(Optional<Person> doctor, Optional<Person> patient,
+            Optional<Hospital> hospital, Optional<LocalDate> date) {
+        String query = "SELECT DISTINCT " + tableAppointment + ".*" + " FROM " + tableAppointment + " INNER JOIN "
+                + tablePresence + " ON " + tableAppointment + ".Numero_sala = " + tablePresence + ".Numero_sala"
+                + " AND " + tableAppointment + ".Codice_ospedale = " + tablePresence + ".Codice_ospedale" + " AND "
+                + tableAppointment + ".Data_ora = " + tablePresence + ".Data_ora " + "WHERE ";
+        if (doctor.isPresent()) {
+            query += "Medico = " + doctor.get().getCF() + ", ";
+        }
+        if (patient.isPresent()) {
+            query += "Paziente = '" + patient.get().getCF() + "', ";
+        }
+        if (hospital.isPresent()) {
+            query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
+        }
+        if (date.isPresent()) {
+            query += "Data = '" + java.sql.Date.valueOf(date.get()) + "', ";
+        }
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readAppointmentsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    private Collection<Appointment> readAppointmentsFromResultSet(final ResultSet resultSet) {
+        Set<Appointment> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                final Room room = new RoomImpl(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
+                        resultSet.getInt("Numero_sala"));
+                result.add(new AppointmentImpl(room, resultSet.getTimestamp("Data_ora").toLocalDateTime(),
+                        Duration.ofMinutes(resultSet.getInt("Durata")),
+                        this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Tipo"),
+                        getAppointmentDoctors(room, resultSet.getTimestamp("Data_ora").toLocalDateTime())));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public Collection<Person> getAppointmentDoctors(final Room room, final LocalDateTime dateTime) {
+        String query = "SELECT * FROM " + tablePresence + " WHERE " + "Numero_sala = " + room.getRoomNumber() + " AND "
+        + "Data_ora = '" + java.sql.Timestamp.valueOf(dateTime) + "'";
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            ResultSet resultSet = statement.getResultSet();
+            Set<Person> result = new HashSet<>();
+            while (resultSet.next()) {
+                result.add(this.getPerson(resultSet.getString("Medico")).get());
+            }
+            return result;
+        } catch (final SQLException e) {
+            return List.of();
+        }
     }
     
+    @Override
+    public Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo,
+            Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,
+            Optional<String> reason) {
+        String query = "SELECT * FROM " + tableCure + " WHERE ";
+        if (patient.isPresent()) {
+            query += "Paziente = '" + patient.get().getCF() + "', ";
+        }
+        if (uo.isPresent()) {
+            query += "Nome_unita = " + uo.get().getName() + ", "+ "Codice_ospedale = "+uo.get().getHospital().getCode()+", ";
+        }
+        if (dateInInterval.isPresent()) {
+            query += "Data_inizio BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
+                    + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "', ";
+        }
+        if (dateOutInterval.isPresent()) {
+            query += "Data_fine BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
+                    + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "', ";
+        }
+        if (reason.isPresent()) {
+            query += "Motivazione LIKE '" + reason.get() + "', ";
+        }
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readCuresFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    private Collection<Cure> readCuresFromResultSet(ResultSet resultSet) {
+        Set<Cure> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new CureImpl(this.getPatient(resultSet.getString("Paziente")).get(),
+                        this.getUo(this.getHospital(resultSet.getInt("Codice_ospedale")).get(), resultSet.getString("Nome_unita")).get(),
+                        resultSet.getDate("Data_ingresso").toLocalDate(),
+                        resultSet.getDate("Data_uscita").toLocalDate(), resultSet.getString("Motivazione")));
+            }
+            return result;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return Set.of();
+        }
+    }
+
+    @Override
+    public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
+            Optional<String> lastName) {
+        return inserter.insertAmministratives(CF, role, hospitalCode, name, lastName);
+    }
+
     @Override
     public OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration,
-    		String type, String patientCF, Collection<String> doctorCF) {
-    	return inserter.insertAppointment(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF);
+            String type, String patientCF, Collection<String> doctorCF) {
+        return inserter.insertAppointment(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertASL(String name, String city, String street, int streetNumber) {
-    	return inserter.insertASL(name, city, street, streetNumber);
+        return inserter.insertASL(name, city, street, streetNumber);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
-    		Optional<Date> exitDate, String description) {
-    	return inserter.insertCure(patientCF, hospitalCode, unitName, ingressDate, exitDate, description);
+            Optional<Date> exitDate, String description) {
+        return inserter.insertCure(patientCF, hospitalCode, unitName, ingressDate, exitDate, description);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertEquipment(int hospitalCode, String name, Date lastMaintenance) {
-    	return inserter.insertEquipment(hospitalCode, name, lastMaintenance);
+        return inserter.insertEquipment(hospitalCode, name, lastMaintenance);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertHealtcare(String CF, String role, Optional<String> name, Optional<String> lastName) {
-    	return inserter.insertHealtcare(CF, role, name, lastName);
+        return inserter.insertHealtcare(CF, role, name, lastName);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertHospital(String name, String city, String street, int streetNumber, int codeASL) {
-    	return inserter.insertHospital(name, city, street, streetNumber, codeASL);
+        return inserter.insertHospital(name, city, street, streetNumber, codeASL);
     }
-    
+
     @Override
-    public OPERATION_OUTCOME insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name, Optional<String> lastName) {
-    	return inserter.insertPatient(CF, birthDay, codASL, name, lastName);
+    public OPERATION_OUTCOME insertPatient(String CF, Date birthDay, Optional<Integer> codASL, Optional<String> name,
+            Optional<String> lastName) {
+        return inserter.insertPatient(CF, birthDay, codASL, name, lastName);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertPerson(String CF, String name, String lastName) {
-    	return inserter.insertPerson(CF, name, lastName);
+        return inserter.insertPerson(CF, name, lastName);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertPhone(String phoneNumber, String personCF) {
-    	return inserter.insertPhone(phoneNumber, personCF);
+        return inserter.insertPhone(phoneNumber, personCF);
     }
-    
+
     @Override
-    public OPERATION_OUTCOME insertReport(Date emissionDate, String description, String type,
-    		Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
-    		int hospitalCode, String patientCF, Collection<String> doctorCF) {
-    	return inserter.insertReport(emissionDate, description, type, therapy, procedure, outcome, duration, hospitalCode, patientCF, doctorCF);
+    public OPERATION_OUTCOME insertReport(Date emissionDate, String description, String type, Optional<String> therapy,
+            Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration, int hospitalCode,
+            String patientCF, Collection<String> doctorCF) {
+        return inserter.insertReport(emissionDate, description, type, therapy, procedure, outcome, duration,
+                hospitalCode, patientCF, doctorCF);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertRoom(int hospitalCode, int roomNumber) {
-    	return inserter.insertRoom(hospitalCode, roomNumber);
+        return inserter.insertRoom(hospitalCode, roomNumber);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertUO(int hospitalCode, String name, int capacity, int seatsOccupied) {
-    	return inserter.insertUO(hospitalCode, name, capacity, seatsOccupied);
+        return inserter.insertUO(hospitalCode, name, capacity, seatsOccupied);
     }
-    
+
     @Override
     public OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode) {
-    	return inserter.insertWorking(CF, unitName, hospitalCode);
+        return inserter.insertWorking(CF, unitName, hospitalCode);
     }
 
 	@Override
@@ -688,6 +831,7 @@ public class ModelImpl implements Model {
 	public int countDeletedJobs() {
 		return this.counter.countDeletedJobs();
 	}
+
 
 
 }

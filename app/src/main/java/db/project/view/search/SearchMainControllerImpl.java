@@ -9,6 +9,11 @@ public class SearchMainControllerImpl {
     public SearchMainControllerImpl(SearchMainView view) {
         this.view = view;
     }
+
+	@FXML
+	public void goToMainMenu() {
+		view.goToMainMenu();
+	}
     
     @FXML
     private void onASL(ActionEvent event) {

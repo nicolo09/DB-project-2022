@@ -2,6 +2,7 @@ package db.project.view.search.person;
 
 import java.io.IOException;
 
+import db.project.view.ViewImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -21,13 +22,17 @@ public class SearchPersonViewImpl implements SearchPersonView{
     private Stage getStage() {
         return this.stage;
     }
+
+    protected String getPath() {
+        return PATH;
+    }
     
     @Override
     public void show() {
         Parent parent = null;
         final FXMLLoader loader = new FXMLLoader();
         loader.setController(this.controller);
-        loader.setLocation(getClass().getResource("/" + PATH));
+        loader.setLocation(getClass().getResource("/" + this.getPath()));
         try {
             parent = loader.load();
         } catch (IOException e) {
@@ -35,10 +40,8 @@ public class SearchPersonViewImpl implements SearchPersonView{
         }
         this.controller.setLabelText(this.controller.getLabelText());
         final Scene scene = new Scene(parent);
-        this.getStage().setScene(scene);
+        ViewImpl.adjustStageAndSetScene(getStage(), scene);
         this.getStage().show();
-        this.getStage().setMinWidth(scene.getWidth());
-        this.getStage().setMinHeight(scene.getHeight());
     }
 
 }

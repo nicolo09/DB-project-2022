@@ -8,15 +8,33 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
+import db.project.view.search.SearchMainView;
+import javafx.fxml.FXML;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.TextField;
 
 public class SearchPatientsControllerImpl extends SearchPersonControllerImpl {
 
     private static final String LABEL = "Pazienti";
     private final Controller mainController;
 
-    public SearchPatientsControllerImpl(Command onExit, Controller mainController) {
+    @FXML
+    private CheckBox aslCheckbox;
+
+    @FXML
+    private TextField textAslCode;
+
+    private SearchMainView mainView;
+
+    public SearchPatientsControllerImpl(Command onExit, Controller mainController, SearchMainView mainView) {
         super(onExit);
         this.mainController = mainController;
+        this.mainView = mainView;
+    }
+
+    @FXML
+    private void onAslSelectButton(){
+        this.textAslCode.setText(mainView.selectAsl().getCode().toString());
     }
 
     @Override
@@ -33,7 +51,8 @@ public class SearchPatientsControllerImpl extends SearchPersonControllerImpl {
                         ? Optional.of(Date
                                 .from(this.birthDatePicker.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()))
                         : Optional.empty(),
-                Optional.empty());
+                this.aslCheckbox.isSelected() ? Optional.of(Integer.parseInt(textAslCode.getText()))
+                        : Optional.empty());
     }
 
 }

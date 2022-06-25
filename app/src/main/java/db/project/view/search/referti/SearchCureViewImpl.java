@@ -1,4 +1,4 @@
-package db.project.view.search.hospital;
+package db.project.view.search.referti;
 
 import java.io.IOException;
 
@@ -8,13 +8,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-public class SearchUoViewImpl implements SearchUoView {
-    
-    private static final String PATH = "search_uo.fxml";
-    private final SearchUoControllerImpl controller;
+public class SearchCureViewImpl implements SearchCureView {
+
+    private static final String PATH = "search_cure.fxml";
+    private final SearchCureControllerImpl controller;
     private final Stage mainStage;
 
-    public SearchUoViewImpl(final Stage stage, final SearchUoControllerImpl controller) {
+    public SearchCureViewImpl(final Stage stage, final SearchCureControllerImpl controller) {
         this.mainStage = stage;
         this.controller = controller;
     }
@@ -38,4 +38,5 @@ public class SearchUoViewImpl implements SearchUoView {
     private Stage getStage() {
         return this.mainStage;
     }
+
 }
