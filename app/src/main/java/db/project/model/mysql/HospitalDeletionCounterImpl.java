@@ -17,6 +17,7 @@ public class HospitalDeletionCounterImpl implements HospitalDeletionCounter {
 	
 	public HospitalDeletionCounterImpl(final Connection connection) {
 		this.connection = connection;
+		this.hospitalCode = Optional.empty();
 	}
 	
 	@Override
