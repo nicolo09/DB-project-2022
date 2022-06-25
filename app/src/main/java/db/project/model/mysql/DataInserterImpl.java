@@ -65,7 +65,7 @@ public class DataInserterImpl implements DataInserter {
 	public OPERATION_OUTCOME insertAppointment(int hospitalCode, int roomNumber, Timestamp date, int duration,
 			String type, String patientCF, Collection<String> doctorCF) {
 		
-		if(checkNulls(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF)){
+		if(checkNulls(hospitalCode, roomNumber, date, duration, type, patientCF, doctorCF) || doctorCF.size() == 0){
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
@@ -380,7 +380,7 @@ public class DataInserterImpl implements DataInserter {
 			Optional<String> therapy, Optional<String> procedure, Optional<String> outcome, Optional<Integer> duration,
 			int hospitalCode, String patientCF, Collection<String> doctorCF) {
 		
-		if(checkNulls(emissionDate, description, type, hospitalCode, patientCF, doctorCF)) {
+		if(checkNulls(emissionDate, description, type, hospitalCode, patientCF, doctorCF) || doctorCF.size() == 0) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
