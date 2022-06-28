@@ -9,6 +9,7 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -30,8 +31,8 @@ public class PatientModifyController extends ModifyController{
     @FXML
     private TextField txtName;
 
-	public PatientModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public PatientModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override
@@ -47,7 +48,7 @@ public class PatientModifyController extends ModifyController{
 		
 		Optional<String> lastName = txtLastName.getText().trim() != "" ? Optional.of(txtLastName.getText().trim()) : Optional.empty();
 
-		this.mainController.insertPatient(cf, birth, aslCode, name, lastName);
+		showOutcome(this.mainController.insertPatient(cf, birth, aslCode, name, lastName));
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class PatientModifyController extends ModifyController{
 		
 		Optional<Integer> aslCode = isInteger(txtCodeASL.getText().trim()) ? Optional.of(Integer.parseInt(txtCodeASL.getText().trim())) : Optional.empty();
 		
-		this.mainController.updatePatient(cf, aslCode);
+		showOutcome(this.mainController.updatePatient(cf, aslCode));
 	}
 
 	@Override
@@ -65,12 +66,23 @@ public class PatientModifyController extends ModifyController{
 	protected void removeElement() {
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		this.mainController.removePatient(cf);
+		showOutcome(this.mainController.removePatient(cf));
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtCodeASL, NUMBER_FORMATTER);
+		setTextFormatter(txtName, SIMPLE_FORMATTER);
+		setTextFormatter(txtLastName, SIMPLE_FORMATTER);
 	}
 	
 	@FXML
 	private void selectASL() {
-		//TODO
+		var asl = this.selector.selectAsl();
+		if(Objects.nonNull(asl)) {
+			txtCodeASL.setText(asl.getCode().toString());
+		}
 	}
 
 	@FXML
@@ -80,7 +92,12 @@ public class PatientModifyController extends ModifyController{
 
 	@FXML
 	private void selectPersonCF() {
-		//TODO
+		var person = this.selector.selectPerson();
+		if(Objects.nonNull(person)) {
+			txtCF.setText(person.getCF());
+			txtName.setText(person.getName());
+			txtLastName.setText(person.getSurname());
+		}
 	}
 
 }

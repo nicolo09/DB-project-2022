@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 import db.project.model.OPERATION_OUTCOME;
@@ -11,6 +12,8 @@ import db.project.model.TABLES;
 
 public class DataRemoverImpl implements DataRemover {
 
+	private final static int INVALID_INT = -1;
+	
 	final Connection connection;
 	
 	public DataRemoverImpl(final Connection connection) {
@@ -62,17 +65,34 @@ public class DataRemoverImpl implements DataRemover {
 		return OPERATION_OUTCOME.SUCCESS;
 	}
 
+	//TODO use ingressDate
 	@Override
-	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName) {
+	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate) {
 		if(checkNulls(patientCF, hospitalCode, unitName)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		String query = "DELETE FROM " + TABLES.CURE.get() + " WHERE Paziente LIKE ? AND Codice_ospedale LIKE ? AND Nome_unita LIKE ?";
-		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+		String controlQuery = "SELECT COUNT(*) FROM " + TABLES.CURE.get()+ " WHERE Paziente LIKE ? AND Codice_ospedale LIKE ? AND Nome_unita LIKE ?"
+				+ " AND Data_ingresso LIKE ? AND Data_uscita LIKE NULL";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
+			
+			controlStatement.setString(1, patientCF);
+			controlStatement.setInt(2, hospitalCode);
+			controlStatement.setString(3, unitName);
+			controlStatement.setDate(4, new java.sql.Date(ingressDate.getTime()));
+			
+			var rs = controlStatement.executeQuery();
+			rs.next();
+			if(rs.getInt(1) > 0) {
+				return OPERATION_OUTCOME.EXIT_DATE_MISSING;
+			}
+		
+			String query = "DELETE FROM " + TABLES.CURE.get() + " WHERE Paziente LIKE ? AND Codice_ospedale LIKE ? AND Nome_unita LIKE ? AND Data_ingresso LIKE ?";
+			final PreparedStatement statement = this.connection.prepareStatement(query);
 			statement.setString(1, patientCF);
 			statement.setInt(2, hospitalCode);
 			statement.setString(3, unitName);
+			statement.setDate(4, new java.sql.Date(ingressDate.getTime()));
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -104,9 +124,11 @@ public class DataRemoverImpl implements DataRemover {
 
 	@Override
 	public OPERATION_OUTCOME removeHealtcare(String CF) {
+		//TODO check if they have an appointment
 		return removePersonFromTable(CF, TABLES.HEALTHCARE);
 	}
 
+	//TODO must delete all appointments, all rooms, close all cures
 	@Override
 	public OPERATION_OUTCOME removeHospital(int structureCode) {
 		if(checkNulls(structureCode)) {
@@ -178,8 +200,19 @@ public class DataRemoverImpl implements DataRemover {
 		if(checkNulls(hospitalCode, roomNumber)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
-		String query = "DELETE FROM " + TABLES.ROOM.get() + " WHERE Codice_ospedale LIKE ? AND Numero LIKE ?";
-		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+		String controlQuery = "SELECT COUNT(*) FROM " + TABLES.APPOINTMENT.get() + " WHERE Codice_ospedale LIKE ? AND Numero_sala LIKE ?";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
+			controlStatement.setInt(1, hospitalCode);
+			controlStatement.setInt(2, roomNumber);
+			
+			var rs = controlStatement.executeQuery();
+			rs.next();
+			if(rs.getInt(1) > 0) {
+				return OPERATION_OUTCOME.PENDING_APPOINTMENTS;
+			}
+		
+			String query = "DELETE FROM " + TABLES.ROOM.get() + " WHERE Codice_ospedale LIKE ? AND Numero LIKE ?";
+			final PreparedStatement statement = this.connection.prepareStatement(query);
 			statement.setInt(1, hospitalCode);
 			statement.setInt(2, roomNumber);
 			
@@ -197,9 +230,19 @@ public class DataRemoverImpl implements DataRemover {
 		if(checkNulls(hospitalCode, name)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
-		//TODO remove all cure instances before deleting an uo
-		String query = "DELETE FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
-		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+		String controlQuery = "SELECT COUNT(*) FROM " + TABLES.CURE.get() + " WHERE Codice_ospedale LIKE ? AND Nome_unita LIKE ? AND Data_uscita LIKE NULL";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
+			controlStatement.setInt(1, hospitalCode);
+			controlStatement.setString(2, name);
+		
+			var rs = controlStatement.executeQuery();
+			rs.next();
+			if(rs.getInt(1) > 0) {
+				return OPERATION_OUTCOME.PENDING_CURES;
+			}
+		
+			String query = "DELETE FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
+			final PreparedStatement statement = this.connection.prepareStatement(query);
 			statement.setInt(1, hospitalCode);
 			statement.setString(2, name);
 			
@@ -235,6 +278,12 @@ public class DataRemoverImpl implements DataRemover {
 	
 	private boolean checkNulls(Object ... args) {
 		for (Object object : args) {
+			if(object instanceof Integer) {
+				Integer value = (Integer) object;
+				if(value.equals(INVALID_INT)) {
+					return true;
+				}
+			}
 			if(Objects.isNull(object)) {
 				return true;
 			}

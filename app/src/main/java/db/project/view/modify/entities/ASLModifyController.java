@@ -1,10 +1,12 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -25,8 +27,8 @@ public class ASLModifyController extends ModifyController{
     @FXML
     private TextField txtStreetNumber;
 
-	public ASLModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public ASLModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override
@@ -39,9 +41,9 @@ public class ASLModifyController extends ModifyController{
 		
 		var street = txtStreet.getText().trim() != "" ? txtStreet.getText().trim() : null;
 		
-		var streetNumber = isInteger(txtStreetNumber.getText().trim()) ? Integer.parseInt(txtStreetNumber.getText().trim()) : null;
+		var streetNumber = isInteger(txtStreetNumber.getText().trim()) ? Integer.parseInt(txtStreetNumber.getText().trim()) : INVALID_INT;
 		
-		this.mainController.insertASL(name, city, street, streetNumber);
+		showOutcome(this.mainController.insertASL(name, city, street, streetNumber));
 		
 	}
 
@@ -49,7 +51,7 @@ public class ASLModifyController extends ModifyController{
 	@FXML
 	public void updateElement() {
 		
-		var codeASL = isInteger(txtCodeASL.getText().trim()) ? Integer.parseInt(txtCodeASL.getText().trim()) : null;
+		var codeASL = isInteger(txtCodeASL.getText().trim()) ? Integer.parseInt(txtCodeASL.getText().trim()) : INVALID_INT;
 		
 		Optional<String> name = txtName.getText().trim() != "" ? Optional.of(txtName.getText().trim()) : Optional.empty();
 		
@@ -59,21 +61,38 @@ public class ASLModifyController extends ModifyController{
 		
 		Optional<Integer> streetNumber = isInteger(txtStreetNumber.getText().trim()) ? Optional.of(Integer.parseInt(txtStreetNumber.getText().trim())) : Optional.empty();
 		
-		this.mainController.updateASL(codeASL, name, city, street, streetNumber);
+		showOutcome(this.mainController.updateASL(codeASL, name, city, street, streetNumber));
 	}
 
 	@Override
 	@FXML
 	protected void removeElement() {
 		
-		var codeASL = isInteger(txtCodeASL.getText().trim()) ? Integer.parseInt(txtCodeASL.getText().trim()) : null;
+		var codeASL = isInteger(txtCodeASL.getText().trim()) ? Integer.parseInt(txtCodeASL.getText().trim()) : INVALID_INT;
 		
-		this.mainController.removeASL(codeASL);
+		showOutcome(this.mainController.removeASL(codeASL));
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCodeASL, NUMBER_FORMATTER);
+		setTextFormatter(txtCity, SIMPLE_FORMATTER);
+		setTextFormatter(txtStreet, SIMPLE_FORMATTER);
+		setTextFormatter(txtStreetNumber, NUMBER_FORMATTER);
+		setTextFormatter(txtName, COMPLETE_FORMATTER);
 	}
 	
 	@FXML
     void selectASL() {
-		//TODO
+		var asl = this.selector.selectAsl();
+		if(Objects.nonNull(asl)) {
+			txtCodeASL.setText(asl.getCode().toString());
+			txtName.setText(asl.getName());
+			txtCity.setText(asl.getCity());
+			txtStreet.setText(asl.getAddress());
+			txtStreetNumber.setText(asl.getNumber().toString());
+		}
+		
     }
 
 }

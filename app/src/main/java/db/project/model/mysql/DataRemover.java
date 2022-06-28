@@ -1,6 +1,7 @@
 package db.project.model.mysql;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 import db.project.model.OPERATION_OUTCOME;
 
@@ -12,7 +13,7 @@ public interface DataRemover {
     
     OPERATION_OUTCOME removeASL(int codeASL);
     
-    OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName);
+    OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate);
     
     OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode);
     

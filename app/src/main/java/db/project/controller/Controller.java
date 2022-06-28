@@ -95,7 +95,7 @@ public interface Controller {
     
     OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city, Optional<String> street, Optional<Integer> streetNumber);
     
-    OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate, Optional<String> description);
+    OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Date ingressDate, Optional<Date> exitDate, Optional<String> description);
     
     OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance);
     
@@ -113,7 +113,7 @@ public interface Controller {
     
     OPERATION_OUTCOME removeASL(int codeASL);
     
-    OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName);
+    OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate);
     
     OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode);
     
@@ -134,6 +134,24 @@ public interface Controller {
     OPERATION_OUTCOME removeUO(int hospitalCode, String name);
     
     OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode);
+    
+    void setHospital(int hospitalCode);
+	
+    int countDeletedEquipments();
+	
+    int countDeletedAmministratives();
+	
+    int countDeletedReports();
+	
+    int countDeletedRooms();
+	
+    int countDeletedAppointments();
+	
+    int countDeletedUOs();
+	
+    int countDeletedCures();
+	
+    int countDeletedJobs();
 
     Collection<Pair<Person, String>> getTelephones(Person person);
 

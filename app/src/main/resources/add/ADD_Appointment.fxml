@@ -52,7 +52,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <TextField fx:id="txtCodeHospital" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Auto-compilato" />
+                  <TextField fx:id="txtCodeHospital" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
@@ -91,7 +91,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <TextField fx:id="txtRoomNumber" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
+                  <TextField fx:id="txtRoomNumber" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -148,26 +148,26 @@
             </VBox>
          </children>
       </GridPane>
-      <Button layoutX="41.0" layoutY="435.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="41.0">
+      <Button layoutX="67.0" layoutY="492.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.799999999999955" AnchorPane.leftAnchor="67.0">
          <font>
             <Font size="18.0" />
          </font>
       </Button>
-      <VBox alignment="CENTER" layoutX="813.0" layoutY="-18.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="612.0" prefWidth="165.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="-18.0">
+      <VBox alignment="CENTER" layoutX="791.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="612.0" prefWidth="165.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="21.399999999999977" AnchorPane.topAnchor="0.0">
          <children>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Rimuovi">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
                   <Font size="29.0" />
                </font>
             </Button>
          </children>
       </VBox>
-      <Label layoutX="202.0" layoutY="431.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="202.0" />
+      <Label layoutX="321.0" layoutY="440.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="68.39999999999998" AnchorPane.leftAnchor="321.0" />
       <Label layoutX="428.0" layoutY="23.0" text="**Il campo &quot;Medico&quot; può essere compilato anche per più medici,&#10;per fare ciò bisogna separare i codici fiscali con l'utilizzo dei due punti &quot;:&quot;" AnchorPane.rightAnchor="68.0" AnchorPane.topAnchor="23.0" />
       <VBox layoutX="559.0" layoutY="94.0" prefHeight="260.0" prefWidth="223.0" spacing="10.0" AnchorPane.bottomAnchor="240.0" AnchorPane.rightAnchor="196.0" AnchorPane.topAnchor="94.0">
          <children>
@@ -188,7 +188,7 @@
                   </Button>
                </children>
             </HBox>
-            <TextArea fx:id="txtDoctorCF" prefHeight="188.0" prefWidth="223.0" />
+            <TextArea fx:id="txtDoctorCF" prefHeight="188.0" prefWidth="223.0" promptText="Scrivere qui i codici fiscali dei medici coinvolti, separati tra loro con i due punti come da esempio.   CodiceFiscale1:CodiceFiscale2:CodiceFiscale3" />
          </children>
       </VBox>
    </children>

@@ -10,6 +10,7 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
@@ -28,14 +29,14 @@ public class EquipmentModifyController extends ModifyController{
     @FXML
     private TextField txtName;
 
-	public EquipmentModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public EquipmentModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override
 	@FXML
 	protected void addElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var name = txtName.getText().trim() != "" ? txtName.getText().trim() : null;
 		
@@ -43,31 +44,38 @@ public class EquipmentModifyController extends ModifyController{
 				? Date.from(Instant.from(dpLastMaintenance.getValue().atStartOfDay(ZoneId.systemDefault()))) 
 				: Date.from(Instant.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault())));
 		
-		this.mainController.insertEquipment(hospitalCode, name, lastMaintenance);
+		showOutcome(this.mainController.insertEquipment(hospitalCode, name, lastMaintenance));
 	}
 
 	@Override
 	@FXML
 	protected void updateElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
-		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
+		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : INVALID_INT;
 		
 		Optional<Date> lastMaintenance = !Objects.isNull(dpLastMaintenance.getValue()) 
 				? Optional.of(Date.from(Instant.from(dpLastMaintenance.getValue().atStartOfDay(ZoneId.systemDefault()))))
 				: Optional.empty();
 
-		this.mainController.updateEquipment(hospitalCode, inventoryCode, lastMaintenance);
+		showOutcome(this.mainController.updateEquipment(hospitalCode, inventoryCode, lastMaintenance));
 	}
 
 	@Override
 	@FXML
 	protected void removeElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
-		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : null;
+		var inventoryCode = isInteger(txtCodInventory.getText().trim()) ? Integer.parseInt(txtCodInventory.getText().trim()) : INVALID_INT;
 		
-		this.mainController.removeEquipment(hospitalCode, inventoryCode);
+		showOutcome(this.mainController.removeEquipment(hospitalCode, inventoryCode));
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCodInventory, NUMBER_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtName, SIMPLE_FORMATTER);
 	}
 	
 	@FXML
@@ -77,7 +85,10 @@ public class EquipmentModifyController extends ModifyController{
 
     @FXML
     private void selectHospital() {
-    	//TODO
+    	var hospital = this.selector.selectHospital();
+    	if(Objects.nonNull(hospital)) {
+    		txtCodeHospital.setText(hospital.getCode().toString());
+    	}
     }
 
 }

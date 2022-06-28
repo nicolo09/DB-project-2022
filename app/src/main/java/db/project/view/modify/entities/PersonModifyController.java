@@ -1,8 +1,11 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
+
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -17,8 +20,8 @@ public class PersonModifyController extends ModifyController{
 	@FXML
 	private TextField txtName;
 
-	public PersonModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public PersonModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override
@@ -30,7 +33,7 @@ public class PersonModifyController extends ModifyController{
 		
 		var lastName = txtLastName.getText().trim() != "" ? txtLastName.getText().trim() : null;
 		
-		this.mainController.insertPerson(cf, name, lastName);
+		showOutcome(this.mainController.insertPerson(cf, name, lastName));
 	}
 
 	@Override
@@ -38,12 +41,25 @@ public class PersonModifyController extends ModifyController{
 	protected void removeElement() {
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		this.mainController.removePerson(cf);
+		showOutcome(this.mainController.removePerson(cf));
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtLastName, SIMPLE_FORMATTER);
+		setTextFormatter(txtName, SIMPLE_FORMATTER);
 	}
 
 	@FXML
     private void selectElement() {
-		//TODO
+		var person = this.selector.selectPerson();
+		if(Objects.nonNull(person)) {
+			txtCF.setText(person.getCF());
+			txtName.setText(person.getName());
+			txtLastName.setText(person.getSurname());
+		}
     }
+	
 
 }

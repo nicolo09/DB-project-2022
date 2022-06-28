@@ -1,8 +1,11 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
+
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -17,8 +20,8 @@ public class WorkingModifyController extends ModifyController{
     @FXML
     private TextField txtUnitName;
 
-	public WorkingModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public WorkingModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override
@@ -28,9 +31,9 @@ public class WorkingModifyController extends ModifyController{
 		
 		var unitName = txtUnitName.getText().trim() != "" ? txtUnitName.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
-		this.mainController.insertWorking(cf, unitName, hospitalCode);
+		showOutcome(this.mainController.insertWorking(cf, unitName, hospitalCode));
 	}
 
 	@Override
@@ -40,9 +43,16 @@ public class WorkingModifyController extends ModifyController{
 		
 		var unitName = txtUnitName.getText().trim() != "" ? txtUnitName.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
-		this.mainController.removeWorking(cf, unitName, hospitalCode);
+		showOutcome(this.mainController.removeWorking(cf, unitName, hospitalCode));
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtUnitName, COMPLETE_FORMATTER);
 	}
 	
 	@FXML
@@ -57,7 +67,11 @@ public class WorkingModifyController extends ModifyController{
 
     @FXML
     void selectUO() {
-    	//TODO
+    	var operative_unit = this.selector.selectUo();
+    	if(Objects.nonNull(operative_unit)) {
+    		txtCodeHospital.setText(operative_unit.getHospital().getCode().toString());
+    		txtUnitName.setText(operative_unit.getName());
+    	}
     }
 
 }

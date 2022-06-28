@@ -4,7 +4,6 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
-import java.util.List;
 import java.util.Optional;
 
 import db.project.model.ASL;
@@ -206,9 +205,9 @@ public class ControllerImpl implements Controller {
 	}
 
 	@Override
-	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate,
-			Optional<String> description) {
-		return this.model.updateCure(patientCF, hospitalCode, unitName, exitDate, description);
+	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
+			Optional<Date> exitDate, Optional<String> description) {
+		return this.model.updateCure(patientCF, hospitalCode, unitName, ingressDate, exitDate, description);
 	}
 
 	@Override
@@ -252,8 +251,8 @@ public class ControllerImpl implements Controller {
 	}
 
 	@Override
-	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName) {
-		return this.model.removeCure(patientCF, hospitalCode, unitName);
+	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate) {
+		return this.model.removeCure(patientCF, hospitalCode, unitName, ingressDate);
 	}
 
 	@Override
@@ -311,5 +310,49 @@ public class ControllerImpl implements Controller {
         return this.model.getTelephones(person);
     }
 
+	@Override
+	public void setHospital(int hospitalCode) {
+		this.model.setHospital(hospitalCode);
+	}
+
+	@Override
+	public int countDeletedEquipments() {
+		return this.model.countDeletedEquipments();
+	}
+
+	@Override
+	public int countDeletedAmministratives() {
+		return this.model.countDeletedAmministratives();
+	}
+
+	@Override
+	public int countDeletedReports() {
+		return this.model.countDeletedReports();
+	}
+
+	@Override
+	public int countDeletedRooms() {
+		return this.model.countDeletedRooms();
+	}
+
+	@Override
+	public int countDeletedAppointments() {
+		return this.model.countDeletedAppointments();
+	}
+
+	@Override
+	public int countDeletedUOs() {
+		return this.model.countDeletedUOs();
+	}
+
+	@Override
+	public int countDeletedCures() {
+		return this.model.countDeletedCures();
+	}
+
+	@Override
+	public int countDeletedJobs() {
+		return this.model.countDeletedJobs();
+	}
 
 }

@@ -1,10 +1,12 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
@@ -25,8 +27,8 @@ public class AmministrativeModifyController extends ModifyController{
     @FXML
     private TextField txtRole;
 
-	public AmministrativeModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public AmministrativeModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override
@@ -34,11 +36,11 @@ public class AmministrativeModifyController extends ModifyController{
 	protected void addElement() {
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		var role = txtRole.getText().trim() != "" ? txtRole.getText().trim() : null;
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		Optional<String> name = txtName.getText().trim() != "" ? Optional.of(txtName.getText().trim()) : Optional.empty();
 		Optional<String> lastName = txtLastName.getText().trim() != "" ? Optional.of(txtLastName.getText().trim()) : Optional.empty();
 		
-		this.mainController.insertAmministratives(cf, role , hospitalCode, name, lastName);		
+		showOutcome(this.mainController.insertAmministratives(cf, role , hospitalCode, name, lastName));		
 	}
 
 	@Override
@@ -49,14 +51,23 @@ public class AmministrativeModifyController extends ModifyController{
 		Optional<Integer> hospitalCode = isInteger(txtCodeHospital.getText().trim()) 
 				? Optional.of(Integer.parseInt(txtCodeHospital.getText().trim())) 
 				: Optional.empty();
-		this.mainController.updateAmministratives(cf, role, hospitalCode);
+		showOutcome(this.mainController.updateAmministratives(cf, role, hospitalCode));
 	}
 
 	@Override
 	@FXML
 	protected void removeElement() {
 		var cf = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
-		this.mainController.removeAmministratives(cf);
+		showOutcome(this.mainController.removeAmministratives(cf));
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtName, SIMPLE_FORMATTER);
+		setTextFormatter(txtLastName, SIMPLE_FORMATTER);
+		setTextFormatter(txtRole, SIMPLE_FORMATTER);
 	}
 	
 	@FXML
@@ -66,7 +77,20 @@ public class AmministrativeModifyController extends ModifyController{
 
     @FXML
     private void selectPersonCF() {
-    	//TODO
+    	var person = this.selector.selectPerson();
+		if(Objects.nonNull(person)) {
+			txtCF.setText(person.getCF());
+			txtName.setText(person.getName());
+			txtLastName.setText(person.getSurname());
+		}
+    }
+    
+    @FXML
+    private void selectHospital() {
+    	var hospital = this.selector.selectHospital();
+    	if(Objects.nonNull(hospital)) {
+    		txtCodeHospital.setText(hospital.getCode().toString());
+    	}
     }
 
 }

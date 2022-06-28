@@ -6,6 +6,7 @@ import java.util.List;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -18,6 +19,8 @@ public class AppointmentModifyController extends ModifyController{
 	
 	private final static int MAX_MINUTE = 60;
 	private final static int MIN_MINUTE = 0;
+	
+	private final static String TIME_FORMATTER = "[0-9][0-9]";
 
 	@FXML
     private DatePicker txtAppointmentDate;
@@ -47,54 +50,72 @@ public class AppointmentModifyController extends ModifyController{
     @FXML
     private TextField txtRoomNumber;
 
-	public AppointmentModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public AppointmentModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override
 	@FXML
 	protected void addElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
-		var roomNumber = isInteger(txtRoomNumber.getText().trim()) ? Integer.parseInt(txtRoomNumber.getText().trim()) : null;
+		var roomNumber = isInteger(txtRoomNumber.getText().trim()) ? Integer.parseInt(txtRoomNumber.getText().trim()) : INVALID_INT;
 		
 		int hour = isInteger(txtHours.getText().trim()) ? Integer.parseInt(txtHours.getText().trim()) : 0;
 		int minutes = isInteger(txtMinutes.getText().trim()) ? Integer.parseInt(txtMinutes.getText().trim()) : 0;
 		Timestamp date = null;
 		
 		if(hour < MAX_HOUR && hour >= MIN_HOUR && minutes < MAX_MINUTE && minutes >= MIN_MINUTE) {
-			date = txtAppointmentDate.getValue().toString() != "" ? Timestamp.valueOf(txtAppointmentDate.getValue().atTime(hour, minutes)) : null;
+			try {
+				date = Timestamp.valueOf(txtAppointmentDate.getValue().atTime(hour, minutes));
+			}
+			catch (Exception e) {}
 		}
 		
-		var duration = isInteger(txtAppointmentDuration.getText().trim()) ? Integer.parseInt(txtAppointmentDuration.getText().trim()) : null;
+		var duration = isInteger(txtAppointmentDuration.getText().trim()) ? Integer.parseInt(txtAppointmentDuration.getText().trim()) : INVALID_INT;
 		
 		var type = txtAppointmentType.getText().trim() != "" ? txtAppointmentType.getText().trim() : null;
 		
 		var patient = txtPatientCF.getText().trim() != "" && txtPatientCF.getText().trim().length() == CFLENGHT ? txtPatientCF.getText().trim() : null;
 		
-		List<String> doctors = txtDoctorCF.getText().trim() != "" ? List.of(txtDoctorCF.getText().trim().split(":")) : null;
+		List<String> doctors = txtDoctorCF.getText().trim() != "" ? List.of(txtDoctorCF.getText().trim().split(":")) : List.of();
 		checkDoctorCF(doctors);
 		
-		this.mainController.insertAppointment(hospitalCode, roomNumber, date, duration, type, patient, doctors);
+		showOutcome(this.mainController.insertAppointment(hospitalCode, roomNumber, date, duration, type, patient, doctors));
 		
 	}
 
 	@Override
 	@FXML
 	protected void removeElement() {
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
-		var roomNumber = isInteger(txtRoomNumber.getText().trim()) ? Integer.parseInt(txtRoomNumber.getText().trim()) : null;
+		var roomNumber = isInteger(txtRoomNumber.getText().trim()) ? Integer.parseInt(txtRoomNumber.getText().trim()) : INVALID_INT;
 		
 		int hour = isInteger(txtHours.getText().trim()) ? Integer.parseInt(txtHours.getText().trim()) : 0;
 		int minutes = isInteger(txtMinutes.getText().trim()) ? Integer.parseInt(txtMinutes.getText().trim()) : 0;
 		Timestamp date = null;
 		
 		if(hour < MAX_HOUR && hour >= MIN_HOUR && minutes < MAX_MINUTE && minutes >= MIN_MINUTE) {
-			date = Timestamp.valueOf(txtAppointmentDate.getValue().atTime(hour, minutes));
+			try {
+				date = Timestamp.valueOf(txtAppointmentDate.getValue().atTime(hour, minutes));
+			}
+			catch (Exception e) {}
 		}
 		
-		this.mainController.removeAppointment(hospitalCode, roomNumber, date);		
+		showOutcome(this.mainController.removeAppointment(hospitalCode, roomNumber, date));		
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtAppointmentDuration, NUMBER_FORMATTER);
+		setTextFormatter(txtAppointmentType, SIMPLE_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtPatientCF, CF_FORMATTER);
+		setTextFormatter(txtRoomNumber, NUMBER_FORMATTER);
+		setTextFormatter(txtDoctorCF, DOCTORS_FORMATTER);
+		setTextFormatter(txtHours, TIME_FORMATTER);
+		setTextFormatter(txtMinutes, TIME_FORMATTER);
 	}
 	
 	@FXML
@@ -118,7 +139,7 @@ public class AppointmentModifyController extends ModifyController{
     }
     
     private void checkDoctorCF(List<String> doctors){
-    	boolean nullify = false;
+    	boolean nullify = doctors.size() == 0 ? true : false;
     	for (String doctor : doctors) {
 			if(doctor.length() != CFLENGHT) {
 				nullify = true;

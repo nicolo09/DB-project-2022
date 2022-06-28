@@ -13,6 +13,8 @@ import db.project.model.TABLES;
 
 public class DataUpdaterImpl implements DataUpdater {
 	
+	private final static int INVALID_INT = -1;
+	
 	private final Connection connection;
 	
 	public DataUpdaterImpl(final Connection connection) {
@@ -76,22 +78,41 @@ public class DataUpdaterImpl implements DataUpdater {
 	}
 
 	@Override
-	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate, Optional<String> description) {
+	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Date ingressDate, Optional<Date> exitDate, Optional<String> description) {
 		if(checkNulls(patientCF, hospitalCode, unitName) || checkModifies(exitDate, description)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
-		//TODO control if exitdate is already present
-		String query = "UPDATE " + TABLES.CURE.get() + " SET";
-		query += exitDate.isPresent() ? " Data_uscita = " + new java.sql.Date(exitDate.get().getTime()) + "," : "";
-		query += description.isPresent() ? " Motivazione = '" + description.get() + "'," : "";
-		query = query.substring(0, query.length() - 1);
-		query += " WHERE Paziente LIKE ? AND Codice_ospedale LIKE ? AND Nome_unita LIKE ?";
 		
-		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+		String controlQuery = "SELECT COUNT(*) FROM " + TABLES.CURE.get() + " WHERE Paziente LIKE ? AND Codice_ospedale LIKE ? AND Nome_unita LIKE ? "
+				+ "AND Data_ingresso LIKE ? AND Data_uscita LIKE NULL";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
+		
+			controlStatement.setString(1, patientCF);
+			controlStatement.setInt(2, hospitalCode);
+			controlStatement.setString(3, unitName);
+			controlStatement.setDate(4, new java.sql.Date(ingressDate.getTime()));
+			
+			var rs = controlStatement.executeQuery();
+			rs.next();
+			if(rs.getInt(1) == 0) {
+				return OPERATION_OUTCOME.EXIT_DATE_PRESENT;
+			}
+		
+			//TODO control if exitdate is already present
+			String query = "UPDATE " + TABLES.CURE.get() + ", " + TABLES.UO.get() + " SET";
+			query += exitDate.isPresent() ? " " + TABLES.CURE.get() + ".Data_uscita = " + new java.sql.Date(exitDate.get().getTime()) + ", " 
+					+ TABLES.UO.get() + ".Posti_occupati = " + TABLES.UO.get() + ".Posti_occupati-1" : "";
+			query += description.isPresent() ? " " + TABLES.CURE.get() + ".Motivazione = '" + description.get() + "', " : "";
+			query = query.substring(0, query.length() - 1);
+			query += " WHERE " +  TABLES.CURE.get() + ".Paziente LIKE ? AND " +  TABLES.CURE.get() + ".Codice_ospedale LIKE ? AND " +  TABLES.CURE.get() +".Nome_unita LIKE ? "
+					+ "AND " + TABLES.CURE.get() + ".Data_ingresso LIKE ?";
+		
+			final PreparedStatement statement = this.connection.prepareStatement(query);
 			
 			statement.setString(1, patientCF);
 			statement.setInt(2, hospitalCode);
 			statement.setString(3, unitName);
+			statement.setDate(4, new java.sql.Date(ingressDate.getTime()));
 			
 			statement.executeUpdate();
 		} catch (SQLException e) {
@@ -133,7 +154,7 @@ public class DataUpdaterImpl implements DataUpdater {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		String query = "UPDATE " + TABLES.HEALTHCARE.get() + " SET";
-		query += " Ruole = '" + role.get() + "'";
+		query += " Ruolo = '" + role.get() + "'";
 		query += " WHERE Codice_fiscale LIKE ?";
 		
 		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
@@ -229,6 +250,12 @@ public class DataUpdaterImpl implements DataUpdater {
 	
 	private boolean checkNulls(Object ... args) {
 		for (Object object : args) {
+			if(object instanceof Integer) {
+				Integer value = (Integer) object;
+				if(value.equals(INVALID_INT)) {
+					return true;
+				}
+			}
 			if(Objects.isNull(object)) {
 				return true;
 			}

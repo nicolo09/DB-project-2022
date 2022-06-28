@@ -132,13 +132,11 @@ public interface Model {
     OPERATION_OUTCOME insertWorking(String CF, String unitName, int hospitalCode);
 
     OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode);
-
-    OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city, Optional<String> street,
-            Optional<Integer> streetNumber);
-
-    OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate,
-            Optional<String> description);
-
+    
+    OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city, Optional<String> street, Optional<Integer> streetNumber);
+    
+    OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Date ingressDate, Optional<Date> exitDate, Optional<String> description);
+    
     OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance);
 
     OPERATION_OUTCOME updateHealtcare(String CF, Optional<String> role);
@@ -154,9 +152,9 @@ public interface Model {
     OPERATION_OUTCOME removeAppointment(int hospitalCode, int roomNumber, Timestamp date);
 
     OPERATION_OUTCOME removeASL(int codeASL);
-
-    OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName);
-
+    
+    OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate);
+    
     OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode);
 
     OPERATION_OUTCOME removeHealtcare(String CF);
@@ -176,6 +174,24 @@ public interface Model {
     OPERATION_OUTCOME removeUO(int hospitalCode, String name);
 
     OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode);
+    
+    void setHospital(int hospitalCode);
+	
+	int countDeletedEquipments();
+	
+	int countDeletedAmministratives();
+	
+	int countDeletedReports();
+	
+	int countDeletedRooms();
+	
+	int countDeletedAppointments();
+	
+	int countDeletedUOs();
+	
+	int countDeletedCures();
+	
+	int countDeletedJobs();
 
     Collection<Pair<Person, String>> getTelephones(Person person);
 

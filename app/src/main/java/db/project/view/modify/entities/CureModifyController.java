@@ -9,6 +9,7 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.view.modify.ModifyController;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
@@ -34,8 +35,8 @@ public class CureModifyController extends ModifyController{
     @FXML
     private TextField txtNameUO;
 
-	public CureModifyController(Command exit, Controller mainController) {
-		super(exit, mainController);
+	public CureModifyController(Command exit, Controller mainController, final Selector selector) {
+		super(exit, mainController, selector);
 	}
 
 	@Override
@@ -43,17 +44,17 @@ public class CureModifyController extends ModifyController{
 	protected void addElement() {
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
-		Date entry = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
+		Date ingress = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
 		
 		Optional<Date> exit = !Objects.isNull(exitDate.getValue()) ? Optional.of(Date.from(Instant.from(exitDate.getValue().atStartOfDay(ZoneId.systemDefault())))) : Optional.empty();
 		
 		var description = txtMotivation.getText().trim();
 		
-		this.mainController.insertCure(patient, hospitalCode, operativeUnit, entry, exit, description);
+		showOutcome(this.mainController.insertCure(patient, hospitalCode, operativeUnit, ingress, exit, description));
 	}
 
 	@Override
@@ -61,15 +62,17 @@ public class CureModifyController extends ModifyController{
 	protected void updateElement() {
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
+		
+		Date ingress = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
 		
 		Optional<Date> exit = !Objects.isNull(exitDate.getValue()) ? Optional.of(Date.from(Instant.from(exitDate.getValue().atStartOfDay(ZoneId.systemDefault())))) : Optional.empty();
 		
 		Optional<String> description = txtMotivation.getText().trim() != "" ? Optional.of(txtMotivation.getText().trim()) : Optional.empty();
 		
-		this.mainController.updateCure(patient, hospitalCode, operativeUnit, exit, description);
+		showOutcome(this.mainController.updateCure(patient, hospitalCode, operativeUnit, ingress, exit, description));
 	}
 
 	@Override
@@ -77,11 +80,21 @@ public class CureModifyController extends ModifyController{
 	protected void removeElement() {
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : null;
+		var hospitalCode = isInteger(txtCodeHospital.getText().trim()) ? Integer.parseInt(txtCodeHospital.getText().trim()) : INVALID_INT;
 		
 		var operativeUnit = txtNameUO.getText().trim() != "" ? txtNameUO.getText().trim() : null;
 		
-		this.mainController.removeCure(patient, hospitalCode, operativeUnit);
+		Date ingress = !Objects.isNull(entryDate.getValue()) ? Date.from(Instant.from(entryDate.getValue().atStartOfDay(ZoneId.systemDefault()))) : null;
+		
+		showOutcome(this.mainController.removeCure(patient, hospitalCode, operativeUnit, ingress));
+	}
+	
+	@FXML
+	private void initialize() {
+		setTextFormatter(txtCF, CF_FORMATTER);
+		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
+		setTextFormatter(txtMotivation, SIMPLE_FORMATTER);
+		setTextFormatter(txtNameUO, COMPLETE_FORMATTER);
 	}
 	
 	@FXML
@@ -96,7 +109,11 @@ public class CureModifyController extends ModifyController{
 
     @FXML
     private void selectUO() {
-    	//TODO
+    	var operative_unit = this.selector.selectUo();
+    	if(Objects.nonNull(operative_unit)) {
+    		txtNameUO.setText(operative_unit.getName());
+    		txtCodeHospital.setText(operative_unit.getHospital().getCode().toString());
+    	}
     }
 
 }

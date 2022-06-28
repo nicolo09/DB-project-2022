@@ -199,7 +199,8 @@ alter table PRESENZIA add constraint FKPRE_PER
 
 alter table REFERTI add constraint FKEMISSIONE
      foreign key (Codice_ospedale)
-     references OSPEDALI (Codice_struttura);
+     references OSPEDALI (Codice_struttura)
+     ON DELETE CASCADE;
 
 alter table REFERTI add constraint FKASSOCIAZIONE
      foreign key (Paziente)
