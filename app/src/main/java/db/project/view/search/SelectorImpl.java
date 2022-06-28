@@ -13,6 +13,7 @@ import db.project.model.Report;
 import db.project.model.Room;
 import db.project.model.Uo;
 import db.project.view.search.hospital.SelectASLControllerImpl;
+import db.project.view.search.hospital.SelectEquipmentControllerImpl;
 import db.project.view.search.hospital.SelectHospitalControllerImpl;
 import db.project.view.search.person.SelectPersonControllerImpl;
 import db.project.view.search.person.SelectTelephoneControllerImpl;
@@ -125,7 +126,24 @@ public class SelectorImpl implements Selector {
 
     @Override
     public Equipment selectEquipment() {
-        // TODO Auto-generated method stub
+        final Hospital selected = this.selectHospital();
+        if (selected != null) {
+            final Stage stage = new Stage();
+            final FXMLLoader loader = new FXMLLoader();
+            SelectEquipmentControllerImpl controller = new SelectEquipmentControllerImpl(selected, mainController, () -> stage.close());
+            loader.setController(controller);
+            loader.setLocation(getClass().getResource("/" + "select_equipment.fxml"));
+            try {
+                stage.setScene(new Scene(loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setTitle("Select equipment...");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(mainStage);
+            stage.showAndWait();
+            return controller.getSelectedEquipment();
+        }
         return null;
     }
 

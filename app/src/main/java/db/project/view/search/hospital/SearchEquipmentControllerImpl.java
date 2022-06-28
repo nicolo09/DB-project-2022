@@ -30,7 +30,7 @@ public class SearchEquipmentControllerImpl {
     private TableColumn<Equipment, String> columnName;
 
     @FXML
-    private TableView<Equipment> tableViewEquipment;
+    protected TableView<Equipment> tableViewEquipment;
 
     @FXML
     private void initialize() {
