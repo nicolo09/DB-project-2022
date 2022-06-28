@@ -89,9 +89,16 @@ public interface Selector {
 
 
     /**
+     * Make a selection of a person, and then make you select an associated phone number.
      * @return the selected telephone as {@link Pair} (key = person, value = telephone number).
      */
     public Pair<Person, String> selectPhone();
+
+    /**
+     * @param person the person to select the telephone number from.
+     * @return the selected telephone as {@link Pair} (key = person, value = telephone number).
+     */
+    Pair<Person, String> selectPhone(final Person person);
 
     /**
      * @return the selected job as {@link Pair} (key = U.O., value = Person).

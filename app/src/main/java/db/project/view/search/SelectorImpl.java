@@ -15,11 +15,13 @@ import db.project.model.Uo;
 import db.project.view.search.hospital.SelectASLControllerImpl;
 import db.project.view.search.hospital.SelectHospitalControllerImpl;
 import db.project.view.search.person.SelectPersonControllerImpl;
+import db.project.view.search.person.SelectTelephoneControllerImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+
 /**
  * This class is used to select an entity using a dialog window.
  */
@@ -31,7 +33,7 @@ public class SelectorImpl implements Selector {
     /**
      * 
      * @param mainController the application main controller.
-     * @param mainStage the stage dialog window will be modal to.
+     * @param mainStage      the stage dialog window will be modal to.
      */
     public SelectorImpl(final Controller mainController, final Stage mainStage) {
         this.mainController = mainController;
@@ -168,8 +170,31 @@ public class SelectorImpl implements Selector {
 
     @Override
     public Pair<Person, String> selectPhone() {
-        // TODO Auto-generated method stub
+        final Person selected = this.selectPerson();
+        if (selected != null) {
+            return this.selectPhone(selected);
+        }
         return null;
+    }
+
+    @Override
+    public Pair<Person, String> selectPhone(final Person person) {
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectTelephoneControllerImpl controller = new SelectTelephoneControllerImpl(person, mainController,
+                () -> stage.close());
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_telephones.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select telephone ...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedTelephone();
     }
 
     @Override

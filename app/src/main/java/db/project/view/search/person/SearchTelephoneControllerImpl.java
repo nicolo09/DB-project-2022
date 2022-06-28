@@ -12,7 +12,7 @@ public class SearchTelephoneControllerImpl {
     private final Controller mainController;
     
     @FXML
-    private ListView<Pair<Person,String>> listTelephones;
+    protected ListView<Pair<Person,String>> listTelephones;
 
     public SearchTelephoneControllerImpl(final Person person, final Controller mainController){
         this.person = person;
