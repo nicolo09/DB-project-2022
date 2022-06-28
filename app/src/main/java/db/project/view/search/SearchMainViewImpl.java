@@ -40,7 +40,6 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 
 public class SearchMainViewImpl implements SearchMainView {
 
@@ -103,7 +102,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToReferti() {
         final SearchRefertiView view = new SearchRefertiViewImpl(
-                new SearchRefertiControllerImpl(this, this.mainController), mainStage);
+                new SearchRefertiControllerImpl(this.mainController, entitySelector, this::show, this::showError), mainStage);
         view.show();
     }
 

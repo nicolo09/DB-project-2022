@@ -4,11 +4,14 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
+import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
 import db.project.model.Report;
 import db.project.view.search.SearchMainView;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -29,7 +32,7 @@ public class SearchRefertiControllerImpl {
     private Toggle togglePaziente;
     
     @FXML
-    private TableView<Report> refertiTableView;
+    protected TableView<Report> refertiTableView;
     
     @FXML
     private TableColumn<Report, Integer> codeColumn;
@@ -46,12 +49,16 @@ public class SearchRefertiControllerImpl {
     @FXML
     private TextField textCodiceFiscale;
 
-    private final SearchMainView view;
     private final Controller controller;
+    private final Selector selector;
+    private final Command onExit;
+    private final Consumer<String> errorReporter;
 
-    public SearchRefertiControllerImpl(final SearchMainView view, final Controller controller) {
+    public SearchRefertiControllerImpl(final Controller controller, final Selector selector, final Command onExit, Consumer<String> errorReporter) {
         this.controller = controller;
-        this.view = view;
+        this.selector = selector;
+        this.onExit = onExit;
+        this.errorReporter = errorReporter;
     }
 
     @FXML
@@ -64,7 +71,7 @@ public class SearchRefertiControllerImpl {
 
     @FXML
     private void onPersonSelectButton() {
-        final Person selected = view.selectPerson();
+        final Person selected = selector.selectPerson();
         if (selected != null) {
             this.textCodiceFiscale.setText(selected.getCF());
         }
@@ -72,14 +79,14 @@ public class SearchRefertiControllerImpl {
 
     @FXML
     private void onAbortButton() {
-        view.goToMainMenu();
+        onExit.execute();
     }
 
     @FXML
     private void onSearchButton() {
         Collection<Report> reports = this.getReports();
         if (reports.isEmpty()) {
-            this.view.showError("Nessun referto trovato");
+            errorReporter.accept("Nessun referto trovato");
         }
         else {
             refertiTableView.getItems().setAll();            
@@ -93,18 +100,18 @@ public class SearchRefertiControllerImpl {
                 if (doc.isPresent()) {
                     return controller.getRefertiByDoctor(doc.get());
                 } else {
-                    view.showError("Medico non trovato");
+                    errorReporter.accept("Medico non trovato");
                 }
             } else if (searchType.getSelectedToggle().equals(togglePaziente)) {
                 final Optional<Person> pat = controller.getPatientByCF(this.textCodiceFiscale.getText());
                 if (pat.isPresent()) {
                     return controller.getRefertiByPatient(pat.get());
                 } else {
-                    view.showError("Paziente non trovato");
+                    errorReporter.accept("Paziente non trovato");
                 }
             }
         } else {
-            view.showError("Inserire un codice fiscale");
+            errorReporter.accept("Inserire un codice fiscale");
         }
         return List.of();
     }

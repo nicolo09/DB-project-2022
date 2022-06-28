@@ -16,8 +16,11 @@ import db.project.view.search.hospital.SelectASLControllerImpl;
 import db.project.view.search.hospital.SelectHospitalControllerImpl;
 import db.project.view.search.person.SelectPersonControllerImpl;
 import db.project.view.search.person.SelectTelephoneControllerImpl;
+import db.project.view.search.referti.SelectReportsControllerImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -164,8 +167,26 @@ public class SelectorImpl implements Selector {
 
     @Override
     public Report selectReport() {
-        // TODO Auto-generated method stub
-        return null;
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectReportsControllerImpl controller = new SelectReportsControllerImpl(mainController, stage::close, this, this::showError);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_referti.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select Report...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedReport();
+    }
+
+    private void showError(String error){
+        Alert alert = new Alert(AlertType.ERROR, error);
+        alert.showAndWait();
     }
 
     @Override
