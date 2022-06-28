@@ -1,7 +1,6 @@
 package db.project.view.search.person;
 
 import java.util.Collection;
-import java.util.List;
 
 import db.project.Command;
 import db.project.controller.Controller;
@@ -16,7 +15,6 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Pair;
 
 public abstract class SearchPersonControllerImpl{
 
