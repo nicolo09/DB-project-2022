@@ -12,6 +12,7 @@ import db.project.view.ViewImpl;
 import db.project.view.search.hospital.SearchASLControllerImpl;
 import db.project.view.search.hospital.SearchASLView;
 import db.project.view.search.hospital.SearchASLViewImpl;
+import db.project.view.search.hospital.SearchEquipmentView;
 import db.project.view.search.hospital.SearchHospitalView;
 import db.project.view.search.hospital.SearchHospitalViewImpl;
 import db.project.view.search.hospital.SearchUoView;
@@ -39,7 +40,10 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import db.project.view.search.hospital.SearchEquipmentViewImpl;
+import db.project.view.search.hospital.SearchEquipmentControllerImpl;
 
 public class SearchMainViewImpl implements SearchMainView {
 
@@ -74,8 +78,19 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToOspedali() {
         final SearchHospitalView view = new SearchHospitalViewImpl(mainStage,
-                new SearchHospitalControllerImpl(() -> this.show(), mainController, entitySelector));
+                new SearchHospitalControllerImpl(() -> this.show(), mainController, entitySelector, this::goToModalAttrezzature));
         view.show();
+    }
+
+    public void goToModalAttrezzature(final Hospital hospital){
+        Stage stage = new Stage();
+        stage.setTitle("Attrezzature");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        
+        final SearchEquipmentView view = new SearchEquipmentViewImpl(stage,
+                new SearchEquipmentControllerImpl(hospital, mainController));
+        view.showAndWait();
     }
 
     @Override

@@ -194,4 +194,6 @@ public interface Model {
 
     Collection<Pair<Person, String>> getTelephones(Person person);
 
+    Collection<Equipment> getEquipment(Hospital hospital);
+
 }

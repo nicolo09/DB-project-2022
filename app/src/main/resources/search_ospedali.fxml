@@ -55,6 +55,7 @@
             <HBox alignment="BOTTOM_RIGHT" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
                <children>
                   <Button mnemonicParsing="false" onAction="#onAbortButton" text="Annulla" />
+                  <Button mnemonicParsing="false" onAction="#onEquipmentButton" text="Attrezzature..." />
                   <Button mnemonicParsing="false" onAction="#onSearchButton" text="Cerca" />
                </children>
                <padding>

@@ -10,7 +10,6 @@ import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
 import db.project.model.Report;
-import db.project.view.search.SearchMainView;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;

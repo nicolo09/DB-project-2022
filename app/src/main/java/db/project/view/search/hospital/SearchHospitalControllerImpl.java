@@ -2,6 +2,7 @@ package db.project.view.search.hospital;
 
 import java.util.Collection;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 import db.project.Command;
 import db.project.controller.Controller;
@@ -51,11 +52,18 @@ public class SearchHospitalControllerImpl {
     private final Controller mainController;
     private final Command onExit;
     private final Selector selector;
+    private final Consumer<Hospital> onEquipment;
 
-    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector) {
+    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector, final Consumer<Hospital> onEquipment) {
         this.onExit = onExit;
         this.mainController = mainController;
         this.selector = selector;
+        this.onEquipment = onEquipment;
+    }
+
+    @FXML
+    void onEquipmentButton(ActionEvent event) {
+        onEquipment.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML

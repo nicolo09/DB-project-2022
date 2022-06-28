@@ -46,6 +46,7 @@ public class ModelImpl implements Model {
     private String tableInvolvements = "coinvolgimenti";
     private String tableCure = "cure";
     private String tableTelephones = "telefoni";
+    private String tableEquipments = "attrezzature";
 
     /**
      * Creates a simple connection to a local database
@@ -628,6 +629,31 @@ public class ModelImpl implements Model {
     }
 
     @Override
+    public Collection<Equipment> getEquipment(Hospital hospital) {
+        String query = "SELECT * FROM " + tableEquipments + " WHERE " + " Codice_ospedale = " + hospital.getCode();
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readEquipmentsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    private Collection<Equipment> readEquipmentsFromResultSet(ResultSet resultSet) {
+        Set<Equipment> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new EquipmentImpl(resultSet.getInt("Codice_inventario"), resultSet.getString("Nome"),
+                        resultSet.getDate("Data_manutenzione").toLocalDate(),
+                        this.getHospital(resultSet.getInt("Codice_ospedale")).get()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
     public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
             Optional<String> lastName) {
         return inserter.insertAmministratives(CF, role, hospitalCode, name, lastName);
@@ -704,161 +730,161 @@ public class ModelImpl implements Model {
         return inserter.insertWorking(CF, unitName, hospitalCode);
     }
 
-	@Override
-	public OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode) {
-		return updater.updateAmministratives(CF, role, hospitalCode);
-	}
+    @Override
+    public OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode) {
+        return updater.updateAmministratives(CF, role, hospitalCode);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city,
-			Optional<String> street, Optional<Integer> streetNumber) {
-		return updater.updateASL(codeASL, name, city, street, streetNumber);
-	}
+    @Override
+    public OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city,
+            Optional<String> street, Optional<Integer> streetNumber) {
+        return updater.updateASL(codeASL, name, city, street, streetNumber);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Date ingressDate, 
-			Optional<Date> exitDate, Optional<String> description) {
-		return updater.updateCure(patientCF, hospitalCode, unitName, ingressDate, exitDate, description);
-	}
+    @Override
+    public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Date ingressDate,
+            Optional<Date> exitDate, Optional<String> description) {
+        return updater.updateCure(patientCF, hospitalCode, unitName, ingressDate, exitDate, description);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance) {
-		return updater.updateEquipment(hospitalCode, inventoryCode, lastMaintenance);
-	}
+    @Override
+    public OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance) {
+        return updater.updateEquipment(hospitalCode, inventoryCode, lastMaintenance);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateHealtcare(String CF, Optional<String> role) {
-		return updater.updateHealtcare(CF, role);
-	}
+    @Override
+    public OPERATION_OUTCOME updateHealtcare(String CF, Optional<String> role) {
+        return updater.updateHealtcare(CF, role);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateHospital(int structureCode, Optional<String> name, Optional<Integer> codeASL) {
-		return updater.updateHospital(structureCode, name, codeASL);
-	}
+    @Override
+    public OPERATION_OUTCOME updateHospital(int structureCode, Optional<String> name, Optional<Integer> codeASL) {
+        return updater.updateHospital(structureCode, name, codeASL);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL) {
-		return updater.updatePatient(CF, codASL);
-	}
+    @Override
+    public OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL) {
+        return updater.updatePatient(CF, codASL);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity) {
-		return updater.updateUO(hospitalCode, name, capacity);
-	}
+    @Override
+    public OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity) {
+        return updater.updateUO(hospitalCode, name, capacity);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeAmministratives(String CF) {
-		return remover.removeAmministratives(CF);
-	}
+    @Override
+    public OPERATION_OUTCOME removeAmministratives(String CF) {
+        return remover.removeAmministratives(CF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeAppointment(int hospitalCode, int roomNumber, Timestamp date) {
-		return remover.removeAppointment(hospitalCode, roomNumber, date);
-	}
+    @Override
+    public OPERATION_OUTCOME removeAppointment(int hospitalCode, int roomNumber, Timestamp date) {
+        return remover.removeAppointment(hospitalCode, roomNumber, date);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeASL(int codeASL) {
-		return remover.removeASL(codeASL);
-	}
+    @Override
+    public OPERATION_OUTCOME removeASL(int codeASL) {
+        return remover.removeASL(codeASL);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate) {
-		return remover.removeCure(patientCF, hospitalCode, unitName, ingressDate);
-	}
+    @Override
+    public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate) {
+        return remover.removeCure(patientCF, hospitalCode, unitName, ingressDate);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode) {
-		return remover.removeEquipment(hospitalCode, inventoryCode);
-	}
+    @Override
+    public OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode) {
+        return remover.removeEquipment(hospitalCode, inventoryCode);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeHealtcare(String CF) {
-		return remover.removeHealtcare(CF);
-	}
+    @Override
+    public OPERATION_OUTCOME removeHealtcare(String CF) {
+        return remover.removeHealtcare(CF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeHospital(int structureCode) {
-		return remover.removeHospital(structureCode);
-	}
+    @Override
+    public OPERATION_OUTCOME removeHospital(int structureCode) {
+        return remover.removeHospital(structureCode);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removePatient(String CF) {
-		return remover.removePatient(CF);
-	}
+    @Override
+    public OPERATION_OUTCOME removePatient(String CF) {
+        return remover.removePatient(CF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removePerson(String CF) {
-		return remover.removePerson(CF);
-	}
+    @Override
+    public OPERATION_OUTCOME removePerson(String CF) {
+        return remover.removePerson(CF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removePhone(String phoneNumber, String personCF) {
-		return remover.removePhone(phoneNumber, personCF);
-	}
+    @Override
+    public OPERATION_OUTCOME removePhone(String phoneNumber, String personCF) {
+        return remover.removePhone(phoneNumber, personCF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeReport(int reportCode) {
-		return remover.removeReport(reportCode);
-	}
+    @Override
+    public OPERATION_OUTCOME removeReport(int reportCode) {
+        return remover.removeReport(reportCode);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeRoom(int hospitalCode, int roomNumber) {
-		return remover.removeRoom(hospitalCode, roomNumber);
-	}
+    @Override
+    public OPERATION_OUTCOME removeRoom(int hospitalCode, int roomNumber) {
+        return remover.removeRoom(hospitalCode, roomNumber);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeUO(int hospitalCode, String name) {
-		return remover.removeUO(hospitalCode, name);
-	}
+    @Override
+    public OPERATION_OUTCOME removeUO(int hospitalCode, String name) {
+        return remover.removeUO(hospitalCode, name);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode) {
-		return remover.removeWorking(CF, unitName, hospitalCode);
-	}
+    @Override
+    public OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode) {
+        return remover.removeWorking(CF, unitName, hospitalCode);
+    }
 
-	@Override
-	public void setHospital(int hospitalCode) {
-		this.counter.setHospital(hospitalCode);
-	}
+    @Override
+    public void setHospital(int hospitalCode) {
+        this.counter.setHospital(hospitalCode);
+    }
 
-	@Override
-	public int countDeletedEquipments() {
-		return this.counter.countDeletedEquipments();
-	}
+    @Override
+    public int countDeletedEquipments() {
+        return this.counter.countDeletedEquipments();
+    }
 
-	@Override
-	public int countDeletedAmministratives() {
-		return this.counter.countDeletedAmministratives();
-	}
+    @Override
+    public int countDeletedAmministratives() {
+        return this.counter.countDeletedAmministratives();
+    }
 
-	@Override
-	public int countDeletedReports() {
-		return this.counter.countDeletedReports();
-	}
+    @Override
+    public int countDeletedReports() {
+        return this.counter.countDeletedReports();
+    }
 
-	@Override
-	public int countDeletedRooms() {
-		return this.counter.countDeletedRooms();
-	}
+    @Override
+    public int countDeletedRooms() {
+        return this.counter.countDeletedRooms();
+    }
 
-	@Override
-	public int countDeletedAppointments() {
-		return this.counter.countDeletedAppointments();
-	}
+    @Override
+    public int countDeletedAppointments() {
+        return this.counter.countDeletedAppointments();
+    }
 
-	@Override
-	public int countDeletedUOs() {
-		return this.counter.countDeletedUOs();
-	}
+    @Override
+    public int countDeletedUOs() {
+        return this.counter.countDeletedUOs();
+    }
 
-	@Override
-	public int countDeletedCures() {
-		return this.counter.countDeletedCures();
-	}
+    @Override
+    public int countDeletedCures() {
+        return this.counter.countDeletedCures();
+    }
 
-	@Override
-	public int countDeletedJobs() {
-		return this.counter.countDeletedJobs();
-	}
+    @Override
+    public int countDeletedJobs() {
+        return this.counter.countDeletedJobs();
+    }
 
 }

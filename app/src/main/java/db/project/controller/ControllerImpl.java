@@ -9,6 +9,7 @@ import java.util.Optional;
 import db.project.model.ASL;
 import db.project.model.Appointment;
 import db.project.model.Cure;
+import db.project.model.Equipment;
 import db.project.model.Hospital;
 import db.project.model.Model;
 import db.project.model.OPERATION_OUTCOME;
@@ -354,5 +355,10 @@ public class ControllerImpl implements Controller {
 	public int countDeletedJobs() {
 		return this.model.countDeletedJobs();
 	}
+
+    @Override
+    public Collection<Equipment> getEquipment(Hospital hospital) {
+        return this.model.getEquipment(hospital);
+    }
 
 }

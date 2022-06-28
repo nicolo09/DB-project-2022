@@ -10,6 +10,6 @@ public interface Equipment {
 
     public String getName();
 
-    public LocalDate getMaintenanceDate(); 
+    public LocalDate getLastMaintenance(); 
 
 }
