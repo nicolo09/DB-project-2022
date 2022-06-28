@@ -1,8 +1,10 @@
 package db.project.view.search.person;
 
 import java.util.Collection;
+import java.util.List;
 
 import db.project.Command;
+import db.project.controller.Controller;
 import db.project.model.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -13,13 +15,18 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
+import javafx.util.Pair;
 
 public abstract class SearchPersonControllerImpl{
 
     private final Command onExit;
 
-    public SearchPersonControllerImpl(final Command onExit) {
+    private final Controller mainController;
+
+    public SearchPersonControllerImpl(final Command onExit, final Controller mainController) {
         this.onExit = onExit;
+        this.mainController = mainController;
     }
 
     @FXML
@@ -67,6 +74,15 @@ public abstract class SearchPersonControllerImpl{
     }
 
     protected abstract String getLabelText();
+
+    @FXML
+    void onMousePressed(MouseEvent event) {
+        if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+            if (personTableView.getSelectionModel().getSelectedItem() != null) {
+                new SearchTelephoneViewImpl(personTableView.getSelectionModel().getSelectedItem(), mainController).show();
+            }
+        }
+    }
 
     @FXML
     private void onBack(ActionEvent event) {

@@ -4,8 +4,13 @@ import java.io.IOException;
 
 import db.project.controller.Controller;
 import db.project.model.ASL;
+import db.project.model.Appointment;
+import db.project.model.Cure;
+import db.project.model.Equipment;
 import db.project.model.Hospital;
 import db.project.model.Person;
+import db.project.model.Report;
+import db.project.model.Room;
 import db.project.model.Uo;
 import db.project.view.search.hospital.SelectASLControllerImpl;
 import db.project.view.search.hospital.SelectHospitalControllerImpl;
@@ -14,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 /**
  * This class is used to select an entity using a dialog window.
  */
@@ -110,6 +116,66 @@ public class SelectorImpl implements Selector {
         stage.initOwner(mainStage);
         stage.showAndWait();
         return controller.getSelectedUo();
+    }
+
+    @Override
+    public Equipment selectEquipment() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Person selectAdministrative() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Person selectPatient() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Person selectDoctor() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Room selectRoom() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Appointment selectAppointment() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Cure selectCure() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Report selectReport() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Pair<Person, String> selectPhone() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Pair<Uo, Person> selectJob() {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }

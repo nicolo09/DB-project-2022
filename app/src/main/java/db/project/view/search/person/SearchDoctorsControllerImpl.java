@@ -16,7 +16,7 @@ public class SearchDoctorsControllerImpl extends SearchPersonControllerImpl {
     private final Controller mainController;
 
     public SearchDoctorsControllerImpl(Command onExit, Controller mainController) {
-        super(onExit);
+        super(onExit, mainController);
         this.mainController = mainController;
     }
 

@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import db.project.model.ASL;
@@ -304,6 +305,11 @@ public class ControllerImpl implements Controller {
 	public OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode) {
 		return this.model.removeWorking(CF, unitName, hospitalCode);
 	}
+
+    @Override
+    public Collection<Pair<Person, String>> getTelephones(Person person) {
+        return this.model.getTelephones(person);
+    }
 
 
 }

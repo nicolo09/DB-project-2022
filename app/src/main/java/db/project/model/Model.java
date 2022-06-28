@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import javafx.util.Pair;
@@ -175,5 +176,7 @@ public interface Model {
     OPERATION_OUTCOME removeUO(int hospitalCode, String name);
 
     OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode);
+
+    Collection<Pair<Person, String>> getTelephones(Person person);
 
 }

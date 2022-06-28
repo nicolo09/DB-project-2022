@@ -27,7 +27,7 @@ public class SearchPatientsControllerImpl extends SearchPersonControllerImpl {
     private SearchMainView mainView;
 
     public SearchPatientsControllerImpl(Command onExit, Controller mainController, SearchMainView mainView) {
-        super(onExit);
+        super(onExit, mainController);
         this.mainController = mainController;
         this.mainView = mainView;
     }

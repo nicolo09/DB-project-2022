@@ -14,7 +14,7 @@ public class SelectPersonControllerImpl extends SearchPersonControllerImpl {
     private final Command onSelect;
 
     public SelectPersonControllerImpl(Command onExit, Command onSelect, Controller mainController) {
-        super(onExit);
+        super(onExit, mainController);
         this.mainController = mainController;
         this.onSelect = onSelect;
     }

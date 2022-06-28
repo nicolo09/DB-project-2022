@@ -13,7 +13,7 @@ public class SearchManagersControllerImpl extends SearchPersonControllerImpl {
     private final Controller mainController;
 
     public SearchManagersControllerImpl(Command onExit, Controller mainController) {
-        super(onExit);
+        super(onExit, mainController);
         this.mainController = mainController;
     }
 

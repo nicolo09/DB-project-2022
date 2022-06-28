@@ -42,13 +42,14 @@ public class ModelImpl implements Model {
     private String tablePresence = "presenzia";
     private String tableInvolvements = "coinvolgimenti";
     private String tableCure = "cure";
+    private String tableTelephones = "telefoni";
 
     /**
      * Creates a simple connection to a local database
      */
     public ModelImpl(String username, String password) {
         dbConnection = new ConnectionProvider(username, password, dbName).getMySQLConnection();
-        
+
         inserter = new DataInserterImpl(dbConnection);
         updater = new DataUpdaterImpl(dbConnection);
         remover = new DataRemoverImpl(dbConnection);
@@ -246,7 +247,8 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Report> getReportsFromDoctor(final Person doctor) {
-        String query = "SELECT * FROM "+ tableReports + "WHERE Codice_referto IN " + "(SELECT Referto FROM " + tableInvolvements + " WHERE Medico LIKE '" + doctor.getCF() + "')";
+        String query = "SELECT * FROM " + tableReports + "WHERE Codice_referto IN " + "(SELECT Referto FROM "
+                + tableInvolvements + " WHERE Medico LIKE '" + doctor.getCF() + "')";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readReportsFromResultSet(statement.getResultSet());
@@ -533,7 +535,7 @@ public class ModelImpl implements Model {
 
     public Collection<Person> getAppointmentDoctors(final Room room, final LocalDateTime dateTime) {
         String query = "SELECT * FROM " + tablePresence + " WHERE " + "Numero_sala = " + room.getRoomNumber() + " AND "
-        + "Data_ora = '" + java.sql.Timestamp.valueOf(dateTime) + "'";
+                + "Data_ora = '" + java.sql.Timestamp.valueOf(dateTime) + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             ResultSet resultSet = statement.getResultSet();
@@ -546,7 +548,7 @@ public class ModelImpl implements Model {
             return List.of();
         }
     }
-    
+
     @Override
     public Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo,
             Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,
@@ -556,7 +558,8 @@ public class ModelImpl implements Model {
             query += "Paziente = '" + patient.get().getCF() + "', ";
         }
         if (uo.isPresent()) {
-            query += "Nome_unita = " + uo.get().getName() + ", "+ "Codice_ospedale = "+uo.get().getHospital().getCode()+", ";
+            query += "Nome_unita = " + uo.get().getName() + ", " + "Codice_ospedale = "
+                    + uo.get().getHospital().getCode() + ", ";
         }
         if (dateInInterval.isPresent()) {
             query += "Data_inizio BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
@@ -583,7 +586,8 @@ public class ModelImpl implements Model {
         try {
             while (resultSet.next()) {
                 result.add(new CureImpl(this.getPatient(resultSet.getString("Paziente")).get(),
-                        this.getUo(this.getHospital(resultSet.getInt("Codice_ospedale")).get(), resultSet.getString("Nome_unita")).get(),
+                        this.getUo(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
+                                resultSet.getString("Nome_unita")).get(),
                         resultSet.getDate("Data_ingresso").toLocalDate(),
                         resultSet.getDate("Data_uscita").toLocalDate(), resultSet.getString("Motivazione")));
             }
@@ -592,6 +596,31 @@ public class ModelImpl implements Model {
             e.printStackTrace();
             return Set.of();
         }
+    }
+
+    @Override
+    public Collection<Pair<Person, String>> getTelephones(Person person) {
+        String query = "SELECT * FROM " + tableTelephones + " WHERE " + "Persona = " + person.getCF();
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readTelephonesFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    private Collection<Pair<Person, String>> readTelephonesFromResultSet(ResultSet resultSet) {
+        Set<Pair<Person, String>> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new Pair<>(this.getPerson(resultSet.getString("Persona")).get(),
+                        resultSet.getString("Telefono")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     @Override
@@ -671,118 +700,116 @@ public class ModelImpl implements Model {
         return inserter.insertWorking(CF, unitName, hospitalCode);
     }
 
-	@Override
-	public OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode) {
-		return updater.updateAmministratives(CF, role, hospitalCode);
-	}
+    @Override
+    public OPERATION_OUTCOME updateAmministratives(String CF, Optional<String> role, Optional<Integer> hospitalCode) {
+        return updater.updateAmministratives(CF, role, hospitalCode);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city,
-			Optional<String> street, Optional<Integer> streetNumber) {
-		return updater.updateASL(codeASL, name, city, street, streetNumber);
-	}
+    @Override
+    public OPERATION_OUTCOME updateASL(int codeASL, Optional<String> name, Optional<String> city,
+            Optional<String> street, Optional<Integer> streetNumber) {
+        return updater.updateASL(codeASL, name, city, street, streetNumber);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate,
-			Optional<String> description) {
-		return updater.updateCure(patientCF, hospitalCode, unitName, exitDate, description);
-	}
+    @Override
+    public OPERATION_OUTCOME updateCure(String patientCF, int hospitalCode, String unitName, Optional<Date> exitDate,
+            Optional<String> description) {
+        return updater.updateCure(patientCF, hospitalCode, unitName, exitDate, description);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance) {
-		return updater.updateEquipment(hospitalCode, inventoryCode, lastMaintenance);
-	}
+    @Override
+    public OPERATION_OUTCOME updateEquipment(int hospitalCode, int inventoryCode, Optional<Date> lastMaintenance) {
+        return updater.updateEquipment(hospitalCode, inventoryCode, lastMaintenance);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateHealtcare(String CF, Optional<String> role) {
-		return updater.updateHealtcare(CF, role);
-	}
+    @Override
+    public OPERATION_OUTCOME updateHealtcare(String CF, Optional<String> role) {
+        return updater.updateHealtcare(CF, role);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateHospital(int structureCode, Optional<String> name, Optional<Integer> codeASL) {
-		return updater.updateHospital(structureCode, name, codeASL);
-	}
+    @Override
+    public OPERATION_OUTCOME updateHospital(int structureCode, Optional<String> name, Optional<Integer> codeASL) {
+        return updater.updateHospital(structureCode, name, codeASL);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL) {
-		return updater.updatePatient(CF, codASL);
-	}
+    @Override
+    public OPERATION_OUTCOME updatePatient(String CF, Optional<Integer> codASL) {
+        return updater.updatePatient(CF, codASL);
+    }
 
-	@Override
-	public OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity) {
-		return updater.updateUO(hospitalCode, name, capacity);
-	}
+    @Override
+    public OPERATION_OUTCOME updateUO(int hospitalCode, String name, Optional<Integer> capacity) {
+        return updater.updateUO(hospitalCode, name, capacity);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeAmministratives(String CF) {
-		return remover.removeAmministratives(CF);
-	}
+    @Override
+    public OPERATION_OUTCOME removeAmministratives(String CF) {
+        return remover.removeAmministratives(CF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeAppointment(int hospitalCode, int roomNumber, Timestamp date) {
-		return remover.removeAppointment(hospitalCode, roomNumber, date);
-	}
+    @Override
+    public OPERATION_OUTCOME removeAppointment(int hospitalCode, int roomNumber, Timestamp date) {
+        return remover.removeAppointment(hospitalCode, roomNumber, date);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeASL(int codeASL) {
-		return remover.removeASL(codeASL);
-	}
+    @Override
+    public OPERATION_OUTCOME removeASL(int codeASL) {
+        return remover.removeASL(codeASL);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName) {
-		return remover.removeCure(patientCF, hospitalCode, unitName);
-	}
+    @Override
+    public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName) {
+        return remover.removeCure(patientCF, hospitalCode, unitName);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode) {
-		return remover.removeEquipment(hospitalCode, inventoryCode);
-	}
+    @Override
+    public OPERATION_OUTCOME removeEquipment(int hospitalCode, int inventoryCode) {
+        return remover.removeEquipment(hospitalCode, inventoryCode);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeHealtcare(String CF) {
-		return remover.removeHealtcare(CF);
-	}
+    @Override
+    public OPERATION_OUTCOME removeHealtcare(String CF) {
+        return remover.removeHealtcare(CF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeHospital(int structureCode) {
-		return remover.removeHospital(structureCode);
-	}
+    @Override
+    public OPERATION_OUTCOME removeHospital(int structureCode) {
+        return remover.removeHospital(structureCode);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removePatient(String CF) {
-		return remover.removePatient(CF);
-	}
+    @Override
+    public OPERATION_OUTCOME removePatient(String CF) {
+        return remover.removePatient(CF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removePerson(String CF) {
-		return remover.removePerson(CF);
-	}
+    @Override
+    public OPERATION_OUTCOME removePerson(String CF) {
+        return remover.removePerson(CF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removePhone(String phoneNumber, String personCF) {
-		return remover.removePhone(phoneNumber, personCF);
-	}
+    @Override
+    public OPERATION_OUTCOME removePhone(String phoneNumber, String personCF) {
+        return remover.removePhone(phoneNumber, personCF);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeReport(int reportCode) {
-		return remover.removeReport(reportCode);
-	}
+    @Override
+    public OPERATION_OUTCOME removeReport(int reportCode) {
+        return remover.removeReport(reportCode);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeRoom(int hospitalCode, int roomNumber) {
-		return remover.removeRoom(hospitalCode, roomNumber);
-	}
+    @Override
+    public OPERATION_OUTCOME removeRoom(int hospitalCode, int roomNumber) {
+        return remover.removeRoom(hospitalCode, roomNumber);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeUO(int hospitalCode, String name) {
-		return remover.removeUO(hospitalCode, name);
-	}
+    @Override
+    public OPERATION_OUTCOME removeUO(int hospitalCode, String name) {
+        return remover.removeUO(hospitalCode, name);
+    }
 
-	@Override
-	public OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode) {
-		return remover.removeWorking(CF, unitName, hospitalCode);
-	}
-
-
+    @Override
+    public OPERATION_OUTCOME removeWorking(String CF, String unitName, int hospitalCode) {
+        return remover.removeWorking(CF, unitName, hospitalCode);
+    }
 
 }
