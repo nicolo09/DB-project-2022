@@ -17,6 +17,8 @@ import db.project.view.search.hospital.SelectEquipmentControllerImpl;
 import db.project.view.search.hospital.SelectHospitalControllerImpl;
 import db.project.view.search.hospital.SelectRoomControllerImpl;
 import db.project.view.search.hospital.SelectUoControllerImpl;
+import db.project.view.search.person.SelectDoctorControllerImpl;
+import db.project.view.search.person.SelectPatientsControllerImpl;
 import db.project.view.search.person.SelectPersonControllerImpl;
 import db.project.view.search.person.SelectTelephoneControllerImpl;
 import db.project.view.search.referti.SelectReportsControllerImpl;
@@ -157,14 +159,40 @@ public class SelectorImpl implements Selector {
 
     @Override
     public Person selectPatient() {
-        // TODO Auto-generated method stub
-        return null;
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectPatientsControllerImpl controller = new SelectPatientsControllerImpl(() -> stage.close(), mainController, this);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_patient.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select patient...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedPatient();
     }
 
     @Override
     public Person selectDoctor() {
-        // TODO Auto-generated method stub
-        return null;
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectDoctorControllerImpl controller = new SelectDoctorControllerImpl(() -> stage.close(), mainController);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_doctor.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select doctor...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedDoctor();
     }
 
     @Override

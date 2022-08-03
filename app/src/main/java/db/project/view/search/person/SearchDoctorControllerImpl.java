@@ -10,12 +10,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 
-public class SearchDoctorsControllerImpl extends SearchPersonControllerImpl {
+public class SearchDoctorControllerImpl extends SearchPersonControllerImpl {
 
     private static final String LABEL = "Personale sanitario";
     private final Controller mainController;
 
-    public SearchDoctorsControllerImpl(Command onExit, Controller mainController) {
+    public SearchDoctorControllerImpl(Command onExit, Controller mainController) {
         super(onExit, mainController);
         this.mainController = mainController;
     }

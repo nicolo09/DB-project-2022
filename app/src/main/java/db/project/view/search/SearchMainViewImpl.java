@@ -22,7 +22,7 @@ import db.project.view.search.hospital.SearchUoView;
 import db.project.view.search.hospital.SearchHospitalControllerImpl;
 import db.project.view.search.hospital.SearchUoControllerImpl;
 import db.project.view.search.hospital.SearchUoViewImpl;
-import db.project.view.search.person.SearchDoctorsControllerImpl;
+import db.project.view.search.person.SearchDoctorControllerImpl;
 import db.project.view.search.person.SearchDoctorsViewImpl;
 import db.project.view.search.person.SearchManagersControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
@@ -110,7 +110,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToPazienti() {
         final SearchPersonView view = new SearchPatientsViewImpl(mainStage,
-                new SearchPatientsControllerImpl(() -> this.show(), mainController, this));
+                new SearchPatientsControllerImpl(() -> this.show(), mainController, this.entitySelector));
         view.show();
     }
 
@@ -124,7 +124,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToPersonaleSanitario() {
         final SearchPersonView view = new SearchDoctorsViewImpl(mainStage,
-                new SearchDoctorsControllerImpl(() -> this.show(), mainController));
+                new SearchDoctorControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 

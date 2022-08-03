@@ -8,7 +8,7 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
-import db.project.view.search.SearchMainView;
+import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
@@ -24,17 +24,17 @@ public class SearchPatientsControllerImpl extends SearchPersonControllerImpl {
     @FXML
     private TextField textAslCode;
 
-    private SearchMainView mainView;
+    private Selector selector;
 
-    public SearchPatientsControllerImpl(Command onExit, Controller mainController, SearchMainView mainView) {
+    public SearchPatientsControllerImpl(Command onExit, Controller mainController, Selector selector) {
         super(onExit, mainController);
         this.mainController = mainController;
-        this.mainView = mainView;
+        this.selector = selector;
     }
 
     @FXML
     private void onAslSelectButton(){
-        this.textAslCode.setText(mainView.selectAsl().getCode().toString());
+        this.textAslCode.setText(selector.selectAsl().getCode().toString());
     }
 
     @Override
