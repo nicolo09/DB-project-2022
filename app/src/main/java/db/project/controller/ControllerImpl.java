@@ -15,6 +15,7 @@ import db.project.model.Model;
 import db.project.model.OPERATION_OUTCOME;
 import db.project.model.Person;
 import db.project.model.Report;
+import db.project.model.Room;
 import db.project.model.Uo;
 import javafx.util.Pair;
 
@@ -359,6 +360,11 @@ public class ControllerImpl implements Controller {
     @Override
     public Collection<Equipment> getEquipment(Hospital hospital) {
         return this.model.getEquipment(hospital);
+    }
+
+    @Override
+    public Collection<Room> getRooms(Hospital hospital) {
+        return this.model.getRooms(hospital);
     }
 
 }

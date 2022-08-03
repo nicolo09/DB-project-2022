@@ -15,6 +15,9 @@ import db.project.view.search.hospital.SearchASLViewImpl;
 import db.project.view.search.hospital.SearchEquipmentView;
 import db.project.view.search.hospital.SearchHospitalView;
 import db.project.view.search.hospital.SearchHospitalViewImpl;
+import db.project.view.search.hospital.SearchRoomControllerImpl;
+import db.project.view.search.hospital.SearchRoomView;
+import db.project.view.search.hospital.SearchRoomViewImpl;
 import db.project.view.search.hospital.SearchUoView;
 import db.project.view.search.hospital.SearchHospitalControllerImpl;
 import db.project.view.search.hospital.SearchUoControllerImpl;
@@ -77,19 +80,30 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToOspedali() {
-        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage,
-                new SearchHospitalControllerImpl(() -> this.show(), mainController, entitySelector, this::goToModalAttrezzature));
+        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage, new SearchHospitalControllerImpl(
+                () -> this.show(), mainController, entitySelector, this::goToModalAttrezzature, this::goToModalRooms));
         view.show();
     }
 
-    public void goToModalAttrezzature(final Hospital hospital){
+    public void goToModalAttrezzature(final Hospital hospital) {
         Stage stage = new Stage();
         stage.setTitle("Attrezzature");
         stage.initModality(Modality.WINDOW_MODAL);
         stage.initOwner(mainStage);
-        
+
         final SearchEquipmentView view = new SearchEquipmentViewImpl(stage,
                 new SearchEquipmentControllerImpl(hospital, mainController));
+        view.showAndWait();
+    }
+
+    public void goToModalRooms(final Hospital hospital) {
+        Stage stage = new Stage();
+        stage.setTitle("Stanze");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+
+        final SearchRoomView view = new SearchRoomViewImpl(stage,
+                new SearchRoomControllerImpl(hospital, mainController));
         view.showAndWait();
     }
 
@@ -117,7 +131,8 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToReferti() {
         final SearchRefertiView view = new SearchRefertiViewImpl(
-                new SearchRefertiControllerImpl(this.mainController, entitySelector, this::show, this::showError), mainStage);
+                new SearchRefertiControllerImpl(this.mainController, entitySelector, this::show, this::showError),
+                mainStage);
         view.show();
     }
 

@@ -196,4 +196,6 @@ public interface Model {
 
     Collection<Equipment> getEquipment(Hospital hospital);
 
+    Collection<Room> getRooms(Hospital hospital);
+
 }

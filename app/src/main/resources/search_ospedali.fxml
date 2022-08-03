@@ -52,10 +52,11 @@
                      </HBox.margin></Button>
                </children>
             </HBox>
-            <HBox alignment="BOTTOM_RIGHT" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="4">
+            <HBox alignment="BOTTOM_RIGHT" prefHeight="45.0" prefWidth="270.0" spacing="30.0" GridPane.columnSpan="2" GridPane.rowIndex="4">
                <children>
                   <Button mnemonicParsing="false" onAction="#onAbortButton" text="Annulla" />
                   <Button mnemonicParsing="false" onAction="#onEquipmentButton" text="Attrezzature..." />
+                  <Button mnemonicParsing="false" onAction="#onRoomButton" text="Stanze..." />
                   <Button mnemonicParsing="false" onAction="#onSearchButton" text="Cerca" />
                </children>
                <padding>

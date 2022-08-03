@@ -15,6 +15,8 @@ import db.project.model.Uo;
 import db.project.view.search.hospital.SelectASLControllerImpl;
 import db.project.view.search.hospital.SelectEquipmentControllerImpl;
 import db.project.view.search.hospital.SelectHospitalControllerImpl;
+import db.project.view.search.hospital.SelectRoomControllerImpl;
+import db.project.view.search.hospital.SelectUoControllerImpl;
 import db.project.view.search.person.SelectPersonControllerImpl;
 import db.project.view.search.person.SelectTelephoneControllerImpl;
 import db.project.view.search.referti.SelectReportsControllerImpl;
@@ -166,10 +168,33 @@ public class SelectorImpl implements Selector {
     }
 
     @Override
-    public Room selectRoom() {
-        // TODO Auto-generated method stub
+    public Room selectRoom(final Hospital selected) {
+        if (selected != null) {
+            final Stage stage = new Stage();
+            final FXMLLoader loader = new FXMLLoader();
+            SelectRoomControllerImpl controller = new SelectRoomControllerImpl(selected, mainController, () -> stage.close());
+            loader.setController(controller);
+            loader.setLocation(getClass().getResource("/" + "select_room.fxml"));
+            try {
+                stage.setScene(new Scene(loader.load()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            stage.setTitle("Select room...");
+            stage.initModality(Modality.WINDOW_MODAL);
+            stage.initOwner(mainStage);
+            stage.showAndWait();
+            return controller.getSelectedRoom();
+        }
         return null;
     }
+
+    @Override
+    public Room selectRoom() {
+        final Hospital selected = this.selectHospital();
+        return this.selectRoom(selected);
+    }
+
 
     @Override
     public Appointment selectAppointment() {

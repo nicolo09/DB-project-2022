@@ -71,6 +71,12 @@ public interface Selector {
 
     /**
      * 
+     * @return the selected {@link Room}.
+     */
+    public Room selectRoom(final Hospital selected);
+
+    /**
+     * 
      * @return the selected {@link Appointment}.
      */
     public Appointment selectAppointment();

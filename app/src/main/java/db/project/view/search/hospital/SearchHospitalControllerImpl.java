@@ -53,17 +53,24 @@ public class SearchHospitalControllerImpl {
     private final Command onExit;
     private final Selector selector;
     private final Consumer<Hospital> onEquipment;
+    private final Consumer<Hospital> onRoom;
 
-    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector, final Consumer<Hospital> onEquipment) {
+    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector, final Consumer<Hospital> onEquipment, final Consumer<Hospital> onRoom) {
         this.onExit = onExit;
         this.mainController = mainController;
         this.selector = selector;
         this.onEquipment = onEquipment;
+        this.onRoom = onRoom;
     }
 
     @FXML
     void onEquipmentButton(ActionEvent event) {
         onEquipment.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    void onRoomButton(ActionEvent event) {
+        onRoom.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
     }
 
     @FXML

@@ -654,6 +654,30 @@ public class ModelImpl implements Model {
     }
 
     @Override
+    public Collection<Room> getRooms(Hospital hospital) {
+        String query = "SELECT * FROM " + TABLES.ROOM.get() + " WHERE " + " Codice_ospedale = " + hospital.getCode();
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readRoomsFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    private Collection<Room> readRoomsFromResultSet(ResultSet resultSet) {
+        Set<Room> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new RoomImpl(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
+                        resultSet.getInt("Numero")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
     public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
             Optional<String> lastName) {
         return inserter.insertAmministratives(CF, role, hospitalCode, name, lastName);

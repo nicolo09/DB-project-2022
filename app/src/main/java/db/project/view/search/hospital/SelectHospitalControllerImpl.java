@@ -13,6 +13,8 @@ public class SelectHospitalControllerImpl extends SearchHospitalControllerImpl{
     public SelectHospitalControllerImpl(Command onExit, Command onSelect, Controller mainController, Selector selector) {
         super(onExit, mainController, selector, h -> {
             //TODO errore visualizzazione attrezzature non disponibile in selezione
+        }, h -> {
+            //TODO errore visualizzazione stanze non disponibile in selezione
         });
         this.onSelect = onSelect;
     }
