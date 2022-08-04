@@ -335,8 +335,22 @@ public class SelectorImpl implements Selector {
 
     @Override
     public Pair<Uo, Person> selectJob() {
-        // TODO Auto-generated method stub
-        return null;
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectJobControllerImpl controller = new SelectJobControllerImpl(stage::close, mainController, this,
+                this::showError);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_impieghi.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select job...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedJob();
     }
 
 }

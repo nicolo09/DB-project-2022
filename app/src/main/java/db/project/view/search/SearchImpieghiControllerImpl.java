@@ -30,7 +30,7 @@ public class SearchImpieghiControllerImpl {
     }
 
     @FXML
-    private TableView<Pair<Uo, Person>> impieghiTableView;
+    protected TableView<Pair<Uo, Person>> impieghiTableView;
 
     @FXML
     private TableColumn<Pair<Uo, Person>, String> UOColumn;
