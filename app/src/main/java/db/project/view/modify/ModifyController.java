@@ -12,12 +12,12 @@ import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Alert.AlertType;
 
 public abstract class ModifyController {
-	//TODO methods cannot have input arguments null when they need an integer
+	
 	protected final static int CFLENGHT = 16;
 	
 	protected final static String SIMPLE_FORMATTER = "[a-z_A-Z_\\ ]*";
 	protected final static String NUMBER_FORMATTER = "[0-9]*";
-	protected final static String CF_FORMATTER = "[a-z_A-Z_0-9]*";
+	protected final static String CF_FORMATTER = "[a-z_A-Z_0-9]{0,16}";
 	protected final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:]*";
 	protected final static String COMPLETE_FORMATTER = ".*";
 	
@@ -60,10 +60,11 @@ public abstract class ModifyController {
 		var p = Pattern.compile(pattern);
 
 		TextFormatter<String> formatter = new TextFormatter<>((change) -> {
-			if (p.matcher(change.getControlNewText()).matches() 
-					&& !(pattern.equals(CF_FORMATTER) && change.getControlNewText().length() > CFLENGHT)) {
-				if(change.getControlNewText().length() == 1 || pattern.equals(CF_FORMATTER) || pattern.equals(DOCTORS_FORMATTER)) {
+			if (p.matcher(change.getControlNewText()).matches()) {
+				if(pattern.equals(CF_FORMATTER) || pattern.equals(DOCTORS_FORMATTER)) {
 					change.setText(change.getText().toUpperCase());
+				} else if (change.getControlNewText().length() == change.getText().length() && change.getControlNewText().length() != 0) {
+					change.setText(change.getText().substring(0, 1).toUpperCase() + change.getText().substring(1));
 				}
 				return change;
 		    } else {
