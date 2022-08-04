@@ -200,4 +200,6 @@ public interface Model {
 
     Collection<Room> getRooms(Hospital hospital);
 
+    Collection<Pair<Uo, Person>> getImpieghi(Optional<Person> doctor, Optional<Uo> uo);
+
 }

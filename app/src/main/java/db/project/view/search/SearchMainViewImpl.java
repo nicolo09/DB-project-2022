@@ -196,4 +196,11 @@ public class SearchMainViewImpl implements SearchMainView {
         Alert alert = new Alert(AlertType.ERROR, errorMessage);
         alert.showAndWait();
     }
+
+    @Override
+    public void goToImpieghi() {
+        final SearchImpieghiView view = new SearchImpieghiViewImpl(mainStage,
+                new SearchImpieghiControllerImpl(() -> this.show(), mainController, this.entitySelector, this::showError));
+        view.show();
+    }
 }

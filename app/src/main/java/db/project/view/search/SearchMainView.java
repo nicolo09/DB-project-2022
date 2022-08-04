@@ -39,4 +39,6 @@ public interface SearchMainView {
 
     Uo selectUo();
 
+    void goToImpieghi();
+
 }

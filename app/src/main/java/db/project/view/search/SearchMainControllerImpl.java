@@ -59,5 +59,10 @@ public class SearchMainControllerImpl {
     private void onUnitaOperative(ActionEvent event) {
         this.view.goToUnitaOperative();
     }
+
+    @FXML
+    private void onImpieghi(ActionEvent event) {
+        this.view.goToImpieghi();
+    }
     
 }

@@ -160,4 +160,6 @@ public interface Controller {
 
     Collection<Room> getRooms(Hospital hospital);
 
+    Collection<Pair<Uo, Person>> getImpieghi(Optional<Person> doctorByCF, Optional<Uo> empty);
+
 }

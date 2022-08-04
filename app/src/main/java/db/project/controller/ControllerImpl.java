@@ -367,4 +367,9 @@ public class ControllerImpl implements Controller {
         return this.model.getRooms(hospital);
     }
 
+    @Override
+    public Collection<Pair<Uo, Person>> getImpieghi(Optional<Person> doctor, Optional<Uo> uo) {
+        return this.model.getImpieghi(doctor, uo);
+    }
+
 }

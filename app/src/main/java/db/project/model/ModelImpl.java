@@ -744,6 +744,40 @@ public class ModelImpl implements Model {
     }
 
     @Override
+    public Collection<Pair<Uo, Person>> getImpieghi(Optional<Person> doctor, Optional<Uo> uo) {
+        String query = "SELECT * FROM " + TABLES.WORKING.get() + " WHERE ";
+        if (doctor.isPresent()) {
+            query += "Codice_fiscale LIKE '" + doctor.get().getCF() + "', ";
+        }
+        if (uo.isPresent()) {
+            query += "Codice_ospedale = " + uo.get().getHospital().getCode() + ", ";
+            query += "Nome_unita = " + uo.get().getName() + ", ";
+        }
+        query = query.substring(0, query.length() - 2);
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            return readImpieghiFromResultSet(statement.getResultSet());
+        } catch (final SQLException e) {
+            return List.of();
+        }
+    }
+
+    private Collection<Pair<Uo, Person>> readImpieghiFromResultSet(ResultSet resultSet) {
+        Set<Pair<Uo, Person>> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new Pair<>(
+                        this.getUo(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
+                                resultSet.getString("Nome_unita")).get(),
+                        this.getDoctor(resultSet.getString("Codice_fiscale")).get()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
     public OPERATION_OUTCOME insertAmministratives(String CF, String role, int hospitalCode, Optional<String> name,
             Optional<String> lastName) {
         return inserter.insertAmministratives(CF, role, hospitalCode, name, lastName);

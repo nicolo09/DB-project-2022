@@ -79,6 +79,7 @@
                                     <Insets />
                                  </VBox.margin>
                               </Button>
+                              <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="100.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#onImpieghi" prefHeight="100.0" text="Impieghi Personale Sanitario" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                            </children>
                            <padding>
                               <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
