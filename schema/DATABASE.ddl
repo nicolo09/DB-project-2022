@@ -43,7 +43,7 @@ create table CURE (
      Data_ingresso date not null,
      Data_uscita date,
      Motivazione varchar(400) not null,
-     constraint IDCURE primary key (Paziente, Codice_ospedale, Nome_unita));
+     constraint IDCURE primary key (Paziente, Codice_ospedale, Nome_unita, Data_ingresso));
 
 create table LAVORA (
      Codice_ospedale int not null,
