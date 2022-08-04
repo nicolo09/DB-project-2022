@@ -74,7 +74,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToAppuntamenti() {
         final SearchAppointmentsView view = new SearchAppointmentsViewImpl(mainStage,
-                new SearchAppointmentsControllerImpl(() -> this.show(), mainController, this));
+                new SearchAppointmentsControllerImpl(() -> this.show(), mainController, this.entitySelector));
         view.show();
     }
 

@@ -6,7 +6,7 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Appointment;
-import db.project.view.search.SearchMainView;
+import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -23,12 +23,12 @@ public class SearchAppointmentsControllerImpl {
 
     private final Command onExit;
     private final Controller mainController;
-    private final SearchMainView mainView;
+    private final Selector selector;
 
-    public SearchAppointmentsControllerImpl(final Command onExit, final Controller mainController, final SearchMainView mainView) {
+    public SearchAppointmentsControllerImpl(final Command onExit, final Controller mainController, final Selector selector) {
         this.onExit = onExit;
         this.mainController = mainController;
-        this.mainView = mainView;
+        this.selector = selector;
     }
 
     @FXML
@@ -44,7 +44,7 @@ public class SearchAppointmentsControllerImpl {
     private CheckBox checkPatient;
 
     @FXML
-    private TableView<Appointment> tableViewAppointments;
+    protected TableView<Appointment> tableViewAppointments;
 
     @FXML
     private TableColumn<Appointment, String> columnHospital;
@@ -109,17 +109,17 @@ public class SearchAppointmentsControllerImpl {
 
     @FXML
     void onDoctorSelectButton(ActionEvent event) {
-        textDoctor.setText(this.mainView.selectPerson().getCF());
+        textDoctor.setText(this.selector.selectPerson().getCF());
     }
 
     @FXML
     void onHospitalSelectButton(ActionEvent event) {
-        textHospitalCode.setText(this.mainView.selectHospital().getCode().toString());
+        textHospitalCode.setText(this.selector.selectHospital().getCode().toString());
     }
 
     @FXML
     void onPatientSelectButton(ActionEvent event) {
-        textPatient.setText(this.mainView.selectPerson().getCF());
+        textPatient.setText(this.selector.selectPerson().getCF());
     }
 
     @FXML

@@ -134,7 +134,8 @@ public class SelectorImpl implements Selector {
         if (selected != null) {
             final Stage stage = new Stage();
             final FXMLLoader loader = new FXMLLoader();
-            SelectEquipmentControllerImpl controller = new SelectEquipmentControllerImpl(selected, mainController, () -> stage.close());
+            SelectEquipmentControllerImpl controller = new SelectEquipmentControllerImpl(selected, mainController,
+                    () -> stage.close());
             loader.setController(controller);
             loader.setLocation(getClass().getResource("/" + "select_equipment.fxml"));
             try {
@@ -155,7 +156,8 @@ public class SelectorImpl implements Selector {
     public Person selectAdministrative() {
         final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
-        SelectAdministrativeControllerImpl controller = new SelectAdministrativeControllerImpl(() -> stage.close(), mainController);
+        SelectAdministrativeControllerImpl controller = new SelectAdministrativeControllerImpl(() -> stage.close(),
+                mainController);
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/" + "select_persone.fxml"));
         try {
@@ -174,7 +176,8 @@ public class SelectorImpl implements Selector {
     public Person selectPatient() {
         final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
-        SelectPatientsControllerImpl controller = new SelectPatientsControllerImpl(() -> stage.close(), mainController, this);
+        SelectPatientsControllerImpl controller = new SelectPatientsControllerImpl(() -> stage.close(), mainController,
+                this);
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/" + "select_patient.fxml"));
         try {
@@ -213,7 +216,8 @@ public class SelectorImpl implements Selector {
         if (selected != null) {
             final Stage stage = new Stage();
             final FXMLLoader loader = new FXMLLoader();
-            SelectRoomControllerImpl controller = new SelectRoomControllerImpl(selected, mainController, () -> stage.close());
+            SelectRoomControllerImpl controller = new SelectRoomControllerImpl(selected, mainController,
+                    () -> stage.close());
             loader.setController(controller);
             loader.setLocation(getClass().getResource("/" + "select_room.fxml"));
             try {
@@ -236,11 +240,24 @@ public class SelectorImpl implements Selector {
         return this.selectRoom(selected);
     }
 
-
     @Override
     public Appointment selectAppointment() {
-        // TODO Auto-generated method stub
-        return null;
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectAppointmentControllerImpl controller = new SelectAppointmentControllerImpl(() -> stage.close(),
+                mainController, this);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_appuntamenti.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select appointment...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedAppointment();
     }
 
     @Override
@@ -253,7 +270,8 @@ public class SelectorImpl implements Selector {
     public Report selectReport() {
         final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
-        SelectReportsControllerImpl controller = new SelectReportsControllerImpl(mainController, stage::close, this, this::showError);
+        SelectReportsControllerImpl controller = new SelectReportsControllerImpl(mainController, stage::close, this,
+                this::showError);
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/" + "select_referti.fxml"));
         try {
@@ -268,7 +286,7 @@ public class SelectorImpl implements Selector {
         return controller.getSelectedReport();
     }
 
-    private void showError(String error){
+    private void showError(String error) {
         Alert alert = new Alert(AlertType.ERROR, error);
         alert.showAndWait();
     }
