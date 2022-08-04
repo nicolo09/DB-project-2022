@@ -3,8 +3,10 @@ package db.project.view.search;
 import db.project.model.ASL;
 import db.project.model.Appointment;
 import db.project.model.Cure;
+import db.project.model.DoctorImpl;
 import db.project.model.Equipment;
 import db.project.model.Hospital;
+import db.project.model.PatientImpl;
 import db.project.model.Person;
 import db.project.model.Report;
 import db.project.model.Room;
@@ -53,13 +55,13 @@ public interface Selector {
 
     /**
      * 
-     * @return the selected TODO.
+     * @return the selected {@link PatientImpl}.
      */
     public Person selectPatient();
 
     /**
      * 
-     * @return the selected {@link Doctor}.
+     * @return the selected {@link DoctorImpl}.
      */
     public Person selectDoctor();
 

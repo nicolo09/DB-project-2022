@@ -139,7 +139,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToRicoveri() {
         final SearchCureView view = new SearchCureViewImpl(mainStage,
-                new SearchCureControllerImpl(() -> this.show(), this.mainController, this));
+                new SearchCureControllerImpl(() -> this.show(), this.mainController, this.entitySelector));
         view.show();
     }
 

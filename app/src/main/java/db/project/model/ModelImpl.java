@@ -35,7 +35,6 @@ public class ModelImpl implements Model {
     private final HospitalDeletionCounter counter;
     private String dbName = "hospital";
     private String tablePersons = "persone";
-    private String tableDoctors = "personale_sanitario";
     private String tableReports = "referti";
     private String tableHospital = "ospedali";
     private String tableASL = "asl";
@@ -613,8 +612,7 @@ public class ModelImpl implements Model {
             ResultSet resultSet = statement.getResultSet();
             Set<Person> result = new HashSet<>();
             while (resultSet.next()) {
-                // TODO: Change to getDoctor
-                result.add(this.getPerson(resultSet.getString("Medico")).get());
+                result.add(this.getDoctor(resultSet.getString("Medico")).get());
             }
             return result;
         } catch (final SQLException e) {

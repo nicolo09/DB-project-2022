@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import db.project.model.Cure;
 import db.project.model.Uo;
-import db.project.view.search.SearchMainView;
+import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
@@ -27,12 +27,12 @@ public class SearchCureControllerImpl {
 
     private final Command onExit;
     private final Controller mainController;
-    private final SearchMainView mainView;
+    private final Selector selector;
 
-    public SearchCureControllerImpl(final Command onExit, final Controller mainController, final SearchMainView mainView) {
+    public SearchCureControllerImpl(final Command onExit, final Controller mainController, final Selector selector) {
         this.onExit = onExit;
         this.mainController = mainController;
-        this.mainView = mainView;
+        this.selector = selector;
     }
 
     private Uo selected;
@@ -47,7 +47,7 @@ public class SearchCureControllerImpl {
     private CheckBox checkDate;
     
     @FXML
-    private TableView<Cure> cureTableView;
+    protected TableView<Cure> cureTableView;
 
     @FXML
     private TableColumn<Cure, LocalDate> columnDataIngresso;
@@ -111,7 +111,7 @@ public class SearchCureControllerImpl {
 
     @FXML
     void onPersonSelectButton(ActionEvent event) {
-        this.textCodiceFiscale.setText(this.mainView.selectPerson().getCF());
+        this.textCodiceFiscale.setText(this.selector.selectPerson().getCF());
     }
 
     @FXML
@@ -127,7 +127,7 @@ public class SearchCureControllerImpl {
 
     @FXML
     void onUoSelectButton(ActionEvent event) {
-        selected = this.mainView.selectUo();
+        selected = this.selector.selectUo();
         this.textUo.setText(selected.getHospital() + " - " + selected.getName());
     }
 

@@ -262,8 +262,21 @@ public class SelectorImpl implements Selector {
 
     @Override
     public Cure selectCure() {
-        // TODO Auto-generated method stub
-        return null;
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectCureControllerImpl controller = new SelectCureControllerImpl(stage::close, mainController, this);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_cure.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select Cure...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedCure();
     }
 
     @Override
