@@ -17,7 +17,7 @@ public class PhoneModifyController extends ModifyController{
     @FXML
     private TextField txtPhoneNumber;
 
-	public PhoneModifyController(Command exit, Controller mainController, final Selector selector) {
+	public PhoneModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 
@@ -49,7 +49,11 @@ public class PhoneModifyController extends ModifyController{
 
 	@FXML
     void selectElement() {
-		//TODO
+		var phone = this.selector.selectPhone();
+		if(Objects.nonNull(phone)) {
+			txtCF.setText(phone.getKey().getCF());
+			txtPhoneNumber.setText(phone.getValue());
+		}
     }
 
     @FXML

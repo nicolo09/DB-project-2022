@@ -8,6 +8,7 @@ import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.PatientImpl;
 import db.project.view.modify.ModifyController;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
@@ -35,7 +36,7 @@ public class CureModifyController extends ModifyController{
     @FXML
     private TextField txtNameUO;
 
-	public CureModifyController(Command exit, Controller mainController, final Selector selector) {
+	public CureModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 
@@ -99,12 +100,25 @@ public class CureModifyController extends ModifyController{
 	
 	@FXML
     private void selectCure() {
-		//TODO
+		var cure = this.selector.selectCure();
+		if(Objects.nonNull(cure)) {
+			txtCF.setText(cure.getPatient().getCF());
+			txtCodeHospital.setText(cure.getUo().getHospital().getCode().toString());
+			txtNameUO.setText(cure.getUo().getName());
+			txtMotivation.setText(cure.getReason());
+			entryDate.setAccessibleText(cure.getDateIn().toString());
+			exitDate.setAccessibleText(cure.getDateOut().toString());
+		}
     }
 
     @FXML
     private void selectPatientCF() {
-    	//TODO
+    	var person = this.selector.selectPatient();
+    	if(Objects.nonNull(person) && person instanceof PatientImpl) {
+    		var patient = (PatientImpl) person;
+    		
+    		txtCF.setText(patient.getCF());
+    	}
     }
 
     @FXML

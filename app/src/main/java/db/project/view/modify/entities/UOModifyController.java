@@ -24,7 +24,7 @@ public class UOModifyController extends ModifyController{
     @FXML
     private TextField txtSeatsOccupied;
 
-	public UOModifyController(Command exit, Controller mainController, final Selector selector) {
+	public UOModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 

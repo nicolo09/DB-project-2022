@@ -27,7 +27,7 @@ public class ASLModifyController extends ModifyController{
     @FXML
     private TextField txtStreetNumber;
 
-	public ASLModifyController(Command exit, Controller mainController, final Selector selector) {
+	public ASLModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 

@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.AdministrativeImpl;
 import db.project.view.modify.ModifyController;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
@@ -27,7 +28,7 @@ public class AmministrativeModifyController extends ModifyController{
     @FXML
     private TextField txtRole;
 
-	public AmministrativeModifyController(Command exit, Controller mainController, final Selector selector) {
+	public AmministrativeModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 
@@ -72,7 +73,16 @@ public class AmministrativeModifyController extends ModifyController{
 	
 	@FXML
     private void selectAmministratives() {
-		//TODO
+		var person = this.selector.selectAdministrative();
+		if(Objects.nonNull(person) && person instanceof AdministrativeImpl) {
+			var administrative = (AdministrativeImpl) person;
+			
+			txtCF.setText(administrative.getCF());
+			txtName.setText(administrative.getName());
+			txtLastName.setText(administrative.getSurname());
+			txtRole.setText(administrative.getRole());
+			txtCodeHospital.setText(administrative.getHospital().getCode().toString());
+		}
     }
 
     @FXML

@@ -20,7 +20,7 @@ public class PersonModifyController extends ModifyController{
 	@FXML
 	private TextField txtName;
 
-	public PersonModifyController(Command exit, Controller mainController, final Selector selector) {
+	public PersonModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 

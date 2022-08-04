@@ -18,7 +18,7 @@ public class RoomModifyController extends ModifyController{
     private TextField txtRoomNumber;
 
 
-	public RoomModifyController(Command exit, Controller mainController, final Selector selector) {
+	public RoomModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 
@@ -51,7 +51,11 @@ public class RoomModifyController extends ModifyController{
 
 	@FXML
     void selectElement() {
-		//TODO
+		var room = this.selector.selectRoom();
+		if(Objects.nonNull(room)) {
+			txtRoomNumber.setText(room.getRoomNumber().toString());
+			txtCodeHospital.setText(room.getHospital().getCode().toString());
+		}
     }
 
     @FXML

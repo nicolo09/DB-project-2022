@@ -4,6 +4,7 @@ import java.util.Objects;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.DoctorImpl;
 import db.project.view.modify.ModifyController;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
@@ -20,7 +21,7 @@ public class WorkingModifyController extends ModifyController{
     @FXML
     private TextField txtUnitName;
 
-	public WorkingModifyController(Command exit, Controller mainController, final Selector selector) {
+	public WorkingModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 
@@ -57,12 +58,22 @@ public class WorkingModifyController extends ModifyController{
 	
 	@FXML
     void selectElement() {
-		//TODO
+		var job = this.selector.selectJob();
+		if(Objects.nonNull(job)) {
+			txtCF.setText(job.getValue().getCF());
+			txtCodeHospital.setText(job.getKey().getHospital().getCode().toString());
+			txtUnitName.setText(job.getKey().getName());
+		}
     }
 
     @FXML
     void selectPersonCF() {
-    	//TODO
+    	var person = this.selector.selectAdministrative();
+    	if(Objects.nonNull(person) && person instanceof DoctorImpl) {
+    		var healthcare = (DoctorImpl) person;
+    		
+    		txtCF.setText(healthcare.getCF());
+    	}
     }
 
     @FXML

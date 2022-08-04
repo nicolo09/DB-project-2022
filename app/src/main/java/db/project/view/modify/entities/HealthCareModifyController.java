@@ -1,9 +1,11 @@
 package db.project.view.modify.entities;
 
+import java.util.Objects;
 import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.DoctorImpl;
 import db.project.view.modify.ModifyController;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
@@ -23,7 +25,7 @@ public class HealthCareModifyController extends ModifyController{
     @FXML
     private TextField txtRole;
 	
-	public HealthCareModifyController(Command exit, Controller mainController, final Selector selector) {
+	public HealthCareModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 
@@ -70,12 +72,25 @@ public class HealthCareModifyController extends ModifyController{
 	
 	@FXML
 	private void selectElement() {
-		//TODO
+		var person = this.selector.selectDoctor();
+		if(Objects.nonNull(person) && person instanceof DoctorImpl) {
+			var healthcare = (DoctorImpl) person;
+			
+			txtCF.setText(healthcare.getCF());
+			txtName.setText(healthcare.getName());
+			txtLastName.setText(healthcare.getSurname());
+			txtRole.setText(healthcare.getRole());
+		}
 	}
 
 	@FXML
 	private void selectPersonCF() {
-		//TODO
+		var person = this.selector.selectPerson();
+		if(Objects.nonNull(person)) {
+			txtCF.setText(person.getCF());
+			txtName.setText(person.getName());
+			txtLastName.setText(person.getSurname());
+		}
 	}
 
 }

@@ -29,7 +29,7 @@ public class EquipmentModifyController extends ModifyController{
     @FXML
     private TextField txtName;
 
-	public EquipmentModifyController(Command exit, Controller mainController, final Selector selector) {
+	public EquipmentModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 
@@ -80,7 +80,13 @@ public class EquipmentModifyController extends ModifyController{
 	
 	@FXML
     private void selectEquipment() {
-		//TODO
+		var equipment = this.selector.selectEquipment();
+		if(Objects.nonNull(equipment)) {
+			txtName.setText(equipment.getName());
+			txtCodeHospital.setText(equipment.getHospital().getCode().toString());
+			txtCodInventory.setText(equipment.getCode().toString());
+			dpLastMaintenance.setAccessibleText(equipment.getLastMaintenance().toString());
+		}
     }
 
     @FXML

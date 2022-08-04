@@ -38,7 +38,7 @@ public class HospitalModifyController extends ModifyController{
     
     private final Alert alert;
 
-	public HospitalModifyController(Command exit, Controller mainController, final Selector selector) {
+	public HospitalModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 		alert = new Alert(AlertType.WARNING, "", ButtonType.NO,  ButtonType.YES);
 	}

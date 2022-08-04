@@ -6,11 +6,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.DoctorImpl;
+import db.project.model.PatientImpl;
+import db.project.model.SurgeryReportImpl;
+import db.project.model.VisitReportImpl;
 import db.project.view.modify.ModifyController;
 import db.project.view.search.Selector;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -18,6 +24,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
 public class ReportModifyController extends ModifyController{
+	
+	private final static String SEPARATOR = ":";
 	
 	@FXML
     private ComboBox<String> combType;
@@ -52,7 +60,7 @@ public class ReportModifyController extends ModifyController{
     @FXML
     private TextField txtTreatment;
 
-	public ReportModifyController(Command exit, Controller mainController, final Selector selector) {
+	public ReportModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
 
@@ -82,7 +90,7 @@ public class ReportModifyController extends ModifyController{
 		
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		List<String> doctors = txtDoctors.getText().trim() != "" ? List.of(txtDoctors.getText().trim().split(":")) : List.of();
+		List<String> doctors = txtDoctors.getText().trim() != "" ? List.of(txtDoctors.getText().trim().split(SEPARATOR)) : List.of();
 		checkDoctorCF(doctors);
 		
 		showOutcome(this.mainController.insertReport(issueDate, description, type, treatment, procedure, outcome, duration, hospitalCode, patient, doctors));
@@ -119,20 +127,51 @@ public class ReportModifyController extends ModifyController{
 		setTextFormatter(txtOutcome, SIMPLE_FORMATTER);
 		setTextFormatter(txtProcedure, SIMPLE_FORMATTER);
 		setTextFormatter(txtTreatment, SIMPLE_FORMATTER);
+		
+		combType = new ComboBox<>(FXCollections.observableArrayList("Visita","Intervento"));
 	}
 	
 	@FXML
-    void selectDoctorsCF() {
-		//TODO
+    private void selectDoctorsCF() {
+		var person = this.selector.selectDoctor();
+    	if(Objects.nonNull(person) && person instanceof DoctorImpl) {
+    		var doctor = (DoctorImpl) person;
+    		if(!txtDoctors.getText().contains(doctor.getCF())) {
+    			txtDoctors.setText(txtDoctors.getText() + doctor.getCF() + SEPARATOR);
+    		}
+    	}
+    }
+	
+	@FXML
+	private void clearDoctorsCF() {
+		txtDoctors.setText("");
+	} 
+
+    @FXML
+    private void selectElement() {
+    	var report = this.selector.selectReport();
+    	if(Objects.nonNull(report)) {
+    		txtCF.setText(report.getPatient().getCF());
+    		txtCodeHospital.setText(report.getHospital().getCode().toString());
+    		txtCodeReport.setText(report.getCode().toString());
+    		txtDescription.setText(report.getDescription());
+    		txtDoctors.setText(String.join(SEPARATOR, report.getInvolvedDoctors().stream().map(doctor -> doctor.getCF()).collect(Collectors.toList())) + SEPARATOR);
+    		txtIssueDate.setAccessibleText(report.getDate().toString());
+    		
+    		if(report instanceof VisitReportImpl) {
+    		var visit = (VisitReportImpl) report;	
+    			txtTreatment.setText(visit.getTherapy());
+    		} else {
+    		var surgery = (SurgeryReportImpl) report;
+    			txtDuration.setText(surgery.getDuration().toString());
+    			txtOutcome.setText(surgery.getOutcome());
+    			txtProcedure.setText(surgery.getProcedure());
+    		}
+    	}
     }
 
     @FXML
-    void selectElement() {
-    	//TODO
-    }
-
-    @FXML
-    void selectHospital() {
+    private void selectHospital() {
     	var hospital = this.selector.selectHospital();
     	if(Objects.nonNull(hospital)) {
     		txtCodeHospital.setText(hospital.getCode().toString());
@@ -140,8 +179,13 @@ public class ReportModifyController extends ModifyController{
     }
 
     @FXML
-    void selectPersonCF() {
-    	//TODO
+    private void selectPersonCF() {
+    	var person = this.selector.selectPatient();
+    	if(Objects.nonNull(person) && person instanceof PatientImpl) {
+    		var patient = (PatientImpl) person;
+    		
+    		txtCF.setText(patient.getCF());
+    	}
     }
 
 }
