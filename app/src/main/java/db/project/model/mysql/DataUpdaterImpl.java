@@ -98,7 +98,6 @@ public class DataUpdaterImpl implements DataUpdater {
 				return OPERATION_OUTCOME.EXIT_DATE_PRESENT;
 			}
 		
-			//TODO control if exitdate is already present
 			String query = "UPDATE " + TABLES.CURE.get() + ", " + TABLES.UO.get() + " SET";
 			query += exitDate.isPresent() ? " " + TABLES.CURE.get() + ".Data_uscita = " + new java.sql.Date(exitDate.get().getTime()) + ", " 
 					+ TABLES.UO.get() + ".Posti_occupati = " + TABLES.UO.get() + ".Posti_occupati-1" : "";

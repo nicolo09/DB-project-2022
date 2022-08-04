@@ -65,7 +65,6 @@ public class DataRemoverImpl implements DataRemover {
 		return OPERATION_OUTCOME.SUCCESS;
 	}
 
-	//TODO use ingressDate
 	@Override
 	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate) {
 		if(checkNulls(patientCF, hospitalCode, unitName)) {
@@ -128,13 +127,13 @@ public class DataRemoverImpl implements DataRemover {
 		return removePersonFromTable(CF, TABLES.HEALTHCARE);
 	}
 
-	//TODO must delete all appointments, all rooms, close all cures
+	
 	@Override
 	public OPERATION_OUTCOME removeHospital(int structureCode) {
 		if(checkNulls(structureCode)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
-		//TODO correlation with reports, what now? (not delete on cascade)
+		
 		String query = "DELETE FROM " + TABLES.HOSPITAL.get() + " WHERE Codice_struttura LIKE ?";
 		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
 			statement.setInt(1, structureCode);
