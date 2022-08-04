@@ -52,7 +52,7 @@
                         <Insets />
                      </opaqueInsets>
                   </Label>
-                  <TextField fx:id="txtCodeHospital" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
+                  <TextField fx:id="txtCodeHospital" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
@@ -91,7 +91,7 @@
                         </Button>
                      </children>
                   </HBox>
-                  <TextField fx:id="txtRoomNumber" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
+                  <TextField fx:id="txtRoomNumber" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -133,7 +133,7 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#selectPatientCF" text="Cerca&#10;Persona">
+                        <Button mnemonicParsing="false" onMouseClicked="#selectPatientCF" text="Cerca&#10;Paziente">
                            <HBox.margin>
                               <Insets top="10.0" />
                            </HBox.margin>
@@ -168,17 +168,16 @@
          </children>
       </VBox>
       <Label layoutX="321.0" layoutY="440.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="68.39999999999998" AnchorPane.leftAnchor="321.0" />
-      <Label layoutX="428.0" layoutY="23.0" text="**Il campo &quot;Medico&quot; può essere compilato anche per più medici,&#10;per fare ciò bisogna separare i codici fiscali con l'utilizzo dei due punti &quot;:&quot;" AnchorPane.rightAnchor="68.0" AnchorPane.topAnchor="23.0" />
-      <VBox layoutX="559.0" layoutY="94.0" prefHeight="260.0" prefWidth="223.0" spacing="10.0" AnchorPane.bottomAnchor="240.0" AnchorPane.rightAnchor="196.0" AnchorPane.topAnchor="94.0">
+      <VBox layoutX="559.0" layoutY="94.0" prefHeight="302.0" prefWidth="223.0" spacing="10.0" AnchorPane.bottomAnchor="198.0" AnchorPane.rightAnchor="196.0" AnchorPane.topAnchor="94.0">
          <children>
             <HBox spacing="15.0">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Medico**&#10;(Codice fiscale)">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Medico&#10;(Codice fiscale)">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <Button mnemonicParsing="false" onMouseClicked="#selectDoctorCF" text="Cerca&#10;Persona/e&#10;">
+                  <Button mnemonicParsing="false" onMouseClicked="#selectDoctorCF" text="Cerca&#10;Medico&#10;">
                      <HBox.margin>
                         <Insets top="10.0" />
                      </HBox.margin>
@@ -188,7 +187,12 @@
                   </Button>
                </children>
             </HBox>
-            <TextArea fx:id="txtDoctorCF" prefHeight="188.0" prefWidth="223.0" promptText="Scrivere qui i codici fiscali dei medici coinvolti, separati tra loro con i due punti come da esempio.   CodiceFiscale1:CodiceFiscale2:CodiceFiscale3" />
+            <TextArea fx:id="txtDoctorCF" editable="false" prefHeight="188.0" prefWidth="223.0" promptText="Seleziona il medico coinvolto nell'appuntamento utilizzando il pulsante &quot;Cerca Medico&quot; in alto. Per aggiungere più medici basta ripetere l'operazione di ricerca, invece per svuotare la casella basta premere il pulsante &quot;Cancella&quot; in basso " />
+            <Button mnemonicParsing="false" onMouseClicked="#clearDoctorCF" text="Cancella">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
          </children>
       </VBox>
    </children>

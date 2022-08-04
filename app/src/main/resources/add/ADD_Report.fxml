@@ -65,7 +65,7 @@
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <DatePicker fx:id="txtIssueDate" />
+                  <DatePicker fx:id="txtIssueDate" editable="false" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="2" GridPane.rowIndex="1">
@@ -191,7 +191,16 @@
                   <Button mnemonicParsing="false" onMouseClicked="#selectDoctorsCF" text="Seleziona medici" />
                </children>
             </HBox>
-            <TextArea fx:id="txtDoctors" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Scrivere qui i codici fiscali dei medici coinvolti, separati tra loro con i due punti come da esempio.   CodiceFiscale1:CodiceFiscale2:CodiceFiscale3" />
+            <TextArea fx:id="txtDoctors" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare i medici coinvolti in questo referto usando il pulsante &quot;Seleziona medici&quot; in alto. Per aggiungere altri medici basta ripetere l'operazione di ricerca dei medici. Per svuotare la casella premere il pulsante &quot;Cancella&quot; in basso " />
+            <HBox>
+               <children>
+                  <Button mnemonicParsing="false" onMouseClicked="#clearDoctorsCF" text="Cancella">
+                     <font>
+                        <Font size="11.0" />
+                     </font>
+                  </Button>
+               </children>
+            </HBox>
          </children>
          <padding>
             <Insets top="100.0" />
