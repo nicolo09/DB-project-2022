@@ -14,7 +14,7 @@ public class SearchRefertiViewImpl implements SearchRefertiView {
     private final Stage stage;
     private Parent parent;
     
-    public SearchRefertiViewImpl(final SearchRefertiControllerImpl controller, final Stage stage) {
+    public SearchRefertiViewImpl(final SearchReportsControllerImpl controller, final Stage stage) {
         this.stage = stage;
         final FXMLLoader loader = new FXMLLoader();
         loader.setController(controller);

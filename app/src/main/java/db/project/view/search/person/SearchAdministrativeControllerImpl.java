@@ -7,12 +7,12 @@ import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
 
-public class SearchManagersControllerImpl extends SearchPersonControllerImpl {
+public class SearchAdministrativeControllerImpl extends SearchPersonControllerImpl {
 
     private static final String LABEL = "Personale amministrativo";
     private final Controller mainController;
 
-    public SearchManagersControllerImpl(Command onExit, Controller mainController) {
+    public SearchAdministrativeControllerImpl(Command onExit, Controller mainController) {
         super(onExit, mainController);
         this.mainController = mainController;
     }
@@ -24,7 +24,7 @@ public class SearchManagersControllerImpl extends SearchPersonControllerImpl {
 
     @Override
     protected Collection<Person> getPersons() {
-        return mainController.getManagers(
+        return mainController.getAdministratives(
                 this.nameCheckBox.isSelected() ? Optional.of(nameText.getText()) : Optional.empty(),
                 this.surnameCheckBox.isSelected() ? Optional.of(surnameText.getText()) : Optional.empty(),
                 Optional.empty(),Optional.empty());

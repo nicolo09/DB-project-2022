@@ -24,7 +24,7 @@ import db.project.view.search.hospital.SearchUoControllerImpl;
 import db.project.view.search.hospital.SearchUoViewImpl;
 import db.project.view.search.person.SearchDoctorControllerImpl;
 import db.project.view.search.person.SearchDoctorsViewImpl;
-import db.project.view.search.person.SearchManagersControllerImpl;
+import db.project.view.search.person.SearchAdministrativeControllerImpl;
 import db.project.view.search.person.SearchPatientsControllerImpl;
 import db.project.view.search.person.SearchPatientsViewImpl;
 import db.project.view.search.person.SearchPersonView;
@@ -35,7 +35,7 @@ import db.project.view.search.referti.SearchAppointmentsViewImpl;
 import db.project.view.search.referti.SearchCureControllerImpl;
 import db.project.view.search.referti.SearchCureView;
 import db.project.view.search.referti.SearchCureViewImpl;
-import db.project.view.search.referti.SearchRefertiControllerImpl;
+import db.project.view.search.referti.SearchReportsControllerImpl;
 import db.project.view.search.referti.SearchRefertiView;
 import db.project.view.search.referti.SearchRefertiViewImpl;
 import javafx.fxml.FXMLLoader;
@@ -117,7 +117,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToPersonaleAmministrativo() {
         final SearchPersonView view = new SearchPersonViewImpl(mainStage,
-                new SearchManagersControllerImpl(() -> this.show(), mainController));
+                new SearchAdministrativeControllerImpl(() -> this.show(), mainController));
         view.show();
     }
 
@@ -131,7 +131,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToReferti() {
         final SearchRefertiView view = new SearchRefertiViewImpl(
-                new SearchRefertiControllerImpl(this.mainController, entitySelector, this::show, this::showError),
+                new SearchReportsControllerImpl(this.mainController, entitySelector, this::show, this::showError),
                 mainStage);
         view.show();
     }

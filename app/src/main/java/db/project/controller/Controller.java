@@ -37,7 +37,7 @@ public interface Controller {
     Collection<Person> getPatients(Optional<String> name, Optional<String> surname, Optional<Date> birthDate,
     Optional<Integer> ASLCode);
     
-    Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
+    Collection<Person> getAdministratives(Optional<String> name, Optional<String> surname, Optional<String> role,
     Optional<Integer> HospitalCode);
     
     Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way, Optional<String> number);

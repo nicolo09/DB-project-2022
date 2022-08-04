@@ -36,7 +36,6 @@ public class ModelImpl implements Model {
     private String dbName = "hospital";
     private String tablePersons = "persone";
     private String tableDoctors = "personale_sanitario";
-    private String tablePatients = "pazienti";
     private String tableReports = "referti";
     private String tableHospital = "ospedali";
     private String tableASL = "asl";
@@ -120,7 +119,7 @@ public class ModelImpl implements Model {
         query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
-            return readPersonsFromResultSet(statement.getResultSet());
+            return readDoctorsFromResultSet(statement.getResultSet());
         } catch (final SQLException e) {
             return List.of();
         }
@@ -128,15 +127,17 @@ public class ModelImpl implements Model {
 
     @Override
     public Optional<Person> getDoctor(String CF) {
-        String query = "SELECT COUNT(*) AS total FROM " + tableDoctors + " WHERE Codice_fiscale = '" + CF + "'";
+        String query = "SELECT persone.*, personale_sanitario.Ruolo FROM personale_sanitario INNER JOIN persone "
+                + "ON personale_sanitario.Codice_fiscale = persone.Codice_fiscale" + " WHERE  Codice_fiscale = '" + CF
+                + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             ResultSet resultSet = statement.getResultSet();
-            resultSet.next();
-            if (resultSet.getInt("total") != 1) {
-                return Optional.empty();
+            if (resultSet.next()) {
+                return Optional.of(new DoctorImpl(resultSet.getString("Nome"), resultSet.getString("Cognome"),
+                        resultSet.getString("Codice_fiscale"), resultSet.getString("Ruolo")));
             } else {
-                return this.getPerson(CF);
+                return Optional.empty();
             }
         } catch (final SQLException e) {
             return Optional.empty();
@@ -163,7 +164,7 @@ public class ModelImpl implements Model {
         query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
-            return readPersonsFromResultSet(statement.getResultSet());
+            return readPatientsFromResultSet(statement.getResultSet());
         } catch (final SQLException e) {
             return List.of();
         }
@@ -171,15 +172,18 @@ public class ModelImpl implements Model {
 
     @Override
     public Optional<Person> getPatient(String CF) {
-        String query = "SELECT COUNT(*) AS total FROM " + tablePatients + " WHERE Codice_fiscale = '" + CF + "'";
+        String query = "SELECT persone.*, pazienti.Data_nascita, pazienti.Cod_ASL FROM pazienti INNER JOIN persone "
+                + "ON pazienti.Codice_fiscale = persone.Codice_fiscale" + " WHERE  Codice_fiscale = '" + CF + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             ResultSet resultSet = statement.getResultSet();
-            resultSet.next();
-            if (resultSet.getInt("total") != 1) {
-                return Optional.empty();
+            if (resultSet.next()) {
+                return Optional.of(new PatientImpl(resultSet.getString("Nome"), resultSet.getString("Cognome"),
+                        resultSet.getString("Codice_fiscale"), new Date(resultSet.getDate("Data_nascita").getTime()),
+                        resultSet.getInt("Cod_ASL") == 0 ? Optional.empty()
+                                : this.getASL(resultSet.getInt("Cod_ASL"))));
             } else {
-                return getPerson(CF);
+                return Optional.empty();
             }
         } catch (final SQLException e) {
             return Optional.empty();
@@ -187,7 +191,7 @@ public class ModelImpl implements Model {
     }
 
     @Override
-    public Collection<Person> getManagers(Optional<String> name, Optional<String> surname, Optional<String> role,
+    public Collection<Person> getAdministratives(Optional<String> name, Optional<String> surname, Optional<String> role,
             Optional<Integer> hospitalCode) {
         String query = "SELECT persone.*, amministrativi.Codice_fiscale, amministrativi.Ruolo, "
                 + "amministrativi.Codice_ospedale FROM amministrativi INNER JOIN persone "
@@ -207,9 +211,28 @@ public class ModelImpl implements Model {
         query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
-            return readPersonsFromResultSet(statement.getResultSet());
+            return readAdministrativesFromResultSet(statement.getResultSet());
         } catch (final SQLException e) {
             return List.of();
+        }
+    }
+
+    @Override
+    public Optional<Person> getAdministrative(String CF) {
+        String query = "SELECT persone.*, amministrativi.Codice_fiscale, amministrativi.Ruolo, "
+                + "amministrativi.Codice_ospedale FROM amministrativi INNER JOIN persone "
+                + "ON amministrativi.Codice_fiscale = persone.Codice_fiscale" + " WHERE Codice_fiscale LIKE '" + CF
+                + "'";
+        try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
+            statement.executeQuery();
+            var result = readAdministrativesFromResultSet(statement.getResultSet());
+            if (result.size() == 1) {
+                return Optional.of(result.iterator().next());
+            } else {
+                return Optional.empty();
+            }
+        } catch (final SQLException e) {
+            return Optional.empty();
         }
     }
 
@@ -263,11 +286,13 @@ public class ModelImpl implements Model {
     }
 
     public Collection<Person> getDoctorsFromReferto(Integer reportCode) {
-        String query = "SELECT persone.* " + "FROM " + tableInvolvements + " INNER JOIN persone "
-                + "ON persone.Codice_fiscale = " + tableInvolvements + ".Medico " + "WHERE Referto = " + reportCode;
+        String query = "SELECT persone.*, personale_sanitario.Ruolo FROM" + tableInvolvements + " INNER JOIN persone "
+                + "ON persone.Codice_fiscale = " + tableInvolvements + ".Medico "
+                + "INNER JOIN personale_sanitario ON persone.Codice_fiscale = personale_sanitario.Codice_fiscale "
+                + "WHERE Referto = " + reportCode;
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
-            return readPersonsFromResultSet(statement.getResultSet());
+            return readDoctorsFromResultSet(statement.getResultSet());
         } catch (final SQLException e) {
             return List.of();
         }
@@ -279,6 +304,48 @@ public class ModelImpl implements Model {
             while (resultSet.next()) {
                 result.add(new PersonImpl(resultSet.getString("Nome"), resultSet.getString("Cognome"),
                         resultSet.getString("Codice_fiscale")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private Collection<Person> readDoctorsFromResultSet(ResultSet resultSet) {
+        Set<Person> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new DoctorImpl(resultSet.getString("Nome"), resultSet.getString("Cognome"),
+                        resultSet.getString("Codice_fiscale"), resultSet.getString("Ruolo")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private Collection<Person> readAdministrativesFromResultSet(ResultSet resultSet) {
+        Set<Person> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new AdministrativeImpl(resultSet.getString("Nome"), resultSet.getString("Cognome"),
+                        resultSet.getString("Codice_fiscale"), resultSet.getString("Ruolo"),
+                        this.getHospital(resultSet.getInt("Codice_ospedale")).get()));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    private Collection<Person> readPatientsFromResultSet(ResultSet resultSet) {
+        Set<Person> result = new HashSet<>();
+        try {
+            while (resultSet.next()) {
+                result.add(new PatientImpl(resultSet.getString("Nome"), resultSet.getString("Cognome"),
+                        resultSet.getString("Codice_fiscale"), new Date(resultSet.getDate("Data_nascita").getTime()),
+                        resultSet.getInt("Cod_ASL") == 0 ? Optional.empty()
+                                : this.getASL(resultSet.getInt("Cod_ASL"))));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -546,6 +613,7 @@ public class ModelImpl implements Model {
             ResultSet resultSet = statement.getResultSet();
             Set<Person> result = new HashSet<>();
             while (resultSet.next()) {
+                // TODO: Change to getDoctor
                 result.add(this.getPerson(resultSet.getString("Medico")).get());
             }
             return result;

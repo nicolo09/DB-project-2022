@@ -10,7 +10,7 @@ import db.project.model.Report;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 
-public class SelectReportsControllerImpl extends SearchRefertiControllerImpl {
+public class SelectReportsControllerImpl extends SearchReportsControllerImpl {
 
     private final Command onSelect;
 

@@ -19,7 +19,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.cell.PropertyValueFactory;
 
-public class SearchRefertiControllerImpl {
+public class SearchReportsControllerImpl {
 
     @FXML
     private ToggleGroup searchType;
@@ -53,7 +53,7 @@ public class SearchRefertiControllerImpl {
     private final Command onExit;
     private final Consumer<String> errorReporter;
 
-    public SearchRefertiControllerImpl(final Controller controller, final Selector selector, final Command onExit, Consumer<String> errorReporter) {
+    public SearchReportsControllerImpl(final Controller controller, final Selector selector, final Command onExit, Consumer<String> errorReporter) {
         this.controller = controller;
         this.selector = selector;
         this.onExit = onExit;

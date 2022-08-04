@@ -153,8 +153,21 @@ public class SelectorImpl implements Selector {
 
     @Override
     public Person selectAdministrative() {
-        // TODO Auto-generated method stub
-        return null;
+        final Stage stage = new Stage();
+        final FXMLLoader loader = new FXMLLoader();
+        SelectAdministrativeControllerImpl controller = new SelectAdministrativeControllerImpl(() -> stage.close(), mainController);
+        loader.setController(controller);
+        loader.setLocation(getClass().getResource("/" + "select_persone.fxml"));
+        try {
+            stage.setScene(new Scene(loader.load()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        stage.setTitle("Select administrative...");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        stage.showAndWait();
+        return controller.getSelectedAdministrative();
     }
 
     @Override
