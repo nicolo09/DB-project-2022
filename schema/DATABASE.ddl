@@ -10,7 +10,7 @@ create table AMMINISTRATIVI (
 create table APPUNTAMENTI (
      Codice_ospedale int not null,
      Numero_sala int not null,
-     Data_ora datetime not null,
+     Data_ora timestamp not null,
      Durata int not null,
      Tipo varchar(20) not null,
      Paziente char(16) not null,
