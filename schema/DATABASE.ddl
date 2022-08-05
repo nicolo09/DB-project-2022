@@ -81,7 +81,7 @@ create table PRESENZIA (
      Medico char(16) not null,
      Codice_ospedale int not null,
      Numero_sala int not null,
-     Data_ora datetime not null,
+     Data_ora timestamp not null,
      constraint IDPRESENZIA primary key (Medico, Codice_ospedale, Numero_sala, Data_ora));
 
 create table REFERTI (
