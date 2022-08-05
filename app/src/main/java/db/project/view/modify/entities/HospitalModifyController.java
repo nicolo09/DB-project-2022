@@ -112,6 +112,14 @@ public class HospitalModifyController extends ModifyController{
 		}
     }
 	
+	@FXML
+	private void selectASL() {
+		var asl = this.selector.selectAsl();
+		if(Objects.nonNull(asl)) {
+			txtASLCode.setText(asl.getCode().toString());
+		}
+	}
+	
 	
 	
 	private String setAlertMessage() {
