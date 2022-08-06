@@ -15,10 +15,11 @@ public abstract class ModifyController {
 	
 	protected final static int CFLENGHT = 16;
 	
+	protected final static String NEWLINE = System.getProperty("line.separator");
 	protected final static String SIMPLE_FORMATTER = "[a-z_A-Z_\\ ]*";
 	protected final static String NUMBER_FORMATTER = "[0-9]*";
 	protected final static String CF_FORMATTER = "[a-z_A-Z_0-9]{0,16}";
-	protected final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:]*";
+	protected final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:_\\s]*";
 	protected final static String COMPLETE_FORMATTER = ".*";
 	
 	protected final static int INVALID_INT = -1;
