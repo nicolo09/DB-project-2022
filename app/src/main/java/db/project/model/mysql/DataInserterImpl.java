@@ -15,6 +15,7 @@ import db.project.model.OPERATION_OUTCOME;
 //TODO rivedere i tipi inseriti nel database logico e correggerli
 public class DataInserterImpl implements DataInserter {
 	
+	private final static String NEWLINE = System.getProperty("line.separator");
 	private final static String INSERT_SENTENCE = "INSERT INTO ";
 	private final static String VISIT = "Visita";
 	private final static String OPERATION = "Intervento";
@@ -69,32 +70,46 @@ public class DataInserterImpl implements DataInserter {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		String controlQuery = "" 
-		+ "SET @newdate = ?;"
-		+ "SET @durata = ?;"
-		+ "SELECT COUNT(*)"
-		+ "FROM "+ TABLES.APPOINTMENT.get() + " "
-		+ "INNER JOIN "+ TABLES.PRESENCE.get() + " "
-		+ "ON "+ TABLES.APPOINTMENT.get() +".Numero_sala = "+ TABLES.PRESENCE.get() +".Numero_sala AND "+ TABLES.APPOINTMENT.get() +".Codice_ospedale = "+ TABLES.PRESENCE.get() +".Codice_ospedale "
-		+ "WHERE (Medico = ? AND "
-		+	"(TIMESTAMPDIFF(SECOND, @newdate , "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR"
-		+	"(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))"
-		+	" OR "
-		+	"("+ TABLES.PRESENCE.get() +".Numero_sala = ? AND "
-		+	"(TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR"
-		+	"(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))";
+		//TODO ricontrollare i casi di controllo della query (stesso numero di stanza, ma ospedali diversi, che succede?)
+		//un paziente può avere un appuntamento allo stesso tempo in due posti diversi allo stesso momento
 		
-		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
+		String settingQuery = "SET @newdate = ?, @durata = ?;";
+		
+		String controlQuery = "" 
+		+ "SELECT COUNT(*)" + NEWLINE
+		+ "FROM "+ TABLES.APPOINTMENT.get() + NEWLINE
+		+ "INNER JOIN "+ TABLES.PRESENCE.get() + NEWLINE
+		+ "ON "+ TABLES.APPOINTMENT.get() +".Numero_sala = "+ TABLES.PRESENCE.get() +".Numero_sala AND "+ TABLES.APPOINTMENT.get() +".Codice_ospedale = "+ TABLES.PRESENCE.get() +".Codice_ospedale" + NEWLINE
+		+ "WHERE (Medico = ? AND" + NEWLINE
+		+ "(TIMESTAMPDIFF(SECOND, @newdate , "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR" + NEWLINE
+		+ "(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))" + NEWLINE
+		+ "OR" + NEWLINE
+		+ "("+ TABLES.PRESENCE.get() +".Numero_sala = ? AND" + NEWLINE
+		+ "(TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR" + NEWLINE
+		+ "(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))";
+		
+		try {
+			final PreparedStatement settingStatement = this.connection.prepareStatement(settingQuery);
+			final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery);
+			
+			settingStatement.setTimestamp(1, date);
+			settingStatement.setInt(2, duration);
+			settingStatement.execute();
+			
 			for (String doctor : doctorCF) {
-				controlStatement.setTimestamp(1, date);
-				controlStatement.setInt(2, duration);
-				controlStatement.setString(3, doctor);
-				controlStatement.setInt(4, roomNumber);
-				var rs = controlStatement.executeQuery();
-				rs.next();
-				if(rs.getInt(1) > 0) {
-					return OPERATION_OUTCOME.OVERLAPPING;
+				controlStatement.setString(1, doctor);
+				controlStatement.setInt(2, roomNumber);
+				var op = controlStatement.execute();
+				if(op) {
+					var rs = controlStatement.getResultSet();
+					rs.next();
+					if(rs.getInt(1) > 0) {
+						return OPERATION_OUTCOME.OVERLAPPING;
+					}
+				} else {
+					return OPERATION_OUTCOME.FAILURE;
 				}
+				
 			}
 			String query = INSERT_SENTENCE + TABLES.APPOINTMENT.get() + "(Codice_ospedale, Numero_sala, Data_ora, Durata, Tipo, Paziente) VALUES(?, ?, ?, ?, ?, ?)";
 			final PreparedStatement statement = this.connection.prepareStatement(query);
