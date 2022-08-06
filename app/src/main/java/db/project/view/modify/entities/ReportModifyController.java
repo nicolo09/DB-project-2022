@@ -16,7 +16,6 @@ import db.project.model.SurgeryReportImpl;
 import db.project.model.VisitReportImpl;
 import db.project.view.modify.ModifyController;
 import db.project.view.search.Selector;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
@@ -90,7 +89,7 @@ public class ReportModifyController extends ModifyController{
 		
 		var patient = txtCF.getText().trim() != "" && txtCF.getText().trim().length() == CFLENGHT ? txtCF.getText().trim() : null;
 		
-		List<String> doctors = txtDoctors.getText().trim() != "" ? List.of(txtDoctors.getText().trim().split(SEPARATOR)) : List.of();
+		List<String> doctors = txtDoctors.getText().trim() != "" ? List.of(txtDoctors.getText().trim().replaceAll("\\s", "").split(SEPARATOR)) : List.of();
 		checkDoctorCF(doctors);
 		
 		showOutcome(this.mainController.insertReport(issueDate, description, type, treatment, procedure, outcome, duration, hospitalCode, patient, doctors));
@@ -127,8 +126,6 @@ public class ReportModifyController extends ModifyController{
 		setTextFormatter(txtOutcome, SIMPLE_FORMATTER);
 		setTextFormatter(txtProcedure, SIMPLE_FORMATTER);
 		setTextFormatter(txtTreatment, SIMPLE_FORMATTER);
-		
-		combType = new ComboBox<>(FXCollections.observableArrayList("Visita","Intervento"));
 	}
 	
 	@FXML
@@ -137,7 +134,7 @@ public class ReportModifyController extends ModifyController{
     	if(Objects.nonNull(person) && person instanceof DoctorImpl) {
     		var doctor = (DoctorImpl) person;
     		if(!txtDoctors.getText().contains(doctor.getCF())) {
-    			txtDoctors.setText(txtDoctors.getText() + doctor.getCF() + SEPARATOR);
+    			txtDoctors.setText(txtDoctors.getText() + doctor.getCF() + SEPARATOR + NEWLINE);
     		}
     	}
     }
@@ -161,11 +158,13 @@ public class ReportModifyController extends ModifyController{
     		if(report instanceof VisitReportImpl) {
     		var visit = (VisitReportImpl) report;	
     			txtTreatment.setText(visit.getTherapy());
+    			combType.setValue("Visita");
     		} else {
     		var surgery = (SurgeryReportImpl) report;
     			txtDuration.setText(surgery.getDuration().toString());
     			txtOutcome.setText(surgery.getOutcome());
     			txtProcedure.setText(surgery.getProcedure());
+    			combType.setValue("Intervento");
     		}
     	}
     }

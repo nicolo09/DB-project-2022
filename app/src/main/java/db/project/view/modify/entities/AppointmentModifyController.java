@@ -82,7 +82,7 @@ public class AppointmentModifyController extends ModifyController{
 		
 		var patient = txtPatientCF.getText().trim() != "" && txtPatientCF.getText().trim().length() == CFLENGHT ? txtPatientCF.getText().trim() : null;
 		
-		List<String> doctors = txtDoctorCF.getText().trim() != "" ? List.of(txtDoctorCF.getText().trim().split(SEPARATOR)) : List.of();
+		List<String> doctors = txtDoctorCF.getText().trim() != "" ? List.of(txtDoctorCF.getText().trim().replaceAll("\\s", "").split(SEPARATOR)) : List.of();
 		checkDoctorCF(doctors);
 		
 		showOutcome(this.mainController.insertAppointment(hospitalCode, roomNumber, date, duration, type, patient, doctors));
@@ -124,6 +124,7 @@ public class AppointmentModifyController extends ModifyController{
 	
 	@FXML
     private void selectAppointment() {
+		//TODO appointment selector doesn't work
 		var appointment = this.selector.selectAppointment();
 		if(Objects.nonNull(appointment)) {
 			
@@ -147,7 +148,7 @@ public class AppointmentModifyController extends ModifyController{
     	if(Objects.nonNull(person) && person instanceof DoctorImpl) {
     		var doctor = (DoctorImpl) person;
     		if(!txtDoctorCF.getText().contains(doctor.getCF())) {
-    			txtDoctorCF.setText(txtDoctorCF.getText() + doctor.getCF() + SEPARATOR);
+    			txtDoctorCF.setText(txtDoctorCF.getText() + doctor.getCF() + SEPARATOR + NEWLINE);
     		}
     	}
     }

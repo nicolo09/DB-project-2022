@@ -15,8 +15,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 
 public class HospitalModifyController extends ModifyController{
-
-	private final static String NEWLINE = System.getProperty("line.separator");
 	
 	@FXML
     private TextField txtASLCode;
