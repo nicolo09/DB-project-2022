@@ -10,41 +10,47 @@ import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
 import db.project.model.Report;
+import db.project.model.SurgeryReportImpl;
+import db.project.model.VisitReportImpl;
 import db.project.view.search.Selector;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.control.TableColumn.CellDataFeatures;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Callback;
 
 public class SearchReportsControllerImpl {
 
     @FXML
     private ToggleGroup searchType;
-    
+
     @FXML
     private Toggle toggleMedico;
-    
+
     @FXML
     private Toggle togglePaziente;
-    
+
     @FXML
     protected TableView<Report> refertiTableView;
-    
+
     @FXML
     private TableColumn<Report, Integer> codeColumn;
-    
+
     @FXML
     private TableColumn<Report, Date> dateColumn;
-    
+
     @FXML
     private TableColumn<Report, String> typeColumn;
-    
+
     @FXML
     private TableColumn<Report, Integer> hospitalColumn;
-    
+
     @FXML
     private TextField textCodiceFiscale;
 
@@ -53,7 +59,8 @@ public class SearchReportsControllerImpl {
     private final Command onExit;
     private final Consumer<String> errorReporter;
 
-    public SearchReportsControllerImpl(final Controller controller, final Selector selector, final Command onExit, Consumer<String> errorReporter) {
+    public SearchReportsControllerImpl(final Controller controller, final Selector selector, final Command onExit,
+            Consumer<String> errorReporter) {
         this.controller = controller;
         this.selector = selector;
         this.onExit = onExit;
@@ -64,8 +71,27 @@ public class SearchReportsControllerImpl {
     void initialize() {
         codeColumn.setCellValueFactory(new PropertyValueFactory<Report, Integer>("code"));
         dateColumn.setCellValueFactory(new PropertyValueFactory<Report, Date>("date"));
-        typeColumn.setCellValueFactory(new PropertyValueFactory<Report, String>("type"));
-        hospitalColumn.setCellValueFactory(new PropertyValueFactory<Report, Integer>("hospital"));
+        typeColumn.setCellValueFactory(
+                new Callback<TableColumn.CellDataFeatures<Report, String>, ObservableValue<String>>() {
+                    @Override
+                    public ObservableValue<String> call(CellDataFeatures<Report, String> param) {
+                        String type;
+                        if (param.getValue() instanceof VisitReportImpl) {
+                            type = "Visita";
+                        } else if (param.getValue() instanceof SurgeryReportImpl) {
+                            type = "Intervento";
+                        } else {
+                            type = "";
+                        }
+                        return new ReadOnlyObjectWrapper<String>(type);
+                    }
+                });
+        hospitalColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Report, Integer>, ObservableValue<Integer>>() {
+            @Override
+            public ObservableValue<Integer> call(CellDataFeatures<Report, Integer> param) {
+                return new ReadOnlyObjectWrapper<Integer>(param.getValue().getHospital().getCode());
+            }
+        });
     }
 
     @FXML
@@ -86,9 +112,8 @@ public class SearchReportsControllerImpl {
         Collection<Report> reports = this.getReports();
         if (reports.isEmpty()) {
             errorReporter.accept("Nessun referto trovato");
-        }
-        else {
-            refertiTableView.getItems().setAll();            
+        } else {
+            refertiTableView.getItems().setAll(reports);
         }
     }
 

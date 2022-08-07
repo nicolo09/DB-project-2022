@@ -240,7 +240,7 @@ public class ModelImpl implements Model {
         try {
             while (resultSet.next()) {
                 // Discrimina tra visite e interventi
-                switch (REPORT_TYPES.valueOf(resultSet.getString("type"))) {
+                switch (REPORT_TYPES.getReportType(resultSet.getString("Tipo"))) {
                 case SURGERY -> result.add(new SurgeryReportImpl(resultSet.getInt("Codice_referto"),
                         resultSet.getDate("Data_emissione"), resultSet.getString("Descrizione"),
                         this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
@@ -252,7 +252,7 @@ public class ModelImpl implements Model {
                         this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
                         this.getPatient(resultSet.getString("Paziente")).get(), resultSet.getString("Terapia"),
                         this.getDoctorsFromReferto(resultSet.getInt("Codice_referto"))));
-                default -> throw new IllegalArgumentException("Unexpected value: " + resultSet.getString("type"));
+                default -> throw new IllegalArgumentException("Unexpected value: " + resultSet.getString("Tipo"));
                 }
             }
         } catch (SQLException e) {
@@ -265,8 +265,8 @@ public class ModelImpl implements Model {
     public Collection<Report> getReportsFromPatient(final Person patient) {
         String query = "SELECT * " + "FROM " + tableReports + " WHERE " + "Paziente LIKE '" + patient.getCF() + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
-            statement.executeQuery();
-            return readReportsFromResultSet(statement.getResultSet());
+            ResultSet rs = statement.executeQuery();
+            return readReportsFromResultSet(rs);
         } catch (final SQLException e) {
             return List.of();
         }
