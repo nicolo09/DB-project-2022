@@ -123,7 +123,20 @@ public class DataRemoverImpl implements DataRemover {
 
 	@Override
 	public OPERATION_OUTCOME removeHealtcare(String CF) {
-		//TODO check if they have an appointment
+		//TODO Cosa fare quando si vuole eliminare un medico ma questo è coinvolto in un referto? 
+		String controlquery = "SELECT COUNT(*) FROM " + TABLES.PRESENCE.get() + " WHERE Medico LIKE ?";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlquery)){
+			controlStatement.setString(1, CF);
+
+			var rs = controlStatement.executeQuery();
+			rs.next();
+			if(rs.getInt(1) > 0) {
+				return OPERATION_OUTCOME.PENDING_APPOINTMENTS;
+			}
+		} catch (SQLException e){
+			e.printStackTrace();
+			return OPERATION_OUTCOME.FAILURE;
+		}
 		return removePersonFromTable(CF, TABLES.HEALTHCARE);
 	}
 
