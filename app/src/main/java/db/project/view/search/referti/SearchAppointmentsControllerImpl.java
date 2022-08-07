@@ -126,8 +126,8 @@ public class SearchAppointmentsControllerImpl {
     void onSearchButton(ActionEvent event) {
         tableViewAppointments.getItems().clear();
         tableViewAppointments.getItems().setAll(mainController.getAppointments(
-            checkPatient.isSelected() ? mainController.getPatientByCF(textPatient.getText()) : Optional.empty(),
             checkDoctor.isSelected() ? mainController.getDoctorByCF(textDoctor.getText()) : Optional.empty(),
+            checkPatient.isSelected() ? mainController.getPatientByCF(textPatient.getText()) : Optional.empty(),
             checkHospital.isSelected() ? mainController.getHospital(Integer.parseInt(textHospitalCode.getText())) : Optional.empty(),
             checkDate.isSelected() ? Optional.of(datePicker.getValue()) : Optional.empty())
         );

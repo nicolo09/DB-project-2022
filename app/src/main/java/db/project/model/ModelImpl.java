@@ -127,7 +127,7 @@ public class ModelImpl implements Model {
     @Override
     public Optional<Person> getDoctor(String CF) {
         String query = "SELECT persone.*, personale_sanitario.Ruolo FROM personale_sanitario INNER JOIN persone "
-                + "ON personale_sanitario.Codice_fiscale = persone.Codice_fiscale" + " WHERE  Codice_fiscale = '" + CF
+                + "ON personale_sanitario.Codice_fiscale = persone.Codice_fiscale" + " WHERE personale_sanitario.Codice_fiscale = '" + CF
                 + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -172,7 +172,7 @@ public class ModelImpl implements Model {
     @Override
     public Optional<Person> getPatient(String CF) {
         String query = "SELECT persone.*, pazienti.Data_nascita, pazienti.Cod_ASL FROM pazienti INNER JOIN persone "
-                + "ON pazienti.Codice_fiscale = persone.Codice_fiscale" + " WHERE  Codice_fiscale = '" + CF + "'";
+                + "ON pazienti.Codice_fiscale = persone.Codice_fiscale" + " WHERE pazienti.Codice_fiscale = '" + CF + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             ResultSet resultSet = statement.getResultSet();
@@ -567,7 +567,7 @@ public class ModelImpl implements Model {
                 + " AND " + tableAppointment + ".Codice_ospedale = " + tablePresence + ".Codice_ospedale" + " AND "
                 + tableAppointment + ".Data_ora = " + tablePresence + ".Data_ora " + "WHERE ";
         if (doctor.isPresent()) {
-            query += "Medico = " + doctor.get().getCF() + ", ";
+            query += "Medico = '" + doctor.get().getCF() + "'', ";
         }
         if (patient.isPresent()) {
             query += "Paziente = '" + patient.get().getCF() + "', ";
@@ -580,8 +580,8 @@ public class ModelImpl implements Model {
         }
         query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
-            statement.executeQuery();
-            return readAppointmentsFromResultSet(statement.getResultSet());
+            ResultSet rs = statement.executeQuery();
+            return readAppointmentsFromResultSet(rs);
         } catch (final SQLException e) {
             return List.of();
         }
