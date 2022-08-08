@@ -70,13 +70,16 @@ public class ModelImpl implements Model {
     @Override
     public Collection<Person> getPersons(Optional<String> name, Optional<String> surname) {
         String query = "SELECT * FROM " + tablePersons + " ";
-        if (name.isPresent()) {
-            query += "WHERE Nome LIKE '" + name.get() + "' ,";
+        if (name.isPresent() || surname.isPresent()) {
+            query += "WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "' ,";
+            }
+            if (surname.isPresent()) {
+                query += "Cognome LIKE '" + surname.get() + "' ,";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (surname.isPresent()) {
-            query += "WHERE Cognome LIKE '" + surname.get() + "' ,";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
