@@ -649,26 +649,30 @@ public class ModelImpl implements Model {
     public Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo,
             Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,
             Optional<String> reason) {
-        String query = "SELECT * FROM " + tableCure + " WHERE ";
-        if (patient.isPresent()) {
-            query += "Paziente = '" + patient.get().getCF() + "', ";
+        String query = "SELECT * FROM " + tableCure;
+        if (patient.isPresent() || uo.isPresent() || dateInInterval.isPresent() || dateOutInterval.isPresent()
+                || reason.isPresent()) {
+            query += " WHERE ";
+            if (patient.isPresent()) {
+                query += "Paziente = '" + patient.get().getCF() + "', ";
+            }
+            if (uo.isPresent()) {
+                query += "Nome_unita = " + uo.get().getName() + ", " + "Codice_ospedale = "
+                        + uo.get().getHospital().getCode() + ", ";
+            }
+            if (dateInInterval.isPresent()) {
+                query += "Data_inizio BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
+                        + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "', ";
+            }
+            if (dateOutInterval.isPresent()) {
+                query += "Data_fine BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
+                        + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "', ";
+            }
+            if (reason.isPresent()) {
+                query += "Motivazione LIKE '" + reason.get() + "', ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (uo.isPresent()) {
-            query += "Nome_unita = " + uo.get().getName() + ", " + "Codice_ospedale = "
-                    + uo.get().getHospital().getCode() + ", ";
-        }
-        if (dateInInterval.isPresent()) {
-            query += "Data_inizio BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
-                    + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "', ";
-        }
-        if (dateOutInterval.isPresent()) {
-            query += "Data_fine BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
-                    + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "', ";
-        }
-        if (reason.isPresent()) {
-            query += "Motivazione LIKE '" + reason.get() + "', ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readCuresFromResultSet(statement.getResultSet());
