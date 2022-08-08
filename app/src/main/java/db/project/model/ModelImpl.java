@@ -555,7 +555,7 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital) {
-        String query = "SELECT * FROM " + tableHospital;
+        String query = "SELECT * FROM " + TABLES.UO.get();
         if (name.isPresent() || freeSpace.isPresent() || hospital.isPresent()) {
             query += " WHERE ";
             if (name.isPresent()) {
