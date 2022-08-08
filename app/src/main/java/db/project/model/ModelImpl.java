@@ -204,20 +204,23 @@ public class ModelImpl implements Model {
             Optional<Integer> hospitalCode) {
         String query = "SELECT persone.*, amministrativi.Codice_fiscale, amministrativi.Ruolo, "
                 + "amministrativi.Codice_ospedale FROM amministrativi INNER JOIN persone "
-                + "ON amministrativi.Codice_fiscale = persone.Codice_fiscale" + " WHERE ";
-        if (name.isPresent()) {
-            query += "Nome LIKE '" + name.get() + "', ";
+                + "ON amministrativi.Codice_fiscale = persone.Codice_fiscale";
+        if (name.isPresent() || surname.isPresent() || role.isPresent() || hospitalCode.isPresent()) {
+            query += " WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "', ";
+            }
+            if (surname.isPresent()) {
+                query += "Cognome LIKE '" + surname.get() + "', ";
+            }
+            if (role.isPresent()) {
+                query += "Ruolo LIKE '" + role.get() + "', ";
+            }
+            if (hospitalCode.isPresent()) {
+                query += "Codice_ospedale=" + hospitalCode.get() + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (surname.isPresent()) {
-            query += "Cognome LIKE '" + surname.get() + "', ";
-        }
-        if (role.isPresent()) {
-            query += "Ruolo LIKE '" + role.get() + "', ";
-        }
-        if (hospitalCode.isPresent()) {
-            query += "Codice_ospedale=" + hospitalCode.get() + ", ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readAdministrativesFromResultSet(statement.getResultSet());
