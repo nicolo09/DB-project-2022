@@ -127,7 +127,7 @@ public abstract class ModifyController {
 			alert.showAndWait();
 			break;
 			
-		case REPORT_INVOLVMENT: alert = new Alert(AlertType.ERROR, "Si sta cercando di eliminare del personale coinvolto in uno o più referti." + NEWLINE
+		case REPORT_INVOLVMENT: alert = new Alert(AlertType.ERROR, "Si sta cercando di eliminare un membro del personale coinvolto in uno o più referti." + NEWLINE
 			+ "Per eseguire l'operazione si esegua prima la rimozione dei referti");
 			alert.showAndWait();
 			break;

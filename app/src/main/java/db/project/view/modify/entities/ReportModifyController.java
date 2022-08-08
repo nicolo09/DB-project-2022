@@ -125,7 +125,7 @@ public class ReportModifyController extends ModifyController{
 		setTextFormatter(txtDescription, COMPLETE_FORMATTER);
 		setTextFormatter(txtOutcome, SIMPLE_FORMATTER);
 		setTextFormatter(txtProcedure, SIMPLE_FORMATTER);
-		setTextFormatter(txtTreatment, SIMPLE_FORMATTER);
+		setTextFormatter(txtTreatment, COMPLETE_FORMATTER);
 	}
 	
 	@FXML
