@@ -67,7 +67,7 @@ public class DataRemoverImpl implements DataRemover {
 
 	@Override
 	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate) {
-		if(checkNulls(patientCF, hospitalCode, unitName)) {
+		if(checkNulls(patientCF, hospitalCode, unitName, ingressDate)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
