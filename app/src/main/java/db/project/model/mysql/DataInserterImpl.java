@@ -70,9 +70,6 @@ public class DataInserterImpl implements DataInserter {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		//TODO ricontrollare i casi di controllo della query (stesso numero di stanza, ma ospedali diversi, che succede?)
-		//un paziente può avere un appuntamento allo stesso tempo in due posti diversi allo stesso momento
-		
 		String settingQuery = "SET @newdate = ?, @durata = ?;";
 		
 		String controlQuery = "" 
@@ -84,7 +81,7 @@ public class DataInserterImpl implements DataInserter {
 		+ "(TIMESTAMPDIFF(SECOND, @newdate , "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR" + NEWLINE
 		+ "(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))" + NEWLINE
 		+ "OR" + NEWLINE
-		+ "("+ TABLES.PRESENCE.get() +".Numero_sala = ? AND" + NEWLINE
+		+ "("+ TABLES.PRESENCE.get() +".Numero_sala = ? AND "+ TABLES.PRESENCE.get() +".Codice_ospedale = ? AND" + NEWLINE
 		+ "(TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR" + NEWLINE
 		+ "(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))";
 		
@@ -99,16 +96,14 @@ public class DataInserterImpl implements DataInserter {
 			for (String doctor : doctorCF) {
 				controlStatement.setString(1, doctor);
 				controlStatement.setInt(2, roomNumber);
-				var op = controlStatement.execute();
-				if(op) {
-					var rs = controlStatement.getResultSet();
-					rs.next();
-					if(rs.getInt(1) > 0) {
-						return OPERATION_OUTCOME.OVERLAPPING;
-					}
-				} else {
-					return OPERATION_OUTCOME.FAILURE;
+				controlStatement.setInt(3, hospitalCode);
+				
+				var rs = controlStatement.executeQuery();
+				rs.next();
+				if(rs.getInt(1) > 0) {
+					return OPERATION_OUTCOME.OVERLAPPING;
 				}
+				
 				
 			}
 			String query = INSERT_SENTENCE + TABLES.APPOINTMENT.get() + "(Codice_ospedale, Numero_sala, Data_ora, Durata, Tipo, Paziente) VALUES(?, ?, ?, ?, ?, ?)";

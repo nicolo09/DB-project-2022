@@ -52,7 +52,7 @@ WHERE (Medico = ? AND
     (TIMESTAMPDIFF(SECOND, @newdate , PRESENZIA.Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, PRESENZIA.Data_ora), @newdate) < 0) OR
     (TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), PRESENZIA.Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, PRESENZIA.Data_ora) > 0))
     OR
-    (PRESENZIA.Numero_sala = ? AND 
+    (PRESENZIA.Numero_sala = ? AND PRESENZIA.Codice_ospedale = ? AND
     (TIMESTAMPDIFF(SECOND, @newdate, PRESENZIA.Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, PRESENZIA.Data_ora), @newdate) < 0) OR
     (TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), PRESENZIA.Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, PRESENZIA.Data_ora) > 0))
 -- Se la query restituisce un numero vuol dire che l'appuntamento si sovrapporrebbe ad un altro già fissato, altrimenti si può procedere a inserirlo 

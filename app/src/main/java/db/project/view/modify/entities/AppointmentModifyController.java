@@ -124,7 +124,6 @@ public class AppointmentModifyController extends ModifyController{
 	
 	@FXML
     private void selectAppointment() {
-		//TODO appointment selector doesn't work
 		var appointment = this.selector.selectAppointment();
 		if(Objects.nonNull(appointment)) {
 			
