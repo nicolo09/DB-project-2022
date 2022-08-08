@@ -587,20 +587,23 @@ public class ModelImpl implements Model {
         String query = "SELECT DISTINCT " + tableAppointment + ".*" + " FROM " + tableAppointment + " INNER JOIN "
                 + tablePresence + " ON " + tableAppointment + ".Numero_sala = " + tablePresence + ".Numero_sala"
                 + " AND " + tableAppointment + ".Codice_ospedale = " + tablePresence + ".Codice_ospedale" + " AND "
-                + tableAppointment + ".Data_ora = " + tablePresence + ".Data_ora " + "WHERE ";
-        if (doctor.isPresent()) {
-            query += "Medico = '" + doctor.get().getCF() + "'', ";
+                + tableAppointment + ".Data_ora = " + tablePresence + ".Data_ora ";
+        if (doctor.isPresent() || patient.isPresent() || hospital.isPresent() || date.isPresent()) {
+            query += " WHERE ";
+            if (doctor.isPresent()) {
+                query += "Medico = '" + doctor.get().getCF() + "'', ";
+            }
+            if (patient.isPresent()) {
+                query += "Paziente = '" + patient.get().getCF() + "', ";
+            }
+            if (hospital.isPresent()) {
+                query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
+            }
+            if (date.isPresent()) {
+                query += "Data = '" + java.sql.Date.valueOf(date.get()) + "', ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (patient.isPresent()) {
-            query += "Paziente = '" + patient.get().getCF() + "', ";
-        }
-        if (hospital.isPresent()) {
-            query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
-        }
-        if (date.isPresent()) {
-            query += "Data = '" + java.sql.Date.valueOf(date.get()) + "', ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             ResultSet rs = statement.executeQuery();
             return readAppointmentsFromResultSet(rs);
