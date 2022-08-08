@@ -101,7 +101,7 @@ public abstract class ModifyController {
 			alert.showAndWait();
 			break;
 		
-		case MISSING_PERSON: alert = new Alert(AlertType.ERROR, "Si sta cercando di operare su una persona non registrata" + System.getProperty("line.separator") 
+		case MISSING_PERSON: alert = new Alert(AlertType.ERROR, "Si sta cercando di operare su una persona non registrata" + NEWLINE
 			+ "verificare la correttezza del codice fiscale o compilare i dati mancanti per registrarla");
 			alert.showAndWait();
 			break;
@@ -122,8 +122,13 @@ public abstract class ModifyController {
 			alert.showAndWait();
 			break;
 		
-		case WRONG_INSERTION: alert = new Alert(AlertType.ERROR, "I dati inseriti hanno causato un conflitto," + System.getProperty("line.separator")  
+		case WRONG_INSERTION: alert = new Alert(AlertType.ERROR, "I dati inseriti hanno causato un conflitto," + NEWLINE 
 			+ " verificare che siano stati rispettati i vincoli riportati nella finestra di modifica");
+			alert.showAndWait();
+			break;
+			
+		case REPORT_INVOLVMENT: alert = new Alert(AlertType.ERROR, "Si sta cercando di eliminare del personale coinvolto in uno o più referti." + NEWLINE
+			+ "Per eseguire l'operazione si esegua prima la rimozione dei referti");
 			alert.showAndWait();
 			break;
 			
