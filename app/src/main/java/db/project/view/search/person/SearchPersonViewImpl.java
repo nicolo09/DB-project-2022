@@ -38,7 +38,7 @@ public class SearchPersonViewImpl implements SearchPersonView{
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.controller.setLabelText(this.controller.getLabelText());
+        //this.controller.setLabelText(this.controller.getLabelText());
         final Scene scene = new Scene(parent);
         ViewImpl.adjustStageAndSetScene(getStage(), scene);
         this.getStage().show();

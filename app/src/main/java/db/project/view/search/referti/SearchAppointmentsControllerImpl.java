@@ -6,6 +6,8 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Appointment;
+import db.project.model.Hospital;
+import db.project.model.Person;
 import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;
@@ -25,7 +27,8 @@ public class SearchAppointmentsControllerImpl {
     private final Controller mainController;
     private final Selector selector;
 
-    public SearchAppointmentsControllerImpl(final Command onExit, final Controller mainController, final Selector selector) {
+    public SearchAppointmentsControllerImpl(final Command onExit, final Controller mainController,
+            final Selector selector) {
         this.onExit = onExit;
         this.mainController = mainController;
         this.selector = selector;
@@ -54,12 +57,12 @@ public class SearchAppointmentsControllerImpl {
 
     @FXML
     private TableColumn<Appointment, LocalDateTime> columnDate;
-    
+
     @FXML
     private TableColumn<Appointment, String> columnType;
-    
+
     @FXML
-    private TableColumn<Appointment, String> columnPatient;    
+    private TableColumn<Appointment, String> columnPatient;
 
     @FXML
     private DatePicker datePicker;
@@ -75,31 +78,35 @@ public class SearchAppointmentsControllerImpl {
 
     @FXML
     void initialize() {
-        columnHospital.setCellValueFactory(new Callback<CellDataFeatures<Appointment, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Appointment, String> p) {
-                return new ReadOnlyObjectWrapper<>(p.getValue().getRoom().getHospital().getCode().toString());
-            }
-        });
-        columnRoomNumber.setCellValueFactory(new Callback<CellDataFeatures<Appointment, Integer>, ObservableValue<Integer>>() {
-            public ObservableValue<Integer> call(CellDataFeatures<Appointment, Integer> p) {
-                return new ReadOnlyObjectWrapper<>(p.getValue().getRoom().getRoomNumber());
-            }
-        });
-        columnDate.setCellValueFactory(new Callback<CellDataFeatures<Appointment, LocalDateTime>, ObservableValue<LocalDateTime>>() {
-            public ObservableValue<LocalDateTime> call(CellDataFeatures<Appointment, LocalDateTime> p) {
-                return new ReadOnlyObjectWrapper<>(p.getValue().getDateTime());
-            }
-        });
+        columnHospital
+                .setCellValueFactory(new Callback<CellDataFeatures<Appointment, String>, ObservableValue<String>>() {
+                    public ObservableValue<String> call(CellDataFeatures<Appointment, String> p) {
+                        return new ReadOnlyObjectWrapper<>(p.getValue().getRoom().getHospital().getCode().toString());
+                    }
+                });
+        columnRoomNumber
+                .setCellValueFactory(new Callback<CellDataFeatures<Appointment, Integer>, ObservableValue<Integer>>() {
+                    public ObservableValue<Integer> call(CellDataFeatures<Appointment, Integer> p) {
+                        return new ReadOnlyObjectWrapper<>(p.getValue().getRoom().getRoomNumber());
+                    }
+                });
+        columnDate.setCellValueFactory(
+                new Callback<CellDataFeatures<Appointment, LocalDateTime>, ObservableValue<LocalDateTime>>() {
+                    public ObservableValue<LocalDateTime> call(CellDataFeatures<Appointment, LocalDateTime> p) {
+                        return new ReadOnlyObjectWrapper<>(p.getValue().getDateTime());
+                    }
+                });
         columnType.setCellValueFactory(new Callback<CellDataFeatures<Appointment, String>, ObservableValue<String>>() {
             public ObservableValue<String> call(CellDataFeatures<Appointment, String> p) {
                 return new ReadOnlyObjectWrapper<>(p.getValue().getType().toString());
             }
         });
-        columnPatient.setCellValueFactory(new Callback<CellDataFeatures<Appointment, String>, ObservableValue<String>>() {
-            public ObservableValue<String> call(CellDataFeatures<Appointment, String> p) {
-                return new ReadOnlyObjectWrapper<>(p.getValue().getPatient().getCF());
-            }
-        });
+        columnPatient
+                .setCellValueFactory(new Callback<CellDataFeatures<Appointment, String>, ObservableValue<String>>() {
+                    public ObservableValue<String> call(CellDataFeatures<Appointment, String> p) {
+                        return new ReadOnlyObjectWrapper<>(p.getValue().getPatient().getCF());
+                    }
+                });
     }
 
     @FXML
@@ -109,28 +116,37 @@ public class SearchAppointmentsControllerImpl {
 
     @FXML
     void onDoctorSelectButton(ActionEvent event) {
-        textDoctor.setText(this.selector.selectPerson().getCF());
+        final Person selected = this.selector.selectDoctor();
+        if (selected != null) {
+            this.textDoctor.setText(selected.getCF());
+        }
     }
 
     @FXML
     void onHospitalSelectButton(ActionEvent event) {
-        textHospitalCode.setText(this.selector.selectHospital().getCode().toString());
+        final Hospital selected = this.selector.selectHospital();
+        if (selected != null) {
+            textHospitalCode.setText(selected.getCode().toString());
+        }
     }
 
     @FXML
     void onPatientSelectButton(ActionEvent event) {
-        textPatient.setText(this.selector.selectPerson().getCF());
+        final Person selected = this.selector.selectPatient();
+        if (selected != null) {
+            textPatient.setText(selected.getCF());
+        }
     }
 
     @FXML
     void onSearchButton(ActionEvent event) {
         tableViewAppointments.getItems().clear();
         tableViewAppointments.getItems().setAll(mainController.getAppointments(
-            checkDoctor.isSelected() ? mainController.getDoctorByCF(textDoctor.getText()) : Optional.empty(),
-            checkPatient.isSelected() ? mainController.getPatientByCF(textPatient.getText()) : Optional.empty(),
-            checkHospital.isSelected() ? mainController.getHospital(Integer.parseInt(textHospitalCode.getText())) : Optional.empty(),
-            checkDate.isSelected() ? Optional.of(datePicker.getValue()) : Optional.empty())
-        );
+                checkDoctor.isSelected() ? mainController.getDoctorByCF(textDoctor.getText()) : Optional.empty(),
+                checkPatient.isSelected() ? mainController.getPatientByCF(textPatient.getText()) : Optional.empty(),
+                checkHospital.isSelected() ? mainController.getHospital(Integer.parseInt(textHospitalCode.getText()))
+                        : Optional.empty(),
+                checkDate.isSelected() ? Optional.of(datePicker.getValue()) : Optional.empty()));
     }
 
 }

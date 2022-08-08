@@ -65,6 +65,7 @@ public abstract class SearchPersonControllerImpl{
         nameColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("surname"));
         CFColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("CF"));
+        this.setLabelText(this.getLabelText());
     }
 
     public void setLabelText(String text) {
