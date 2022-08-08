@@ -774,15 +774,18 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Pair<Uo, Person>> getImpieghi(Optional<Person> doctor, Optional<Uo> uo) {
-        String query = "SELECT * FROM " + TABLES.WORKING.get() + " WHERE ";
-        if (doctor.isPresent()) {
-            query += "Codice_fiscale LIKE '" + doctor.get().getCF() + "', ";
+        String query = "SELECT * FROM " + TABLES.WORKING.get();
+        if (doctor.isPresent() || uo.isPresent()) {
+            query += " WHERE ";
+            if (doctor.isPresent()) {
+                query += "Codice_fiscale LIKE '" + doctor.get().getCF() + "', ";
+            }
+            if (uo.isPresent()) {
+                query += "Codice_ospedale = " + uo.get().getHospital().getCode() + ", ";
+                query += "Nome_unita = " + uo.get().getName() + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (uo.isPresent()) {
-            query += "Codice_ospedale = " + uo.get().getHospital().getCode() + ", ";
-            query += "Nome_unita = " + uo.get().getName() + ", ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readImpieghiFromResultSet(statement.getResultSet());
