@@ -555,21 +555,24 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital) {
-        String query = "SELECT * FROM " + tableHospital + " WHERE ";
-        if (name.isPresent()) {
-            query += "Nome LIKE '" + name.get() + "', ";
-        }
-        if (freeSpace.isPresent()) {
-            if (freeSpace.get()) {
-                query += "Capienza > Posti_occupati, ";
-            } else {
-                query += "Capienza <= Posti_occupati, ";
+        String query = "SELECT * FROM " + tableHospital;
+        if (name.isPresent() || freeSpace.isPresent() || hospital.isPresent()) {
+            query += " WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "', ";
             }
+            if (freeSpace.isPresent()) {
+                if (freeSpace.get()) {
+                    query += "Capienza > Posti_occupati, ";
+                } else {
+                    query += "Capienza <= Posti_occupati, ";
+                }
+            }
+            if (hospital.isPresent()) {
+                query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (hospital.isPresent()) {
-            query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readUoFromResultSet(statement.getResultSet());
