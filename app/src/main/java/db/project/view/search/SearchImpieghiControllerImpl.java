@@ -71,7 +71,10 @@ public class SearchImpieghiControllerImpl {
 
     @FXML
     void onMedicoSelectButton(ActionEvent event) {
-        this.textCodiceFiscale.setText(this.selector.selectDoctor().getCF());
+        final Person selected = this.selector.selectDoctor();
+        if (selected != null) {
+            this.textCodiceFiscale.setText(selected.getCF());
+        }
     }
 
     @FXML
