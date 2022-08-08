@@ -98,7 +98,9 @@ public class SearchImpieghiControllerImpl {
     @FXML
     void onUOSelectButton(ActionEvent event) {
         this.selectedUO = this.selector.selectUo();
-        this.textUnita.setText(selectedUO.getName() + " " + selectedUO.getHospital().getName());
+        if (this.selectedUO != null) {
+            this.textUnita.setText(selectedUO.getName() + " " + selectedUO.getHospital().getName());
+        }
     }
 
 }
