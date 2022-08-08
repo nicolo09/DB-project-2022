@@ -545,7 +545,7 @@ public class ModelImpl implements Model {
         try {
             while (resultSet.next()) {
                 result.add(new UoImpl(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
-                        resultSet.getString("Nome"), resultSet.getInt("Capacita"), resultSet.getInt("Posti_occupati")));
+                        resultSet.getString("Nome"), resultSet.getInt("Capienza"), resultSet.getInt("Posti_occupati")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
