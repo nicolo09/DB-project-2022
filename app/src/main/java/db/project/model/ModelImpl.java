@@ -525,8 +525,7 @@ public class ModelImpl implements Model {
     @Override
     public Optional<Uo> getUo(Hospital hospital, String name) {
         String query = "SELECT * FROM " + tableUo + " WHERE " + "Codice_ospedale = " + hospital.getCode() + " AND "
-                + "Nome = '" + name + "'";
-        query = query.substring(0, query.length() - 2);
+                + "Nome LIKE '" + name + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             Collection<Uo> result = readUoFromResultSet(statement.getResultSet());
