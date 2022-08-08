@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.ASL;
 import db.project.model.Hospital;
 import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -103,7 +104,10 @@ public class SearchHospitalControllerImpl {
 
     @FXML
     private void onAslSelectButton(ActionEvent event) {
-        this.textAslCode.setText(this.selector.selectAsl().getCode().toString());
+        final ASL selected = this.selector.selectAsl();
+        if (selected != null) {
+            this.textAslCode.setText(selected.getCode().toString());
+        }
     }
 
     @FXML
