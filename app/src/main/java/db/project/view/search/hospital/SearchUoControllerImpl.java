@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.Hospital;
 import db.project.model.Uo;
 import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -91,7 +92,10 @@ public class SearchUoControllerImpl {
 
     @FXML
     void onHospitalSelectButton(ActionEvent event) {
-        this.textHospitalCode.setText(this.selector.selectHospital().getCode().toString());
+        final Hospital selected = this.selector.selectHospital();
+        if (selected != null) {
+            this.textHospitalCode.setText(selected.getCode().toString());
+        }
     }
 
     @FXML
