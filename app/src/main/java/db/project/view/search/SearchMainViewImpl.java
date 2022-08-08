@@ -81,7 +81,7 @@ public class SearchMainViewImpl implements SearchMainView {
     @Override
     public void goToOspedali() {
         final SearchHospitalView view = new SearchHospitalViewImpl(mainStage, new SearchHospitalControllerImpl(
-                () -> this.show(), mainController, entitySelector, this::goToModalAttrezzature, this::goToModalRooms));
+                () -> this.show(), mainController, entitySelector, this::goToModalAttrezzature, this::goToModalRooms, this::showError));
         view.show();
     }
 

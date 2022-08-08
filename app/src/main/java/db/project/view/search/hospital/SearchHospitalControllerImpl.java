@@ -54,23 +54,34 @@ public class SearchHospitalControllerImpl {
     private final Selector selector;
     private final Consumer<Hospital> onEquipment;
     private final Consumer<Hospital> onRoom;
+    private final Consumer<String> showError;
 
-    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector, final Consumer<Hospital> onEquipment, final Consumer<Hospital> onRoom) {
+    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector,
+            final Consumer<Hospital> onEquipment, final Consumer<Hospital> onRoom, final Consumer<String> showError) {
         this.onExit = onExit;
         this.mainController = mainController;
         this.selector = selector;
         this.onEquipment = onEquipment;
         this.onRoom = onRoom;
+        this.showError = showError;
     }
 
     @FXML
     void onEquipmentButton(ActionEvent event) {
-        onEquipment.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+        if (hospitalsTableView.getSelectionModel().getSelectedItem() != null) {
+            onEquipment.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+        } else {
+            showError.accept("Nessun ospedale selezionato");
+        }
     }
 
     @FXML
     void onRoomButton(ActionEvent event) {
-        onRoom.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+        if (hospitalsTableView.getSelectionModel().getSelectedItem() != null) {
+            onRoom.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+        } else {
+            showError.accept("Nessun ospedale selezionato");
+        }
     }
 
     @FXML

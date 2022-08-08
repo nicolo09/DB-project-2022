@@ -1,5 +1,7 @@
 package db.project.view.search.hospital;
 
+import java.util.function.Consumer;
+
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Hospital;
@@ -10,12 +12,12 @@ public class SelectHospitalControllerImpl extends SearchHospitalControllerImpl{
 
     private final Command onSelect;
 
-    public SelectHospitalControllerImpl(Command onExit, Command onSelect, Controller mainController, Selector selector) {
+    public SelectHospitalControllerImpl(Command onExit, Command onSelect, Controller mainController, Selector selector, final Consumer<String> showError) {
         super(onExit, mainController, selector, h -> {
-            //TODO errore visualizzazione attrezzature non disponibile in selezione
+            showError.accept("Impossibile visualizzare attrezzature durante la selezione");
         }, h -> {
-            //TODO errore visualizzazione stanze non disponibile in selezione
-        });
+            showError.accept("Impossibile visualizzare stanze durante la selezione");
+        }, showError);
         this.onSelect = onSelect;
     }
 
