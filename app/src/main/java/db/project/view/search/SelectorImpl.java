@@ -75,7 +75,7 @@ public class SelectorImpl implements Selector {
         final Stage stage = new Stage();
         final FXMLLoader loader = new FXMLLoader();
         SelectHospitalControllerImpl controller = new SelectHospitalControllerImpl(() -> stage.close(),
-                () -> stage.close(), mainController, this);
+                () -> stage.close(), mainController, this, this::showError);
         loader.setController(controller);
         loader.setLocation(getClass().getResource("/" + "select_ospedali.fxml"));
         try {

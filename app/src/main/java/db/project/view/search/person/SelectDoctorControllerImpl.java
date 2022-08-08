@@ -6,7 +6,6 @@ import db.project.model.Person;
 import javafx.fxml.FXML;
 
 public class SelectDoctorControllerImpl extends SearchDoctorControllerImpl {
-
     
     private final Command onSelect;
     

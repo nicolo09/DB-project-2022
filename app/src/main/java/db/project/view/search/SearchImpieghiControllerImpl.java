@@ -71,7 +71,10 @@ public class SearchImpieghiControllerImpl {
 
     @FXML
     void onMedicoSelectButton(ActionEvent event) {
-        this.textCodiceFiscale.setText(this.selector.selectDoctor().getCF());
+        final Person selected = this.selector.selectDoctor();
+        if (selected != null) {
+            this.textCodiceFiscale.setText(selected.getCF());
+        }
     }
 
     @FXML
@@ -95,7 +98,9 @@ public class SearchImpieghiControllerImpl {
     @FXML
     void onUOSelectButton(ActionEvent event) {
         this.selectedUO = this.selector.selectUo();
-        this.textUnita.setText(selectedUO.getName() + " " + selectedUO.getHospital().getName());
+        if (this.selectedUO != null) {
+            this.textUnita.setText(selectedUO.getName() + " " + selectedUO.getHospital().getName());
+        }
     }
 
 }

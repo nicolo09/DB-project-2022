@@ -96,7 +96,12 @@ public class SearchReportsControllerImpl {
 
     @FXML
     private void onPersonSelectButton() {
-        final Person selected = selector.selectPerson();
+        Person selected = null;
+        if (toggleMedico.isSelected()) {
+            selected = selector.selectDoctor();
+        } else if (togglePaziente.isSelected()) {
+            selected = selector.selectPatient();
+        }
         if (selected != null) {
             this.textCodiceFiscale.setText(selected.getCF());
         }

@@ -70,13 +70,16 @@ public class ModelImpl implements Model {
     @Override
     public Collection<Person> getPersons(Optional<String> name, Optional<String> surname) {
         String query = "SELECT * FROM " + tablePersons + " ";
-        if (name.isPresent()) {
-            query += "WHERE Nome LIKE '" + name.get() + "' ,";
+        if (name.isPresent() || surname.isPresent()) {
+            query += "WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "' ,";
+            }
+            if (surname.isPresent()) {
+                query += "Cognome LIKE '" + surname.get() + "' ,";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (surname.isPresent()) {
-            query += "WHERE Cognome LIKE '" + surname.get() + "' ,";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPersonsFromResultSet(statement.getResultSet());
@@ -105,17 +108,20 @@ public class ModelImpl implements Model {
     @Override
     public Collection<Person> getDoctors(Optional<String> name, Optional<String> surname, Optional<String> role) {
         String query = "SELECT persone.*, personale_sanitario.Ruolo FROM personale_sanitario INNER JOIN persone "
-                + "ON personale_sanitario.Codice_fiscale = persone.Codice_fiscale" + " WHERE ";
-        if (name.isPresent()) {
-            query += "Nome LIKE '" + name.get() + "', ";
+                + "ON personale_sanitario.Codice_fiscale = persone.Codice_fiscale";
+        if (name.isPresent() || surname.isPresent() || role.isPresent()) {
+            query += " WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "', ";
+            }
+            if (surname.isPresent()) {
+                query += "Cognome LIKE '" + surname.get() + "', ";
+            }
+            if (role.isPresent()) {
+                query += "Ruolo LIKE '" + role.get() + "', ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (surname.isPresent()) {
-            query += "Cognome LIKE '" + surname.get() + "', ";
-        }
-        if (role.isPresent()) {
-            query += "Ruolo LIKE '" + role.get() + "', ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readDoctorsFromResultSet(statement.getResultSet());
@@ -127,8 +133,8 @@ public class ModelImpl implements Model {
     @Override
     public Optional<Person> getDoctor(String CF) {
         String query = "SELECT persone.*, personale_sanitario.Ruolo FROM personale_sanitario INNER JOIN persone "
-                + "ON personale_sanitario.Codice_fiscale = persone.Codice_fiscale" + " WHERE personale_sanitario.Codice_fiscale = '" + CF
-                + "'";
+                + "ON personale_sanitario.Codice_fiscale = persone.Codice_fiscale"
+                + " WHERE personale_sanitario.Codice_fiscale = '" + CF + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             ResultSet resultSet = statement.getResultSet();
@@ -147,20 +153,23 @@ public class ModelImpl implements Model {
     public Collection<Person> getPatients(Optional<String> name, Optional<String> surname, Optional<Date> birthDate,
             Optional<Integer> ASLCode) {
         String query = "SELECT persone.*, pazienti.Data_nascita, pazienti.Cod_ASL FROM pazienti INNER JOIN persone "
-                + "ON pazienti.Codice_fiscale = persone.Codice_fiscale" + " WHERE ";
-        if (name.isPresent()) {
-            query += "Nome LIKE '" + name.get() + "', ";
+                + "ON pazienti.Codice_fiscale = persone.Codice_fiscale";
+        if (name.isPresent() || surname.isPresent() || birthDate.isPresent() || ASLCode.isPresent()) {
+            query += " WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "', ";
+            }
+            if (surname.isPresent()) {
+                query += "Cognome LIKE '" + surname.get() + "', ";
+            }
+            if (birthDate.isPresent()) {
+                query += "Data_nascita='" + new java.sql.Date(birthDate.get().getTime()) + "', ";
+            }
+            if (ASLCode.isPresent()) {
+                query += "Cod_ASL=" + ASLCode.get() + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (surname.isPresent()) {
-            query += "Cognome LIKE '" + surname.get() + "', ";
-        }
-        if (birthDate.isPresent()) {
-            query += "Data_nascita='" + new java.sql.Date(birthDate.get().getTime()) + "', ";
-        }
-        if (ASLCode.isPresent()) {
-            query += "Cod_ASL=" + ASLCode.get() + ", ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readPatientsFromResultSet(statement.getResultSet());
@@ -172,7 +181,8 @@ public class ModelImpl implements Model {
     @Override
     public Optional<Person> getPatient(String CF) {
         String query = "SELECT persone.*, pazienti.Data_nascita, pazienti.Cod_ASL FROM pazienti INNER JOIN persone "
-                + "ON pazienti.Codice_fiscale = persone.Codice_fiscale" + " WHERE pazienti.Codice_fiscale = '" + CF + "'";
+                + "ON pazienti.Codice_fiscale = persone.Codice_fiscale" + " WHERE pazienti.Codice_fiscale = '" + CF
+                + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             ResultSet resultSet = statement.getResultSet();
@@ -194,20 +204,23 @@ public class ModelImpl implements Model {
             Optional<Integer> hospitalCode) {
         String query = "SELECT persone.*, amministrativi.Codice_fiscale, amministrativi.Ruolo, "
                 + "amministrativi.Codice_ospedale FROM amministrativi INNER JOIN persone "
-                + "ON amministrativi.Codice_fiscale = persone.Codice_fiscale" + " WHERE ";
-        if (name.isPresent()) {
-            query += "Nome LIKE '" + name.get() + "', ";
+                + "ON amministrativi.Codice_fiscale = persone.Codice_fiscale";
+        if (name.isPresent() || surname.isPresent() || role.isPresent() || hospitalCode.isPresent()) {
+            query += " WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "', ";
+            }
+            if (surname.isPresent()) {
+                query += "Cognome LIKE '" + surname.get() + "', ";
+            }
+            if (role.isPresent()) {
+                query += "Ruolo LIKE '" + role.get() + "', ";
+            }
+            if (hospitalCode.isPresent()) {
+                query += "Codice_ospedale=" + hospitalCode.get() + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (surname.isPresent()) {
-            query += "Cognome LIKE '" + surname.get() + "', ";
-        }
-        if (role.isPresent()) {
-            query += "Ruolo LIKE '" + role.get() + "', ";
-        }
-        if (hospitalCode.isPresent()) {
-            query += "Codice_ospedale=" + hospitalCode.get() + ", ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readAdministrativesFromResultSet(statement.getResultSet());
@@ -453,20 +466,23 @@ public class ModelImpl implements Model {
     @Override
     public Collection<ASL> getASL(Optional<String> name, Optional<String> city, Optional<String> way,
             Optional<String> number) {
-        String query = "SELECT * FROM asl" + " WHERE ";
-        if (name.isPresent()) {
-            query += "Nome LIKE '" + name.get() + "', ";
+        String query = "SELECT * FROM asl";
+        if (name.isPresent() || city.isPresent() || way.isPresent() || number.isPresent()) {
+            query += " WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "', ";
+            }
+            if (city.isPresent()) {
+                query += "Ind_Citta LIKE '" + city.get() + "', ";
+            }
+            if (way.isPresent()) {
+                query += "Ind_Via LIKE '" + way.get() + "', ";
+            }
+            if (number.isPresent()) {
+                query += "Ind_Numero_civico LIKE '" + number.get() + "', ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (city.isPresent()) {
-            query += "Ind_Citta LIKE '" + city.get() + "', ";
-        }
-        if (way.isPresent()) {
-            query += "Ind_Via LIKE '" + way.get() + "', ";
-        }
-        if (number.isPresent()) {
-            query += "Ind_Numero_civico LIKE '" + number.get() + "', ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readASLFromResultSet(statement.getResultSet());
@@ -478,23 +494,26 @@ public class ModelImpl implements Model {
     @Override
     public Collection<Hospital> getHospitals(Optional<String> name, Optional<String> city, Optional<String> way,
             Optional<String> number, Optional<ASL> asl) {
-        String query = "SELECT * FROM " + tableHospital + " WHERE ";
-        if (name.isPresent()) {
-            query += "Nome LIKE '" + name.get() + "', ";
+        String query = "SELECT * FROM " + tableHospital;
+        if (name.isPresent() || city.isPresent() || way.isPresent() || number.isPresent() || asl.isPresent()) {
+            query += " WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "', ";
+            }
+            if (city.isPresent()) {
+                query += "Ind_Citta LIKE '" + city.get() + "', ";
+            }
+            if (way.isPresent()) {
+                query += "Ind_Via LIKE '" + way.get() + "', ";
+            }
+            if (number.isPresent()) {
+                query += "Ind_Numero_civico LIKE '" + number.get() + "', ";
+            }
+            if (asl.isPresent()) {
+                query += "Cod_ASL = " + asl.get().getCode() + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (city.isPresent()) {
-            query += "Ind_Citta LIKE '" + city.get() + "', ";
-        }
-        if (way.isPresent()) {
-            query += "Ind_Via LIKE '" + way.get() + "', ";
-        }
-        if (number.isPresent()) {
-            query += "Ind_Numero_civico LIKE '" + number.get() + "', ";
-        }
-        if (asl.isPresent()) {
-            query += "Cod_ASL = " + asl.get().getCode() + ", ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readHospitalsFromResultSet(statement.getResultSet());
@@ -506,8 +525,7 @@ public class ModelImpl implements Model {
     @Override
     public Optional<Uo> getUo(Hospital hospital, String name) {
         String query = "SELECT * FROM " + tableUo + " WHERE " + "Codice_ospedale = " + hospital.getCode() + " AND "
-                + "Nome = '" + name + "'";
-        query = query.substring(0, query.length() - 2);
+                + "Nome LIKE '" + name + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             Collection<Uo> result = readUoFromResultSet(statement.getResultSet());
@@ -526,7 +544,7 @@ public class ModelImpl implements Model {
         try {
             while (resultSet.next()) {
                 result.add(new UoImpl(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
-                        resultSet.getString("Nome"), resultSet.getInt("Capacita"), resultSet.getInt("Posti_occupati")));
+                        resultSet.getString("Nome"), resultSet.getInt("Capienza"), resultSet.getInt("Posti_occupati")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -536,21 +554,24 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Uo> getUos(Optional<String> name, Optional<Boolean> freeSpace, Optional<Hospital> hospital) {
-        String query = "SELECT * FROM " + tableHospital + " WHERE ";
-        if (name.isPresent()) {
-            query += "Nome LIKE '" + name.get() + "', ";
-        }
-        if (freeSpace.isPresent()) {
-            if (freeSpace.get()) {
-                query += "Capienza > Posti_occupati, ";
-            } else {
-                query += "Capienza <= Posti_occupati, ";
+        String query = "SELECT * FROM " + TABLES.UO.get();
+        if (name.isPresent() || freeSpace.isPresent() || hospital.isPresent()) {
+            query += " WHERE ";
+            if (name.isPresent()) {
+                query += "Nome LIKE '" + name.get() + "', ";
             }
+            if (freeSpace.isPresent()) {
+                if (freeSpace.get()) {
+                    query += "Capienza > Posti_occupati, ";
+                } else {
+                    query += "Capienza <= Posti_occupati, ";
+                }
+            }
+            if (hospital.isPresent()) {
+                query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (hospital.isPresent()) {
-            query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readUoFromResultSet(statement.getResultSet());
@@ -565,20 +586,23 @@ public class ModelImpl implements Model {
         String query = "SELECT DISTINCT " + tableAppointment + ".*" + " FROM " + tableAppointment + " INNER JOIN "
                 + tablePresence + " ON " + tableAppointment + ".Numero_sala = " + tablePresence + ".Numero_sala"
                 + " AND " + tableAppointment + ".Codice_ospedale = " + tablePresence + ".Codice_ospedale" + " AND "
-                + tableAppointment + ".Data_ora = " + tablePresence + ".Data_ora " + "WHERE ";
-        if (doctor.isPresent()) {
-            query += "Medico = '" + doctor.get().getCF() + "'', ";
+                + tableAppointment + ".Data_ora = " + tablePresence + ".Data_ora ";
+        if (doctor.isPresent() || patient.isPresent() || hospital.isPresent() || date.isPresent()) {
+            query += " WHERE ";
+            if (doctor.isPresent()) {
+                query += "Medico = '" + doctor.get().getCF() + "'', ";
+            }
+            if (patient.isPresent()) {
+                query += "Paziente = '" + patient.get().getCF() + "', ";
+            }
+            if (hospital.isPresent()) {
+                query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
+            }
+            if (date.isPresent()) {
+                query += "Data = '" + java.sql.Date.valueOf(date.get()) + "', ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (patient.isPresent()) {
-            query += "Paziente = '" + patient.get().getCF() + "', ";
-        }
-        if (hospital.isPresent()) {
-            query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
-        }
-        if (date.isPresent()) {
-            query += "Data = '" + java.sql.Date.valueOf(date.get()) + "', ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             ResultSet rs = statement.executeQuery();
             return readAppointmentsFromResultSet(rs);
@@ -624,26 +648,30 @@ public class ModelImpl implements Model {
     public Collection<Cure> getCures(Optional<Person> patient, Optional<Uo> uo,
             Optional<Pair<LocalDate, LocalDate>> dateInInterval, Optional<Pair<LocalDate, LocalDate>> dateOutInterval,
             Optional<String> reason) {
-        String query = "SELECT * FROM " + tableCure + " WHERE ";
-        if (patient.isPresent()) {
-            query += "Paziente = '" + patient.get().getCF() + "', ";
+        String query = "SELECT * FROM " + tableCure;
+        if (patient.isPresent() || uo.isPresent() || dateInInterval.isPresent() || dateOutInterval.isPresent()
+                || reason.isPresent()) {
+            query += " WHERE ";
+            if (patient.isPresent()) {
+                query += "Paziente = '" + patient.get().getCF() + "', ";
+            }
+            if (uo.isPresent()) {
+                query += "Nome_unita = " + uo.get().getName() + ", " + "Codice_ospedale = "
+                        + uo.get().getHospital().getCode() + ", ";
+            }
+            if (dateInInterval.isPresent()) {
+                query += "Data_inizio BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
+                        + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "', ";
+            }
+            if (dateOutInterval.isPresent()) {
+                query += "Data_fine BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
+                        + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "', ";
+            }
+            if (reason.isPresent()) {
+                query += "Motivazione LIKE '" + reason.get() + "', ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (uo.isPresent()) {
-            query += "Nome_unita = " + uo.get().getName() + ", " + "Codice_ospedale = "
-                    + uo.get().getHospital().getCode() + ", ";
-        }
-        if (dateInInterval.isPresent()) {
-            query += "Data_inizio BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
-                    + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "', ";
-        }
-        if (dateOutInterval.isPresent()) {
-            query += "Data_fine BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
-                    + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "', ";
-        }
-        if (reason.isPresent()) {
-            query += "Motivazione LIKE '" + reason.get() + "', ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readCuresFromResultSet(statement.getResultSet());
@@ -745,15 +773,18 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Pair<Uo, Person>> getImpieghi(Optional<Person> doctor, Optional<Uo> uo) {
-        String query = "SELECT * FROM " + TABLES.WORKING.get() + " WHERE ";
-        if (doctor.isPresent()) {
-            query += "Codice_fiscale LIKE '" + doctor.get().getCF() + "', ";
+        String query = "SELECT * FROM " + TABLES.WORKING.get();
+        if (doctor.isPresent() || uo.isPresent()) {
+            query += " WHERE ";
+            if (doctor.isPresent()) {
+                query += "Codice_fiscale LIKE '" + doctor.get().getCF() + "', ";
+            }
+            if (uo.isPresent()) {
+                query += "Codice_ospedale = " + uo.get().getHospital().getCode() + ", ";
+                query += "Nome_unita = " + uo.get().getName() + ", ";
+            }
+            query = query.substring(0, query.length() - 2);
         }
-        if (uo.isPresent()) {
-            query += "Codice_ospedale = " + uo.get().getHospital().getCode() + ", ";
-            query += "Nome_unita = " + uo.get().getName() + ", ";
-        }
-        query = query.substring(0, query.length() - 2);
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readImpieghiFromResultSet(statement.getResultSet());

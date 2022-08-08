@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.Optional;
 
 import db.project.model.Cure;
+import db.project.model.Person;
 import db.project.model.Uo;
 import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -111,7 +112,10 @@ public class SearchCureControllerImpl {
 
     @FXML
     void onPersonSelectButton(ActionEvent event) {
-        this.textCodiceFiscale.setText(this.selector.selectPerson().getCF());
+        final Person selected = this.selector.selectPatient();
+        if (selected != null) {
+            this.textCodiceFiscale.setText(selected.getCF());
+        }
     }
 
     @FXML
@@ -128,7 +132,9 @@ public class SearchCureControllerImpl {
     @FXML
     void onUoSelectButton(ActionEvent event) {
         selected = this.selector.selectUo();
-        this.textUo.setText(selected.getHospital() + " - " + selected.getName());
+        if (selected != null) {
+            this.textUo.setText(selected.getHospital() + " - " + selected.getName());
+        }
     }
 
 }

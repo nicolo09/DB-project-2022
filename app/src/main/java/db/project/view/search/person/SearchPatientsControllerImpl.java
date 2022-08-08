@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.ASL;
 import db.project.model.Person;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
@@ -33,8 +34,11 @@ public class SearchPatientsControllerImpl extends SearchPersonControllerImpl {
     }
 
     @FXML
-    private void onAslSelectButton(){
-        this.textAslCode.setText(selector.selectAsl().getCode().toString());
+    private void onAslSelectButton() {
+        final ASL selected = selector.selectAsl();
+        if (selected != null) {
+            this.textAslCode.setText(selected.getCode().toString());
+        }
     }
 
     @Override

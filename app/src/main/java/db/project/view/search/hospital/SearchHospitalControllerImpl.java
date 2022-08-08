@@ -6,6 +6,7 @@ import java.util.function.Consumer;
 
 import db.project.Command;
 import db.project.controller.Controller;
+import db.project.model.ASL;
 import db.project.model.Hospital;
 import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
@@ -54,23 +55,34 @@ public class SearchHospitalControllerImpl {
     private final Selector selector;
     private final Consumer<Hospital> onEquipment;
     private final Consumer<Hospital> onRoom;
+    private final Consumer<String> showError;
 
-    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector, final Consumer<Hospital> onEquipment, final Consumer<Hospital> onRoom) {
+    public SearchHospitalControllerImpl(final Command onExit, final Controller mainController, final Selector selector,
+            final Consumer<Hospital> onEquipment, final Consumer<Hospital> onRoom, final Consumer<String> showError) {
         this.onExit = onExit;
         this.mainController = mainController;
         this.selector = selector;
         this.onEquipment = onEquipment;
         this.onRoom = onRoom;
+        this.showError = showError;
     }
 
     @FXML
     void onEquipmentButton(ActionEvent event) {
-        onEquipment.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+        if (hospitalsTableView.getSelectionModel().getSelectedItem() != null) {
+            onEquipment.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+        } else {
+            showError.accept("Nessun ospedale selezionato");
+        }
     }
 
     @FXML
     void onRoomButton(ActionEvent event) {
-        onRoom.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+        if (hospitalsTableView.getSelectionModel().getSelectedItem() != null) {
+            onRoom.accept(hospitalsTableView.getSelectionModel().getSelectedItem());
+        } else {
+            showError.accept("Nessun ospedale selezionato");
+        }
     }
 
     @FXML
@@ -92,7 +104,10 @@ public class SearchHospitalControllerImpl {
 
     @FXML
     private void onAslSelectButton(ActionEvent event) {
-        this.textAslCode.setText(this.selector.selectAsl().getCode().toString());
+        final ASL selected = this.selector.selectAsl();
+        if (selected != null) {
+            this.textAslCode.setText(selected.getCode().toString());
+        }
     }
 
     @FXML

@@ -50,7 +50,8 @@ public class SearchASLControllerImpl {
     @FXML
     void onSearchButton(final ActionEvent event) {
         aslTableView.getItems().clear();
-        final Collection<ASL> asls = mainController.getASL(Optional.of(textName.getText()), Optional.empty(),
+        final Collection<ASL> asls = mainController.getASL(
+                textName.getText().isBlank() ? Optional.empty() : Optional.of(textName.getText()), Optional.empty(),
                 Optional.empty(), Optional.empty());
         aslTableView.getItems().addAll(asls);
     }
