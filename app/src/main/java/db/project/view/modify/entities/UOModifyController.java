@@ -21,9 +21,6 @@ public class UOModifyController extends ModifyController{
     @FXML
     private TextField txtName;
 
-    @FXML
-    private TextField txtSeatsOccupied;
-
 	public UOModifyController(final Command exit, final Controller mainController, final Selector selector) {
 		super(exit, mainController, selector);
 	}
@@ -37,9 +34,7 @@ public class UOModifyController extends ModifyController{
 		
 		var capacity = isInteger(txtCapacity.getText().trim()) ? Integer.parseInt(txtCapacity.getText().trim()) : INVALID_INT;
 		
-		var seatsOccupied = isInteger(txtSeatsOccupied.getText().trim()) ? Integer.parseInt(txtSeatsOccupied.getText().trim()) : 0;
-		
-		showOutcome(this.mainController.insertUO(hospitalCode, name, capacity, seatsOccupied));
+		showOutcome(this.mainController.insertUO(hospitalCode, name, capacity, 0));
 	}
 
 	@Override
@@ -69,7 +64,6 @@ public class UOModifyController extends ModifyController{
 		setTextFormatter(txtCapacity, NUMBER_FORMATTER);
 		setTextFormatter(txtCodeHospital, NUMBER_FORMATTER);
 		setTextFormatter(txtName, COMPLETE_FORMATTER);
-		setTextFormatter(txtSeatsOccupied, NUMBER_FORMATTER);
 	}
 	
 	@FXML
@@ -79,7 +73,6 @@ public class UOModifyController extends ModifyController{
 			txtCapacity.setText(operative_unit.getCapacity().toString());
 			txtCodeHospital.setText(operative_unit.getHospital().getCode().toString());
 			txtName.setText(operative_unit.getName());
-			txtSeatsOccupied.setText(operative_unit.getOccupiedPlaces().toString());
 		}
     }
 
