@@ -127,9 +127,9 @@ public class AppointmentModifyController extends ModifyController{
 		var appointment = this.selector.selectAppointment();
 		if(Objects.nonNull(appointment)) {
 			
-			txtAppointmentDuration.setText(appointment.getDuration().toString());
+			txtAppointmentDuration.setText("" + appointment.getDuration().getSeconds()/60);
 			txtAppointmentType.setText(appointment.getType());
-			txtAppointmentDate.setAccessibleText(appointment.getDateTime().toLocalDate().toString());
+			txtAppointmentDate.setValue(appointment.getDateTime().toLocalDate());
 			txtHours.setText("" + appointment.getDateTime().toLocalTime().getHour());
 			txtMinutes.setText("" + appointment.getDateTime().toLocalTime().getMinute());
 			

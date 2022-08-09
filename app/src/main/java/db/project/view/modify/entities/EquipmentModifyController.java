@@ -85,7 +85,7 @@ public class EquipmentModifyController extends ModifyController{
 			txtName.setText(equipment.getName());
 			txtCodeHospital.setText(equipment.getHospital().getCode().toString());
 			txtCodInventory.setText(equipment.getCode().toString());
-			dpLastMaintenance.setAccessibleText(equipment.getLastMaintenance().toString());
+			dpLastMaintenance.setValue(equipment.getLastMaintenance());
 		}
     }
 
