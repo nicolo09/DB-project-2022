@@ -3,7 +3,6 @@ package db.project.model.mysql;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
@@ -83,8 +82,12 @@ public class DataUpdaterImpl implements DataUpdater {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		String controlQuery = "SELECT COUNT(*) FROM " + TABLES.CURE.get() + " WHERE Paziente LIKE ? AND Codice_ospedale LIKE ? AND Nome_unita LIKE ? "
-				+ "AND Data_ingresso LIKE ? AND Data_uscita LIKE NULL";
+		if(exitDate.isPresent() && exitDate.get().compareTo(ingressDate) < 0) {
+			return OPERATION_OUTCOME.WRONG_INSERTION;
+		}
+		
+		String controlQuery = "SELECT * FROM " + TABLES.CURE.get() + " WHERE Paziente LIKE ? AND Codice_ospedale LIKE ? AND Nome_unita LIKE ? "
+				+ "AND Data_ingresso LIKE ?";
 		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
 		
 			controlStatement.setString(1, patientCF);
@@ -93,15 +96,18 @@ public class DataUpdaterImpl implements DataUpdater {
 			controlStatement.setDate(4, new java.sql.Date(ingressDate.getTime()));
 			
 			var rs = controlStatement.executeQuery();
-			rs.next();
-			if(rs.getInt(1) == 0) {
-				return OPERATION_OUTCOME.EXIT_DATE_PRESENT;
+			if(rs.next()){
+				if(rs.getDate("Data_uscita") != null) {
+					return OPERATION_OUTCOME.EXIT_DATE_PRESENT;
+				}
+			} else {
+				return OPERATION_OUTCOME.FAILURE;
 			}
 		
 			String query = "UPDATE " + TABLES.CURE.get() + ", " + TABLES.UO.get() + " SET";
-			query += exitDate.isPresent() ? " " + TABLES.CURE.get() + ".Data_uscita = " + new java.sql.Date(exitDate.get().getTime()) + ", " 
-					+ TABLES.UO.get() + ".Posti_occupati = " + TABLES.UO.get() + ".Posti_occupati-1" : "";
-			query += description.isPresent() ? " " + TABLES.CURE.get() + ".Motivazione = '" + description.get() + "', " : "";
+			query += exitDate.isPresent() ? " " + TABLES.CURE.get() + ".Data_uscita = '" + new java.sql.Date(exitDate.get().getTime()) + "', " 
+					+ TABLES.UO.get() + ".Posti_occupati = " + TABLES.UO.get() + ".Posti_occupati-1," : "";
+			query += description.isPresent() ? " " + TABLES.CURE.get() + ".Motivazione = '" + description.get() + "'," : "";
 			query = query.substring(0, query.length() - 1);
 			query += " WHERE " +  TABLES.CURE.get() + ".Paziente LIKE ? AND " +  TABLES.CURE.get() + ".Codice_ospedale LIKE ? AND " +  TABLES.CURE.get() +".Nome_unita LIKE ? "
 					+ "AND " + TABLES.CURE.get() + ".Data_ingresso LIKE ?";
@@ -129,11 +135,23 @@ public class DataUpdaterImpl implements DataUpdater {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		String query = "UPDATE " + TABLES.EQUIPMENT.get() + " SET";
-		query += " Data_manutenzione = " + new java.sql.Date(lastMaintenance.get().getTime());
-		query += " WHERE Codice_ospedale LIKE ? AND Codice_inventario LIKE ?";
+		String controlQuery = "SELECT * FROM " + TABLES.EQUIPMENT.get() + " WHERE Codice_ospedale LIKE ? AND Codice_inventario LIKE ?";
+		try(final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
+			controlStatement.setInt(1, hospitalCode);
+			controlStatement.setInt(2, inventoryCode);
+			
+			var rs = controlStatement.executeQuery();
+			var maintanance = new java.sql.Date(lastMaintenance.get().getTime());
+			rs.next();
+			if(rs.getDate("Data_manutenzione").compareTo(maintanance) < 0) {
+				return OPERATION_OUTCOME.WRONG_INSERTION;
+			}
 		
-		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
+			String query = "UPDATE " + TABLES.EQUIPMENT.get() + " SET "
+					+ "Data_manutenzione = '" + maintanance.toString()
+					+ "' WHERE Codice_ospedale LIKE ? AND Codice_inventario LIKE ?";
+		
+			final PreparedStatement statement = this.connection.prepareStatement(query);
 			
 			statement.setInt(1, hospitalCode);
 			statement.setInt(2, inventoryCode);
@@ -220,18 +238,23 @@ public class DataUpdaterImpl implements DataUpdater {
 		if(checkNulls(hospitalCode, name) || checkModifies(capacity)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
-		
-		String controlQuery = "SELECT * FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome = ?";
-		try (final Statement controlStatement = this.connection.createStatement()){
+		String controlQuery = "SELECT * FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
+		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
 			
-			var rs = controlStatement.executeQuery(controlQuery);
-			if(capacity.get() <= rs.getInt("Posti_occupati")) {
-				return OPERATION_OUTCOME.CAPACITY_REACHED;
+			controlStatement.setInt(1, hospitalCode);
+			controlStatement.setString(2, name);
+			
+			var rs = controlStatement.executeQuery();
+			if(rs.next()) {
+				if(capacity.get() < rs.getInt("Posti_occupati")) {
+					return OPERATION_OUTCOME.CAPACITY_REACHED;
+				}
+			} else {
+				return OPERATION_OUTCOME.FAILURE;
 			}
 		
-			String query = "UPDATE " + TABLES.UO.get() + " SET";
-			query += " Capienza = " + capacity.get();
-			query += " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
+			String query = "UPDATE " + TABLES.UO.get() + " SET"
+					+ " Capienza = " + capacity.get() + " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
 		
 			final PreparedStatement statement = this.connection.prepareStatement(query);
 			
