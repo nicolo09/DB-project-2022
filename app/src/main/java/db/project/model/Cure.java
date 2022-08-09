@@ -1,6 +1,7 @@
 package db.project.model;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 public interface Cure {
     
@@ -10,7 +11,7 @@ public interface Cure {
 
     LocalDate getDateIn();
 
-    LocalDate getDateOut();
+    Optional<LocalDate> getDateOut();
 
     String getReason();
 }

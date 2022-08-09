@@ -660,11 +660,11 @@ public class ModelImpl implements Model {
                         + uo.get().getHospital().getCode() + ", ";
             }
             if (dateInInterval.isPresent()) {
-                query += "Data_inizio BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
+                query += "Data_ingresso BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
                         + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "', ";
             }
             if (dateOutInterval.isPresent()) {
-                query += "Data_fine BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
+                query += "Data_uscita BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
                         + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "', ";
             }
             if (reason.isPresent()) {
@@ -688,7 +688,9 @@ public class ModelImpl implements Model {
                         this.getUo(this.getHospital(resultSet.getInt("Codice_ospedale")).get(),
                                 resultSet.getString("Nome_unita")).get(),
                         resultSet.getDate("Data_ingresso").toLocalDate(),
-                        resultSet.getDate("Data_uscita").toLocalDate(), resultSet.getString("Motivazione")));
+                        resultSet.getDate("Data_uscita") == null ? Optional.empty()
+                                : Optional.of(resultSet.getDate("Data_uscita").toLocalDate()),
+                        resultSet.getString("Motivazione")));
             }
             return result;
         } catch (SQLException e) {
