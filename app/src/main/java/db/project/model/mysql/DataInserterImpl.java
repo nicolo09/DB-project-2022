@@ -185,6 +185,7 @@ public class DataInserterImpl implements DataInserter {
 			controlStatement.setString(2, unitName);
 			
 			var rs = controlStatement.executeQuery();
+            rs.next();
 			if(rs.getInt("Capienza") == rs.getInt("Posti_occupati")) {
 				return OPERATION_OUTCOME.CAPACITY_REACHED;
 			}

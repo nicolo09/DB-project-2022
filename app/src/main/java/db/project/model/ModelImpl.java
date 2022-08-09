@@ -38,7 +38,7 @@ public class ModelImpl implements Model {
     private String tableReports = "referti";
     private String tableHospital = "ospedali";
     private String tableASL = "asl";
-    private String tableUo = "uo";
+    private String tableUo = TABLES.UO.get();
     private String tableAppointment = "appuntamenti";
     private String tablePresence = "presenzia";
     private String tableInvolvements = "coinvolgimenti";

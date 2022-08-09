@@ -16,6 +16,14 @@
             "request": "launch",
             "mainClass": "db.project.Launcher",
             "projectName": "app"
+        },
+        {
+            "type": "java",
+            "name": "Launch Person import from CSV",
+            "request": "launch",
+            "mainClass": "db.project.Launcher",
+            "projectName": "app",
+            "args": ["--load-persons", "${workspaceFolder}\\schema\\people.csv"]
         }
     ]
 }

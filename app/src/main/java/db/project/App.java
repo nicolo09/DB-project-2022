@@ -15,8 +15,8 @@ public class App extends javafx.application.Application {
 
     
     
-    private static final String DBUSERNAME = "root";
-    private static final String DBPASSWORD = "password";
+    public static final String DBUSERNAME = "root";
+    public static final String DBPASSWORD = "password";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
