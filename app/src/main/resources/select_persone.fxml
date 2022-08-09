@@ -53,6 +53,11 @@
                   </Button>
                </children>
             </HBox>
+            <Label fx:id="typeLabel" text="typeLabel" GridPane.columnIndex="1">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
          </children>
          <padding>
             <Insets left="20.0" right="20.0" top="20.0" />
