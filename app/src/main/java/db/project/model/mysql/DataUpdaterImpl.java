@@ -26,6 +26,11 @@ public class DataUpdaterImpl implements DataUpdater {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
+		var check = checkPerson(CF, TABLES.AMMINISTRATIVE);
+		if(!check.equals(OPERATION_OUTCOME.SUCCESS)) {
+			return check;
+		}
+		
 		String query = "UPDATE " + TABLES.AMMINISTRATIVE.get() + " SET";
 		query += role.isPresent() ? " Ruolo = '" + role.get() + "'," : "";
 		query += hospitalCode.isPresent() ? " Codice_ospedale = " + hospitalCode.get() + "," : "";
@@ -170,6 +175,12 @@ public class DataUpdaterImpl implements DataUpdater {
 		if(checkNulls(CF) || checkModifies(role)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
+		
+		var check = checkPerson(CF, TABLES.HEALTHCARE);
+		if(!check.equals(OPERATION_OUTCOME.SUCCESS)) {
+			return check;
+		}
+		
 		String query = "UPDATE " + TABLES.HEALTHCARE.get() + " SET";
 		query += " Ruolo = '" + role.get() + "'";
 		query += " WHERE Codice_fiscale LIKE ?";
@@ -216,6 +227,12 @@ public class DataUpdaterImpl implements DataUpdater {
 		if(checkNulls(CF)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
+		
+		var check = checkPerson(CF, TABLES.PATIENT);
+		if(!check.equals(OPERATION_OUTCOME.SUCCESS)) {
+			return check;
+		}
+		
 		String query = "UPDATE " + TABLES.PATIENT.get() + " SET";
 		query += codASL.isPresent() ? " Cod_ASL = " + codASL.get() : " Cod_ASL = NULL ";
 		query += " WHERE Codice_fiscale LIKE ?";
@@ -268,6 +285,27 @@ public class DataUpdaterImpl implements DataUpdater {
 		}
 		
 		return OPERATION_OUTCOME.SUCCESS;
+	}
+	
+	private OPERATION_OUTCOME checkPerson(String CF, TABLES table) {
+		
+		String query = "SELECT COUNT(*) FROM " + table.get() + " WHERE Codice_fiscale LIKE ?";
+		try(final PreparedStatement controlStatement = this.connection.prepareStatement(query)){
+			controlStatement.setString(1, CF);
+			
+			var rs = controlStatement.executeQuery();
+			rs.next();
+			if(rs.getInt(1) == 0) {
+				return OPERATION_OUTCOME.WRONG_INSERTION;
+			} else {
+				return OPERATION_OUTCOME.SUCCESS;
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			return OPERATION_OUTCOME.FAILURE;
+		}
+		
 	}
 	
 	private boolean checkNulls(Object ... args) {
