@@ -8,7 +8,9 @@ import db.project.controller.Controller;
 import db.project.model.Person;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 public class SearchDoctorControllerImpl extends SearchPersonControllerImpl {
 
@@ -25,6 +27,15 @@ public class SearchDoctorControllerImpl extends SearchPersonControllerImpl {
 
     @FXML
     private TextField roleText;
+
+    @FXML
+    private TableColumn<Person, String> roleColumn;
+
+    @FXML
+    public void initialize() {
+        super.initialize();
+        roleColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("role"));
+    }
 
     @Override
     protected String getLabelText() {
