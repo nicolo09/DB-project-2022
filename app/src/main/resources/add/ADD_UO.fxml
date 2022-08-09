@@ -26,6 +26,11 @@
                   <Insets top="13.0" />
                </HBox.margin>
             </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#clearAll" text="Svuota">
+               <HBox.margin>
+                  <Insets top="13.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
       <GridPane hgap="20.0" layoutX="84.0" layoutY="118.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="428.0" AnchorPane.bottomAnchor="118.0" AnchorPane.leftAnchor="84.0" AnchorPane.topAnchor="118.0">
