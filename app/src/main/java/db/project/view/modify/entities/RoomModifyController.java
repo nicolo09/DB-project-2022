@@ -66,4 +66,10 @@ public class RoomModifyController extends ModifyController{
     	}
     }
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCodeHospital,txtRoomNumber);
+	}
+
 }

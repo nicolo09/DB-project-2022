@@ -84,4 +84,10 @@ public class UOModifyController extends ModifyController{
     	}
     }
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCapacity,txtCodeHospital,txtName);
+	}
+
 }

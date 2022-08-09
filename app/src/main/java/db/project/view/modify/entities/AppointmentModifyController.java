@@ -107,7 +107,7 @@ public class AppointmentModifyController extends ModifyController{
 			catch (Exception e) {}
 		}
 		
-		showOutcome(this.mainController.removeAppointment(hospitalCode, roomNumber, date));		
+		showOutcome(this.mainController.removeAppointment(hospitalCode, roomNumber, date));
 	}
 	
 	@FXML
@@ -192,6 +192,13 @@ public class AppointmentModifyController extends ModifyController{
     		doctors = null;    		
     	}
     }
+
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtAppointmentDuration,txtAppointmentType,txtCodeHospital,txtDoctorCF,txtHours,txtMinutes,txtPatientCF,txtRoomNumber);
+		this.clearDate(txtAppointmentDate);
+	}
 
 	
 

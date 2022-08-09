@@ -110,4 +110,11 @@ public class PatientModifyController extends ModifyController{
 		}
 	}
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtCodeASL,txtLastName,txtName);
+		this.clearDate(birthDay);
+	}
+
 }

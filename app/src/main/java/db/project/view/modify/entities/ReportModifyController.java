@@ -187,4 +187,11 @@ public class ReportModifyController extends ModifyController{
     	}
     }
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtCodeHospital,txtCodeReport,txtDescription,txtDoctors,txtDuration,txtOutcome,txtProcedure,txtTreatment);
+		this.clearDate(txtIssueDate);
+	}
+
 }

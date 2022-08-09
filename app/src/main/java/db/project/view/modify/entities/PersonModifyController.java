@@ -60,6 +60,12 @@ public class PersonModifyController extends ModifyController{
 			txtLastName.setText(person.getSurname());
 		}
     }
+
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtLastName,txtName);
+	}
 	
 
 }

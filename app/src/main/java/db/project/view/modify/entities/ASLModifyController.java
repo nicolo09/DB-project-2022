@@ -44,7 +44,6 @@ public class ASLModifyController extends ModifyController{
 		var streetNumber = isInteger(txtStreetNumber.getText().trim()) ? Integer.parseInt(txtStreetNumber.getText().trim()) : INVALID_INT;
 		
 		showOutcome(this.mainController.insertASL(name, city, street, streetNumber));
-		
 	}
 
 	@Override
@@ -94,5 +93,11 @@ public class ASLModifyController extends ModifyController{
 		}
 		
     }
+
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCity,txtCodeASL,txtName,txtStreet,txtStreetNumber);
+	}
 
 }

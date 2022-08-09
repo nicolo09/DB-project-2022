@@ -41,7 +41,7 @@ public class AmministrativeModifyController extends ModifyController{
 		Optional<String> name = txtName.getText().trim() != "" ? Optional.of(txtName.getText().trim()) : Optional.empty();
 		Optional<String> lastName = txtLastName.getText().trim() != "" ? Optional.of(txtLastName.getText().trim()) : Optional.empty();
 		
-		showOutcome(this.mainController.insertAmministratives(cf, role , hospitalCode, name, lastName));		
+		showOutcome(this.mainController.insertAmministratives(cf, role , hospitalCode, name, lastName));
 	}
 
 	@Override
@@ -73,6 +73,7 @@ public class AmministrativeModifyController extends ModifyController{
 	
 	@FXML
     private void selectAmministratives() {
+		//TODO this selector doesn't work
 		var person = this.selector.selectAdministrative();
 		if(Objects.nonNull(person) && person instanceof AdministrativeImpl) {
 			var administrative = (AdministrativeImpl) person;
@@ -102,5 +103,11 @@ public class AmministrativeModifyController extends ModifyController{
     		txtCodeHospital.setText(hospital.getCode().toString());
     	}
     }
+
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtCodeHospital,txtLastName,txtName,txtRole);
+	}
 
 }

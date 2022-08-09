@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.TextFormatter;
 import javafx.scene.control.TextInputControl;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.DatePicker;
 
 public abstract class ModifyController {
 	
@@ -42,6 +43,8 @@ public abstract class ModifyController {
 	protected abstract void addElement();
 	
 	protected abstract void removeElement();
+	
+	protected abstract void clearAll();
 	
 	protected void updateElement() {
 		//updatable elements must override this method
@@ -76,6 +79,18 @@ public abstract class ModifyController {
 		
 	}
 	
+	protected void clearText(TextInputControl ... args) {
+		for (var txt : args) {
+			txt.setText("");
+		}
+	}
+	
+	protected void clearDate(DatePicker ... args) {
+		for (var dp : args) {
+			dp.setValue(null);
+		}
+	}
+	
 	protected void showOutcome(final OPERATION_OUTCOME outcome) {
 		
 		Alert alert;
@@ -101,8 +116,9 @@ public abstract class ModifyController {
 			alert.showAndWait();
 			break;
 		
-		case MISSING_PERSON: alert = new Alert(AlertType.ERROR, "Si sta cercando di operare su una persona non registrata" + NEWLINE
-			+ "verificare la correttezza del codice fiscale o compilare i dati mancanti per registrarla");
+		case MISSING_PERSON: alert = new Alert(AlertType.ERROR, "Si sta cercando di operare su una persona non registrata." + NEWLINE
+			+ "Verificare la correttezza del codice fiscale oppure" + NEWLINE
+			+ "compilare i dati mancanti per registrarla");
 			alert.showAndWait();
 			break;
 		
@@ -122,8 +138,9 @@ public abstract class ModifyController {
 			alert.showAndWait();
 			break;
 		
-		case WRONG_INSERTION: alert = new Alert(AlertType.ERROR, "I dati inseriti hanno causato un conflitto," + NEWLINE 
-			+ " verificare che siano stati rispettati i vincoli riportati nella finestra di modifica");
+		case WRONG_INSERTION: alert = new Alert(AlertType.ERROR, "I dati inseriti hanno causato un conflitto." + NEWLINE 
+			+ "Verificare che siano stati rispettati i vincoli riportati nella" + NEWLINE
+			+ " finestra di modifica");
 			alert.showAndWait();
 			break;
 			

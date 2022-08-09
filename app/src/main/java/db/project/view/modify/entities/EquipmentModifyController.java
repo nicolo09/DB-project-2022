@@ -97,4 +97,11 @@ public class EquipmentModifyController extends ModifyController{
     	}
     }
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCodeHospital,txtCodInventory,txtName);
+		this.clearDate(dpLastMaintenance);
+	}
+
 }

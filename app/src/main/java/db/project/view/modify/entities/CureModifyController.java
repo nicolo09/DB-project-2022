@@ -156,4 +156,11 @@ public class CureModifyController extends ModifyController{
     	}
     }
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtCodeHospital,txtMotivation,txtNameUO);
+		this.clearDate(entryDate,exitDate);
+	}
+
 }
