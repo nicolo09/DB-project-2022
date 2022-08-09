@@ -174,6 +174,10 @@ public class DataInserterImpl implements DataInserter {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
+		if(exitDate.isPresent() && exitDate.get().compareTo(ingressDate) < 0) {
+			return OPERATION_OUTCOME.WRONG_INSERTION;
+		}
+		
 		String controlQuery = "SELECT * FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
 		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
 			controlStatement.setInt(1, hospitalCode);
@@ -193,22 +197,21 @@ public class DataInserterImpl implements DataInserter {
 			statement.setInt(2, hospitalCode);
 			statement.setString(3, unitName);
 			statement.setDate(4, new java.sql.Date(ingressDate.getTime()));
+			statement.setString(6, description);
 			
 			if(exitDate.isEmpty()) {
-				statement.setNull(5, java.sql.Types.NULL);;
+				statement.setNull(5, java.sql.Types.NULL);
+				String updateQuery = "UPDATE " + TABLES.UO.get() + " SET Posti_occupati = Posti_occupati+1 WHERE Codice_ospedale LIKE ? AND Nome = ?";
+				final PreparedStatement updateStatement = this.connection.prepareStatement(updateQuery);
+				updateStatement.setInt(1, hospitalCode);
+				updateStatement.setString(2, unitName);
+				
+				updateStatement.executeUpdate();
 			} else {
 				statement.setDate(5, new java.sql.Date(exitDate.get().getTime()));
 			}
 			
-			statement.setString(6, description);
-			
 			statement.executeUpdate();
-			String updateQuery = "UPDATE " + TABLES.UO.get() + " SET Posti_occupati = Posti_occupati+1 WHERE Codice_ospedale LIKE ? AND Nome = ?";
-			final PreparedStatement updateStatement = this.connection.prepareStatement(updateQuery);
-			updateStatement.setInt(1, hospitalCode);
-			updateStatement.setString(2, unitName);
-			
-			updateStatement.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
