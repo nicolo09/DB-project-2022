@@ -54,7 +54,7 @@ public class SearchCureControllerImpl {
     private TableColumn<Cure, LocalDate> columnDataIngresso;
 
     @FXML
-    private TableColumn<Cure, LocalDate> columnDataUscita;
+    private TableColumn<Cure, String> columnDataUscita;
 
     @FXML
     private TableColumn<Cure, String> columnMotivazione;
@@ -101,7 +101,12 @@ public class SearchCureControllerImpl {
             }
         });
         columnDataIngresso.setCellValueFactory(new PropertyValueFactory<Cure, LocalDate>("dateIn"));
-        columnDataUscita.setCellValueFactory(new PropertyValueFactory<Cure, LocalDate>("dateOut"));
+        columnDataUscita.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Cure,String>,ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Cure, String> param) {
+                return new ReadOnlyObjectWrapper<String>(param.getValue().getDateOut().map(LocalDate::toString).orElse("-"));
+            }
+        });
         columnMotivazione.setCellValueFactory(new PropertyValueFactory<Cure, String>("reason"));
     }
 
