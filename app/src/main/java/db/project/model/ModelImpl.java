@@ -287,7 +287,7 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Report> getReportsFromDoctor(final Person doctor) {
-        String query = "SELECT * FROM " + tableReports + "WHERE Codice_referto IN " + "(SELECT Referto FROM "
+        String query = "SELECT * FROM " + tableReports + " WHERE Codice_referto IN " + "(SELECT Referto FROM "
                 + tableInvolvements + " WHERE Medico LIKE '" + doctor.getCF() + "')";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
