@@ -61,7 +61,7 @@ public abstract class SearchPersonControllerImpl{
     private Label typeLabel;
 
     @FXML
-    public void initialize() {
+    protected void initialize() {
         nameColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
         surnameColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("surname"));
         CFColumn.setCellValueFactory(new PropertyValueFactory<Person, String>("CF"));

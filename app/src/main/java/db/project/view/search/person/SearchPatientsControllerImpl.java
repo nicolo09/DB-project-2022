@@ -8,11 +8,17 @@ import java.util.Optional;
 import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.ASL;
+import db.project.model.PatientImpl;
 import db.project.model.Person;
 import db.project.view.search.Selector;
+import javafx.beans.property.ReadOnlyObjectWrapper;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.TableColumn;
 import javafx.scene.control.TextField;
+import javafx.scene.control.TableColumn.CellDataFeatures;
+import javafx.util.Callback;
 
 public class SearchPatientsControllerImpl extends SearchPersonControllerImpl {
 
@@ -25,12 +31,32 @@ public class SearchPatientsControllerImpl extends SearchPersonControllerImpl {
     @FXML
     private TextField textAslCode;
 
+    @FXML
+    private TableColumn<Person, String> aslColumn;
+
     private Selector selector;
 
     public SearchPatientsControllerImpl(Command onExit, Controller mainController, Selector selector) {
         super(onExit, mainController);
         this.mainController = mainController;
         this.selector = selector;
+    }
+
+    @FXML
+    @Override
+    protected void initialize() {
+        super.initialize();
+        aslColumn.setCellValueFactory(new Callback<CellDataFeatures<Person, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Person, String> p) {
+                if (p.getValue() instanceof PatientImpl) {
+                    return new ReadOnlyObjectWrapper<String>(PatientImpl.class.cast(p.getValue()).getAsl()
+                            .map(a -> a.getCode() + a.getName()).orElse(" --- "));
+                }
+                else {
+                    return null;
+                }
+            }
+        });
     }
 
     @FXML
