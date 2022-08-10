@@ -47,6 +47,7 @@ public class App extends javafx.application.Application {
                     Alert al = new Alert(AlertType.ERROR, "Impossibile connettersi al DB");
                     al.showAndWait();
                     exit = true;
+                    System.exit(1);
                 }
             }
         }
