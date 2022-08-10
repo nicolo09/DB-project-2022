@@ -298,7 +298,7 @@ public class ModelImpl implements Model {
     }
 
     public Collection<Person> getDoctorsFromReferto(Integer reportCode) {
-        String query = "SELECT persone.*, personale_sanitario.Ruolo FROM" + tableInvolvements + " INNER JOIN persone "
+        String query = "SELECT persone.*, personale_sanitario.Ruolo FROM " + tableInvolvements + " INNER JOIN persone "
                 + "ON persone.Codice_fiscale = " + tableInvolvements + ".Medico "
                 + "INNER JOIN personale_sanitario ON persone.Codice_fiscale = personale_sanitario.Codice_fiscale "
                 + "WHERE Referto = " + reportCode;
