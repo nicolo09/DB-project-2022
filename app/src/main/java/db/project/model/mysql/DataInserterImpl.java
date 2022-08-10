@@ -429,7 +429,6 @@ public class DataInserterImpl implements DataInserter {
 			
 			var rs = statement.getGeneratedKeys();
 			rs.next();
-			//TODO test if it works
 			var reportCode = rs.getInt(1);
 			
 			for (String doctor : doctorCF) {
