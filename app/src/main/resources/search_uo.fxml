@@ -98,7 +98,7 @@
       </GridPane>
       <TableView fx:id="uoTableView" layoutX="14.0" layoutY="158.0" prefHeight="343.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="158.0">
         <columns>
-          <TableColumn fx:id="columnHospitalCode" prefWidth="75.0" text="Codice ospedale" />
+          <TableColumn fx:id="columnHospitalCode" prefWidth="75.0" text="Ospedale" />
           <TableColumn fx:id="columnName" prefWidth="75.0" text="Nome" />
             <TableColumn fx:id="columnOccupiedPlaces" prefWidth="75.0" text="Posti occupati" />
             <TableColumn fx:id="columnCapacity" prefWidth="75.0" text="Capienza" />

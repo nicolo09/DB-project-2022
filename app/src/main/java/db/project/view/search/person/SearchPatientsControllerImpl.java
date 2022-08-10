@@ -50,7 +50,7 @@ public class SearchPatientsControllerImpl extends SearchPersonControllerImpl {
             public ObservableValue<String> call(CellDataFeatures<Person, String> p) {
                 if (p.getValue() instanceof PatientImpl) {
                     return new ReadOnlyObjectWrapper<String>(PatientImpl.class.cast(p.getValue()).getAsl()
-                            .map(a -> a.getCode() + a.getName()).orElse(" --- "));
+                            .map(a -> a.getCode() + " - " + a.getName()).orElse(" --- "));
                 }
                 else {
                     return null;

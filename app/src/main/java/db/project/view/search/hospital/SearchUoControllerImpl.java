@@ -47,7 +47,7 @@ public class SearchUoControllerImpl {
     protected TableView<Uo> uoTableView;
 
     @FXML
-    private TableColumn<Uo, Integer> columnHospitalCode;
+    private TableColumn<Uo, String> columnHospitalCode;
 
     @FXML
     private TableColumn<Uo, String> columnName;
@@ -75,9 +75,9 @@ public class SearchUoControllerImpl {
 
     @FXML
     private void initialize() {
-        columnHospitalCode.setCellValueFactory(new Callback<CellDataFeatures<Uo, Integer>, ObservableValue<Integer>>() {
-            public ObservableValue<Integer> call(CellDataFeatures<Uo, Integer> p) {
-                return new ReadOnlyObjectWrapper<>(p.getValue().getHospital().getCode());
+        columnHospitalCode.setCellValueFactory(new Callback<CellDataFeatures<Uo, String>, ObservableValue<String>>() {
+            public ObservableValue<String> call(CellDataFeatures<Uo, String> p) {
+                return new ReadOnlyObjectWrapper<>(p.getValue().getHospital().getCode() + " - " + p.getValue().getHospital().getName());
             }
         });
         columnName.setCellValueFactory(new PropertyValueFactory<Uo, String>("name"));

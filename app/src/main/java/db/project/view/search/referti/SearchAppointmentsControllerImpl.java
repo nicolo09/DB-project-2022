@@ -81,7 +81,8 @@ public class SearchAppointmentsControllerImpl {
         columnHospital
                 .setCellValueFactory(new Callback<CellDataFeatures<Appointment, String>, ObservableValue<String>>() {
                     public ObservableValue<String> call(CellDataFeatures<Appointment, String> p) {
-                        return new ReadOnlyObjectWrapper<>(p.getValue().getRoom().getHospital().getCode().toString());
+                        return new ReadOnlyObjectWrapper<>(p.getValue().getRoom().getHospital().getCode().toString() + " - "
+                                + p.getValue().getRoom().getHospital().getName());
                     }
                 });
         columnRoomNumber
