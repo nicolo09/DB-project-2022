@@ -1,8 +1,6 @@
 package db.project.view.search.referti;
 
 import java.util.stream.Collectors;
-
-import db.project.model.Person;
 import db.project.model.Report;
 import db.project.model.SurgeryReportImpl;
 import db.project.model.VisitReportImpl;
