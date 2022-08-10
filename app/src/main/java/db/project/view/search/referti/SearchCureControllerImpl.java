@@ -138,7 +138,7 @@ public class SearchCureControllerImpl {
     void onUoSelectButton(ActionEvent event) {
         selected = this.selector.selectUo();
         if (selected != null) {
-            this.textUo.setText(selected.getHospital() + " - " + selected.getName());
+            this.textUo.setText(selected.getHospital().getName() + " - " + selected.getName());
         }
     }
 
