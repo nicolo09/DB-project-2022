@@ -53,7 +53,7 @@ public class SelectorImpl implements Selector {
         final Stage stage = new Stage();
         SelectPersonControllerImpl controller = new SelectPersonControllerImpl(() -> stage.close(), () -> stage.close(),
                 mainController);
-        this.showViewAndWait(stage, controller, "/select_persone.fxml", "Select person...");
+        this.showViewAndWait(stage, controller, "select_persone.fxml", "Select person...");
         return controller.getSelectedPerson();
     }
 
@@ -62,7 +62,7 @@ public class SelectorImpl implements Selector {
         final Stage stage = new Stage();
         SelectHospitalControllerImpl controller = new SelectHospitalControllerImpl(() -> stage.close(),
                 () -> stage.close(), mainController, this, this::showError);
-        this.showViewAndWait(stage, controller, "/select_ospedali.fxml", "Select hospital...");
+        this.showViewAndWait(stage, controller, "select_ospedali.fxml", "Select hospital...");
         return controller.getSelectedHospital();
     }
 
@@ -71,7 +71,7 @@ public class SelectorImpl implements Selector {
         final Stage stage = new Stage();
         SelectASLControllerImpl controller = new SelectASLControllerImpl(() -> stage.close(), () -> stage.close(),
                 mainController);
-        this.showViewAndWait(stage, controller, "/select_asl.fxml", "Select ASL...");
+        this.showViewAndWait(stage, controller, "select_asl.fxml", "Select ASL...");
         return controller.getSelectedAsl();
     }
 
@@ -80,7 +80,7 @@ public class SelectorImpl implements Selector {
         final Stage stage = new Stage();
         SelectUoControllerImpl controller = new SelectUoControllerImpl(() -> stage.close(), () -> stage.close(),
                 mainController, this);
-        this.showViewAndWait(stage, controller, "/select_uo.fxml", "Select U.O. ...");
+        this.showViewAndWait(stage, controller, "select_uo.fxml", "Select U.O. ...");
         return controller.getSelectedUo();
     }
 
@@ -91,7 +91,7 @@ public class SelectorImpl implements Selector {
             final Stage stage = new Stage();
             SelectEquipmentControllerImpl controller = new SelectEquipmentControllerImpl(selected, mainController,
                     () -> stage.close());
-            this.showViewAndWait(stage, controller, "/select_equipment.fxml", "Select equipment...");
+            this.showViewAndWait(stage, controller, "select_equipment.fxml", "Select equipment...");
             return controller.getSelectedEquipment();
         }
         return null;
@@ -102,7 +102,7 @@ public class SelectorImpl implements Selector {
         final Stage stage = new Stage();
         SelectAdministrativeControllerImpl controller = new SelectAdministrativeControllerImpl(() -> stage.close(),
                 mainController);
-        this.showViewAndWait(stage, controller, "/select_persone.fxml", "Select administrative...");
+        this.showViewAndWait(stage, controller, "select_persone.fxml", "Select administrative...");
         return controller.getSelectedAdministrative();
     }
 
@@ -111,7 +111,7 @@ public class SelectorImpl implements Selector {
         final Stage stage = new Stage();
         SelectPatientsControllerImpl controller = new SelectPatientsControllerImpl(() -> stage.close(), mainController,
                 this);
-        this.showViewAndWait(stage, controller, "/select_pazienti.fxml", "Select patient...");
+        this.showViewAndWait(stage, controller, "select_pazienti.fxml", "Select patient...");
         return controller.getSelectedPatient();
     }
 
@@ -119,7 +119,7 @@ public class SelectorImpl implements Selector {
     public Person selectDoctor() {
         final Stage stage = new Stage();
         SelectDoctorControllerImpl controller = new SelectDoctorControllerImpl(() -> stage.close(), mainController);
-        this.showViewAndWait(stage, controller, "/select_dottori.fxml", "Select doctor...");
+        this.showViewAndWait(stage, controller, "select_dottori.fxml", "Select doctor...");
         return controller.getSelectedDoctor();
     }
 
@@ -129,7 +129,7 @@ public class SelectorImpl implements Selector {
             final Stage stage = new Stage();
             SelectRoomControllerImpl controller = new SelectRoomControllerImpl(selected, mainController,
                     () -> stage.close());
-            this.showViewAndWait(stage, controller, "/select_room.fxml", "Select room...");
+            this.showViewAndWait(stage, controller, "select_room.fxml", "Select room...");
             return controller.getSelectedRoom();
         }
         return null;
@@ -146,7 +146,7 @@ public class SelectorImpl implements Selector {
         final Stage stage = new Stage();
         SelectAppointmentControllerImpl controller = new SelectAppointmentControllerImpl(() -> stage.close(),
                 mainController, this);
-        this.showViewAndWait(stage, controller, "/select_appuntamenti.fxml", "Select appointment...");
+        this.showViewAndWait(stage, controller, "select_appuntamenti.fxml", "Select appointment...");
         return controller.getSelectedAppointment();
     }
 
@@ -154,7 +154,7 @@ public class SelectorImpl implements Selector {
     public Cure selectCure() {
         final Stage stage = new Stage();
         SelectCureControllerImpl controller = new SelectCureControllerImpl(stage::close, mainController, this);
-        this.showViewAndWait(stage, controller, "/select_cure.fxml", "Select cure...");
+        this.showViewAndWait(stage, controller, "select_cure.fxml", "Select cure...");
         return controller.getSelectedCure();
     }
 
