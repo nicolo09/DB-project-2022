@@ -70,6 +70,10 @@ public class DataInserterImpl implements DataInserter {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
+		if(date.compareTo(new Timestamp(System.currentTimeMillis())) < 0) {
+			return OPERATION_OUTCOME.WRONG_INSERTION;
+		}
+		
 		String settingQuery = "SET @newdate = ?, @durata = ?;";
 		
 		String controlQuery = "" 
