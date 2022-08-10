@@ -26,6 +26,11 @@
                   <Insets top="18.0" />
                </HBox.margin>
             </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#clearAll" text="Svuota">
+               <HBox.margin>
+                  <Insets top="18.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
       <Button layoutX="41.0" layoutY="435.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="41.0">
@@ -132,6 +137,6 @@
             </VBox>
          </children>
       </GridPane>
-      <Label layoutX="414.0" layoutY="55.0" text="**I campi indicati con due asterischi sono necessari unicamente &#10;se la persona non è già registrata" AnchorPane.rightAnchor="131.0" AnchorPane.topAnchor="55.0" />
+      <Label layoutX="509.0" layoutY="46.0" text="**I campi indicati con due asterischi sono necessari unicamente &#10;se la persona non è già registrata" AnchorPane.rightAnchor="47.39999999999998" AnchorPane.topAnchor="46.0" />
    </children>
 </AnchorPane>

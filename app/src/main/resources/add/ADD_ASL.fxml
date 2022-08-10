@@ -22,9 +22,11 @@
                </font>
             </Label>
             <Button mnemonicParsing="false" onMouseClicked="#selectASL" text="Seleziona">
-               <font>
-                  <Font size="11.0" />
-               </font>
+               <HBox.margin>
+                  <Insets top="10.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#clearAll" text="Svuota">
                <HBox.margin>
                   <Insets top="10.0" />
                </HBox.margin>

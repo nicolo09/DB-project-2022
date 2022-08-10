@@ -14,7 +14,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="547.0" prefWidth="883.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <HBox layoutX="59.0" layoutY="40.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="230.0" spacing="20.0" AnchorPane.leftAnchor="59.0" AnchorPane.topAnchor="40.0">
+      <HBox layoutX="59.0" layoutY="40.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="50.0" prefWidth="349.0" spacing="20.0" AnchorPane.leftAnchor="59.0" AnchorPane.topAnchor="40.0">
          <children>
             <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ospedale">
                <font>
@@ -22,6 +22,11 @@
                </font>
             </Label>
             <Button mnemonicParsing="false" onMouseClicked="#selectElement" text="Seleziona">
+               <HBox.margin>
+                  <Insets top="13.0" />
+               </HBox.margin>
+            </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#clearAll" text="Svuota">
                <HBox.margin>
                   <Insets top="13.0" />
                </HBox.margin>

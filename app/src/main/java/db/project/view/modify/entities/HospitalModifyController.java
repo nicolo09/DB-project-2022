@@ -132,4 +132,10 @@ public class HospitalModifyController extends ModifyController{
 				+ "Referti: " + this.mainController.countDeletedReports();
 	}
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtASLCode,txtCity,txtFacilityCode,txtName,txtStreet,txtStreetNumber);
+	}
+
 }

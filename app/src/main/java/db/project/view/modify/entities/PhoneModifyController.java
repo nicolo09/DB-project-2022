@@ -64,4 +64,10 @@ public class PhoneModifyController extends ModifyController{
 		}
     }
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtPhoneNumber);
+	}
+
 }

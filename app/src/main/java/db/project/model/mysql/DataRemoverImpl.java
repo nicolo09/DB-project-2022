@@ -67,12 +67,12 @@ public class DataRemoverImpl implements DataRemover {
 
 	@Override
 	public OPERATION_OUTCOME removeCure(String patientCF, int hospitalCode, String unitName, Date ingressDate) {
-		if(checkNulls(patientCF, hospitalCode, unitName)) {
+		if(checkNulls(patientCF, hospitalCode, unitName, ingressDate)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
 		String controlQuery = "SELECT COUNT(*) FROM " + TABLES.CURE.get()+ " WHERE Paziente LIKE ? AND Codice_ospedale LIKE ? AND Nome_unita LIKE ?"
-				+ " AND Data_ingresso LIKE ? AND Data_uscita LIKE NULL";
+				+ " AND Data_ingresso LIKE ? AND Data_uscita IS NULL";
 		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
 			
 			controlStatement.setString(1, patientCF);
@@ -123,16 +123,26 @@ public class DataRemoverImpl implements DataRemover {
 
 	@Override
 	public OPERATION_OUTCOME removeHealtcare(String CF) {
-		//TODO Cosa fare quando si vuole eliminare un medico ma questo è coinvolto in un referto? 
-		String controlquery = "SELECT COUNT(*) FROM " + TABLES.PRESENCE.get() + " WHERE Medico LIKE ?";
-		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlquery)){
-			controlStatement.setString(1, CF);
+		String controlAppointmentsQuery = "SELECT COUNT(*) FROM " + TABLES.PRESENCE.get() + " WHERE Medico LIKE ?";
+		try (final PreparedStatement controlAppointmentStatement = this.connection.prepareStatement(controlAppointmentsQuery)){
+			controlAppointmentStatement.setString(1, CF);
 
-			var rs = controlStatement.executeQuery();
+			var rs = controlAppointmentStatement.executeQuery();
 			rs.next();
 			if(rs.getInt(1) > 0) {
 				return OPERATION_OUTCOME.PENDING_APPOINTMENTS;
 			}
+			
+			String controlReportsQuery = "SELECT COUNT(*) FROM " + TABLES.INVOLVEMENTS.get() + " WHERE Medico LIKE ?";
+			final PreparedStatement controlReportsStatement = this.connection.prepareStatement(controlReportsQuery);
+			controlReportsStatement.setString(1, CF);
+			
+			rs = controlReportsStatement.executeQuery();
+			rs.next();
+			if(rs.getInt(1) > 0) {
+				return OPERATION_OUTCOME.REPORT_INVOLVMENT;
+			}
+			
 		} catch (SQLException e){
 			e.printStackTrace();
 			return OPERATION_OUTCOME.FAILURE;
@@ -242,7 +252,7 @@ public class DataRemoverImpl implements DataRemover {
 		if(checkNulls(hospitalCode, name)) {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
-		String controlQuery = "SELECT COUNT(*) FROM " + TABLES.CURE.get() + " WHERE Codice_ospedale LIKE ? AND Nome_unita LIKE ? AND Data_uscita LIKE NULL";
+		String controlQuery = "SELECT COUNT(*) FROM " + TABLES.CURE.get() + " WHERE Codice_ospedale LIKE ? AND Nome_unita LIKE ? AND Data_uscita IS NULL";
 		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
 			controlStatement.setInt(1, hospitalCode);
 			controlStatement.setString(2, name);
@@ -252,6 +262,13 @@ public class DataRemoverImpl implements DataRemover {
 			if(rs.getInt(1) > 0) {
 				return OPERATION_OUTCOME.PENDING_CURES;
 			}
+			
+			String deleteCompletedCuresQuery = "DELETE FROM " + TABLES.CURE.get() + " WHERE Codice_ospedale LIKE ? AND Nome_unita LIKE ?";
+			final PreparedStatement deleteStatement = this.connection.prepareStatement(deleteCompletedCuresQuery);
+			deleteStatement.setInt(1, hospitalCode);
+			deleteStatement.setString(2, name);
+			
+			deleteStatement.executeUpdate();
 		
 			String query = "DELETE FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
 			final PreparedStatement statement = this.connection.prepareStatement(query);
