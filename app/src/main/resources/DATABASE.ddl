@@ -53,7 +53,7 @@ create table LAVORA (
 
 create table OSPEDALI (
      Codice_struttura int not null AUTO_INCREMENT,
-     Nome varchar(30) not null,
+     Nome varchar(60) not null,
      Ind_Citta varchar(35) not null,
      Ind_Via varchar(25) not null,
      Ind_Numero_civico char(8) not null,
