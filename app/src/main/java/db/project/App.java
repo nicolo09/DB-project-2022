@@ -29,6 +29,7 @@ public class App extends javafx.application.Application {
         while (!exit) {
             try {
                 model = new ModelImpl(DBUSERNAME, DBPASSWORD);
+                exit = true;
             } catch (IllegalStateException e) {
                 if (e.getCause().getMessage() != null && e.getCause().getMessage().contains("Unknown database")) {
                     Alert alert = new Alert(AlertType.WARNING, "Il database \"hospital\" non è stato trovato, desideri crearlo?", ButtonType.YES, ButtonType.NO);
