@@ -1,38 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
 
-<GridPane alignment="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="326.0" prefWidth="717.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
-  <columnConstraints>
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-      <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-  </columnConstraints>
-  <rowConstraints>
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-  </rowConstraints>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="538.0" prefWidth="774.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToAmministratives" text="Amministrativi" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToAppointment" text="Appuntamento" GridPane.rowIndex="1" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToASL" text="ASL" GridPane.rowIndex="2" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToCure" text="Cura" GridPane.columnIndex="1" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToEquipment" text="Attrezzatura" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToHealthcare" text="Personale Sanitario" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToHospital" text="Ospedale" GridPane.columnIndex="2" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToPatient" text="Paziente" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToPerson" text="Persona" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToPhone" text="Telefono" GridPane.columnIndex="3" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToReport" text="Referto" GridPane.columnIndex="3" GridPane.rowIndex="1" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToRoom" text="Sala" GridPane.columnIndex="3" GridPane.rowIndex="2" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToUO" text="Unità Operativa" GridPane.columnIndex="4" GridPane.rowIndex="1" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="INDIETRO" GridPane.columnIndex="4" GridPane.rowIndex="2" />
-      <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToWorking" text="Registra&#10;Personale Sanitario&#10;presso&#10;" textAlignment="CENTER" GridPane.columnIndex="4" />
+      <GridPane layoutX="21.0" layoutY="30.0" prefHeight="467.0" prefWidth="669.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0">
+        <columnConstraints>
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+        </columnConstraints>
+        <rowConstraints>
+          <RowConstraints maxHeight="387.2" minHeight="10.0" prefHeight="387.2" vgrow="SOMETIMES" />
+          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+        </rowConstraints>
+         <children>
+            <TitledPane prefHeight="355.0" prefWidth="242.0" text="Persone">
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+               <content>
+                  <VBox alignment="CENTER" spacing="30.0">
+                     <children>
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToPerson" text="Persona" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToPatient" text="Paziente" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToHealthcare" text="Personale Sanitario" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToAmministratives" text="Personale amministrativo" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToPhone" text="Telefono" />
+                     </children>
+                     <padding>
+                        <Insets left="30.0" right="30.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane prefHeight="355.0" prefWidth="242.0" text="Strutture" GridPane.columnIndex="2">
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+               <content>
+                  <VBox alignment="CENTER" spacing="30.0">
+                     <children>
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToASL" text="ASL" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToHospital" text="Ospedale" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToRoom" text="Stanze" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToEquipment" text="Attrezzatura" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToUO" text="Unità Operative" />
+                     </children>
+                     <padding>
+                        <Insets left="30.0" right="30.0" />
+                     </padding>
+                  </VBox>
+               </content>
+            </TitledPane>
+            <TitledPane prefHeight="355.0" prefWidth="242.0" text="Azioni prinicpali" GridPane.columnIndex="1">
+               <content>
+                  <VBox alignment="CENTER" spacing="30.0">
+                     <children>
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToAppointment" text="Appuntamenti" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToReport" text="Referti" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToCure" text="Ricoveri" />
+                        <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goToWorking" text="Impieghi &#10;Personale Sanitario" textAlignment="CENTER" />
+                     </children>
+                     <padding>
+                        <Insets left="30.0" right="30.0" />
+                     </padding>
+                  </VBox>
+               </content>
+               <GridPane.margin>
+                  <Insets left="20.0" right="20.0" />
+               </GridPane.margin>
+            </TitledPane>
+            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna al menù prinicpale" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+         </children>
+      </GridPane>
+      <Label layoutX="54.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="-Inserimento: compilare i campi necessari ed eventualmente quelli opzionali, poi premere &quot;Inserisci&quot;&#10;-Rimozione: compilare i campi sottolineati e premere il pulsante &quot;Rimuovi&quot;&#10;-Aggiornamento: compilare i campi sottolineati e quelli che si desidera modificare, non tutte le entità posso essere aggiornate&#10;È possibile compilare automaticamente vari campi attraverso il pulsante &quot;Seleziona&quot;,&#10;invece per cancellare velocemente tutti i campi compilati si può usare il pulsante &quot;Svuota&quot;.&#10;" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="14.0" />
    </children>
-</GridPane>
+</AnchorPane>

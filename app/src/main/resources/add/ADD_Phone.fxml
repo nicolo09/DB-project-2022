@@ -26,6 +26,11 @@
                   <Insets top="18.0" />
                </HBox.margin>
             </Button>
+            <Button mnemonicParsing="false" onMouseClicked="#clearAll" text="Svuota">
+               <HBox.margin>
+                  <Insets top="18.0" />
+               </HBox.margin>
+            </Button>
          </children>
       </HBox>
       <Button layoutX="41.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#goBack" prefWidth="118.0" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="41.0">

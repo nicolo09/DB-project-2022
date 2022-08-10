@@ -125,7 +125,7 @@ public class ReportModifyController extends ModifyController{
 		setTextFormatter(txtDescription, COMPLETE_FORMATTER);
 		setTextFormatter(txtOutcome, SIMPLE_FORMATTER);
 		setTextFormatter(txtProcedure, SIMPLE_FORMATTER);
-		setTextFormatter(txtTreatment, SIMPLE_FORMATTER);
+		setTextFormatter(txtTreatment, COMPLETE_FORMATTER);
 	}
 	
 	@FXML
@@ -153,7 +153,7 @@ public class ReportModifyController extends ModifyController{
     		txtCodeReport.setText(report.getCode().toString());
     		txtDescription.setText(report.getDescription());
     		txtDoctors.setText(String.join(SEPARATOR, report.getInvolvedDoctors().stream().map(doctor -> doctor.getCF()).collect(Collectors.toList())) + SEPARATOR);
-    		txtIssueDate.setAccessibleText(report.getDate().toString());
+    		txtIssueDate.setValue(report.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
     		
     		if(report instanceof VisitReportImpl) {
     		var visit = (VisitReportImpl) report;	
@@ -186,5 +186,12 @@ public class ReportModifyController extends ModifyController{
     		txtCF.setText(patient.getCF());
     	}
     }
+
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtCodeHospital,txtCodeReport,txtDescription,txtDoctors,txtDuration,txtOutcome,txtProcedure,txtTreatment);
+		this.clearDate(txtIssueDate);
+	}
 
 }

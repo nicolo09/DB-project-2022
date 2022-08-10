@@ -107,7 +107,7 @@ public class AppointmentModifyController extends ModifyController{
 			catch (Exception e) {}
 		}
 		
-		showOutcome(this.mainController.removeAppointment(hospitalCode, roomNumber, date));		
+		showOutcome(this.mainController.removeAppointment(hospitalCode, roomNumber, date));
 	}
 	
 	@FXML
@@ -124,13 +124,12 @@ public class AppointmentModifyController extends ModifyController{
 	
 	@FXML
     private void selectAppointment() {
-		//TODO appointment selector doesn't work
 		var appointment = this.selector.selectAppointment();
 		if(Objects.nonNull(appointment)) {
 			
-			txtAppointmentDuration.setText(appointment.getDuration().toString());
+			txtAppointmentDuration.setText("" + appointment.getDuration().getSeconds()/60);
 			txtAppointmentType.setText(appointment.getType());
-			txtAppointmentDate.setAccessibleText(appointment.getDateTime().toLocalDate().toString());
+			txtAppointmentDate.setValue(appointment.getDateTime().toLocalDate());
 			txtHours.setText("" + appointment.getDateTime().toLocalTime().getHour());
 			txtMinutes.setText("" + appointment.getDateTime().toLocalTime().getMinute());
 			
@@ -193,6 +192,13 @@ public class AppointmentModifyController extends ModifyController{
     		doctors = null;    		
     	}
     }
+
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtAppointmentDuration,txtAppointmentType,txtCodeHospital,txtDoctorCF,txtHours,txtMinutes,txtPatientCF,txtRoomNumber);
+		this.clearDate(txtAppointmentDate);
+	}
 
 	
 

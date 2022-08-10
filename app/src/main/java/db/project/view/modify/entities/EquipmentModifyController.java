@@ -85,7 +85,7 @@ public class EquipmentModifyController extends ModifyController{
 			txtName.setText(equipment.getName());
 			txtCodeHospital.setText(equipment.getHospital().getCode().toString());
 			txtCodInventory.setText(equipment.getCode().toString());
-			dpLastMaintenance.setAccessibleText(equipment.getLastMaintenance().toString());
+			dpLastMaintenance.setValue(equipment.getLastMaintenance());
 		}
     }
 
@@ -96,5 +96,12 @@ public class EquipmentModifyController extends ModifyController{
     		txtCodeHospital.setText(hospital.getCode().toString());
     	}
     }
+
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCodeHospital,txtCodInventory,txtName);
+		this.clearDate(dpLastMaintenance);
+	}
 
 }

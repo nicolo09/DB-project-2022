@@ -93,4 +93,10 @@ public class HealthCareModifyController extends ModifyController{
 		}
 	}
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtLastName,txtName,txtRole);
+	}
+
 }

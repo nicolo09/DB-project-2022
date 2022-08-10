@@ -70,9 +70,6 @@ public class DataInserterImpl implements DataInserter {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
-		//TODO ricontrollare i casi di controllo della query (stesso numero di stanza, ma ospedali diversi, che succede?)
-		//un paziente può avere un appuntamento allo stesso tempo in due posti diversi allo stesso momento
-		
 		String settingQuery = "SET @newdate = ?, @durata = ?;";
 		
 		String controlQuery = "" 
@@ -84,7 +81,7 @@ public class DataInserterImpl implements DataInserter {
 		+ "(TIMESTAMPDIFF(SECOND, @newdate , "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR" + NEWLINE
 		+ "(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))" + NEWLINE
 		+ "OR" + NEWLINE
-		+ "("+ TABLES.PRESENCE.get() +".Numero_sala = ? AND" + NEWLINE
+		+ "("+ TABLES.PRESENCE.get() +".Numero_sala = ? AND "+ TABLES.PRESENCE.get() +".Codice_ospedale = ? AND" + NEWLINE
 		+ "(TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) <= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, "+ TABLES.PRESENCE.get() +".Data_ora), @newdate) < 0) OR" + NEWLINE
 		+ "(TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), "+ TABLES.PRESENCE.get() +".Data_ora) < 0 AND TIMESTAMPDIFF(SECOND, @newdate, "+ TABLES.PRESENCE.get() +".Data_ora) > 0))";
 		
@@ -99,16 +96,14 @@ public class DataInserterImpl implements DataInserter {
 			for (String doctor : doctorCF) {
 				controlStatement.setString(1, doctor);
 				controlStatement.setInt(2, roomNumber);
-				var op = controlStatement.execute();
-				if(op) {
-					var rs = controlStatement.getResultSet();
-					rs.next();
-					if(rs.getInt(1) > 0) {
-						return OPERATION_OUTCOME.OVERLAPPING;
-					}
-				} else {
-					return OPERATION_OUTCOME.FAILURE;
+				controlStatement.setInt(3, hospitalCode);
+				
+				var rs = controlStatement.executeQuery();
+				rs.next();
+				if(rs.getInt(1) > 0) {
+					return OPERATION_OUTCOME.OVERLAPPING;
 				}
+				
 				
 			}
 			String query = INSERT_SENTENCE + TABLES.APPOINTMENT.get() + "(Codice_ospedale, Numero_sala, Data_ora, Durata, Tipo, Paziente) VALUES(?, ?, ?, ?, ?, ?)";
@@ -179,12 +174,17 @@ public class DataInserterImpl implements DataInserter {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
+		if(exitDate.isPresent() && exitDate.get().compareTo(ingressDate) < 0) {
+			return OPERATION_OUTCOME.WRONG_INSERTION;
+		}
+		
 		String controlQuery = "SELECT * FROM " + TABLES.UO.get() + " WHERE Codice_ospedale LIKE ? AND Nome LIKE ?";
 		try (final PreparedStatement controlStatement = this.connection.prepareStatement(controlQuery)){
 			controlStatement.setInt(1, hospitalCode);
 			controlStatement.setString(2, unitName);
 			
 			var rs = controlStatement.executeQuery();
+
             rs.next();
 			if(rs.getInt("Capienza") == rs.getInt("Posti_occupati")) {
 				return OPERATION_OUTCOME.CAPACITY_REACHED;
@@ -198,22 +198,21 @@ public class DataInserterImpl implements DataInserter {
 			statement.setInt(2, hospitalCode);
 			statement.setString(3, unitName);
 			statement.setDate(4, new java.sql.Date(ingressDate.getTime()));
+			statement.setString(6, description);
 			
 			if(exitDate.isEmpty()) {
-				statement.setNull(5, java.sql.Types.NULL);;
+				statement.setNull(5, java.sql.Types.NULL);
+				String updateQuery = "UPDATE " + TABLES.UO.get() + " SET Posti_occupati = Posti_occupati+1 WHERE Codice_ospedale LIKE ? AND Nome = ?";
+				final PreparedStatement updateStatement = this.connection.prepareStatement(updateQuery);
+				updateStatement.setInt(1, hospitalCode);
+				updateStatement.setString(2, unitName);
+				
+				updateStatement.executeUpdate();
 			} else {
 				statement.setDate(5, new java.sql.Date(exitDate.get().getTime()));
 			}
 			
-			statement.setString(6, description);
-			
 			statement.executeUpdate();
-			String updateQuery = "UPDATE " + TABLES.UO.get() + " SET Posti_occupati = Posti_occupati+1 WHERE Codice_ospedale LIKE ? AND Nome = ?";
-			final PreparedStatement updateStatement = this.connection.prepareStatement(updateQuery);
-			updateStatement.setInt(1, hospitalCode);
-			updateStatement.setString(2, unitName);
-			
-			updateStatement.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -431,7 +430,6 @@ public class DataInserterImpl implements DataInserter {
 			
 			var rs = statement.getGeneratedKeys();
 			rs.next();
-			//TODO test if it works
 			var reportCode = rs.getInt(1);
 			
 			for (String doctor : doctorCF) {

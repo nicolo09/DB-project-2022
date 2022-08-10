@@ -85,4 +85,10 @@ public class WorkingModifyController extends ModifyController{
     	}
     }
 
+	@Override
+	@FXML
+	protected void clearAll() {
+		this.clearText(txtCF,txtCodeHospital,txtUnitName);
+	}
+
 }
