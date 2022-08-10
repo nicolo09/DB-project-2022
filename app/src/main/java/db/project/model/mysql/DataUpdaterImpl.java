@@ -148,7 +148,7 @@ public class DataUpdaterImpl implements DataUpdater {
 			var rs = controlStatement.executeQuery();
 			var maintanance = new java.sql.Date(lastMaintenance.get().getTime());
 			rs.next();
-			if(rs.getDate("Data_manutenzione").compareTo(maintanance) < 0) {
+			if(rs.getDate("Data_manutenzione").compareTo(maintanance) > 0) {
 				return OPERATION_OUTCOME.WRONG_INSERTION;
 			}
 		
