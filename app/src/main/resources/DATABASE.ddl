@@ -12,7 +12,7 @@ create table APPUNTAMENTI (
      Numero_sala int not null,
      Data_ora timestamp not null,
      Durata int not null,
-     Tipo varchar(20) not null,
+     Tipo varchar(80) not null,
      Paziente char(16) not null,
      constraint IDAPPUNTAMENTO_ID primary key (Codice_ospedale, Numero_sala, Data_ora));
 
