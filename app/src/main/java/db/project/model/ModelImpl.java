@@ -287,7 +287,7 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Report> getReportsFromDoctor(final Person doctor) {
-        String query = "SELECT * FROM " + tableReports + "WHERE Codice_referto IN " + "(SELECT Referto FROM "
+        String query = "SELECT * FROM " + tableReports + " WHERE Codice_referto IN " + "(SELECT Referto FROM "
                 + tableInvolvements + " WHERE Medico LIKE '" + doctor.getCF() + "')";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -298,7 +298,7 @@ public class ModelImpl implements Model {
     }
 
     public Collection<Person> getDoctorsFromReferto(Integer reportCode) {
-        String query = "SELECT persone.*, personale_sanitario.Ruolo FROM" + tableInvolvements + " INNER JOIN persone "
+        String query = "SELECT persone.*, personale_sanitario.Ruolo FROM " + tableInvolvements + " INNER JOIN persone "
                 + "ON persone.Codice_fiscale = " + tableInvolvements + ".Medico "
                 + "INNER JOIN personale_sanitario ON persone.Codice_fiscale = personale_sanitario.Codice_fiscale "
                 + "WHERE Referto = " + reportCode;

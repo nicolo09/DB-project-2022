@@ -40,13 +40,13 @@ public class App extends javafx.application.Application {
                         DatabaseCreator creator = new DatabaseCreator(DBUSERNAME, DBPASSWORD);
                         creator.createDatabase();
                     } else {
-                        exit = true;
+                        System.exit(1);
                     }
                 }
                 else {
                     Alert al = new Alert(AlertType.ERROR, "Impossibile connettersi al DB");
                     al.showAndWait();
-                    exit = true;
+                    System.exit(1);
                 }
             }
         }

@@ -21,6 +21,9 @@ import db.project.view.search.person.SelectDoctorControllerImpl;
 import db.project.view.search.person.SelectPatientsControllerImpl;
 import db.project.view.search.person.SelectPersonControllerImpl;
 import db.project.view.search.person.SelectTelephoneControllerImpl;
+import db.project.view.search.referti.ReportDetailsControllerImpl;
+import db.project.view.search.referti.ReportDetailsView;
+import db.project.view.search.referti.ReportDetailsViewImpl;
 import db.project.view.search.referti.SelectReportsControllerImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -48,85 +51,39 @@ public class SelectorImpl implements Selector {
         this.mainStage = mainStage;
     }
 
-    //TODO: Change all methods to use the last private.
-
     @Override
     public Person selectPerson() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectPersonControllerImpl controller = new SelectPersonControllerImpl(() -> stage.close(), () -> stage.close(),
                 mainController);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_persone.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select person...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_persone.fxml", "Select person...");
         return controller.getSelectedPerson();
     }
 
     @Override
     public Hospital selectHospital() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectHospitalControllerImpl controller = new SelectHospitalControllerImpl(() -> stage.close(),
                 () -> stage.close(), mainController, this, this::showError);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_ospedali.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select hospital...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_ospedali.fxml", "Select hospital...");
         return controller.getSelectedHospital();
     }
 
     @Override
     public ASL selectAsl() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectASLControllerImpl controller = new SelectASLControllerImpl(() -> stage.close(), () -> stage.close(),
                 mainController);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_asl.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select ASL...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_asl.fxml", "Select ASL...");
         return controller.getSelectedAsl();
     }
 
     @Override
     public Uo selectUo() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectUoControllerImpl controller = new SelectUoControllerImpl(() -> stage.close(), () -> stage.close(),
                 mainController, this);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_uo.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select U.O. ...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_uo.fxml", "Select U.O. ...");
         return controller.getSelectedUo();
     }
 
@@ -135,20 +92,9 @@ public class SelectorImpl implements Selector {
         final Hospital selected = this.selectHospital();
         if (selected != null) {
             final Stage stage = new Stage();
-            final FXMLLoader loader = new FXMLLoader();
             SelectEquipmentControllerImpl controller = new SelectEquipmentControllerImpl(selected, mainController,
                     () -> stage.close());
-            loader.setController(controller);
-            loader.setLocation(getClass().getResource("/" + "select_equipment.fxml"));
-            try {
-                stage.setScene(new Scene(loader.load()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.setTitle("Select equipment...");
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(mainStage);
-            stage.showAndWait();
+            this.showViewAndWait(stage, controller, "select_equipment.fxml", "Select equipment...");
             return controller.getSelectedEquipment();
         }
         return null;
@@ -157,59 +103,26 @@ public class SelectorImpl implements Selector {
     @Override
     public Person selectAdministrative() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectAdministrativeControllerImpl controller = new SelectAdministrativeControllerImpl(() -> stage.close(),
                 mainController);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_persone.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select administrative...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_persone.fxml", "Select administrative...");
         return controller.getSelectedAdministrative();
     }
 
     @Override
     public Person selectPatient() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectPatientsControllerImpl controller = new SelectPatientsControllerImpl(() -> stage.close(), mainController,
                 this);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_pazienti.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select patient...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_pazienti.fxml", "Select patient...");
         return controller.getSelectedPatient();
     }
 
     @Override
     public Person selectDoctor() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectDoctorControllerImpl controller = new SelectDoctorControllerImpl(() -> stage.close(), mainController);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_dottori.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select doctor...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_dottori.fxml", "Select doctor...");
         return controller.getSelectedDoctor();
     }
 
@@ -217,20 +130,9 @@ public class SelectorImpl implements Selector {
     public Room selectRoom(final Hospital selected) {
         if (selected != null) {
             final Stage stage = new Stage();
-            final FXMLLoader loader = new FXMLLoader();
             SelectRoomControllerImpl controller = new SelectRoomControllerImpl(selected, mainController,
                     () -> stage.close());
-            loader.setController(controller);
-            loader.setLocation(getClass().getResource("/" + "select_room.fxml"));
-            try {
-                stage.setScene(new Scene(loader.load()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            stage.setTitle("Select room...");
-            stage.initModality(Modality.WINDOW_MODAL);
-            stage.initOwner(mainStage);
-            stage.showAndWait();
+            this.showViewAndWait(stage, controller, "select_room.fxml", "Select room...");
             return controller.getSelectedRoom();
         }
         return null;
@@ -245,39 +147,17 @@ public class SelectorImpl implements Selector {
     @Override
     public Appointment selectAppointment() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectAppointmentControllerImpl controller = new SelectAppointmentControllerImpl(() -> stage.close(),
                 mainController, this);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_appuntamenti.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select appointment...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_appuntamenti.fxml", "Select appointment...");
         return controller.getSelectedAppointment();
     }
 
     @Override
     public Cure selectCure() {
         final Stage stage = new Stage();
-        final FXMLLoader loader = new FXMLLoader();
         SelectCureControllerImpl controller = new SelectCureControllerImpl(stage::close, mainController, this);
-        loader.setController(controller);
-        loader.setLocation(getClass().getResource("/" + "select_cure.fxml"));
-        try {
-            stage.setScene(new Scene(loader.load()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        stage.setTitle("Select Cure...");
-        stage.initModality(Modality.WINDOW_MODAL);
-        stage.initOwner(mainStage);
-        stage.showAndWait();
+        this.showViewAndWait(stage, controller, "select_cure.fxml", "Select cure...");
         return controller.getSelectedCure();
     }
 
@@ -285,9 +165,18 @@ public class SelectorImpl implements Selector {
     public Report selectReport() {
         final Stage stage = new Stage();
         SelectReportsControllerImpl controller = new SelectReportsControllerImpl(mainController, stage::close, this,
-                this::showError);
+                this::showError, this::showReport);
         this.showViewAndWait(stage, controller, "select_referti.fxml", "Select report...");
         return controller.getSelectedReport();
+    }
+
+    private void showReport(final Report report){
+        Stage stage = new Stage();
+        stage.setTitle("Dettagli referto");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        final ReportDetailsView view = new ReportDetailsViewImpl(new ReportDetailsControllerImpl(report), stage);
+        view.show();
     }
 
     private void showError(String error) {

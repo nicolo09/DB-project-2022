@@ -14,8 +14,8 @@ public class SelectReportsControllerImpl extends SearchReportsControllerImpl {
 
     private final Command onSelect;
 
-    public SelectReportsControllerImpl(final Controller mainController, final Command onSelectOrExit, final Selector selector, Consumer<String> errorReporter) {
-        super(mainController, selector, onSelectOrExit, errorReporter);
+    public SelectReportsControllerImpl(final Controller mainController, final Command onSelectOrExit, final Selector selector, Consumer<String> errorReporter, Consumer<Report> showReport) {
+        super(mainController, selector, onSelectOrExit, errorReporter, showReport);
         this.onSelect = onSelectOrExit;
     }
 
