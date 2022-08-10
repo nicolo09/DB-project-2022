@@ -3,24 +3,52 @@
  */
 package db.project;
 
+import java.util.Optional;
+
 import db.project.controller.Controller;
 import db.project.controller.ControllerImpl;
 import db.project.model.Model;
 import db.project.model.ModelImpl;
+import db.project.utils.DatabaseCreator;
 import db.project.view.View;
 import db.project.view.ViewImpl;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 
 public class App extends javafx.application.Application {
 
-    
-    
     public static final String DBUSERNAME = "root";
     public static final String DBPASSWORD = "password";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        final Model model = new ModelImpl(DBUSERNAME, DBPASSWORD);
+        Model model = null;
+        boolean exit = false;
+        while (!exit) {
+            try {
+                model = new ModelImpl(DBUSERNAME, DBPASSWORD);
+            } catch (IllegalStateException e) {
+                if (e.getCause().getMessage() != null && e.getCause().getMessage().contains("Unknown database")) {
+                    Alert alert = new Alert(AlertType.WARNING, "Il database \"hospital\" non è stato trovato, desideri crearlo?", ButtonType.YES, ButtonType.NO);
+                    alert.setTitle("Attenzione");
+                    alert.setHeaderText("Database non trovato");
+                    Optional<ButtonType> choose = alert.showAndWait();
+                    if (choose.get() == ButtonType.YES) {
+                        DatabaseCreator creator = new DatabaseCreator(DBUSERNAME, DBPASSWORD);
+                        creator.createDatabase();
+                    } else {
+                        exit = true;
+                    }
+                }
+                else {
+                    Alert al = new Alert(AlertType.ERROR, "Impossibile connettersi al DB");
+                    al.showAndWait();
+                    exit = true;
+                }
+            }
+        }
         final Controller controller = new ControllerImpl(model);
         final View view = new ViewImpl(controller, primaryStage);
         view.goToMainMenu();
