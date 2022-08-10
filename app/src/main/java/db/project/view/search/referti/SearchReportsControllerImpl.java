@@ -49,7 +49,10 @@ public class SearchReportsControllerImpl {
     private TableColumn<Report, String> typeColumn;
 
     @FXML
-    private TableColumn<Report, Integer> hospitalColumn;
+    private TableColumn<Report, String> hospitalColumn;
+
+    @FXML
+    private TableColumn<Report, String> patientColumn;
 
     @FXML
     private TextField textCodiceFiscale;
@@ -58,13 +61,15 @@ public class SearchReportsControllerImpl {
     private final Selector selector;
     private final Command onExit;
     private final Consumer<String> errorReporter;
+    private final Consumer<Report> showReport;
 
     public SearchReportsControllerImpl(final Controller controller, final Selector selector, final Command onExit,
-            Consumer<String> errorReporter) {
+            Consumer<String> errorReporter, Consumer<Report> showReport) {
         this.controller = controller;
         this.selector = selector;
         this.onExit = onExit;
         this.errorReporter = errorReporter;
+        this.showReport = showReport;
     }
 
     @FXML
@@ -86,10 +91,17 @@ public class SearchReportsControllerImpl {
                         return new ReadOnlyObjectWrapper<String>(type);
                     }
                 });
-        hospitalColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Report, Integer>, ObservableValue<Integer>>() {
+        hospitalColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Report, String>, ObservableValue<String>>() {
             @Override
-            public ObservableValue<Integer> call(CellDataFeatures<Report, Integer> param) {
-                return new ReadOnlyObjectWrapper<Integer>(param.getValue().getHospital().getCode());
+            public ObservableValue<String> call(CellDataFeatures<Report, String> param) {
+                return new ReadOnlyObjectWrapper<String>(param.getValue().getHospital().getCode() + " - " + param.getValue().getHospital().getName());
+            }
+        });
+        patientColumn.setCellValueFactory(new Callback<TableColumn.CellDataFeatures<Report, String>, ObservableValue<String>>() {
+            @Override
+            public ObservableValue<String> call(CellDataFeatures<Report, String> param) {
+                return new ReadOnlyObjectWrapper<String>(param.getValue().getPatient().getName() + " "
+                        + param.getValue().getPatient().getSurname() + " (" + param.getValue().getPatient().getCF() + ")");
             }
         });
     }
@@ -143,5 +155,15 @@ public class SearchReportsControllerImpl {
             errorReporter.accept("Inserire un codice fiscale");
         }
         return List.of();
+    }
+
+    @FXML
+    private void onShowReportButton() {
+        final Report report = refertiTableView.getSelectionModel().getSelectedItem();
+        if (report != null) {
+            showReport.accept(report);
+        } else {
+            errorReporter.accept("Nessun referto selezionato");
+        }
     }
 }

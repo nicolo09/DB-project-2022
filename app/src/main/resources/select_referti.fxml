@@ -64,9 +64,10 @@
                      </HBox.margin></Button>
                </children>
             </HBox>
-            <HBox alignment="BOTTOM_RIGHT" spacing="30.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+            <HBox alignment="BOTTOM_RIGHT" spacing="30.0" GridPane.columnSpan="2" GridPane.rowIndex="2">
                <children>
                   <Button mnemonicParsing="false" onAction="#onAbortButton" text="Annulla" />
+                  <Button mnemonicParsing="false" onAction="#onShowReportButton" text="Dettagli..." />
                   <Button mnemonicParsing="false" onAction="#onSelect" text="Seleziona" />
                   <Button mnemonicParsing="false" onAction="#onSearchButton" text="Cerca" />
                </children>

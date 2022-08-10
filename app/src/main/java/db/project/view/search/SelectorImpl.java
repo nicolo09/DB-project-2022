@@ -21,6 +21,9 @@ import db.project.view.search.person.SelectDoctorControllerImpl;
 import db.project.view.search.person.SelectPatientsControllerImpl;
 import db.project.view.search.person.SelectPersonControllerImpl;
 import db.project.view.search.person.SelectTelephoneControllerImpl;
+import db.project.view.search.referti.ReportDetailsControllerImpl;
+import db.project.view.search.referti.ReportDetailsView;
+import db.project.view.search.referti.ReportDetailsViewImpl;
 import db.project.view.search.referti.SelectReportsControllerImpl;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -162,9 +165,18 @@ public class SelectorImpl implements Selector {
     public Report selectReport() {
         final Stage stage = new Stage();
         SelectReportsControllerImpl controller = new SelectReportsControllerImpl(mainController, stage::close, this,
-                this::showError);
+                this::showError, this::showReport);
         this.showViewAndWait(stage, controller, "select_referti.fxml", "Select report...");
         return controller.getSelectedReport();
+    }
+
+    private void showReport(final Report report){
+        Stage stage = new Stage();
+        stage.setTitle("Dettagli referto");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        final ReportDetailsView view = new ReportDetailsViewImpl(new ReportDetailsControllerImpl(report), stage);
+        view.show();
     }
 
     private void showError(String error) {

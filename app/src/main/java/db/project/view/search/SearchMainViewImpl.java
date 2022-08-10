@@ -6,6 +6,7 @@ import db.project.controller.Controller;
 import db.project.model.ASL;
 import db.project.model.Hospital;
 import db.project.model.Person;
+import db.project.model.Report;
 import db.project.model.Uo;
 import db.project.view.View;
 import db.project.view.ViewImpl;
@@ -29,6 +30,9 @@ import db.project.view.search.person.SearchPatientsControllerImpl;
 import db.project.view.search.person.SearchPatientsViewImpl;
 import db.project.view.search.person.SearchPersonView;
 import db.project.view.search.person.SearchPersonViewImpl;
+import db.project.view.search.referti.ReportDetailsControllerImpl;
+import db.project.view.search.referti.ReportDetailsView;
+import db.project.view.search.referti.ReportDetailsViewImpl;
 import db.project.view.search.referti.SearchAppointmentsControllerImpl;
 import db.project.view.search.referti.SearchAppointmentsView;
 import db.project.view.search.referti.SearchAppointmentsViewImpl;
@@ -80,8 +84,9 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToOspedali() {
-        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage, new SearchHospitalControllerImpl(
-                () -> this.show(), mainController, entitySelector, this::goToModalAttrezzature, this::goToModalRooms, this::showError));
+        final SearchHospitalView view = new SearchHospitalViewImpl(mainStage,
+                new SearchHospitalControllerImpl(() -> this.show(), mainController, entitySelector,
+                        this::goToModalAttrezzature, this::goToModalRooms, this::showError));
         view.show();
     }
 
@@ -130,9 +135,17 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToReferti() {
-        final SearchRefertiView view = new SearchRefertiViewImpl(
-                new SearchReportsControllerImpl(this.mainController, entitySelector, this::show, this::showError),
-                mainStage);
+        final SearchRefertiView view = new SearchRefertiViewImpl(new SearchReportsControllerImpl(this.mainController,
+                entitySelector, this::show, this::showError, this::showReportDetails), mainStage);
+        view.show();
+    }
+
+    public void showReportDetails(final Report report) {
+        Stage stage = new Stage();
+        stage.setTitle("Dettagli referto");
+        stage.initModality(Modality.WINDOW_MODAL);
+        stage.initOwner(mainStage);
+        final ReportDetailsView view = new ReportDetailsViewImpl(new ReportDetailsControllerImpl(report), stage);
         view.show();
     }
 
@@ -199,8 +212,8 @@ public class SearchMainViewImpl implements SearchMainView {
 
     @Override
     public void goToImpieghi() {
-        final SearchImpieghiView view = new SearchImpieghiViewImpl(mainStage,
-                new SearchImpieghiControllerImpl(() -> this.show(), mainController, this.entitySelector, this::showError));
+        final SearchImpieghiView view = new SearchImpieghiViewImpl(mainStage, new SearchImpieghiControllerImpl(
+                () -> this.show(), mainController, this.entitySelector, this::showError));
         view.show();
     }
 }
