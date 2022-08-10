@@ -59,6 +59,8 @@ dependencies {
     implementation("mysql:mysql-connector-java:8.0.29")
 
     implementation("no.tornado:tornadofx-controls:1.0.6")
+
+    implementation("org.apache.ibatis:ibatis-core:3.0")
 }
 
 java {
