@@ -5,7 +5,11 @@ import java.util.stream.Collectors;
 import db.project.controller.Controller;
 import db.project.model.Person;
 import javafx.fxml.FXML;
+import javafx.scene.control.Cell;
+import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.util.Pair;
 
 public class SearchTelephoneControllerImpl {
 
@@ -13,7 +17,7 @@ public class SearchTelephoneControllerImpl {
     private final Controller mainController;
     
     @FXML
-    protected ListView<String> listTelephones;
+    protected ListView<Pair<Person,String>> listTelephones;
 
     public SearchTelephoneControllerImpl(final Person person, final Controller mainController){
         this.person = person;
@@ -22,7 +26,18 @@ public class SearchTelephoneControllerImpl {
 
     @FXML
     public void initialize() {
-        listTelephones.getItems().addAll(mainController.getTelephones(person).stream().map(a -> a.getValue()).collect(Collectors.toList()));
+        listTelephones.getItems().addAll(mainController.getTelephones(person));
+        listTelephones.setCellFactory(param -> new ListCell<>() {
+            @Override
+            protected void updateItem(Pair<Person, String> item, boolean empty) {
+                super.updateItem(item, empty);
+                if (item == null || empty) {
+                    setText(null);
+                } else {
+                    setText(item.getValue());
+                }
+            }
+        });
     }
 
 }
