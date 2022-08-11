@@ -35,110 +35,146 @@
             </Button>
          </children>
       </HBox>
-      <GridPane hgap="20.0" layoutX="67.0" layoutY="94.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="466.0" AnchorPane.bottomAnchor="120.0" AnchorPane.leftAnchor="67.0" AnchorPane.topAnchor="94.0">
-        <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-        </columnConstraints>
-        <rowConstraints>
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-            <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-        </rowConstraints>
+      <GridPane hgap="20.0" layoutX="67.0" layoutY="94.0" prefHeight="390.0" prefWidth="826.0" AnchorPane.bottomAnchor="110.0" AnchorPane.leftAnchor="67.0" AnchorPane.rightAnchor="84.0" AnchorPane.topAnchor="94.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+            <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+         </rowConstraints>
          <children>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
+            <GridPane hgap="20.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="466.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice Ospedale" underline="true">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                     <opaqueInsets>
-                        <Insets />
-                     </opaqueInsets>
-                  </Label>
-                  <TextField fx:id="txtCodeHospital" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
-               <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Data" underline="true">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <DatePicker fx:id="txtAppointmentDate" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
-               <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tipo">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtAppointmentType" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
-               <children>
-                  <HBox spacing="10.0">
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0">
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Numero Sala" underline="true">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice Ospedale" underline="true">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                        </Label>
+                        <TextField fx:id="txtCodeHospital" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Data" underline="true">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#selectRoom" text="Cerca Sala">
+                        <DatePicker fx:id="txtAppointmentDate" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="2">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Tipo">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtAppointmentType" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
+                     <children>
+                        <HBox spacing="10.0">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Numero Sala" underline="true">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <TextField fx:id="txtRoomNumber" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
+                        <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#selectRoom" text="Cerca Sala">
                            <font>
                               <Font size="11.0" />
                            </font>
                         </Button>
                      </children>
-                  </HBox>
-                  <TextField fx:id="txtRoomNumber" editable="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Selezionare la sala" />
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
-               <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Orario" underline="true">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <HBox spacing="5.0">
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <TextField fx:id="txtHours" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Ora-def=00" />
-                        <Label text=":">
-                           <font>
-                              <Font size="16.0" />
-                           </font>
-                        </Label>
-                        <TextField fx:id="txtMinutes" promptText="Minuti-def=00" />
-                     </children>
-                  </HBox>
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="2">
-               <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Durata">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <TextField fx:id="txtAppointmentDuration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="In minuti" />
-               </children>
-            </VBox>
-            <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="3">
-               <children>
-                  <HBox spacing="15.0">
-                     <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Paziente &#10;(Codice fiscale)">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Orario" underline="true">
                            <font>
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#selectPatientCF" text="Cerca&#10;Paziente">
+                        <HBox spacing="5.0">
+                           <children>
+                              <TextField fx:id="txtHours" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="Ora-def=00" />
+                              <Label text=":">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <TextField fx:id="txtMinutes" promptText="Minuti-def=00" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <GridPane.margin>
+                        <Insets top="5.0" />
+                     </GridPane.margin>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="2">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Durata">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <TextField fx:id="txtAppointmentDuration" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" promptText="In minuti" />
+                     </children>
+                  </VBox>
+                  <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="3">
+                     <children>
+                        <HBox spacing="15.0">
+                           <children>
+                              <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Paziente &#10;(Codice fiscale)">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </HBox>
+                        <TextField fx:id="txtPatientCF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#selectPatientCF" text="Cerca Paziente">
+                           <font>
+                              <Font size="11.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+               </children>
+            </GridPane>
+            <VBox prefHeight="302.0" prefWidth="223.0" spacing="10.0" GridPane.columnIndex="1">
+               <children>
+                  <HBox spacing="15.0">
+                     <children>
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Medico&#10;(Codice fiscale)">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button mnemonicParsing="false" onMouseClicked="#selectDoctorCF" text="Cerca&#10;Medico&#10;">
                            <HBox.margin>
                               <Insets top="10.0" />
                            </HBox.margin>
@@ -148,57 +184,34 @@
                         </Button>
                      </children>
                   </HBox>
-                  <TextField fx:id="txtPatientCF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
-               </children>
-            </VBox>
-         </children>
-      </GridPane>
-      <Button layoutX="67.0" layoutY="492.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.799999999999955" AnchorPane.leftAnchor="67.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <VBox alignment="CENTER" layoutX="791.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="612.0" prefWidth="165.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="21.399999999999977" AnchorPane.topAnchor="0.0">
-         <children>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
-               <font>
-                  <Font size="28.0" />
-               </font>
-            </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
-               <font>
-                  <Font size="29.0" />
-               </font>
-            </Button>
-         </children>
-      </VBox>
-      <Label layoutX="321.0" layoutY="440.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="68.39999999999998" AnchorPane.leftAnchor="321.0" />
-      <VBox layoutX="559.0" layoutY="94.0" prefHeight="302.0" prefWidth="223.0" spacing="10.0" AnchorPane.bottomAnchor="198.0" AnchorPane.rightAnchor="196.0" AnchorPane.topAnchor="94.0">
-         <children>
-            <HBox spacing="15.0">
-               <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Medico&#10;(Codice fiscale)">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
-                  <Button mnemonicParsing="false" onMouseClicked="#selectDoctorCF" text="Cerca&#10;Medico&#10;">
-                     <HBox.margin>
-                        <Insets top="10.0" />
-                     </HBox.margin>
+                  <TextArea fx:id="txtDoctorCF" editable="false" prefHeight="194.0" prefWidth="282.0" promptText="Seleziona il medico coinvolto nell'appuntamento utilizzando il pulsante &quot;Cerca Medico&quot; in alto. Per aggiungere più medici basta ripetere l'operazione di ricerca, invece per svuotare la casella basta premere il pulsante &quot;Cancella&quot; in basso " />
+                  <Button mnemonicParsing="false" onMouseClicked="#clearDoctorCF" text="Cancella">
                      <font>
                         <Font size="11.0" />
                      </font>
                   </Button>
                </children>
-            </HBox>
-            <TextArea fx:id="txtDoctorCF" editable="false" prefHeight="188.0" prefWidth="223.0" promptText="Seleziona il medico coinvolto nell'appuntamento utilizzando il pulsante &quot;Cerca Medico&quot; in alto. Per aggiungere più medici basta ripetere l'operazione di ricerca, invece per svuotare la casella basta premere il pulsante &quot;Cancella&quot; in basso " />
-            <Button mnemonicParsing="false" onMouseClicked="#clearDoctorCF" text="Cancella">
+            </VBox>
+         </children>
+      </GridPane>
+      <HBox alignment="CENTER" layoutX="285.0" layoutY="512.0" spacing="100.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+         <children>
+            <Button contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER">
                <font>
-                  <Font size="11.0" />
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci" textAlignment="CENTER">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Button>
+            <Button alignment="CENTER" contentDisplay="CENTER" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi" textAlignment="CENTER">
+               <font>
+                  <Font size="28.0" />
                </font>
             </Button>
          </children>
-      </VBox>
+      </HBox>
    </children>
 </AnchorPane>

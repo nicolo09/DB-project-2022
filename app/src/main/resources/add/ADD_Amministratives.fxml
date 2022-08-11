@@ -31,34 +31,38 @@
                   <Insets top="18.0" />
                </HBox.margin>
             </Button>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="**I campi indicati con due asterischi devono essere compilati &#10;solo se la persona non è già registrata">
+               <HBox.margin>
+                  <Insets top="12.0" />
+               </HBox.margin>
+            </Label>
          </children>
       </HBox>
-      <Button layoutX="41.0" layoutY="435.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="41.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <VBox alignment="CENTER" layoutX="551.0" prefWidth="272.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="40.0" layoutY="451.0" spacing="50.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
-                  <Font size="29.0" />
+                  <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">
                <font>
                   <Font size="25.0" />
                </font>
             </Button>
          </children>
-      </VBox>
-      <Label layoutX="244.39999999999998" layoutY="431.4" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="146.0" />
-      <GridPane hgap="20.0" layoutX="40.0" layoutY="103.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="279.0" prefWidth="478.0" AnchorPane.bottomAnchor="165.0" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="103.0">
+      </HBox>
+      <GridPane alignment="CENTER" hgap="20.0" layoutX="40.0" layoutY="103.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="325.0" prefWidth="783.0" AnchorPane.bottomAnchor="119.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="103.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -69,7 +73,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox spacing="20.0">
+            <VBox spacing="5.0">
                <children>
                   <HBox spacing="10.0">
                      <children>
@@ -78,17 +82,14 @@
                               <Font size="26.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#selectPersonCF" text="Cerca&#10;Persona&#10;">
-                           <HBox.margin>
-                              <Insets top="5.0" />
-                           </HBox.margin>
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Button>
                      </children>
                   </HBox>
                   <TextField fx:id="txtCF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#selectPersonCF" text="Cerca Persona">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Button>
                </children>
             </VBox>
             <VBox prefWidth="323.0" spacing="20.0" GridPane.rowIndex="1">
@@ -112,7 +113,7 @@
                   <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#selectHospital" text="Cerca Ospedale" />
                </children>
             </VBox>
-            <VBox spacing="20.0" GridPane.columnIndex="1">
+            <VBox spacing="5.0" GridPane.columnIndex="1">
                <children>
                   <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Nome**">
                      <font>
@@ -121,7 +122,7 @@
                   </Label>
                   <TextField fx:id="txtName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308">
                      <VBox.margin>
-                        <Insets top="2.5" />
+                        <Insets />
                      </VBox.margin></TextField>
                </children>
             </VBox>
@@ -137,6 +138,5 @@
             </VBox>
          </children>
       </GridPane>
-      <Label layoutX="509.0" layoutY="46.0" text="**I campi indicati con due asterischi sono necessari unicamente &#10;se la persona non è già registrata" AnchorPane.rightAnchor="47.39999999999998" AnchorPane.topAnchor="46.0" />
    </children>
 </AnchorPane>

@@ -33,27 +33,26 @@
             </Button>
          </children>
       </HBox>
-      <Button layoutX="41.0" layoutY="435.0" mnemonicParsing="false" onMouseClicked="#goBack" prefWidth="118.0" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="41.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <VBox alignment="CENTER" layoutX="551.0" prefWidth="272.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="41.0" layoutY="420.0" spacing="100.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="200.0" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
                   <Font size="29.0" />
                </font>
             </Button>
          </children>
-      </VBox>
-      <Label layoutX="202.0" layoutY="431.0" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="34.0" AnchorPane.rightAnchor="115.0" />
-      <GridPane layoutX="100.0" layoutY="103.0" prefWidth="378.0" AnchorPane.bottomAnchor="139.0" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="103.0">
+      </HBox>
+      <GridPane layoutX="100.0" layoutY="103.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" AnchorPane.bottomAnchor="134.0" AnchorPane.leftAnchor="155.0" AnchorPane.rightAnchor="155.0" AnchorPane.topAnchor="103.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -62,7 +61,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <VBox spacing="20.0">
+            <VBox spacing="15.0">
                <children>
                   <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Numero di telefono" underline="true">
                      <font>
@@ -72,23 +71,15 @@
                   <TextField fx:id="txtPhoneNumber" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </children>
             </VBox>
-            <VBox prefWidth="323.0" spacing="20.0" GridPane.rowIndex="1">
+            <VBox prefWidth="519.0" spacing="15.0" GridPane.rowIndex="1">
                <children>
-                  <HBox spacing="15.0">
-                     <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Persona (Codice fiscale)" underline="true">
-                           <font>
-                              <Font size="26.0" />
-                           </font>
-                        </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#selectPersonCF" text="Cerca Persona">
-                           <HBox.margin>
-                              <Insets top="6.0" />
-                           </HBox.margin>
-                        </Button>
-                     </children>
-                  </HBox>
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Persona (Codice fiscale)" underline="true">
+                     <font>
+                        <Font size="26.0" />
+                     </font>
+                  </Label>
                   <TextField fx:id="txtCF" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#selectPersonCF" text="Cerca Persona" />
                </children>
             </VBox>
          </children>

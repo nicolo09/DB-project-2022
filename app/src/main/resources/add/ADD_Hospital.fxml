@@ -33,7 +33,7 @@
             </Button>
          </children>
       </HBox>
-      <GridPane hgap="20.0" layoutX="86.0" layoutY="134.0" prefHeight="250.0" prefWidth="493.0" AnchorPane.bottomAnchor="163.0" AnchorPane.leftAnchor="86.0" AnchorPane.topAnchor="134.0">
+      <GridPane hgap="30.0" layoutX="67.0" layoutY="112.0" prefHeight="291.0" prefWidth="729.0" AnchorPane.bottomAnchor="144.0" AnchorPane.leftAnchor="67.0" AnchorPane.rightAnchor="67.0" AnchorPane.topAnchor="112.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -106,41 +106,40 @@
                               <Font size="18.0" />
                            </font>
                         </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#selectASL" text="Seleziona ASL" />
                      </children>
                      <VBox.margin>
                         <Insets />
                      </VBox.margin>
                   </HBox>
                   <TextField fx:id="txtASLCode" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#selectASL" text="Seleziona ASL" />
                </children>
             </VBox>
          </children>
       </GridPane>
-      <Button layoutX="41.0" layoutY="435.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="41.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <VBox alignment="CENTER" layoutX="551.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="202.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="41.0" layoutY="422.0" spacing="50.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
                   <Font size="29.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">
                <font>
                   <Font size="25.0" />
                </font>
             </Button>
          </children>
-      </VBox>
-      <Label layoutX="202.0" layoutY="431.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="202.0" />
+      </HBox>
    </children>
 </AnchorPane>

@@ -33,7 +33,7 @@
             </Button>
          </children>
       </HBox>
-      <GridPane hgap="20.0" layoutX="84.0" layoutY="118.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="428.0" AnchorPane.bottomAnchor="118.0" AnchorPane.leftAnchor="84.0" AnchorPane.topAnchor="118.0">
+      <GridPane hgap="20.0" layoutX="84.0" layoutY="118.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="330.0" prefWidth="698.0" AnchorPane.bottomAnchor="99.0" AnchorPane.leftAnchor="101.0" AnchorPane.rightAnchor="101.0" AnchorPane.topAnchor="118.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -47,7 +47,7 @@
                <children>
                   <HBox spacing="30.0">
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice &#10;Ospedale" underline="true">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice Ospedale" underline="true">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -55,14 +55,10 @@
                               <Insets />
                            </opaqueInsets>
                         </Label>
-                        <Button mnemonicParsing="false" onMouseClicked="#selectHospital" text="Cerca&#10;Ospedale">
-                           <HBox.margin>
-                              <Insets top="6.0" />
-                           </HBox.margin>
-                        </Button>
                      </children>
                   </HBox>
                   <TextField fx:id="txtCodeHospital" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
+                  <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#selectHospital" text="Cerca Ospedale" />
                </children>
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
@@ -85,35 +81,34 @@
                   <TextField fx:id="txtName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" />
                </children>
                <GridPane.margin>
-                  <Insets top="26.5" />
+                  <Insets />
                </GridPane.margin>
             </VBox>
          </children>
       </GridPane>
-      <Button layoutX="41.0" layoutY="435.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER" AnchorPane.bottomAnchor="34.0" AnchorPane.leftAnchor="41.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Button>
-      <VBox alignment="CENTER" layoutX="551.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="256.0" spacing="40.0" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="60.0" AnchorPane.topAnchor="0.0">
+      <HBox alignment="CENTER" layoutX="41.0" layoutY="433.0" spacing="50.0" AnchorPane.bottomAnchor="25.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
          <children>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna&#10;indietro" textAlignment="CENTER">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Button>
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#addElement" text="Inserisci">
                <font>
                   <Font size="28.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
                   <Font size="29.0" />
                </font>
             </Button>
-            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">
                <font>
                   <Font size="25.0" />
                </font>
             </Button>
          </children>
-      </VBox>
-      <Label layoutX="202.0" layoutY="431.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Per inserire una nuova instanza bisogna inserire tutti i dati nelle varie caselle e premere &quot;Inserisci&quot;.&#10;Per rimuovere un'istanza basta invece inserire i campi identificativi, quelli sottolineati, e premere &quot;Rimuovi&quot;,&#10;se altre caselle sono compilate queste verranno ignorate.&#10;Per aggiornare uno o più dati di un'istanza bisogna inserire i campi identificativi e compilare unicamente &#10;le caselle da aggiornare, per poi premere &quot;Aggiorna&quot;. " AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="202.0" />
+      </HBox>
    </children>
 </AnchorPane>
