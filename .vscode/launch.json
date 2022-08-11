@@ -24,6 +24,14 @@
             "mainClass": "db.project.Launcher",
             "projectName": "app",
             "args": ["--load-persons", "${workspaceFolder}\\schema\\people.csv"]
+        },
+        {
+            "type": "java",
+            "name": "Launch auto login",
+            "request": "launch",
+            "mainClass": "db.project.Launcher",
+            "projectName": "app",
+            "args": ["--credentials", "root", "password"]
         }
     ]
 }

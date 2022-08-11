@@ -1,6 +1,5 @@
 package db.project.view.search.person;
 
-
 import db.project.controller.Controller;
 import db.project.model.Person;
 import javafx.fxml.FXML;
