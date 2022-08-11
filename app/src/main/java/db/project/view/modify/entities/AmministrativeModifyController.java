@@ -73,7 +73,6 @@ public class AmministrativeModifyController extends ModifyController{
 	
 	@FXML
     private void selectAmministratives() {
-		//TODO this selector doesn't work
 		var person = this.selector.selectAdministrative();
 		if(Objects.nonNull(person) && person instanceof AdministrativeImpl) {
 			var administrative = (AdministrativeImpl) person;
