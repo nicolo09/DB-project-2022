@@ -701,8 +701,7 @@ public class ModelImpl implements Model {
 
     @Override
     public Collection<Pair<Person, String>> getTelephones(Person person) {
-        String query = "SELECT * FROM " + tableTelephones + " WHERE " + "Persona = " + person.getCF();
-        query = query.substring(0, query.length() - 2);
+        String query = "SELECT * FROM " + tableTelephones + " WHERE " + "Persona = '" + person.getCF() + "'";
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
             return readTelephonesFromResultSet(statement.getResultSet());

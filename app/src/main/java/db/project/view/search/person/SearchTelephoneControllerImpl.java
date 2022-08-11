@@ -1,10 +1,11 @@
 package db.project.view.search.person;
 
+import java.util.stream.Collectors;
+
 import db.project.controller.Controller;
 import db.project.model.Person;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
-import javafx.util.Pair;
 
 public class SearchTelephoneControllerImpl {
 
@@ -12,7 +13,7 @@ public class SearchTelephoneControllerImpl {
     private final Controller mainController;
     
     @FXML
-    protected ListView<Pair<Person,String>> listTelephones;
+    protected ListView<String> listTelephones;
 
     public SearchTelephoneControllerImpl(final Person person, final Controller mainController){
         this.person = person;
@@ -21,7 +22,7 @@ public class SearchTelephoneControllerImpl {
 
     @FXML
     public void initialize() {
-        listTelephones.getItems().addAll(mainController.getTelephones(person));
+        listTelephones.getItems().addAll(mainController.getTelephones(person).stream().map(a -> a.getValue()).collect(Collectors.toList()));
     }
 
 }
