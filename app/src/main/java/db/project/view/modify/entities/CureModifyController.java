@@ -128,6 +128,7 @@ public class CureModifyController extends ModifyController{
     private void selectCure() {
 		var cure = this.selector.selectCure();
 		if(Objects.nonNull(cure)) {
+			this.clearAll();
 			txtCF.setText(cure.getPatient().getCF());
 			txtCodeHospital.setText(cure.getUo().getHospital().getCode().toString());
 			txtNameUO.setText(cure.getUo().getName());

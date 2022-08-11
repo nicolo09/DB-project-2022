@@ -60,6 +60,7 @@ public class WorkingModifyController extends ModifyController{
     void selectElement() {
 		var job = this.selector.selectJob();
 		if(Objects.nonNull(job)) {
+			this.clearAll();
 			txtCF.setText(job.getValue().getCF());
 			txtCodeHospital.setText(job.getKey().getHospital().getCode().toString());
 			txtUnitName.setText(job.getKey().getName());

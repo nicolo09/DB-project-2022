@@ -55,6 +55,7 @@ public class PersonModifyController extends ModifyController{
     private void selectElement() {
 		var person = this.selector.selectPerson();
 		if(Objects.nonNull(person)) {
+			this.clearAll();
 			txtCF.setText(person.getCF());
 			txtName.setText(person.getName());
 			txtLastName.setText(person.getSurname());

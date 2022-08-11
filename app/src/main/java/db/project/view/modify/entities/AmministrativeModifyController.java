@@ -75,6 +75,7 @@ public class AmministrativeModifyController extends ModifyController{
     private void selectAmministratives() {
 		var person = this.selector.selectAdministrative();
 		if(Objects.nonNull(person) && person instanceof AdministrativeImpl) {
+			this.clearAll();
 			var administrative = (AdministrativeImpl) person;
 			
 			txtCF.setText(administrative.getCF());

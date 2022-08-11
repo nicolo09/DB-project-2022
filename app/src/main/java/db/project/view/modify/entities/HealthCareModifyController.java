@@ -75,7 +75,7 @@ public class HealthCareModifyController extends ModifyController{
 		var person = this.selector.selectDoctor();
 		if(Objects.nonNull(person) && person instanceof DoctorImpl) {
 			var healthcare = (DoctorImpl) person;
-			
+			this.clearAll();
 			txtCF.setText(healthcare.getCF());
 			txtName.setText(healthcare.getName());
 			txtLastName.setText(healthcare.getSurname());

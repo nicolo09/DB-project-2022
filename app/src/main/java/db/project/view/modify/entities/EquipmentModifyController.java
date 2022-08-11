@@ -82,6 +82,7 @@ public class EquipmentModifyController extends ModifyController{
     private void selectEquipment() {
 		var equipment = this.selector.selectEquipment();
 		if(Objects.nonNull(equipment)) {
+			this.clearAll();
 			txtName.setText(equipment.getName());
 			txtCodeHospital.setText(equipment.getHospital().getCode().toString());
 			txtCodInventory.setText(equipment.getCode().toString());
