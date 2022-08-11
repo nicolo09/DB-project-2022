@@ -70,6 +70,7 @@ public class UOModifyController extends ModifyController{
     private void selectElement() {
 		var operative_unit = this.selector.selectUo();
 		if(Objects.nonNull(operative_unit)) {
+			this.clearAll();
 			txtCapacity.setText(operative_unit.getCapacity().toString());
 			txtCodeHospital.setText(operative_unit.getHospital().getCode().toString());
 			txtName.setText(operative_unit.getName());

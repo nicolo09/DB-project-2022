@@ -53,6 +53,7 @@ public class RoomModifyController extends ModifyController{
     void selectElement() {
 		var room = this.selector.selectRoom();
 		if(Objects.nonNull(room)) {
+			this.clearAll();
 			txtRoomNumber.setText(room.getRoomNumber().toString());
 			txtCodeHospital.setText(room.getHospital().getCode().toString());
 		}

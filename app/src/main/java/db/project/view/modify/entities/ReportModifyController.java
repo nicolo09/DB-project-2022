@@ -148,6 +148,7 @@ public class ReportModifyController extends ModifyController{
     private void selectElement() {
     	var report = this.selector.selectReport();
     	if(Objects.nonNull(report)) {
+    		this.clearAll();
     		txtCF.setText(report.getPatient().getCF());
     		txtCodeHospital.setText(report.getHospital().getCode().toString());
     		txtCodeReport.setText(report.getCode().toString());
@@ -192,6 +193,7 @@ public class ReportModifyController extends ModifyController{
 	protected void clearAll() {
 		this.clearText(txtCF,txtCodeHospital,txtCodeReport,txtDescription,txtDoctors,txtDuration,txtOutcome,txtProcedure,txtTreatment);
 		this.clearDate(txtIssueDate);
+		this.combType.setValue(null);
 	}
 
 }

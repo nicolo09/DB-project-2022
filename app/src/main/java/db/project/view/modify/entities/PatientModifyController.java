@@ -91,7 +91,7 @@ public class PatientModifyController extends ModifyController{
 		var person = this.selector.selectPerson();
 		if(Objects.nonNull(person) && person instanceof PatientImpl) {
 			var patient = (PatientImpl) person;
-			
+			this.clearAll();
 			txtCF.setText(patient.getCF());
 			txtName.setText(patient.getName());
 			txtLastName.setText(patient.getSurname());

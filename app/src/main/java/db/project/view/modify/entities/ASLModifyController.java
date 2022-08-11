@@ -85,6 +85,7 @@ public class ASLModifyController extends ModifyController{
     void selectASL() {
 		var asl = this.selector.selectAsl();
 		if(Objects.nonNull(asl)) {
+			this.clearAll();
 			txtCodeASL.setText(asl.getCode().toString());
 			txtName.setText(asl.getName());
 			txtCity.setText(asl.getCity());

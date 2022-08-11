@@ -101,6 +101,7 @@ public class HospitalModifyController extends ModifyController{
     private void selectElement() {
 		var hospital = this.selector.selectHospital();
 		if(Objects.nonNull(hospital)) {
+			this.clearAll();
 			txtFacilityCode.setText(hospital.getCode().toString());
 			txtName.setText(hospital.getName());
 			txtCity.setText(hospital.getAddressCity());

@@ -44,13 +44,14 @@ public class PhoneModifyController extends ModifyController{
 	@FXML
 	private void initialize() {
 		setTextFormatter(txtCF, CF_FORMATTER);
-		setTextFormatter(txtPhoneNumber, NUMBER_FORMATTER);
+		setTextFormatter(txtPhoneNumber, NUMBER_FORMATTER.replace("*", "{0,15}"));
 	}
 
 	@FXML
     void selectElement() {
 		var phone = this.selector.selectPhone();
 		if(Objects.nonNull(phone)) {
+			this.clearAll();
 			txtCF.setText(phone.getKey().getCF());
 			txtPhoneNumber.setText(phone.getValue());
 		}

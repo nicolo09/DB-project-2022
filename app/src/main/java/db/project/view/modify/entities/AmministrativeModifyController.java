@@ -73,9 +73,9 @@ public class AmministrativeModifyController extends ModifyController{
 	
 	@FXML
     private void selectAmministratives() {
-		//TODO this selector doesn't work
 		var person = this.selector.selectAdministrative();
 		if(Objects.nonNull(person) && person instanceof AdministrativeImpl) {
+			this.clearAll();
 			var administrative = (AdministrativeImpl) person;
 			
 			txtCF.setText(administrative.getCF());
