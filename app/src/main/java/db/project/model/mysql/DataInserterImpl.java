@@ -206,6 +206,7 @@ public class DataInserterImpl implements DataInserter {
 			
 			if(exitDate.isEmpty()) {
 				statement.setNull(5, java.sql.Types.NULL);
+				statement.executeUpdate();
 				String updateQuery = "UPDATE " + TABLES.UO.get() + " SET Posti_occupati = Posti_occupati+1 WHERE Codice_ospedale LIKE ? AND Nome = ?";
 				final PreparedStatement updateStatement = this.connection.prepareStatement(updateQuery);
 				updateStatement.setInt(1, hospitalCode);
@@ -214,9 +215,8 @@ public class DataInserterImpl implements DataInserter {
 				updateStatement.executeUpdate();
 			} else {
 				statement.setDate(5, new java.sql.Date(exitDate.get().getTime()));
+				statement.executeUpdate();
 			}
-			
-			statement.executeUpdate();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
