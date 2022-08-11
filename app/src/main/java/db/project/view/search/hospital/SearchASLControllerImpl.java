@@ -3,7 +3,6 @@ package db.project.view.search.hospital;
 import java.util.Collection;
 import java.util.Optional;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,6 +11,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import db.project.model.ASL;
+import db.project.utils.Command;
 
 public class SearchASLControllerImpl {
 

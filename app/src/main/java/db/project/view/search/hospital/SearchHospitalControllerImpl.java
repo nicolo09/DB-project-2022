@@ -4,10 +4,10 @@ import java.util.Collection;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.ASL;
 import db.project.model.Hospital;
+import db.project.utils.Command;
 import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;

@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
 import db.project.model.Report;
 import db.project.model.SurgeryReportImpl;
 import db.project.model.VisitReportImpl;
+import db.project.utils.Command;
 import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;

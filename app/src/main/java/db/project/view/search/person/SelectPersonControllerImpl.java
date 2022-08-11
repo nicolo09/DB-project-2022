@@ -3,9 +3,9 @@ package db.project.view.search.person;
 import java.util.Collection;
 import java.util.Optional;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
+import db.project.utils.Command;
 import javafx.fxml.FXML;
 
 public class SelectPersonControllerImpl extends SearchPersonControllerImpl {

@@ -2,9 +2,9 @@ package db.project.view.search.hospital;
 
 import java.util.function.Consumer;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Hospital;
+import db.project.utils.Command;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 

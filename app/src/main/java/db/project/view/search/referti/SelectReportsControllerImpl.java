@@ -4,9 +4,9 @@ package db.project.view.search.referti;
 
 import java.util.function.Consumer;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Report;
+import db.project.utils.Command;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;
 

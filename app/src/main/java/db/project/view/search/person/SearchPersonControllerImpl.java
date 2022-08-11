@@ -2,9 +2,9 @@ package db.project.view.search.person;
 
 import java.util.Collection;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Person;
+import db.project.utils.Command;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;

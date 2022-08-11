@@ -3,10 +3,10 @@ package db.project.view.search.hospital;
 import java.util.Collection;
 import java.util.Optional;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Hospital;
 import db.project.model.Uo;
+import db.project.utils.Command;
 import db.project.view.search.Selector;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.value.ObservableValue;

@@ -2,9 +2,9 @@ package db.project.view.modify.entities;
 
 import java.util.Objects;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.DoctorImpl;
+import db.project.utils.Command;
 import db.project.view.modify.ModifyController;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;

@@ -1,4 +1,4 @@
-package db.project;
+package db.project.utils;
 
 @FunctionalInterface
 public interface Command {

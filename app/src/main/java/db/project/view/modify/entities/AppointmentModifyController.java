@@ -5,10 +5,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.DoctorImpl;
 import db.project.model.PatientImpl;
+import db.project.utils.Command;
 import db.project.view.modify.ModifyController;
 import db.project.view.search.Selector;
 import javafx.fxml.FXML;

@@ -1,8 +1,8 @@
 package db.project.view.search.hospital;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.ASL;
+import db.project.utils.Command;
 import javafx.fxml.FXML;
 
 public class SelectASLControllerImpl extends SearchASLControllerImpl {

@@ -1,8 +1,8 @@
 package db.project.view.search;
 
-import db.project.Command;
 import db.project.controller.Controller;
 import db.project.model.Cure;
+import db.project.utils.Command;
 import db.project.view.search.referti.SearchCureControllerImpl;
 import javafx.fxml.FXML;
 
