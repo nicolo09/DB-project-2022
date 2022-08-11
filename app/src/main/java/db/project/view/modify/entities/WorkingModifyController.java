@@ -69,7 +69,7 @@ public class WorkingModifyController extends ModifyController{
 
     @FXML
     void selectPersonCF() {
-    	var person = this.selector.selectAdministrative();
+    	var person = this.selector.selectDoctor();
     	if(Objects.nonNull(person) && person instanceof DoctorImpl) {
     		var healthcare = (DoctorImpl) person;
     		

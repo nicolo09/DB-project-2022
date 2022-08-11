@@ -88,14 +88,14 @@ public class PatientModifyController extends ModifyController{
 
 	@FXML
 	private void selectElement() {
-		var person = this.selector.selectPerson();
+		var person = this.selector.selectPatient();
 		if(Objects.nonNull(person) && person instanceof PatientImpl) {
 			var patient = (PatientImpl) person;
 			this.clearAll();
 			txtCF.setText(patient.getCF());
 			txtName.setText(patient.getName());
 			txtLastName.setText(patient.getSurname());
-			birthDay.setAccessibleText(patient.getBirthDate().toString());
+			birthDay.setValue(Instant.ofEpochMilli(patient.getBirthDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
 			patient.getAsl().ifPresent(asl -> txtCodeASL.setText(asl.getCode().toString()));
 		}
 	}
