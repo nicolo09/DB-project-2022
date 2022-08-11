@@ -101,7 +101,8 @@ public abstract class ModifyController {
 			alert.showAndWait();
 			break;
 		
-		case EXIT_DATE_MISSING: alert = new Alert(AlertType.ERROR, "Impossibile rimuovere la cura selezionata, impostare una data di uscita prima di riprovare");
+		case EXIT_DATE_MISSING: alert = new Alert(AlertType.ERROR, "Impossibile rimuovere la cura selezionata." + NEWLINE
+				+ " impostare una data di uscita prima di riprovare");
 			alert.showAndWait();
 			break;
 			
@@ -114,7 +115,7 @@ public abstract class ModifyController {
 			alert.showAndWait();
 			break;
 		
-		case MISSING_ARGUMENTS: alert = new Alert(AlertType.ERROR, "I dati inseriti sono errati o non sufficienti, riprovare dopo averli compilati");
+		case MISSING_ARGUMENTS: alert = new Alert(AlertType.ERROR, "I dati inseriti sono errati o non sufficienti, riprovare dopo averli ricompilati");
 			alert.showAndWait();
 			break;
 		
