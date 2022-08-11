@@ -42,8 +42,8 @@ public class MainModifyViewImpl implements MainModifyView {
 		final Scene scene = new Scene(this.parent);
 		this.stage.setScene(scene);
 		this.stage.show();
-		this.stage.setMinWidth(scene.getWidth());
-		this.stage.setMinHeight(scene.getHeight());
+		stage.setWidth(scene.getWidth());
+		stage.setHeight(scene.getHeight());
 	}
 
 	@Override

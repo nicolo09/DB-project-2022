@@ -29,8 +29,8 @@ public class GenericModifyViewImpl implements SimpleView {
 		final Scene scene = new Scene(parent);
 		this.stage.setScene(scene);
 		this.stage.show();
-		stage.setMinWidth(scene.getWidth());
-		stage.setMinHeight(scene.getHeight());
+		stage.setWidth(scene.getWidth());
+		stage.setHeight(scene.getHeight());
 	}
 
 }
