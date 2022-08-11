@@ -17,7 +17,7 @@ public abstract class ModifyController {
 	protected final static int CFLENGHT = 16;
 	
 	protected final static String NEWLINE = System.getProperty("line.separator");
-	protected final static String SIMPLE_FORMATTER = "[a-z_A-Z_\\ ]*";
+	protected final static String SIMPLE_FORMATTER = "[a-z_A-Z_\\p{L}_\\ ]*";
 	protected final static String NUMBER_FORMATTER = "[0-9]*";
 	protected final static String CF_FORMATTER = "[a-z_A-Z_0-9]{0,16}";
 	protected final static String DOCTORS_FORMATTER = "[a-z_A-Z_0-9_:_\\s]*";
@@ -104,7 +104,8 @@ public abstract class ModifyController {
 			alert.showAndWait();
 			break;
 			
-		case EXIT_DATE_PRESENT: alert = new Alert(AlertType.ERROR, "Impossibile aggiornare la cura selezionata, la data di uscita è già stata registrata");
+		case EXIT_DATE_PRESENT: alert = new Alert(AlertType.ERROR, "La cura che si desidera aggiornare è già stata terminata, " + NEWLINE
+				+ "perciò non è più possibile modificarla");
 			alert.showAndWait();
 			break;
 			

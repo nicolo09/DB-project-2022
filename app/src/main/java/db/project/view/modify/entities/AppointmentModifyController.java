@@ -137,7 +137,7 @@ public class AppointmentModifyController extends ModifyController{
 			txtRoomNumber.setText(appointment.getRoom().getRoomNumber().toString());
 			
 			txtPatientCF.setText(appointment.getPatient().getCF());
-			txtDoctorCF.setText(String.join(SEPARATOR, appointment.getDoctors().stream().map(doctor -> doctor.getCF()).collect(Collectors.toList())) + SEPARATOR);
+			txtDoctorCF.setText(String.join(SEPARATOR + NEWLINE, appointment.getDoctors().stream().map(doctor -> doctor.getCF()).collect(Collectors.toList())) + SEPARATOR + NEWLINE);
 		}
     }
 

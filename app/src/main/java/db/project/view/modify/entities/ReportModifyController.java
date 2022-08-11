@@ -152,8 +152,8 @@ public class ReportModifyController extends ModifyController{
     		txtCodeHospital.setText(report.getHospital().getCode().toString());
     		txtCodeReport.setText(report.getCode().toString());
     		txtDescription.setText(report.getDescription());
-    		txtDoctors.setText(String.join(SEPARATOR, report.getInvolvedDoctors().stream().map(doctor -> doctor.getCF()).collect(Collectors.toList())) + SEPARATOR);
-    		txtIssueDate.setValue(report.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+    		txtDoctors.setText(String.join(SEPARATOR + NEWLINE, report.getInvolvedDoctors().stream().map(doctor -> doctor.getCF()).collect(Collectors.toList())) + SEPARATOR + NEWLINE);
+    		txtIssueDate.setValue(Instant.ofEpochMilli(report.getDate().getTime()).atZone(ZoneId.systemDefault()).toLocalDate());
     		
     		if(report instanceof VisitReportImpl) {
     		var visit = (VisitReportImpl) report;	
@@ -161,7 +161,7 @@ public class ReportModifyController extends ModifyController{
     			combType.setValue("Visita");
     		} else {
     		var surgery = (SurgeryReportImpl) report;
-    			txtDuration.setText(surgery.getDuration().toString());
+    			txtDuration.setText("" + surgery.getDuration().getSeconds()/60);
     			txtOutcome.setText(surgery.getOutcome());
     			txtProcedure.setText(surgery.getProcedure());
     			combType.setValue("Intervento");
