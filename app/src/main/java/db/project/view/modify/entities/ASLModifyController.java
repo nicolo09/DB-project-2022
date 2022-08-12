@@ -89,7 +89,7 @@ public class ASLModifyController extends ModifyController{
 			txtCodeASL.setText(asl.getCode().toString());
 			txtName.setText(asl.getName());
 			txtCity.setText(asl.getCity());
-			txtStreet.setText(asl.getAddress());
+			txtStreet.setText(asl.getWay());
 			txtStreetNumber.setText(asl.getNumber().toString());
 		}
 		
