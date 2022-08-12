@@ -113,7 +113,7 @@
             </VBox>
             <VBox prefWidth="357.0" spacing="20.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ultima &#10;manutenzione">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Ultima &#10;manutenzione" textFill="BLUE">
                      <font>
                         <Font size="26.0" />
                      </font>

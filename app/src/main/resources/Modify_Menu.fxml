@@ -23,7 +23,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <TitledPane prefHeight="355.0" prefWidth="242.0" text="Persone">
+            <TitledPane collapsible="false" prefHeight="355.0" prefWidth="242.0" text="Persone">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
@@ -42,7 +42,7 @@
                   </VBox>
                </content>
             </TitledPane>
-            <TitledPane prefHeight="355.0" prefWidth="242.0" text="Strutture" GridPane.columnIndex="2">
+            <TitledPane collapsible="false" prefHeight="355.0" prefWidth="242.0" text="Strutture" GridPane.columnIndex="2">
                <GridPane.margin>
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
@@ -61,7 +61,7 @@
                   </VBox>
                </content>
             </TitledPane>
-            <TitledPane prefHeight="355.0" prefWidth="242.0" text="Azioni prinicpali" GridPane.columnIndex="1">
+            <TitledPane collapsible="false" prefHeight="355.0" prefWidth="242.0" text="Azioni prinicpali" GridPane.columnIndex="1">
                <content>
                   <VBox alignment="CENTER" spacing="30.0">
                      <children>
@@ -79,9 +79,9 @@
                   <Insets left="20.0" right="20.0" />
                </GridPane.margin>
             </TitledPane>
-            <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna al menù prinicpale" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#goBack" text="Torna al menù prinicpale" GridPane.columnIndex="1" GridPane.rowIndex="1" />
          </children>
       </GridPane>
-      <Label layoutX="54.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="-Inserimento: compilare i campi necessari ed eventualmente quelli opzionali, poi premere &quot;Inserisci&quot;&#10;-Rimozione: compilare i campi sottolineati e premere il pulsante &quot;Rimuovi&quot;&#10;-Aggiornamento: compilare i campi sottolineati e quelli che si desidera modificare, non tutte le entità posso essere aggiornate&#10;È possibile compilare automaticamente vari campi attraverso il pulsante &quot;Seleziona&quot;,&#10;invece per cancellare velocemente tutti i campi compilati si può usare il pulsante &quot;Svuota&quot;.&#10;" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="14.0" />
+      <Label layoutX="54.0" layoutY="14.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="-Inserimento: compilare i campi necessari ed eventualmente quelli opzionali, poi premere &quot;Inserisci&quot;&#10;-Rimozione: compilare i campi sottolineati e premere il pulsante &quot;Rimuovi&quot;&#10;-Aggiornamento: compilare i campi sottolineati e quelli che si desidera modificare, tra quelli evidenziati in blu&#10;È possibile compilare automaticamente vari campi attraverso il pulsante &quot;Seleziona&quot;,&#10;invece per cancellare velocemente tutti i campi compilati si può usare il pulsante &quot;Svuota&quot;.&#10;" AnchorPane.leftAnchor="54.0" AnchorPane.rightAnchor="54.0" AnchorPane.topAnchor="14.0" />
    </children>
 </AnchorPane>

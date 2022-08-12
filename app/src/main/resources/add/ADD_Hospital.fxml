@@ -59,7 +59,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Nome">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Nome" textFill="BLUE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -101,7 +101,7 @@
                <children>
                   <HBox spacing="20.0">
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice ASL">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Codice ASL" textFill="BLUE">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -131,7 +131,7 @@
             </Button>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#removeElement" text="Rimuovi">
                <font>
-                  <Font size="29.0" />
+                  <Font size="28.0" />
                </font>
             </Button>
             <Button maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minWidth="150.0" mnemonicParsing="false" onMouseClicked="#updateElement" text="Aggiorna">

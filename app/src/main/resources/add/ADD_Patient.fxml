@@ -83,7 +83,7 @@
             </VBox>
             <VBox spacing="7.0" GridPane.rowIndex="2">
                <children>
-                  <Label text="Codice ASL*">
+                  <Label text="Codice ASL*" textFill="BLUE">
                      <font>
                         <Font size="26.0" />
                      </font>

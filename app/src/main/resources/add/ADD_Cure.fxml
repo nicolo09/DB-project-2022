@@ -102,7 +102,7 @@
                   </VBox>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.rowIndex="2">
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Data uscita*">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Data uscita*" textFill="BLUE">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -122,7 +122,7 @@
                   </VBox>
                   <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" GridPane.columnIndex="1" GridPane.rowIndex="1">
                      <children>
-                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Data ingresso">
+                        <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Data ingresso" underline="true">
                            <font>
                               <Font size="18.0" />
                            </font>
@@ -134,7 +134,7 @@
             </GridPane>
             <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefWidth="283.0" spacing="10.0" GridPane.columnIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Motivazione">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Motivazione" textFill="BLUE">
                      <font>
                         <Font size="18.0" />
                      </font>

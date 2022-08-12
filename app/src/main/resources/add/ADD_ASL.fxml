@@ -31,7 +31,7 @@
                   <Insets top="10.0" />
                </HBox.margin>
             </Button>
-            <Label text="**Il campo &quot;Codice&quot; è da compilare unicamente se si vuole aggiornare&#10;o rimuovere un'entità già registrata">
+            <Label text="**Il campo &quot;Codice&quot; è da compilare unicamente se si vuole aggiornare&#10;o rimuovere un'entità già registrata&#10;***Questi campi vanno compilati insieme quando si vuole aggiornarli">
                <HBox.margin>
                   <Insets top="8.0" />
                </HBox.margin>
@@ -64,7 +64,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Nome">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Nome" textFill="BLUE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -74,7 +74,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.rowIndex="2">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Numero Civico">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Numero Civico***" textFill="BLUE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -84,7 +84,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Città">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Città***" textFill="BLUE">
                      <font>
                         <Font size="18.0" />
                      </font>
@@ -94,7 +94,7 @@
             </VBox>
             <VBox prefHeight="200.0" prefWidth="100.0" spacing="10.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
                <children>
-                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Via">
+                  <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="Via***" textFill="BLUE">
                      <font>
                         <Font size="18.0" />
                      </font>
