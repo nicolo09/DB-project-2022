@@ -59,7 +59,7 @@ public class SearchUoControllerImpl {
     private TableColumn<Uo, Integer> columnCapacity;
 
     @FXML
-    private ToggleGroup toggleGroupCapacity;
+    private ToggleGroup searchType;
 
     @FXML
     private TextField textHospitalCode;
@@ -104,7 +104,7 @@ public class SearchUoControllerImpl {
         // More than one uo
         Optional<Boolean> freeSpaceOptional;
         if (checkCapacity.isSelected()) {
-            RadioButton selected = (RadioButton) toggleGroupCapacity.getSelectedToggle();
+            RadioButton selected = (RadioButton) searchType.getSelectedToggle();
             if (selected.equals(toggleFull)) {
                 freeSpaceOptional = Optional.of(false);
             } else {
