@@ -45,7 +45,7 @@ public class ModelImpl implements Model {
     private String tableCure = "cure";
     private String tableTelephones = "telefoni";
     private String tableEquipments = "attrezzature";
-
+    
     /**
      * Creates a simple connection to a local database
      */
@@ -73,12 +73,12 @@ public class ModelImpl implements Model {
         if (name.isPresent() || surname.isPresent()) {
             query += "WHERE ";
             if (name.isPresent()) {
-                query += "Nome LIKE '" + name.get() + "' ,";
+                query += "Nome LIKE '" + name.get() + "' AND ";
             }
             if (surname.isPresent()) {
-                query += "Cognome LIKE '" + surname.get() + "' ,";
+                query += "Cognome LIKE '" + surname.get() + "' AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -112,15 +112,15 @@ public class ModelImpl implements Model {
         if (name.isPresent() || surname.isPresent() || role.isPresent()) {
             query += " WHERE ";
             if (name.isPresent()) {
-                query += "Nome LIKE '" + name.get() + "', ";
+                query += "Nome LIKE '" + name.get() + "' AND ";
             }
             if (surname.isPresent()) {
-                query += "Cognome LIKE '" + surname.get() + "', ";
+                query += "Cognome LIKE '" + surname.get() + "' AND ";
             }
             if (role.isPresent()) {
-                query += "Ruolo LIKE '" + role.get() + "', ";
+                query += "Ruolo LIKE '" + role.get() + "' AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -157,18 +157,18 @@ public class ModelImpl implements Model {
         if (name.isPresent() || surname.isPresent() || birthDate.isPresent() || ASLCode.isPresent()) {
             query += " WHERE ";
             if (name.isPresent()) {
-                query += "Nome LIKE '" + name.get() + "', ";
+                query += "Nome LIKE '" + name.get() + "' AND ";
             }
             if (surname.isPresent()) {
-                query += "Cognome LIKE '" + surname.get() + "', ";
+                query += "Cognome LIKE '" + surname.get() + "' AND ";
             }
             if (birthDate.isPresent()) {
-                query += "Data_nascita='" + new java.sql.Date(birthDate.get().getTime()) + "', ";
+                query += "Data_nascita='" + new java.sql.Date(birthDate.get().getTime()) + "' AND ";
             }
             if (ASLCode.isPresent()) {
-                query += "Cod_ASL=" + ASLCode.get() + ", ";
+                query += "Cod_ASL=" + ASLCode.get() + " AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -208,18 +208,18 @@ public class ModelImpl implements Model {
         if (name.isPresent() || surname.isPresent() || role.isPresent() || hospitalCode.isPresent()) {
             query += " WHERE ";
             if (name.isPresent()) {
-                query += "Nome LIKE '" + name.get() + "', ";
+                query += "Nome LIKE '" + name.get() + "' AND ";
             }
             if (surname.isPresent()) {
-                query += "Cognome LIKE '" + surname.get() + "', ";
+                query += "Cognome LIKE '" + surname.get() + "' AND ";
             }
             if (role.isPresent()) {
-                query += "Ruolo LIKE '" + role.get() + "', ";
+                query += "Ruolo LIKE '" + role.get() + "' AND ";
             }
             if (hospitalCode.isPresent()) {
-                query += "Codice_ospedale=" + hospitalCode.get() + ", ";
+                query += "Codice_ospedale=" + hospitalCode.get() + " AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -470,18 +470,18 @@ public class ModelImpl implements Model {
         if (name.isPresent() || city.isPresent() || way.isPresent() || number.isPresent()) {
             query += " WHERE ";
             if (name.isPresent()) {
-                query += "Nome LIKE '" + name.get() + "', ";
+                query += "Nome LIKE '" + name.get() + "' AND ";
             }
             if (city.isPresent()) {
-                query += "Ind_Citta LIKE '" + city.get() + "', ";
+                query += "Ind_Citta LIKE '" + city.get() + "' AND ";
             }
             if (way.isPresent()) {
-                query += "Ind_Via LIKE '" + way.get() + "', ";
+                query += "Ind_Via LIKE '" + way.get() + "' AND ";
             }
             if (number.isPresent()) {
-                query += "Ind_Numero_civico LIKE '" + number.get() + "', ";
+                query += "Ind_Numero_civico LIKE '" + number.get() + "' AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -498,21 +498,21 @@ public class ModelImpl implements Model {
         if (name.isPresent() || city.isPresent() || way.isPresent() || number.isPresent() || asl.isPresent()) {
             query += " WHERE ";
             if (name.isPresent()) {
-                query += "Nome LIKE '" + name.get() + "', ";
+                query += "Nome LIKE '" + name.get() + "' AND ";
             }
             if (city.isPresent()) {
-                query += "Ind_Citta LIKE '" + city.get() + "', ";
+                query += "Ind_Citta LIKE '" + city.get() + "' AND ";
             }
             if (way.isPresent()) {
-                query += "Ind_Via LIKE '" + way.get() + "', ";
+                query += "Ind_Via LIKE '" + way.get() + "' AND ";
             }
             if (number.isPresent()) {
-                query += "Ind_Numero_civico LIKE '" + number.get() + "', ";
+                query += "Ind_Numero_civico LIKE '" + number.get() + "' AND ";
             }
             if (asl.isPresent()) {
-                query += "Cod_ASL = " + asl.get().getCode() + ", ";
+                query += "Cod_ASL = " + asl.get().getCode() + " AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -558,19 +558,19 @@ public class ModelImpl implements Model {
         if (name.isPresent() || freeSpace.isPresent() || hospital.isPresent()) {
             query += " WHERE ";
             if (name.isPresent()) {
-                query += "Nome LIKE '" + name.get() + "', ";
+                query += "Nome LIKE '" + name.get() + "' AND ";
             }
             if (freeSpace.isPresent()) {
                 if (freeSpace.get()) {
-                    query += "Capienza > Posti_occupati, ";
+                    query += "Capienza > Posti_occupati AND ";
                 } else {
-                    query += "Capienza <= Posti_occupati, ";
+                    query += "Capienza <= Posti_occupati AND ";
                 }
             }
             if (hospital.isPresent()) {
-                query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
+                query += "Codice_ospedale = " + hospital.get().getCode() + " AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -586,22 +586,22 @@ public class ModelImpl implements Model {
         String query = "SELECT DISTINCT " + tableAppointment + ".*" + " FROM " + tableAppointment + " INNER JOIN "
                 + tablePresence + " ON " + tableAppointment + ".Numero_sala = " + tablePresence + ".Numero_sala"
                 + " AND " + tableAppointment + ".Codice_ospedale = " + tablePresence + ".Codice_ospedale" + " AND "
-                + tableAppointment + ".Data_ora = " + tablePresence + ".Data_ora ";
+                + tableAppointment + ".Data_ora = " + tablePresence + ".Data_ora";
         if (doctor.isPresent() || patient.isPresent() || hospital.isPresent() || date.isPresent()) {
             query += " WHERE ";
             if (doctor.isPresent()) {
-                query += "Medico = '" + doctor.get().getCF() + "'', ";
+                query += "Medico = '" + doctor.get().getCF() + "' AND ";
             }
             if (patient.isPresent()) {
-                query += "Paziente = '" + patient.get().getCF() + "', ";
+                query += "Paziente = '" + patient.get().getCF() + "' AND ";
             }
             if (hospital.isPresent()) {
-                query += "Codice_ospedale = " + hospital.get().getCode() + ", ";
+                query += tableAppointment + ".Codice_ospedale = " + hospital.get().getCode() + " AND ";
             }
             if (date.isPresent()) {
-                query += "Data = '" + java.sql.Date.valueOf(date.get()) + "', ";
+                query += "DATE(" + tableAppointment + ".Data_ora) = '" + java.sql.Date.valueOf(date.get()) + "' AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             ResultSet rs = statement.executeQuery();
@@ -653,24 +653,24 @@ public class ModelImpl implements Model {
                 || reason.isPresent()) {
             query += " WHERE ";
             if (patient.isPresent()) {
-                query += "Paziente = '" + patient.get().getCF() + "', ";
+                query += "Paziente = '" + patient.get().getCF() + "' AND ";
             }
             if (uo.isPresent()) {
-                query += "Nome_unita = " + uo.get().getName() + ", " + "Codice_ospedale = "
-                        + uo.get().getHospital().getCode() + ", ";
+                query += "Nome_unita = " + uo.get().getName() + " AND " + "Codice_ospedale = "
+                        + uo.get().getHospital().getCode() + " AND ";
             }
             if (dateInInterval.isPresent()) {
-                query += "Data_ingresso BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
-                        + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "', ";
+                query += "(Data_ingresso BETWEEN '" + java.sql.Date.valueOf(dateInInterval.get().getKey()) + "' AND '"
+                        + java.sql.Date.valueOf(dateInInterval.get().getValue()) + "') AND ";
             }
             if (dateOutInterval.isPresent()) {
-                query += "Data_uscita BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
-                        + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "', ";
+                query += "(Data_uscita BETWEEN '" + java.sql.Date.valueOf(dateOutInterval.get().getKey()) + "' AND '"
+                        + java.sql.Date.valueOf(dateOutInterval.get().getValue()) + "') AND ";
             }
             if (reason.isPresent()) {
-                query += "Motivazione LIKE '" + reason.get() + "', ";
+                query += "Motivazione LIKE '" + reason.get() + "' AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
@@ -778,13 +778,13 @@ public class ModelImpl implements Model {
         if (doctor.isPresent() || uo.isPresent()) {
             query += " WHERE ";
             if (doctor.isPresent()) {
-                query += "Codice_fiscale LIKE '" + doctor.get().getCF() + "', ";
+                query += "Codice_fiscale LIKE '" + doctor.get().getCF() + "' AND ";
             }
             if (uo.isPresent()) {
-                query += "Codice_ospedale = " + uo.get().getHospital().getCode() + ", ";
-                query += "Nome_unita = " + uo.get().getName() + ", ";
+                query += "Codice_ospedale = " + uo.get().getHospital().getCode() + " AND ";
+                query += "Nome_unita = " + uo.get().getName() + " AND ";
             }
-            query = query.substring(0, query.length() - 2);
+            query = query.substring(0, query.length() - 5);
         }
         try (final PreparedStatement statement = this.dbConnection.prepareStatement(query)) {
             statement.executeQuery();
