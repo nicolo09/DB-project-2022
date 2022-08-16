@@ -12,7 +12,6 @@ import java.util.Optional;
 import db.project.model.TABLES;
 import db.project.model.OPERATION_OUTCOME;
 
-//TODO rivedere i tipi inseriti nel database logico e correggerli
 public class DataInserterImpl implements DataInserter {
 	
 	private final static String NEWLINE = System.getProperty("line.separator");
