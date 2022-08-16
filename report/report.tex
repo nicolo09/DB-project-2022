@@ -8,6 +8,7 @@
 \usepackage{adjustbox}
 \usepackage{siunitx}
 \usepackage{tabularx}
+\usepackage{enumitem}
 \sisetup{group-separator={\text{\space}}}
 
 % Questo commentalo se vuoi scrivere in inglese.
@@ -1358,8 +1359,246 @@ use Hospital;\newline
 
      ON DELETE CASCADE; \newline
 
-\appendix 
 \chapter{Query SQL delle operazioni principali}
+
+\begin{enumerate}[leftmargin=0cm,itemindent=.5cm,labelwidth=\itemindent,labelsep=0cm,align=left]
+    \item \textbf{Aggiungere un nuovo ospedale:} \newline
+    INSERT INTO OSPEDALI(Nome, Ind\_Citta, Ind\_Via, Ind\_Numero\_Civico, Cod\_ASL) 
+
+    VALUES(?, ?, ?, ?, ?)
+
+    \item \textbf{Aggiungere una nuova unità operativa:} \newline
+    INSERT INTO UNITA\_OPERATIVE(Codice\_ospedale, Nome, Capienza, Posti\_occupati)
+
+    VALUES(?, ?, ?, ?)
+
+    \item \textbf{Rimuovere una unità operativa:} \newline
+    DELETE FROM UNITA\_OPERATIVE
+
+    WHERE Codice\_ospedale = ? AND Nome = ?
+
+    \item \textbf{Rimuovere una unità operativa:} \newline
+    DELETE FROM UNITA\_OPERATIVE
+
+    WHERE Codice\_ospedale = ? AND Nome = ?
+
+    \item \textbf{Aggiungere un nuovo paziente:} 
+    \begin{itemize}
+        \item \textbf{Controlliamo se il paziente che vogliamo aggiungere è già in PERSONE} \newline
+        SELECT COUNT(*)
+
+        FROM PERSONE
+
+        WHERE Codice\_fiscale = ?
+
+        \item \textbf{Se questa query restituisce un valore uguale a 0 allora procediamo ad aggiungere la persona, 
+        altrimenti saltiamo al prossimo punto:} \newline
+        INSERT INTO PERSONE(Nome, Cognome, Codice\_fiscale)
+
+        VALUES(?, ?, ?)
+
+        \item \textbf{Dopodichè si procede con la registrazione del paziente:} \newline
+        INSERT INTO PAZIENTI(Codice\_fiscale, Data\_nascita, Cod\_ASL)
+
+        VALUES(?, ?, ?)
+
+    \end{itemize}
+    \item \textbf{Aggiungere un impiegato o medico:} 
+    \begin{itemize}
+        \item \textbf{Controlliamo se l'impiegato/medico che vogliamo aggiungere è già in PERSONE} \newline
+        SELECT COUNT(*)
+
+        FROM PERSONE
+
+        WHERE Codice\_fiscale = ?
+
+        \item \textbf{Se questa query restituisce un valore uguale a 0 allora procediamo ad aggiungere la persona, 
+        altrimenti saltiamo al prossimo punto:} \newline
+        INSERT INTO PERSONE(Nome, Cognome, Codice\_fiscale)
+
+        VALUES(?, ?, ?)
+
+        \item \textbf{Dopodichè si aggiunge ad Amministrativi:} \newline
+        INSERT INTO AMMINISTRATIVI(Codice\_fiscale, Ruolo, Codice\_ospedale)
+
+        VALUES(?, ?, ?)
+
+        \item \textbf{Oppure al Personale Sanitario:} \newline
+        INSERT INTO PERSONALE\_SANITARIO(Codice\_fiscale, Ruolo)
+
+        VALUES(?, ?)
+
+    \end{itemize}
+    \item \textbf{Fissare un appuntamento:} 
+    \begin{itemize}
+        \item \textbf{Cerco appuntamenti già fissati con lo stesso medico o nella stessa sala che si sovrapporrebbero a quello che si vorrebbe fissare.
+        I parametri della seguente query sono 4, nell'ordine la data e ora, la durata, il medico, e la sala del nuovo appuntamento che si vuole fissare.} \newline
+        
+        SET @newdate = ?;
+
+        SET @durata = ?;
+
+        SELECT *
+
+        FROM APPUNTAMENTI
+
+        INNER JOIN PRESENZIA
+
+        ON APPUNTAMENTI.Numero\_sala = PRESENZIA.Numero\_sala AND APPUNTAMENTI.Codice\_ospedale = PRESENZIA.Codice\_ospedale
+        
+        WHERE (Medico = ? AND
+
+            (TIMESTAMPDIFF(SECOND, @newdate , PRESENZIA.Data\_ora) \textless= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, PRESENZIA.Data\_ora), @newdate) \textless 0) OR
+            
+            (TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), PRESENZIA.Data\_ora) \textless 0 AND TIMESTAMPDIFF(SECOND, @newdate, PRESENZIA.Data\_ora) \textgreater 0))
+            
+            OR
+            
+            (PRESENZIA.Numero\_sala = ? AND PRESENZIA.Codice\_ospedale = ? AND
+            
+            (TIMESTAMPDIFF(SECOND, @newdate, PRESENZIA.Data\_ora) \textless= 0 AND TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, Durata, PRESENZIA.Data\_ora), @newdate) \textless 0) OR
+            
+            (TIMESTAMPDIFF(SECOND, TIMESTAMPADD(MINUTE, @durata, @newdate), PRESENZIA.Data\_ora) \textless 0 AND TIMESTAMPDIFF(SECOND, @newdate, PRESENZIA.Data\_ora) \textgreater 0))
+
+        \item \textbf{Se la query restituisce un numero vuol dire che l'appuntamento si sovrapporrebbe ad un altro già fissato, altrimenti si può procedere a inserirlo 
+        con la seguente query:} \newline
+        
+        INSERT INTO APPUNTAMENTI(Codice\_ospedale, Numero\_sala, Data\_ora, Durata, Tipo, Paziente)
+        
+        VALUES(?, ?, ?, ?, ?, ?)
+
+        INSERT INTO PRESENZIA(Medico, Codice\_ospedale, Numero\_sala, Data\_ora)
+        
+        VALUES(?, ?, ?, ?)
+
+    \end{itemize}
+    \item \textbf{Cancellare un appuntamento:} Per cancellare un appuntamento è sufficiente eliminarlo dalla tabella appuntamenti, i vincoli si occuperanno di eliminare a cascata
+    le presenze dei medici all'appuntamento dalla tabella presenzia.
+
+    DELETE FROM APPUNTAMENTI
+    
+    WHERE Codice\_ospedale = ? AND Numero\_sala = ? AND Data\_ora = ?
+
+    \item \textbf{Cambiare la data e/o il luogo di un appuntamento:} \newline
+    
+    UPDATE APPUNTAMENTI
+
+    SET Data\_ora = ?, Numero\_sala = ?
+
+    WHERE Codice\_ospedale = ? AND Numero\_sala = ? AND Data\_ora = ?
+
+    \item \textbf{Aggiungere un nuovo referto:} \newline
+    
+    INSERT INTO REFERTI(Data\_emissione, Descrizione, Tipo, Terapia, Procedura, Esito, Durata, Codice\_ospedale, Paziente)
+    
+    VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)
+
+    \item \textbf{Ricercare referti per medico o per paziente}
+    \begin{itemize}
+        \item Per avere tutti i referti associati ad un paziente specifico si utilizza la seguente query:
+        
+        SELECT *
+        
+        FROM REFERTI
+        
+        WHERE Paziente = ?
+
+        \item Per avere i referti associati ad un medico invece si usa la seguente:
+        
+        SELECT *
+       
+        FROM REFERTI
+       
+        WHERE Codice\_referto IN (
+
+            SELECT Referto
+            
+            FROM COINVOLGIMENTI
+            
+            WHERE Medico = ?
+            
+            )
+    \end{itemize}
+    
+    \item \textbf{Aggiungere nuova attrezzatura:} \newline
+    
+    INSERT INTO ATTREZZATURE(Codice\_ospedale, Codice\_inventario, Nome, Data\_manutenzione)
+    
+    VALUES(?, ?, ?, ?)
+
+    \item \textbf{Rimuovere attrezzatura:} \newline
+    
+    DELETE FROM ATTREZZATURE
+
+    WHERE Codice\_ospedale = ? AND Codice\_inventario = ?
+
+    \item \textbf{Aggiornare la data di manutenzione di un'attrezzatura} \newline
+    UPDATE ATTREZZATURE
+    
+    SET Data\_emissione = ?
+    
+    WHERE Codice\_ospedale = ? AND Codice\_inventario = ?
+
+    \item \textbf{Ricercare ospedali con determinate unità operative} \newline
+    SELECT *
+
+    FROM OSPEDALI
+    
+    WHERE Codice\_struttura IN (
+    
+        SELECT Codice\_ospedale
+    
+        FROM UNITA\_OPERATIVE
+    
+        WHERE Nome = ?
+
+    )
+
+    \item \textbf{Ricerca di ospedali appartenenti ad un'ASL specifica} \newline
+    SELECT *
+    
+    FROM OSPEDALI
+    
+    WHERE Cod\_ASL = ?
+
+    \item \textbf{Aggiungere una nuova sala ad un ospedale} \newline
+    INSERT INTO SALE(Codice\_ospedale, Numero)
+    
+    VALUES(?, ?)
+
+    \item \textbf{Rimuovere una sala da un ospedale} \newline
+    DELETE FROM SALE
+    
+    WHERE Codice\_ospedale = ?, Numero = ?
+
+    \item \textbf{Ricercare ospedali con posti liberi in una determinata unità operativa} \newline
+    SELECT *
+    
+    FROM OSPEDALI
+    
+    WHERE Codice\_struttura IN (
+    
+        SELECT Codice\_ospedale
+        
+        FROM UNITA\_OPERATIVE
+        
+        WHERE Nome = ? AND Capienza > Posti\_occupati
+    
+    )
+
+    \item \textbf{Aggiungere pazienti in cura presso un ospedale} \newline
+    INSERT INTO CURE(Paziente, Codice\_ospedale, Nome\_unita, Data\_ingresso, Data\_uscita, Motivazione)
+    
+    VALUES(?, ?, ?, ?, ?, ?)
+
+    \item \textbf{Rimuovere un paziente in cura presso un ospedale} \newline
+    UPDATE CURE
+
+    SET Data\_uscita = ?
+
+    WHERE Paziente = ?, Codice\_ospedale = ?, Nome\_unita = ?
+
+\end{enumerate}
 
 \end{document}
 
