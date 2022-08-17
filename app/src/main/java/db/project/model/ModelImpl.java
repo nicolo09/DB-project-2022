@@ -33,7 +33,7 @@ public class ModelImpl implements Model {
     private final DataUpdater updater;
     private final DataRemover remover;
     private final HospitalDeletionCounter counter;
-    private String dbName = "hospital";
+    private String dbName = "Hospital";
     private String tablePersons = "persone";
     private String tableReports = "referti";
     private String tableHospital = "ospedali";
