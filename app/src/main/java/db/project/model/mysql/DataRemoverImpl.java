@@ -157,6 +157,15 @@ public class DataRemoverImpl implements DataRemover {
 			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
 		}
 		
+		var op = this.deleteHospitalUOs(structureCode);
+		if(!op.equals(OPERATION_OUTCOME.SUCCESS)) {
+			return op;
+		}
+		op = this.deleteHospitalAppointments(structureCode);
+		if(!op.equals(OPERATION_OUTCOME.SUCCESS)) {
+			return op;
+		}
+		
 		String query = "DELETE FROM " + TABLES.HOSPITAL.get() + " WHERE Codice_struttura LIKE ?";
 		try (final PreparedStatement statement = this.connection.prepareStatement(query)){
 			statement.setInt(1, structureCode);
@@ -332,6 +341,41 @@ public class DataRemoverImpl implements DataRemover {
 			statement.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
+			return OPERATION_OUTCOME.FAILURE;
+		}
+		
+		return OPERATION_OUTCOME.SUCCESS;
+	}
+	
+	private OPERATION_OUTCOME deleteHospitalUOs(final int hospitalCode) {
+		if(checkNulls(hospitalCode)) {
+			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
+		}
+		
+		String cureQuery = "DELETE FROM " + TABLES.CURE.get() + " WHERE Codice_ospedale LIKE ?";
+		try (final PreparedStatement cureStatement = this.connection.prepareStatement(cureQuery)){
+			cureStatement.setInt(1, hospitalCode);
+			cureStatement.executeUpdate();
+			
+			this.removeUO(hospitalCode, "%");
+			
+		} catch (SQLException e) {
+			return OPERATION_OUTCOME.FAILURE;
+		}
+		
+		return OPERATION_OUTCOME.SUCCESS;
+	}
+	
+	private OPERATION_OUTCOME deleteHospitalAppointments(final int hospitalCode) {
+		if(checkNulls(hospitalCode)) {
+			return OPERATION_OUTCOME.MISSING_ARGUMENTS;
+		}
+		String appointmentQuery = "DELETE FROM " + TABLES.APPOINTMENT.get() + " WHERE Codice_ospedale LIKE ?";
+		try(final PreparedStatement roomStatement = this.connection.prepareStatement(appointmentQuery)){
+			roomStatement.setInt(1, hospitalCode);
+			roomStatement.executeUpdate();
+			
+		} catch (SQLException e) {
 			return OPERATION_OUTCOME.FAILURE;
 		}
 		
