@@ -1600,8 +1600,42 @@ use Hospital;\newline
 
 \end{enumerate}
 
-\end{document}
+\chapter{Guida utente all'applicativo}
 
-%TODO Mettere i plurali alle tabelle
-%TODO Mettere int ai codici auto increment
-%TODO Aggiungere vincoli di identita referenziale (Unità operativa -- Lavora) (Personale sanitario -- Lavora)
+L'applicativo realizzato consente di interagire con il database per gli aspetti di inserimento, cancellazione, modifica e consultazione dei dati.
+All'avvio vengono richieste le credenziali per accedere all'istanza di mySQL in esecuzione sul computer locale. Inoltre se non viene trovato il database l'applicazione chiede se lo si 
+vuole creare e nel caso procede all'esecuzione delle query necessarie.
+La schermata principale consente di scegliere tra la sezione di modifica e quella di consultazione.
+In ognuna delle sezioni di modifica è possibile scegliere tra le seguenti operazioni:
+\begin{itemize}
+    \item Inserimento: È sufficiente compilare i campi e premere il pulsante "Inserisci" per eseguire l'inserimento.
+    \item Cancellazione: Selezionare un entità da eliminare con l'apposito tasto "Seleziona" e premere il pulsante "Rimuovi" per eseguire la cancellazione.
+    \item Modifica (non sempre disponibile): Selezionare un entità da modificare con l'apposito tasto "Seleziona", modificarne i campi (i campi modificabili sono evidenziati in blu),
+    dopodichè premere il pulsante "Aggiorna" per eseguire la modifica.
+\end{itemize}
+Un messaggio a schermo indicherà se l'operazione è andata a buon fine.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Screenshot_aggiunta_referti.png}
+	\caption{Schermata di aggiunta dei referti.}
+	\label{img:add_referti}
+\end{figure}
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Screenshot_aggiunta_ricoveri.png}
+	\caption{Schermata di aggiunta dei referti.}
+	\label{img:add_ricoveri}
+\end{figure}
+
+Nella sezione di consultazione è invece possibile visualizzare i dati divisi per categorie e ricercarli attraverso filtri propri di ogni entità che si vuole visualizzare.
+
+\begin{figure}[H]
+	\centering{}
+	\includegraphics[width=\textwidth]{img/Screenshot_ricerca_ospedale.png}
+	\caption{Schermata di ricerca degli ospedali.}
+	\label{img:search_hospital}
+\end{figure}
+
+\end{document}
