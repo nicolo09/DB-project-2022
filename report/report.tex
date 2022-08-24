@@ -93,7 +93,6 @@ appuntamenti allo stesso tempo.
   \item Aggiungere un nuovo impiegato/medico
   \item Fissare un appuntamento
   \item Cancellare un appuntamento
-  \item Cambiare la data e/o il luogo di un appuntamento
   \item Aggiungere un nuovo referto
   \item Ricercare i referti per medico o per paziente
   \item Aggiungere nuova attrezzatura
@@ -133,7 +132,6 @@ Anche visite e interventi sono estensioni della generica entità referto, ne rap
 poter ricostruire lo storico degli interventi di un medico ogni referto è anche associato al medico che lo ha prodotto.
 
 È stata anche aggiunta la relazione di registrazione di un paziente presso una determinata ASL.
-% TODO considerazioni per relazione cura, direttore dell'unità operativa, volume Persona
 
 Lo schema E/R definitivo risulta quindi essere il seguente:
 \begin{figure}[p]
@@ -215,7 +213,6 @@ Segue ora una tabella in cui vengono riportate le principali operazioni da effet
     Aggiungere un nuovo impiegato/medico & 2000 al mese \\
     Fissare un appuntamento & 30000 al giorno \\
     Cancellare un appuntamento & 3000 al giorno \\
-    Cambiare la data e/o il luogo di un appuntamento & 2000 al giorno \\
     Aggiungere un nuovo referto & 10000 al giorno \\
     Ricercare i referti per medico o per paziente & 7000 al giorno \\
     Aggiungere nuova attrezzatura & 40 all'anno \\
@@ -429,28 +426,7 @@ normali una visita è presieduta da un solo medico, quindi si considera questo c
 \vspace{3pt}\newline
 Costo operazione: 1W + 1W + 1W + 1W = 8 \newline Costo totale: 8 * 3000 (al giorno) = 24000 al giorno
 
-\subsubsection*{8 - Cambiare la data o il luogo dell'appuntamento}
-Cambiare data e ora di un appuntamento conoscendo la nuova data e ora e la nuova sala in cui si svolgerà richiede solamente di effettuare un aggiornamento
-sull'entità \emph{Appuntamento} e una sulla relazione \emph{Si svolge}.
-\vspace{6pt}
-\newline
-\begin{tabularx}{\textwidth}{ 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X 
-  | >{\centering\arraybackslash}X |}
-  \hline
-  Soggetto & E/R & Accessi & R/W \\
-  \hline
-  Appuntamento & E & 1 & W \\
-  \hline
-  Si svolge & R & 1 & W \\
-  \hline
-\end{tabularx}
-\vspace{3pt}\newline
-Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 2000 (al giorno) = 8000 al giorno
-
-\subsubsection*{9 - Aggiungere un nuovo referto}
+\subsubsection*{8 - Aggiungere un nuovo referto}
 \emph{Referto} è un'entità che ha come sotto entità nella gerarchia \emph{Intervento} e \emph{Visita}, essendo però una copertura totale ed esclusiva e non avendo le 
 sotto entità altre relazioni, consideriamo solo \emph{Referto} nel calcolo dei costi per l'inserimento. La media delle associazioni \emph{Coinvolgimento} tra \emph{Personale sanitario}
 e \emph{Referto} è ottenuta considerando che la maggioranza delle visite è tra un solo medico e il paziente, mentre quasi tutti gli interventi richiedono più personale.
@@ -476,7 +452,7 @@ e \emph{Referto} è ottenuta considerando che la maggioranza delle visite è tra
 \vspace{3pt}\newline
 Costo operazione: 1W + 1W + 1W + 2W = 10 \newline Costo totale: 10 * 10000 (al giorno) = 100000 al giorno
 
-\subsubsection*{10 - Ricercare i referti per medico o per paziente}
+\subsubsection*{9 - Ricercare i referti per medico o per paziente}
 Ricercare i referti per paziente assumendo di conoscere già il codice fiscale del paziente richiede di leggere tutte le tuple legate a quel paziente in \emph{Associazione},
 e quindi tutti i referti associati. Si considerano 2 referti per ogni persona come media. Dato che è necessario sapere dove un referto è stato emesso e chi è coinvolto si
 considerano anche le letture di queste relazioni.
@@ -539,7 +515,7 @@ Costo operazione: 18R + 18R + 18R + 18R = 72 \newline Costo totale: 72 * 1000 (a
 	\caption{Schema di navigazione.}
 	\label{img:nav_ref_medico}
 \end{figure}
-\subsubsection*{11 - Aggiungere nuova attrezzatura}
+\subsubsection*{10 - Aggiungere nuova attrezzatura}
 L'aggiunta di nuova attrezzatura richiede di aggiungere una tupla all'entità \emph{Attrezzatura}, e di registrare la sua associazione \emph{Possiede} con l'ospedale.
 \vspace{6pt}
 \newline
@@ -559,7 +535,7 @@ L'aggiunta di nuova attrezzatura richiede di aggiungere una tupla all'entità \e
 \vspace{3pt}\newline
 Costo operazione: 1W + 1W = 4 \newline Costo totale: 4 * 40 (all'anno) = 160 all'anno
 
-\subsubsection*{12 - Rimuovere attrezzatura}
+\subsubsection*{11 - Rimuovere attrezzatura}
 La rimozione dell'attrezzatura richiede di rimuovere una tupla dall'entità \emph{Attrezzatura}, e di eliminare la sua associazione \emph{Possiede} con l'ospedale.
 \vspace{6pt}
 \newline
@@ -1377,11 +1353,6 @@ use Hospital;\newline
 
     WHERE Codice\_ospedale = ? AND Nome = ?
 
-    \item \textbf{Rimuovere una unità operativa:} \newline
-    DELETE FROM UNITA\_OPERATIVE
-
-    WHERE Codice\_ospedale = ? AND Nome = ?
-
     \item \textbf{Aggiungere un nuovo paziente:} 
     \begin{itemize}
         \item \textbf{Controlliamo se il paziente che vogliamo aggiungere è già in PERSONE} \newline
@@ -1479,14 +1450,6 @@ use Hospital;\newline
     
     WHERE Codice\_ospedale = ? AND Numero\_sala = ? AND Data\_ora = ?
 
-    \item \textbf{Cambiare la data e/o il luogo di un appuntamento:} \newline
-    
-    UPDATE APPUNTAMENTI
-
-    SET Data\_ora = ?, Numero\_sala = ?
-
-    WHERE Codice\_ospedale = ? AND Numero\_sala = ? AND Data\_ora = ?
-
     \item \textbf{Aggiungere un nuovo referto:} \newline
     
     INSERT INTO REFERTI(Data\_emissione, Descrizione, Tipo, Terapia, Procedura, Esito, Durata, Codice\_ospedale, Paziente)
@@ -1582,7 +1545,7 @@ use Hospital;\newline
         
         FROM UNITA\_OPERATIVE
         
-        WHERE Nome = ? AND Capienza > Posti\_occupati
+        WHERE Nome = ? AND Capienza \textgreater Posti\_occupati 
     
     )
 
